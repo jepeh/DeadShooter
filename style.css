@@ -935,12 +935,12 @@ span>p {
 
 .ccns {
 	position: absolute;
-	width: 60%;
+	width: 90%;
 	top: 50%;
-	margin-top: -50%;
+	margin-top: -70%;
 	text-align: center;
 	left: 50%;
-	margin-left: -30%;
+	margin-left: -45%;
 
 }
 
@@ -962,7 +962,7 @@ span>p {
 	left: 50%;
 	margin-left: -0%;
 	margin-top: -10%;
-	display: none;
+	display: grid;
 	animation: cc .9s cubic-bezier(0.19, 1, 0.22, 1);
 	animation-fill-mode: forwards
 }
