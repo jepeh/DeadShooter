@@ -30,32 +30,32 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-		/*	FBInstant.initializeAsync()
-				.then(() => {
-					var loaded = 1;
-					var loading = setInterval(() => {
-						if (loaded >= 100) {
-							clearInterval(loading)
-						}
-						else {
-							loaded++
-						}
+			/*	FBInstant.initializeAsync()
+					.then(() => {
+						var loaded = 1;
+						var loading = setInterval(() => {
+							if (loaded >= 100) {
+								clearInterval(loading)
+							}
+							else {
+								loaded++
+							}
 
-						FBInstant.setLoadingProgress(loaded)
-					}, 100)
+							FBInstant.setLoadingProgress(loaded)
+						}, 100)
 
-					FBInstant.startGameAsync()
-						.then(() => {
-							loc.searchParams.get("play") ? playResume() : play()
-						})
-						.catch(e => {
-							console.log(e)
-						})
+						FBInstant.startGameAsync()
+							.then(() => {
+								loc.searchParams.get("play") ? playResume() : play()
+							})
+							.catch(e => {
+								console.log(e)
+							})
 
-				})
-				.catch(e => {
-					console.log(e)
-				})*/
+					})
+					.catch(e => {
+						console.log(e)
+					})*/
 
 			loc.searchParams.get("play") ? playResume() : play()
 
@@ -647,7 +647,7 @@ var Game = (function(w, func) {
 			for (var i = 0; i < Levels.levels[lvl].enemy; i++) {
 				var x = Math.floor(Math.random() * (100 - (-100)) + (-100))
 				var z = Math.floor(Math.random() * (100 - (-100)) + (-100))
-				var size = Math.floor(Math.random() * (8 - 1) + 1)
+				var size = Math.floor(Math.random() * (8 - 4) + 4)
 
 				var enemy = new Character.Enemy({ x: x, y: size / 2, z: z }, 'green', {
 					w: size,
@@ -846,7 +846,7 @@ var Game = (function(w, func) {
 				}
 
 				for (var i = 0; i < window.mysteryboxes.length; i++) {
-				//	mysteryboxes[i].position.y = -Math.cos(tt) *2
+					//	mysteryboxes[i].position.y = -Math.cos(tt) *2
 					mysteryboxes[i].rotation.y = tt * 1.5
 
 				}
@@ -877,13 +877,17 @@ var Game = (function(w, func) {
 
 		function gameOver() {
 
-			var b = SCENE.getObjectByName("boss")
-			b.traverse(e => {
-				if (e.type === "Mesh") {
-					e.material.dispose()
-					e.geometry.dispose()
-				}
-			})
+			if (window.bossGame) {
+				var b = SCENE.getObjectByName("boss")
+				b.traverse(e => {
+					if (e.type === "Mesh") {
+						e.material.dispose()
+						e.geometry.dispose()
+					}
+				})
+
+			}
+
 			SCENE.remove(b)
 
 			Utils.playSound(Sound.gameOver)
@@ -1107,7 +1111,7 @@ var Game = (function(w, func) {
 						$("#settings, #version").css("display", "block")
 					})
 					.start()
-					
+
 				Anim()
 
 				//restart hero Character
