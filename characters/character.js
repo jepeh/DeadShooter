@@ -198,7 +198,7 @@ class Hero {
 		this.nearEnemy.length = 0
 
 		return;
-	} 
+	}
 
 
 
@@ -253,7 +253,7 @@ class Hero {
 				Utils.playSound(Sounds.coin)
 
 				Profile.coins = Profile.coins + 1
-				$("#coins p").text("coins x" + Profile.coins)
+				$("#coins p").text(Profile.coins)
 			}
 
 		}
@@ -277,19 +277,21 @@ class Hero {
 					var ex = new Three.Mesh(new Three.BoxBufferGeometry(.3, .3, .3), new Three.MeshPhongMaterial({ color: "gold" }))
 					ex.position.copy(mysteryboxes[b].position)
 					ex.position.y = 6
-					ex.position.x = ex.position.x + Math.random()*(.2 - (-.2)) + (-.2)
-					ex.position.z = ex.position.z + Math.random()*(.2 - (-.2)) + (-.2)
-					
+					ex.position.x = ex.position.x + Math.random() * (.2 - (-.2)) + (-.2)
+					ex.position.z = ex.position.z + Math.random() * (.2 - (-.2)) + (-.2)
+
 					p.addMesh(ex, 1)
 					window.SCENE.add(ex)
 
 				}
 
 				// dlete coins from array and scene
-				//mysteryboxes[b].children.forEach(e => {
-				mysteryboxes[b].material.dispose()
-				mysteryboxes[b].geometry.dispose()
-				//	})
+				mysteryboxes[b].children.forEach(e => {
+					
+				e.type === "Mesh" ? e.material.dispose() : false
+				e.type === "Mesh" ? e.geometry.dispose() : false
+					
+				})
 
 				this.scene.remove(mysteryboxes[b])
 				mysteryboxes.splice(b, 1)

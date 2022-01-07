@@ -387,7 +387,7 @@ var Game = (function(w, func) {
 		//*******************************************
 		// Change Color 
 		//*******************************************
-		let colors = ["orange", "blue", "violet", "yellow", "white", "pink"]
+		window.colors = ["orange", "blue", "violet", "yellow", "white", "pink"]
 		let cSelected = "";
 		let num = 0;
 
@@ -805,7 +805,7 @@ var Game = (function(w, func) {
 
 			}, 1000)
 
-			var boxesTime = 13000
+			var boxesTime = 18000
 			var boxes = setInterval(() => {
 				Utils.spawnBox(phys)
 			}, boxesTime)

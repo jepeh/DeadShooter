@@ -1,7 +1,7 @@
 import { Profile, Sounds } from "../profiles/profile.js"
 import * as sounds from './audio.js'
 import * as Three from '../src/three.js'
-import {TWEEN} from '../src/tween.module.min.js'
+import { TWEEN } from '../src/tween.module.min.js'
 
 $("#thanks").on('click', () => {
 	$("#cover, #ccnscvr").css("display", "none")
@@ -325,24 +325,40 @@ function spawnBox(p) {
 
 	var ranX = Math.floor(Math.random() * (30 - (-30)) + (-30))
 	var ranZ = Math.floor(Math.random() * (30 - (-30)) + (-30))
-	
+
 	pos.x = pos.x + ranX
 	pos.z = pos.z + ranZ
-	
-	var box = new Three.Mesh(new Three.BoxBufferGeometry(5,5,5), new Three.MeshNormalMaterial())
-	box.position.y = 4
-	box.position.x = pos.x
-	box.position.z = pos.z
-	
-	window.SCENE.add(box)
 
-	var scale = { x: .1, y: .1, z: .1 }
+	window.loader.load("assets/gltf/box.gltf", e => {
+
+		var box = e.scene.children[0]
+		box.children.shift()
+		box.position.set(pos.x, 4, pos.z)
+		box.scale.set(0.2, .2, .2)
+
+		for (var i = 0; i < box.children.length; i++) {
+			if (box.children[i].type === "Mesh") {
+				box.children[i].material = new Three.MeshPhongMaterial()
+				var c = box.children[i].name
+
+				if (c.length > 7) {
+					c = c.split("_")[0]
+				}
+				box.children[i].material.color.set(c)
+			}
+		}
+		
+		box.children[box.children.length-1].material.color.set(window.colors[Math.floor(Math.random()*(6-1)+1)])
+
+		window.SCENE.add(box)
+
+		var scale = { x: .05, y: .05, z: .05}
 
 		var tween = new TWEEN.Tween(scale)
 			.to({
-				x: 1,
-				y: 1,
-				z: 1
+				x: .2,
+				y: .2,
+				z: .2
 			}, 700)
 			.easing(TWEEN.Easing.Back.In)
 			.onUpdate(function() {
@@ -352,11 +368,14 @@ function spawnBox(p) {
 				//$("#changeColor, #playbtn").css("display", "grid")
 			})
 			.start()
-	
 
-	window.mysteryboxes.push(box)
+
+		window.mysteryboxes.push(box)
+
+	})
+
 }
 
 
 
-export { isEnergy, notEnergy, playSound, Atom, Holo, spawnBox}
+export { isEnergy, notEnergy, playSound, Atom, Holo, spawnBox }
