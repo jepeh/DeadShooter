@@ -574,7 +574,6 @@ var Game = (function(w, func) {
 
 			// update cgart atombomb
 			$('.chart').data('easyPieChart').update(Profile.atomLevel)
-			$('.chart').data('easyPieChart').update(Profile.atomLevel)
 
 			// light
 
@@ -885,7 +884,7 @@ var Game = (function(w, func) {
 						e.geometry.dispose()
 					}
 				})
-
+				SCENE.remove(b)
 			}
 
 			SCENE.remove(b)

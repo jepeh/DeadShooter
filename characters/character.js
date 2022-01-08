@@ -31,7 +31,7 @@ class Hero {
 	// public function
 	hurt(attack) {
 
-		this.hpLeft = this.hpLeft - attack / 2
+		this.hpLeft = this.hpLeft - attack
 		this.hp.style.width = this.hpLeft + "%"
 
 		this.velocity = this.velocity - 0.01
@@ -273,7 +273,7 @@ class Hero {
 
 			if (zFront > cZ && cZ > zBack && xFront > cX && cX > xBack) {
 
-				for (var o = 0; o < 35; o++) {
+				/*for (var o = 0; o < 35; o++) {
 					var ex = new Three.Mesh(new Three.BoxBufferGeometry(.3, .3, .3), new Three.MeshPhongMaterial({ color: "gold" }))
 					ex.position.copy(mysteryboxes[b].position)
 					ex.position.y = 6
@@ -282,8 +282,11 @@ class Hero {
 
 					p.addMesh(ex, 1)
 					window.SCENE.add(ex)
+				}*/
 
-				}
+				// Random Rewards
+				
+				
 
 				// dlete coins from array and scene
 				mysteryboxes[b].children.forEach(e => {

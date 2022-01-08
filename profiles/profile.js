@@ -10,10 +10,11 @@ let Profile = {
 	energy: 6,
 	mapRadius: 90,
 	atomBombRadius: 20,
-	atomLevel: 100,
+	atomLevel: 0,
 	playGame: false,
 	gunRange: 20,
 	countdownMin: 8,
+	keys: 0,
 	skills: [{
 		name: "octaBullets",
 		damage: 3,
