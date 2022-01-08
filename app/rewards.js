@@ -96,6 +96,7 @@ var rewards = {
 		})
 		$(".atomimgoff").attr("src", "assets/images/atomon.png")
 		$(".atomimgoff").removeClass().addClass("atomimgon")
+		rew("assets/images/rewards/atom.png")
 		return {
 			reward: "atombomb 100% reloaded!"
 		}
