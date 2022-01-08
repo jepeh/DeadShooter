@@ -1,6 +1,6 @@
 let Profile = {
 	level: 1,
-	heroName: "morph",
+	heroName: "cube",
 	coins: 100,
 	bombReload: 100,
 	velocity: 15,

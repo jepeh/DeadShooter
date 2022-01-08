@@ -328,12 +328,6 @@ var Game = (function(w, func) {
 				case "cube":
 					hero = new Character.Heroes.defaultHero();
 					break;
-				case "morph":
-					hero = new Character.Heroes.Morph();
-					break;
-				case "mrsnowman":
-					hero = new Character.Heroes.MrSnowMan();
-					break;
 			}
 			return hero;
 		}
