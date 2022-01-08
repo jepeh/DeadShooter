@@ -57,6 +57,7 @@ var rewards = {
 			}
 			hero.hp.style.width = hero.hpLeft + "%"
 		}
+		rew("assets/images/rewards/hp.png");
 		return {
 			reward: "+10% HP!"
 		}
@@ -82,6 +83,7 @@ var rewards = {
 		//plus 15% bullet damage 
 		var dmg = hero.bombDamage * .15
 		hero.bombDamage += dmg
+		rew("assets/images/rewards/damage.png");
 		return {
 			reward: "+15% bullet damage!"
 		}
