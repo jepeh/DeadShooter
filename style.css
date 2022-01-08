@@ -977,6 +977,27 @@ span>p {
 	font-family: 'QS-L';
 	color: white
 }
+#rewards {
+	position: absolute;
+	top: 20%;
+	width: 50%;
+	height: 8%;
+	background: linear-gradient(to right, #07FFDE00, #0FBAD599, #07FFDE00);
+	left: 50%;
+	margin-left: -25%;
+	display: none;
+	text-align: center;
+	animation: cc2 .2s cubic-bezier(0.19, 1, 0.22, 1)
+}
+#rewards img {
+	position: relative;
+	width: 60%;
+	margin: auto;
+	text-align: center;
+	top: 50%;
+	margin-top: -30%;
+	animation: pop .3s cubic-bezier(0.19, 1, 0.22, 1)
+}
 
 #confirm {
 	position: relative;
@@ -1316,6 +1337,21 @@ ANIMATIONS
 		margin-left: -50%
 	}
 }
+
+@keyframes cc2 {
+	from {
+		width: 0%;
+		left: 50%;
+		margin-left: -0%;
+	}
+
+	to {
+		width: 50%;
+		left: 50%;
+		margin-left: -25%
+	}
+}
+
 
 @keyframes coin {
 	100% {

@@ -7,6 +7,8 @@ var rewards = {
 		Profile.coins += 1
 		$("#coins p").text(Profile.coins)
 
+		rew("assets/images/rewards/1coin.png")
+
 		return {
 			reward: "+1 coin!"
 		}
@@ -16,6 +18,8 @@ var rewards = {
 
 		Profile.coins += 5
 		$("#coins p").text(Profile.coins)
+
+		rew("assets/images/rewards/5coins.png")
 
 		return {
 			reward: "+5 coins!"
@@ -27,6 +31,8 @@ var rewards = {
 		Profile.coins += 10
 		$("#coins p").text(Profile.coins)
 
+		rew("assets/images/rewards/10coins.png")
+
 		return {
 			reward: "+10 coins!"
 		}
@@ -37,6 +43,8 @@ var rewards = {
 		Profile.keys += 1
 		$("#keystxt").text(Profile.keys)
 
+		rew("assets/images/rewards/1key.png")
+
 		return {
 			reward: "+1 key!"
 		}
@@ -45,6 +53,8 @@ var rewards = {
 		// plus 1 energy
 
 		Profile.energy += 1
+
+		rew("assets/images/rewards/1energy.png")
 
 		return {
 			reward: "+1 energy!"
@@ -120,6 +130,21 @@ var rewards = {
 			reward: "atombomb 100% reloaded!"
 		}
 	}
+}
+
+
+function rew(path) {
+	$("#rewards").html('')
+	$("#rewards").css("display", "block")
+	$("#rewards").html(`<img src="${path}"/>`)
+	
+	var sc = setTimeout(()=>{
+		$("#rewards").css("display", "none")
+		clearTimeout(sc)
+	}, 2300)
+	
+	
+	return;
 }
 
 export default rewards;

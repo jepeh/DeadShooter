@@ -804,7 +804,7 @@ var Game = (function(w, func) {
 
 			}, 1000)
 
-			var boxesTime = 2000
+			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 25000 : 20000 : 18000
 			var boxes = setInterval(() => {
 				Utils.spawnBox(phys)
 			}, boxesTime)
