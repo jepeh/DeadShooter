@@ -804,7 +804,7 @@ var Game = (function(w, func) {
 
 			}, 1000)
 
-			var boxesTime = 18000
+			var boxesTime = 2000
 			var boxes = setInterval(() => {
 				Utils.spawnBox(phys)
 			}, boxesTime)
@@ -1071,7 +1071,7 @@ var Game = (function(w, func) {
 				var b = CLOCK.getElapsedTime()
 
 				character.rotation.y = Math.sin(b) * .6
-
+				hero.anim()
 				TWEEN.update()
 				RENDERER.render(SCENE, CAMERA)
 				CAMERA.lookAt(character.position)

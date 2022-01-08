@@ -5,7 +5,7 @@ import { GAME } from '../app/script.js'
 import { TWEEN } from '../src/tween.module.min.js'
 import * as Sounds from '../app/audio.js'
 import * as Utils from '../app/utils.js'
-
+import rewards from '../app/rewards.js'
 
 class Hero {
 
@@ -285,8 +285,11 @@ class Hero {
 				}*/
 
 				// Random Rewards
+				var fcns = ["a","b","c","d","e","f","g","h","i"]
+				var idx = Math.floor(Math.random()*(fcns.length - 1)+1)
 				
-				
+				var reward = rewards[fcns[idx]]();
+				console.log(reward.reward)
 
 				// dlete coins from array and scene
 				mysteryboxes[b].children.forEach(e => {

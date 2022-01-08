@@ -7,7 +7,7 @@ var rewards = {
 		Profile.coins += 1
 		$("#coins p").text(Profile.coins)
 
-		return mess = {
+		return {
 			reward: "+1 coin!"
 		}
 	},
@@ -17,7 +17,7 @@ var rewards = {
 		Profile.coins += 5
 		$("#coins p").text(Profile.coins)
 
-		return mess = {
+		return {
 			reward: "+5 coins!"
 		}
 	},
@@ -27,7 +27,7 @@ var rewards = {
 		Profile.coins += 10
 		$("#coins p").text(Profile.coins)
 
-		return mess = {
+		return {
 			reward: "+10 coins!"
 		}
 	},
@@ -37,7 +37,7 @@ var rewards = {
 		Profile.keys += 1
 		$("#keystxt").text(Profile.keys)
 
-		return mess = {
+		return {
 			reward: "+1 key!"
 		}
 	},
@@ -46,7 +46,7 @@ var rewards = {
 
 		Profile.energy += 1
 
-		return mess = {
+		return {
 			reward: "+1 energy!"
 		}
 	},
@@ -66,7 +66,7 @@ var rewards = {
 			hero.hp.style.width = hero.hpLeft + "%"
 		}
 
-		return mess = {
+		return {
 			reward: "+10% HP!"
 		}
 
@@ -87,7 +87,7 @@ var rewards = {
 			//hero.hp.style.width = hero.hpLeft + "%"
 		}
 
-		return mess = {
+		return {
 			reward: "+15% Speed!"
 		}
 
@@ -96,28 +96,27 @@ var rewards = {
 		//plus 15% bullet damage 
 
 		var dmg = hero.bombDamage * .15
-
 		hero.bombDamage += dmg
 
-		return mess = {
+		return {
 			reward: "+15% bullet damage!"
 		}
 	},
 	i: function() {
 		// atom bomb reload
 
-		if (!Profile.atomLevel >= 100) {
 			// reload to 100%
 
 			Profile.atomLevel = 100
-
+			$('.chart').data('easyPieChart').update(Profile.atomLevel)
+			$(".atomimgoff").css({
+				opacity: 1
+			})
 			$(".atomimgoff").attr("src", "assets/images/atomon.png")
 			$(".atomimgoff").removeClass().addClass("atomimgon")
-			$('.chart').data('easyPieChart').update(Profile.atomLevel)
-
-		}
+			
 		
-		return mess = {
+		return {
 			reward: "atombomb 100% reloaded!"
 		}
 	}
