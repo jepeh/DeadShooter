@@ -73,6 +73,7 @@ var rewards = {
 			}
 			//hero.hp.style.width = hero.hpLeft + "%"
 		}
+		rew("assets/images/rewards/speed.png");
 		return {
 			reward: "+15% Speed!"
 		}
