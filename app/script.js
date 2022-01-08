@@ -580,7 +580,7 @@ var Game = (function(w, func) {
 			Profile.playGame = true
 
 			// decrease energy
-			Profile.energy = Profile.energy - 1
+			Profile.energy = Profile.energy - 2
 
 			// inGame session
 			window.inGame = true
@@ -1071,7 +1071,9 @@ var Game = (function(w, func) {
 				var b = CLOCK.getElapsedTime()
 
 				character.rotation.y = Math.sin(b) * .6
-				hero.anim()
+			
+				hero.anim(b)
+				
 				TWEEN.update()
 				RENDERER.render(SCENE, CAMERA)
 				CAMERA.lookAt(character.position)

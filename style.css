@@ -757,7 +757,7 @@ span>p {
 
 #energy-img {
 	position: relative;
-	width: 70%;
+	width: 65%;
 	margin: auto;
 	transform: rotate(-1deg)
 }
@@ -765,14 +765,15 @@ span>p {
 #energy-txt {
 	position: relative;
 	font-family: 'QS-M';
-	font-size: 15px;
+	font-size: 2vw;
 	color: white;
 	margin: auto;
+	text-align: right;
 }
 
 #coin-img {
 	position: relative;
-	width: 70%;
+	width: 65%;
 	margin: auto;
 	text-align: right;
 	margin-right: 0px
@@ -781,8 +782,8 @@ span>p {
 #coin-txt {
 	position: relative;
 	font-family: 'QS-M';
-	font-size: 12px;
-	text-align: left;
+	font-size: 2vw;
+	text-align: right;
 	color: white;
 	margin: auto;
 }
