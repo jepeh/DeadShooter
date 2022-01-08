@@ -39,20 +39,21 @@ function CharacterControls(scene, model, orbitControl, camera) {
 		// update bullets
 
 
-		if (isTrue) {
+		if (isTrue && window.gobo) {
 			// diagonal movement angle offset
 			var directionOffset = self.directionOffset(key)
-
 
 			// update quaternions
 			var angleYCameraDirection = Math.atan2(
 				(self.camera.position.x - self.model.position.x),
 				(self.camera.position.z - self.model.position.z))
+	
+			var angle = angleYCameraDirection + directionOffset
+			
+			
 		
-			self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angleYCameraDirection + directionOffset)
-			self.model.quaternion.rotateTowards(self.rotateQuarternion, .16)
-			
-			
+		//	self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angleYCameraDirection + directionOffset)
+		//	self.model.quaternion.rotateTowards(self.rotateQuarternion, .16)
 			
 			// calculate direction
 			self.camera.getWorldDirection(self.walkDirection)
@@ -92,8 +93,6 @@ function CharacterControls(scene, model, orbitControl, camera) {
 			window.gunrange.position.copy(self.model.position)
 			light.position.set(self.model.position.x, 1.5, self.model.position.z)
 			//	return {x: self.model.position.x+moveX, y: self.model.position.y, z: self.model.position.z+moveZ}
-		} else {
-
 		}
 
 		return false

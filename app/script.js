@@ -147,10 +147,10 @@ var Game = (function(w, func) {
 
 		window.CONTROLS = new OrbitControls(CAMERA, RENDERER.domElement)
 		CONTROLS.enabled = true
-		CONTROLS.enablePan = true
-		CONTROLS.enableZoom = true
-		//	CONTROLS.minPolarAngle = -Math.PI / 4;
-		//	CONTROLS.maxPolarAngle = Math.PI / 3;
+		CONTROLS.enablePan = false
+		CONTROLS.enableZoom = false
+		CONTROLS.minPolarAngle = -Math.PI / 4;
+		CONTROLS.maxPolarAngle = Math.PI / 3;
 
 		CLOCK.autoStart = false
 		CLOCK.startTime = 0
@@ -235,7 +235,7 @@ var Game = (function(w, func) {
 		RENDERER.setSize(sizes.width, sizes.height);
 		RENDERER.setPixelRatio(window.devicePixelRatio)
 		RENDERER.shadowMap.enabled = true
-		CAMERA.position.set(0, 20, 20)
+		CAMERA.position.set(0, 25, 20)
 
 		// Lights and Shadow
 
@@ -280,15 +280,13 @@ var Game = (function(w, func) {
 		floor.castShadow = true
 		floor.receiveShadow = true
 
-		SCENE.add(floor)
-
+		//SCENE.add(floor)
 
 		const border = new Three.Mesh(new Three.RingGeometry(148, 145, 4), new Three.MeshPhongMaterial({ color: "yellowgreen", side: Three.DoubleSide }))
 		border.position.y = 1
 		border.rotation.x = Math.PI / 2
 		border.rotation.z = Math.PI / 4
-		SCENE.add(border)
-
+		//SCENE.add(border)
 
 		/*const renderScene = new RenderPass(SCENE, CAMERA)
 
@@ -374,7 +372,7 @@ var Game = (function(w, func) {
 				character.scale.set(scale.x, scale.y, scale.z)
 			})
 			.onComplete(function() {
-				$("#changeColor, #playbtn").css("display", "grid")
+				$("#playbtn").css("display", "grid")
 			})
 			.start()
 
@@ -382,39 +380,6 @@ var Game = (function(w, func) {
 		// Change Color 
 		//*******************************************
 		window.colors = ["orange", "blue", "violet", "yellow", "white", "pink"]
-		let cSelected = "";
-		let num = 0;
-
-		$("#trileft").on('click', () => {
-			if (num <= 0) {
-				num = colors.length - 1
-			} else {
-				num--
-			}
-			cSelected = colors[num]
-			changeColor(cSelected)
-		})
-
-		$("#triright").on('click', () => {
-			if (num > colors.length - 2) {
-				num = 0
-			} else {
-				num++
-			}
-			cSelected = colors[num]
-			changeColor(cSelected)
-
-		})
-
-		function changeColor(c) {
-			character.children[1].material.color.set(c)
-			hero.color = c
-			Profile.heroColor = c
-
-			Utils.playSound(Sound.color)
-		}
-
-
 
 		//*******************************************
 		// MENU 
@@ -473,7 +438,7 @@ var Game = (function(w, func) {
 		// animation game
 		function startAnim(lvl) {
 			CONTROLS.enabled = false
-			$("#playbtn, #changeColor, #logo, #settings, #energy-container, #coin-container, #version, #trademark").css("display", "none")
+			$("#playbtn, #logo, #settings, #energy-container, #coin-container, #version, #trademark").css("display", "none")
 			character.position.set(0, 2.5, 0)
 
 
@@ -798,7 +763,7 @@ var Game = (function(w, func) {
 
 			}, 1000)
 
-			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 25000 : 20000 : 18000
+			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 25000 : 20000 : 4000
 			var boxes = setInterval(() => {
 				Utils.spawnBox(phys)
 			}, boxesTime)
@@ -1102,7 +1067,7 @@ var Game = (function(w, func) {
 					.onComplete(function() {
 						CAMERA.lookAt(character.position)
 						character.rotation.y = -10
-						$("#changeColor, #playbtn, #energy-container, #coin-container").css("display", "grid")
+						$("#playbtn, #energy-container, #coin-container").css("display", "grid")
 						$("#settings, #version").css("display", "block")
 					})
 					.start()

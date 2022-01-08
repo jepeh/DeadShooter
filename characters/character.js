@@ -45,6 +45,9 @@ class Hero {
 		if (this.hpLeft < 30) {
 			this.hp.style.backgroundColor = 'red'
 			$("#critical").css("display", "block")
+		} else {
+			this.hp.style.backgroundColor = '#11CCFF'
+			$("#critical").css("display", "none")
 		}
 
 		this.hpLeft < 0 ? GAME.gameOver() : false
@@ -56,7 +59,7 @@ class Hero {
 	// Drop Bombs
 	bomb() {
 
-		if (Math.floor(Profile.bombReload > 0) && window.gobo) {
+		if (Math.floor(Profile.bombReload > 0)) {
 			// hero position
 			var HX = hero.mesh.position.x,
 				HZ = hero.mesh.position.z;
@@ -68,18 +71,17 @@ class Hero {
 					z: enemies[d].mesh.position.z
 				}
 
-				if (en.x > HX - this.gunRange && HX + this.gunRange > en.x && HZ + this.gunRange > en.z && en.z > HZ - this.gunRange) {
+				if (en.x > HX - hero.gunRange && HX + hero.gunRange > en.x && HZ + hero.gunRange > en.z && en.z > HZ - hero.gunRange) {
 					this.nearEnemy.push(enemies[d])
 				}
 
 			}
 
-			if (this.nearEnemy[0]) {
-
+			if (this.nearEnemy[0] && window.gobo) {
+				window.gobo = false
 				Profile.bombReload = Profile.bombReload - 33
 
 				Utils.playSound(Sounds.bomb)
-
 				$("#bomb").css("transform", "scale(1.05)")
 				$("#bombbar div").css("width", Profile.bombReload + "%")
 
@@ -90,17 +92,34 @@ class Hero {
 
 				window.gunrange.material.opacity = 0
 
-				var b = this.renderBullet()
+				var sts = 0;
+				var x = this.nearEnemy[0].x
+				var z = this.nearEnemy[0].z
+				
+				// rotate Mesh
+				var rY = Math.atan2(this.nearEnemy[0].x, this.nearEnemy[0].z) * 180 / Math.PI
+				this.mesh.rotation.y = 0
+				this.mesh.rotation.y = rY
+			
+				
+				var shoot = setInterval(() => {
+				
+					if (sts > 2) {
+						window.gobo = true
+						clearInterval(shoot);
+					} else {
+						sts++
+						var b = hero.renderBullet()
+						b.vtr = {
+							x: x,
+							z: z
+						}
+						window.SCENE.add(b)
+						window.droppedBomb.push(b)
+					}
 
-				b.vtr = {
-					x: this.nearEnemy[0].mesh.geometry.parameters.width < this.mesh.children[0].geometry.parameters.width ? -this.nearEnemy[0].x : this.nearEnemy[0].x,
-					z: this.nearEnemy[0].mesh.geometry.parameters.width < this.mesh.children[0].geometry.parameters.width ? -this.nearEnemy[0].z : this.nearEnemy[0].z
-				}
+				}, 200)
 
-				this.scene.add(b)
-				window.droppedBomb.push(b)
-				this.bullets = this.bullets - 1
-				//	this.nearEnemy.length = 0
 			}
 			else if (SCENE.getObjectByName("boss")) {
 
@@ -143,7 +162,6 @@ class Hero {
 
 						if (Math.floor(Profile.bombReload >= 100)) {
 							clearInterval(sett)
-							window.gobo = true
 							Profile.bombReload = 100
 							$("#bombbar div").css("width", Profile.bombReload + "%")
 
@@ -156,37 +174,29 @@ class Hero {
 
 				} else {
 					Profile.bombReload = 0
-
 					var sett = setInterval(() => {
-
 						if (Math.floor(Profile.bombReload >= 100)) {
 							clearInterval(sett)
-							window.gobo = true
 							Profile.bombReload = 100
 							$("#bombbar div").css("width", Profile.bombReload + "%")
-
 						} else {
 							Profile.bombReload = Profile.bombReload + 10
 							$("#bombbar div").css("width", Profile.bombReload + "%")
 						}
-
 					}, 100)
 				}
 
 			}
 
 		} else {
-			window.gobo = false
+			
 			Profile.bombReload = 0
-
 			var sett = setInterval(() => {
 
 				if (Math.floor(Profile.bombReload >= 100)) {
 					clearInterval(sett)
-					window.gobo = true
 					Profile.bombReload = 100
 					$("#bombbar div").css("width", Profile.bombReload + "%")
-
 				} else {
 					Profile.bombReload = Profile.bombReload + 10
 					$("#bombbar div").css("width", Profile.bombReload + "%")
@@ -207,8 +217,8 @@ class Hero {
 		// update bomb velocity and calculate
 		// bounding
 		for (var b = 0; b < window.droppedBomb.length; b++) {
-			droppedBomb[b].position.x -= droppedBomb[b].vtr.x * .2
-			droppedBomb[b].position.z -= droppedBomb[b].vtr.z * .2
+			droppedBomb[b].position.x -= droppedBomb[b].vtr.x * .09
+			droppedBomb[b].position.z -= droppedBomb[b].vtr.z * .09
 
 			if (droppedBomb[b].position.x > 100 || droppedBomb[b].position.x < -100 || droppedBomb[b].position.z > 100 || droppedBomb[b].position.z < -100) {
 
@@ -273,30 +283,19 @@ class Hero {
 
 			if (zFront > cZ && cZ > zBack && xFront > cX && cX > xBack) {
 
-				/*for (var o = 0; o < 35; o++) {
-					var ex = new Three.Mesh(new Three.BoxBufferGeometry(.3, .3, .3), new Three.MeshPhongMaterial({ color: "gold" }))
-					ex.position.copy(mysteryboxes[b].position)
-					ex.position.y = 6
-					ex.position.x = ex.position.x + Math.random() * (.2 - (-.2)) + (-.2)
-					ex.position.z = ex.position.z + Math.random() * (.2 - (-.2)) + (-.2)
-
-					p.addMesh(ex, 1)
-					window.SCENE.add(ex)
-				}*/
-
 				// Random Rewards
-				var fcns = ["a","b","c","d","e","f","g","h","i"]
-				var idx = Math.floor(Math.random()*(fcns.length - 1)+1)
-				
-				var reward = rewards[fcns[idx]]();
-				console.log(reward.reward)
+				var fcns = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+				var idx = Math.floor(Math.random() * (fcns.length - 1) + 1)
+
+				//	var reward = rewards[fcns[idx]]();
+				rewards.f()
 
 				// dlete coins from array and scene
 				mysteryboxes[b].children.forEach(e => {
-					
-				e.type === "Mesh" ? e.material.dispose() : false
-				e.type === "Mesh" ? e.geometry.dispose() : false
-					
+
+					e.type === "Mesh" ? e.material.dispose() : false
+					e.type === "Mesh" ? e.geometry.dispose() : false
+
 				})
 
 				this.scene.remove(mysteryboxes[b])
@@ -405,32 +404,6 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 		}
 
 
-		//*******************************************
-		// eat smaller zombie
-		//*******************************************
-		if (zFront > zzFront && zzBack > zBack && xFront > xxFront && xxBack > xBack) {
-
-			// add hero bombs
-			GAME.notif("Eat smaller zombies to upgrade special skills!")
-
-			Utils.playSound(Sounds.eat)
-
-			var n = self.mesh.name
-			self.mesh.geometry.dispose()
-			self.mesh.material.dispose()
-
-			self.scene.remove(self.mesh)
-			$(`#${self.name}`).remove()
-
-			var index = window.enemyList.findIndex(e => e.name === n);
-			window.enemyList.splice(index, 1)
-			window.enemies.splice(index, 1)
-
-			window.killed = window.killed + 1
-
-			$("#zombiecount p").html("Zombies x" + enemies.length)
-		}
-
 		self.walkDirection.x = self.x
 		self.walkDirection.z = self.z
 		self.rotateAngle.normalize()
@@ -451,82 +424,41 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 		// Check Hero in Surroundings
 		if (xBack > PosXBack && zFront < PosZFront && PosXFront > xFront && PosZBack < zBack) {
 
-			// check if the hero is bigger or smaller 
-			// if Big, Run else chase
-			if (h.children[0].geometry.parameters.width > self.mesh.geometry.parameters.width) {
-				// Run away from the hero
-				var originX = h.position.x,
-					originZ = h.position.z
+			// chase the hero
 
-				var enemyX = self.mesh.position.x,
-					enemyZ = self.mesh.position.z
+			var angleYCameraDirection = Math.atan2(h.position.x, h.position.z) * 180 / Math.PI
 
-				// Run away from the hero
-				if (originZ < enemyZ && originX < enemyX || originZ < enemyZ && originX > enemyX || originZ > enemyZ && enemyX > originX || originZ > enemyZ && originX > enemyX) {
+			var originX = h.position.x,
+				originZ = h.position.z
 
-					self.x = -h.position.x + self.mesh.position.x
-					self.z = -h.position.z + self.mesh.position.z
-					//self.mesh.rotation.y = h.position.z / h.position.x
+			var enemyX = self.mesh.position.x,
+				enemyZ = self.mesh.position.z
 
-				}
+			// Check every Quadrants
+			// Q1
 
+			if (originZ < enemyZ && originX < enemyX) {
+				self.x = h.position.x - self.mesh.position.x
+				self.z = h.position.z - self.mesh.position.z
 
-			} else {
-				// chase the hero
-
-				var angleYCameraDirection = Math.atan2(h.position.x, h.position.z) * 180 / Math.PI
-
-
-				var originX = h.position.x,
-					originZ = h.position.z
-
-				var enemyX = self.mesh.position.x,
-					enemyZ = self.mesh.position.z
-
-				// Check every Quadrants
-
-				// Q1
-
-				if (originZ < enemyZ && originX < enemyX) {
-					self.x = h.position.x - self.mesh.position.x
-					self.z = h.position.z - self.mesh.position.z
-					//self.directionOffset = Math.PI / 4
-					//	self.mesh.rotation.y = h.position.z / h.position.x
-
-
-					//	self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angleYCameraDirection)
-					//	self.mesh.quaternion.rotateTowards(self.rotateQuarternion, .16)
-
-					//self.mesh.rotation.y > angleYCameraDirection ? self.mesh.rotation.y-- : self.mesh.rotation.y++
-
-				}
-				// Q4
-				else if (originZ < enemyZ && originX > enemyX) {
-					self.x = h.position.x - self.mesh.position.x
-					self.z = h.position.z - self.mesh.position.z
-					// self.mesh.rotation.y = h.position.z / h.position.x
-					self.mesh.rotation.y > angleYCameraDirection ? self.mesh.rotation.y-- : self.mesh.rotation.y++
-
-				}
-				// Q3
-				else if (originZ > enemyZ && enemyX > originX) {
-					self.x = h.position.x - self.mesh.position.x
-					self.z = h.position.z - self.mesh.position.z
-					//self.directionOffset = Math.PI / 4 + Math.PI / 2
-					//	self.mesh.rotation.y = h.position.z / h.position.x
-					//	self.mesh.rotation.y > angleYCameraDirection ? self.mesh.rotation.y-- : self.mesh.rotation.y++
-
-				}
-				// Q2
-				else if (originZ > enemyZ && originX > enemyX) {
-					self.x = h.position.x - self.mesh.position.x
-					self.z = h.position.z - self.mesh.position.z
-					//	Sine Angle
-					//	self.mesh.rotation.y = h.position.z / h.position.x
-					//self.mesh.rotation.y > angleYCameraDirection ? self.mesh.rotation.y-- : self.mesh.rotation.y++
-
-				}
 			}
+			// Q4
+			else if (originZ < enemyZ && originX > enemyX) {
+				self.x = h.position.x - self.mesh.position.x
+				self.z = h.position.z - self.mesh.position.z
+				self.mesh.rotation.y > angleYCameraDirection ? self.mesh.rotation.y-- : self.mesh.rotation.y++
+			}
+			// Q3
+			else if (originZ > enemyZ && enemyX > originX) {
+				self.x = h.position.x - self.mesh.position.x
+				self.z = h.position.z - self.mesh.position.z
+			}
+			// Q2
+			else if (originZ > enemyZ && originX > enemyX) {
+				self.x = h.position.x - self.mesh.position.x
+				self.z = h.position.z - self.mesh.position.z
+			}
+
 
 			// Update mesh position
 			p.setMeshPosition(self.mesh, {
@@ -557,29 +489,21 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 			if (self.mesh.position.z > 100 || self.mesh.position.z < -100) {
 				self.mesh.position.z = 100 || -100
 			}
-			//self.walkDirection.x -self.walkDirection.x
-			//	self.directionOffset = -self.directionOffset
 		} else if (self.mesh.position.x < -100) {
 			self.mesh.position.x = 100
 			if (self.mesh.position.z > 100 || self.mesh.position.z < -100) {
 				self.mesh.position.z = 100 || -100
 			}
-			//self.walkDirection.x = -self.walkDirection.x
-			//	self.directionOffset = -self.directionOffset
 		} else if (self.mesh.position.z > 100) {
 			self.mesh.position.z = -100
 			if (self.mesh.position.x > 100 || self.mesh.position.x < -100) {
 				self.mesh.position.x = 100 || -100
 			}
-			//self.z = -self.z
-			//	self.directionOffset = -self.directionOffset
 		} else if (self.mesh.position.z < -100) {
 			self.mesh.position.z = 100
 			if (self.mesh.position.x > 100 || self.mesh.position.x < -100) {
 				self.mesh.position.x = 100 || -100
 			}
-			//	self.z = -self.z
-			//	self.directionOffset = -self.directionOffset
 		}
 
 
@@ -599,7 +523,6 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 
 			if (PosZFrontB > bombZ && bombZ > PosZBackB && PosXFrontB > bombX && bombX > PosXBackB) {
 
-
 				for (var bb = 0; bb < droppedBomb[b].children.length; bb++) {
 					droppedBomb[b].children[bb].geometry.dispose()
 					droppedBomb[b].children[bb].material.dispose()
@@ -618,9 +541,8 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 				}, 100)
 
 				// decrrased hp
-				var dmg = self.size.w > 5 ? hero.bombDamage / 4 : hero.bombDamage
+				var dmg = hero.bombDamage
 				self.hp = self.hp - dmg
-
 
 			}
 		}
@@ -640,9 +562,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 		}
 
 		// Hero died
-
 		// Game Over
-
 
 		if (self.hp < 0) {
 			$(`#${self.name}`).remove()
@@ -713,44 +633,8 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 
 			// Dust particles
 
-			for (var ps = 0; ps < 20; ps++) {
-				var size = self.size.w > 4 ? .8 : .5
-				var part = new Three.Mesh(new Three.BoxGeometry(size, size, size), new Three.MeshPhongMaterial({ color: "#40603E" }))
-				var ranX = Math.random() * (self.mesh.geometry.parameters.width / 3 - (-self.mesh.geometry.parameters.width / 3)) + (-self.mesh.geometry.parameters.width / 3)
-				var ranZ = Math.random() * (self.mesh.geometry.parameters.depth / 3 - (-self.mesh.geometry.parameters.depth / 3)) + (-self.mesh.geometry.parameters.depth / 3)
-
-				part.position.set(self.mesh.position.x + ranX, self.mesh.position.y + ranX, self.mesh.position.z + ranZ)
-
-				p.addMesh(part, 1)
-				self.scene.add(part)
-				window.particles.push(part)
-			}
-
 
 		}
-
-
-		/*self.camera.updateMatrix();
-		self.camera.updateMatrixWorld();
-
-		var matrix = new Three.Matrix4().multiplyMatrices(self.camera.projectionMatrix, self.camera.matrixWorldInverse)
-		frustum.setFromProjectionMatrix(matrix)
-
-		// Screen System
-		if (window.frustum.containsPoint(self.mesh.position)) {
-			// Display enemy health
-			var pos = l(self.mesh, self.camera)
-			$(`#${self.name}`).css({
-				display: "block",
-				left: self.size.w > 2 ? pos.x - 35 + "px" : pos.x - 15 + "px",
-				top: self.size.w > 2 ? pos.y - 35 + "px" : pos.y - 15 + "px"
-			})
-
-		} else {
-			$(`#${self.name}`).css({
-				display: "none"
-			})
-		}*/
 
 
 		TWEEN.update()
@@ -801,7 +685,6 @@ var EnemyBoss = function() {
 		self.walkDirection.z = self.z
 		self.rotateAngle.normalize()
 		self.walkDirection.normalize()
-		//self.mesh.quaternion.rotateTowards(self.rotateQuarternion, .1)
 
 		// Update self mesh's position
 		self.walkDirection.applyAxisAngle(self.rotateAngle, 0)
@@ -818,17 +701,6 @@ var EnemyBoss = function() {
 
 		self.mesh.position.x += mX
 		self.mesh.position.z += mZ
-
-		/*p.setMeshPosition(self.Body, {
-			x: self.mesh.position.x,
-			y: self.mesh.position.y,
-			z: self.mesh.position.z
-		})*/
-
-		/*	var PosXBack = self.mesh.position.x - self.radius,
-				PosXFront = self.mesh.position.x + self.radius,
-				PosZBack = self.mesh.position.z - self.radius,
-				PosZFront = self.mesh.position.z + self.radius;*/
 
 		var zBack = hero.mesh.position.z - hero.mesh.children[0].geometry.parameters.depth / 2,
 			zFront = hero.mesh.position.z + hero.mesh.children[0].geometry.parameters.depth / 2,

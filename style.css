@@ -161,7 +161,8 @@ html {
 #webgl {
 	outline: none;
 	width: 100%;
-	height: 100%
+	height: 100%;
+	background: radial-gradient(#42445A, #090909)
 }
 
 #bullet {
@@ -475,48 +476,6 @@ html {
 	font-size: 20px
 }
 
-#changeColor {
-	position: absolute;
-	width: 100%;
-	height: 80px;
-	background-color: none;
-	top: 43%;
-	display: none;
-	grid-template-columns: 50% 50%;
-	animation: pop .8s cubic-bezier(0.19, 1, 0.22, 1)
-}
-
-#trileft {
-	width: 0;
-	height: 0;
-	border-left: 50px solid transparent;
-	border-right: 50px solid transparent;
-	border-top: 50px solid #E0E2FA9C;
-	margin: auto;
-
-	margin-left: 5px;
-	transform: scale(.5) rotate(90deg);
-}
-
-#trileft:active {
-	transform: scale(.4) rotate(90deg)
-}
-
-#triright {
-	width: 0;
-	height: 0;
-	border-left: 50px solid transparent;
-	border-right: 50px solid transparent;
-	border-top: 50px solid #E0E2FA9C;
-	margin: auto;
-
-	margin-right: 5px;
-	transform: scale(.5) rotate(-90deg);
-}
-
-#triright:active {
-	transform: scale(.4) rotate(-90deg)
-}
 
 span {
 	display: inline-flex;
