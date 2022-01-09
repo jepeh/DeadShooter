@@ -26,6 +26,10 @@ class Hero {
 		this.gunRange = Profile.gunRange
 		this.nearEnemy = []
 
+		this.rotateAngle = new Three.Vector3(0, 1, 0)
+		this.rotateQuarternion = new Three.Quaternion()
+
+
 	}
 
 	// public function
@@ -95,15 +99,25 @@ class Hero {
 				var sts = 0;
 				var x = this.nearEnemy[0].x
 				var z = this.nearEnemy[0].z
-				
+
 				// rotate Mesh
-				var rY = Math.atan2(this.nearEnemy[0].x, this.nearEnemy[0].z) * 180 / Math.PI
-				this.mesh.rotation.y = 0
-				this.mesh.rotation.y = rY
-			
-				
+
+				var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x)*180 / Math.PI
+
+				// update quaternions
+				var angleYCameraDirection = Math.atan2(
+					(CAMERA.position.x - this.mesh.position.x),
+					(CAMERA.position.z - this.mesh.position.z))
+
+				//var angle = angleYCameraDirection + directionOffset
+				//self.model.rotation.y = angle
+
+				this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection + directionOffset)
+				this.mesh.quaternion.rotateTowards(this.rotateQuarternion, 1.5)
+
+
 				var shoot = setInterval(() => {
-				
+
 					if (sts > 2) {
 						window.gobo = true
 						clearInterval(shoot);
@@ -189,7 +203,7 @@ class Hero {
 			}
 
 		} else {
-			
+
 			Profile.bombReload = 0
 			var sett = setInterval(() => {
 

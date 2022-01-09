@@ -48,12 +48,11 @@ function CharacterControls(scene, model, orbitControl, camera) {
 				(self.camera.position.x - self.model.position.x),
 				(self.camera.position.z - self.model.position.z))
 	
-			var angle = angleYCameraDirection + directionOffset
-			
-			
+			//var angle = angleYCameraDirection + directionOffset
+			//self.model.rotation.y = angle
 		
-		//	self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angleYCameraDirection + directionOffset)
-		//	self.model.quaternion.rotateTowards(self.rotateQuarternion, .16)
+			self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angleYCameraDirection + directionOffset)
+			self.model.quaternion.rotateTowards(self.rotateQuarternion, .09)
 			
 			// calculate direction
 			self.camera.getWorldDirection(self.walkDirection)

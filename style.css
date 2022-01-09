@@ -136,10 +136,8 @@ html {
 
 @keyframes sk {
 	from {
-
 		left: 100%;
 	}
-
 	to {
 		left: 0%;
 		top: 0%;
@@ -150,13 +148,10 @@ html {
 	from {
 		top: 100%;
 	}
-
 	to {
-
 		top: 0%;
 	}
 }
-
 
 #webgl {
 	outline: none;
@@ -200,6 +195,7 @@ html {
 	display: none;
 	transform: skew(-20deg)
 }
+
 #bombbar {
 	position: absolute;
 	z-index: 2;
@@ -219,12 +215,10 @@ html {
 
 #bombbar div {
 	position: relative;
-	width: 10%;
+	width: 100%;
 	height: 100%;
 	background-color: green;
-	
 }
-
 
 #hp {
 	position: relative;
