@@ -357,8 +357,8 @@ class Hero {
 				var fcns = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
 				var idx = Math.floor(Math.random() * (fcns.length - 1) + 1)
 
-				//	var reward = rewards[fcns[idx]]();
-				rewards.f()
+				rewards[fcns[idx]]();
+				
 
 				var parts = []
 				var pos = {
@@ -734,9 +734,9 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 				mesh.rotation.y = Math.floor(Math.random() * 10)
 				mesh.needsUpdate = true
 				mesh.scale.set(.3, .3, .3)
-				var targetX = pos.x + (-1 + Math.random() * 2) * 10;
-				var targetY = pos.y + (-1 + Math.random() * 2) * 10;
-				var targetZ = pos.z + (-1 + Math.random() * 2) * 10;
+				var targetX = pos.x + (-1 + Math.random() * 2) * 5;
+				var targetY = pos.y + (-1 + Math.random() * 2) * 5;
+				var targetZ = pos.z + (-1 + Math.random() * 2) * 5;
 
 				SCENE.add(mesh)
 				parts.push(mesh)

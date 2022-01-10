@@ -204,7 +204,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
 				})
 			} while (cnt <= 50)
 		}
@@ -291,30 +291,30 @@ var Game = (function(w, func) {
 		border.rotation.z = Math.PI / 4
 		//SCENE.add(border)
 
-	/*	const renderScene = new RenderPass(SCENE, CAMERA)
+		/*	const renderScene = new RenderPass(SCENE, CAMERA)
 
-		const bloomPass = new UnrealBloomPass(new Three.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-		// bloomPass.renderToScreen = true;
-		bloomPass.renderToScreen = true;
-		bloomPass.threshold = 0;
-		bloomPass.strength = 2;
-		bloomPass.radius = 0;
+			const bloomPass = new UnrealBloomPass(new Three.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+			// bloomPass.renderToScreen = true;
+			bloomPass.renderToScreen = true;
+			bloomPass.threshold = 0;
+			bloomPass.strength = 2;
+			bloomPass.radius = 0;
 
-		var composer = new Composer.EffectComposer(RENDERER)
-		composer.renderToScreen = false
-		composer.setSize(innerWidth, innerHeight);
-		composer.addPass(renderScene);
-		composer.addPass(bloomPass)
+			var composer = new Composer.EffectComposer(RENDERER)
+			composer.renderToScreen = false
+			composer.setSize(innerWidth, innerHeight);
+			composer.addPass(renderScene);
+			composer.addPass(bloomPass)
 
-		composer.render()
+			composer.render()
 
-		RENDERER.autoClear = false
-		CAMERA.layers.enable(1)
-		
-		var m = new Three.Mesh(new Three.BoxGeometry(1,1,1), new Three.MeshPhongMaterial())
-		m.position.x = 3
-		m.layers.set(1)
-		SCENE.add(m)*/
+			RENDERER.autoClear = false
+			CAMERA.layers.enable(1)
+			
+			var m = new Three.Mesh(new Three.BoxGeometry(1,1,1), new Three.MeshPhongMaterial())
+			m.position.x = 3
+			m.layers.set(1)
+			SCENE.add(m)*/
 
 		const pLight = new Three.PointLight("#01F0FF", 1, 20)
 
@@ -503,14 +503,14 @@ var Game = (function(w, func) {
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
 
-			//	render layer0 boom
-			//	RENDERER.clear()
-			//	CAMERA.layers.set(1)
-			//	composer.render()
+				//	render layer0 boom
+				//	RENDERER.clear()
+				//	CAMERA.layers.set(1)
+				//	composer.render()
 
 				//render layer1 normal
-			//	RENDERER.clearDepth()
-			//	CAMERA.layers.set(0)
+				//	RENDERER.clearDepth()
+				//	CAMERA.layers.set(0)
 				RENDERER.render(SCENE, CAMERA)
 
 				TWEEN.update()
@@ -878,6 +878,19 @@ var Game = (function(w, func) {
 			}
 			window.enemyList.length = 0
 
+			for (var m = 0; m < mysteryboxes.length; m++) {
+
+				mysteryboxes[m].traverse(e => {
+					e.type === "Mesh" ? e.geometry.dispose() : false
+					e.type === "Mesh" ? e.material.dispose() : false
+				})
+				
+				SCENE.remove(mysteryboxes[m])
+
+			}
+			window.mysteryboxes.length = 0
+
+
 			for (var o = 0; o < droppedBomb.length; o++) {
 				SCENE.remove(droppedBomb[o])
 			}
@@ -990,11 +1003,18 @@ var Game = (function(w, func) {
 
 			enemyList.length = 0
 
-			for (var o = 0; o < droppedBomb.length; o++) {
-				SCENE.remove(droppedBomb[o])
-			}
+			for (var m = 0; m < mysteryboxes.length; m++) {
 
-			droppedBomb.length = 0
+				mysteryboxes[m].traverse(e => {
+					e.type === "Mesh" ? e.geometry.dispose() : false
+					e.type === "Mesh" ? e.material.dispose() : false
+				})
+				
+				SCENE.remove(mysteryboxes[m])
+
+			}
+			window.mysteryboxes.length = 0
+
 
 			for (var c = 0; c < droppedCoins.length; c++) {
 				SCENE.remove(droppedCoins[c])
@@ -1036,9 +1056,9 @@ var Game = (function(w, func) {
 				var b = CLOCK.getElapsedTime()
 
 				character.rotation.y = Math.sin(b) * .6
-			
+
 				hero.anim(b)
-				
+
 				TWEEN.update()
 				RENDERER.render(SCENE, CAMERA)
 				CAMERA.lookAt(character.position)

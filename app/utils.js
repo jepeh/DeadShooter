@@ -250,7 +250,7 @@ var Atom = function(scene, p, el) {
 
 var Holo = function(s) {
 
-	this.holo = new Three.Mesh(new Three.CylinderGeometry(4.5, 4.5, .09, 35), new Three.MeshPhongMaterial({ color: 'lightblue' }))
+	this.holo = new Three.Mesh(new Three.CylinderGeometry(4.5, 4.5, .09, 35), new Three.MeshPhongMaterial({ color: "lightblue" }))
 	this.holo.material.transparent = true
 	this.holo.material.opacity = .2
 	this.holo.position.y = -0.1
