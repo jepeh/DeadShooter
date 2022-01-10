@@ -32,7 +32,7 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-			/*	FBInstant.initializeAsync()
+				FBInstant.initializeAsync()
 					.then(() => {
 						var loaded = 1;
 						var loading = setInterval(() => {
@@ -57,9 +57,9 @@ var Game = (function(w, func) {
 					})
 					.catch(e => {
 						console.log(e)
-					})*/
+					})
 
-			loc.searchParams.get("play") ? playResume() : play()
+		//	loc.searchParams.get("play") ? playResume() : play()
 
 
 		})
