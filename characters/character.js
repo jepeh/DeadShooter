@@ -147,7 +147,7 @@ class Hero {
 						window.droppedBomb.push(b)
 					}
 
-				}, 200)
+				}, 150)
 
 			}
 			else if (SCENE.getObjectByName("boss") && window.gobo) {
@@ -214,7 +214,7 @@ class Hero {
 						window.droppedBomb.push(b)
 					}
 
-				}, 200)
+				}, 150)
 			}
 			else {
 

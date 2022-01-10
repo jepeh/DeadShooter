@@ -6,7 +6,7 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
-	bombDamage: 30,
+	bombDamage: 20,
 	energy: 6,
 	mapRadius: 90,
 	atomBombRadius: 20,
@@ -16,7 +16,7 @@ let Profile = {
 	countdownMin: 8,
 	keys: 0,
 	skills: [{
-		name: "octaBullets",
+		name: "laserBeam",
 		damage: 3,
 		img: "assets/images/skills/octaBullets.png"
 	}, {
