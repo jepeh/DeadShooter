@@ -244,7 +244,7 @@ class Hero {
 					window.gunrange.material.opacity = 0
 					clearTimeout(j)
 				}, 100)
-			}
+			} 
 		} else {
 			if (Profile.bombReload === 3) {} else {
 				var sr = setInterval(() => {
