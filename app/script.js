@@ -6,7 +6,6 @@ import { CharacterControls } from '../controller/controller.js'
 import * as Character from '../characters/character.js'
 import { Profile, Levels, Sounds } from '../profiles/profile.js'
 import { OimoPhysics } from '../src/OimoPhysics.js'
-import { TWEEN } from '../src/tween.module.min.js'
 import { drawMap } from '../app/map/map.js'
 import * as Utils from './utils.js'
 import * as Sound from './audio.js'
@@ -204,7 +203,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
 				})
 			} while (cnt <= 50)
 		}
@@ -366,23 +365,15 @@ var Game = (function(w, func) {
 		var fog = new Three.Fog("black", 70, 100)
 		//	SCENE.fog = fog
 
-
-		var scale = { x: .1, y: .1, z: .1 }
-
-		var tween = new TWEEN.Tween(scale)
-			.to({
-				x: 1,
-				y: 1,
-				z: 1
-			}, 1000)
-			.easing(TWEEN.Easing.Back.In)
-			.onUpdate(function() {
-				character.scale.set(scale.x, scale.y, scale.z)
-			})
-			.onComplete(function() {
+		TweenMax.to(character.scale, .9, {
+			x: 1,
+			y: 1,
+			z: 1,
+			easing: Power2.easingIn,
+			onComplete: function() {
 				$("#playbtn").css("display", "grid")
-			})
-			.start()
+			}
+		})
 
 		//*******************************************
 		// Change Color 
@@ -449,8 +440,6 @@ var Game = (function(w, func) {
 			$("#playbtn, #logo, #settings, #energy-container, #coin-container, #version, #trademark").css("display", "none")
 			character.position.set(0, 2.5, 0)
 
-
-			var pos = new Three.Vector3().copy(CAMERA.position)
 			var tarPos = new Three.Vector3(25, 70, 25)
 
 			hero.initAnim()
@@ -464,20 +453,20 @@ var Game = (function(w, func) {
 
 			var nm = 0;
 
-			var tween = new TWEEN.Tween(pos)
-				.to(tarPos, 4000)
-				.easing(TWEEN.Easing.Back.InOut)
-				.onUpdate(function(ppp) {
-					CAMERA.position.copy(ppp)
+			TweenMax.to(CAMERA.position, 4, {
+				x: tarPos.x,
+				y: tarPos.y,
+				z: tarPos.z,
+				easing: Power2.easingIn,
+				onUpdate: function() {
 					CAMERA.lookAt(character.position)
-					nm = nm + 1
+					nm = nm + .5
 					if (nm > 100) {} else {
 						$("#bar").css("width", nm + "%")
 					}
-				})
-				.onComplete(function() {
+				},
+				onComplete: function() {
 					nm = 0
-					huh = false
 					CAMERA.lookAt(character.position)
 					// Start game
 					$("#status").text("initiation completed!")
@@ -486,12 +475,11 @@ var Game = (function(w, func) {
 						clearTimeout(str)
 						CONTROLS.target = character.position
 						// Fetch GLTF assets
+					}, 700)
+				}
+			})
 
-					}, 500)
-
-				})
-				.start()
-			//startGame(lvl)
+			return;
 		}
 
 		// initial animation
@@ -512,8 +500,6 @@ var Game = (function(w, func) {
 				//	RENDERER.clearDepth()
 				//	CAMERA.layers.set(0)
 				RENDERER.render(SCENE, CAMERA)
-
-				TWEEN.update()
 
 				if (typeof Obj.initAnim === "function") {
 					requestAnimationFrame(Obj.initAnim)
@@ -581,6 +567,7 @@ var Game = (function(w, func) {
 					$(`#Skill${i+1}`).attr("name", Profile.skills[i].name)
 
 				}
+				return;
 			}
 			updateSkills()
 
@@ -655,6 +642,7 @@ var Game = (function(w, func) {
 
 				$("#Skill1").on("touchstart", () => {
 					firstSkill()
+
 				})
 				$("#Skill2").on("touchstart", () => {
 					secondSkill()
@@ -704,6 +692,8 @@ var Game = (function(w, func) {
 					}
 
 				}
+
+				return;
 			}
 
 			function secondSkill() {
@@ -747,6 +737,8 @@ var Game = (function(w, func) {
 					}
 
 				}
+
+				return;
 			}
 
 			//*******************************************
@@ -884,7 +876,7 @@ var Game = (function(w, func) {
 					e.type === "Mesh" ? e.geometry.dispose() : false
 					e.type === "Mesh" ? e.material.dispose() : false
 				})
-				
+
 				SCENE.remove(mysteryboxes[m])
 
 			}
@@ -922,23 +914,23 @@ var Game = (function(w, func) {
 
 			var ps = new Three.Vector3().copy(CAMERA.position)
 			var tarPs = new Three.Vector3(20, 30, 20)
-			var tn = new TWEEN.Tween(ps)
-				.to(tarPs, 2500)
-				.easing(TWEEN.Easing.Back.InOut)
-				.onUpdate(function() {
-					CAMERA.position.copy(ps)
-					CAMERA.lookAt(character.position)
-				})
-				.onComplete(function() {
+		
+			TweenMax.to(CAMERA.position, 1.8, {
+				x: tarPs.x,
+				y: tarPs.y,
+				z: tarPs.z,
+				easing: Power2.easingIn,
+				onUpdate: function(){
+				CAMERA.lookAt(character.position)
+				},
+				onComplete: function(){
 					CAMERA.lookAt(character.position)
 					$("#gameover, #time, #home")
 						.css("display", "block")
 					$("#gameoverstat").css("display", "grid")
-
-					// Facebook Save Data function
-				})
-				.start()
-
+				}
+			})
+		
 
 			CLOCK.start()
 
@@ -946,7 +938,7 @@ var Game = (function(w, func) {
 
 				var b = CLOCK.getElapsedTime()
 				character.rotation.y = Math.sin(b) * .6
-				TWEEN.update()
+
 				RENDERER.render(SCENE, CAMERA)
 				hero.anim(b)
 				CAMERA.lookAt(character.position)
@@ -1009,7 +1001,7 @@ var Game = (function(w, func) {
 					e.type === "Mesh" ? e.geometry.dispose() : false
 					e.type === "Mesh" ? e.material.dispose() : false
 				})
-				
+
 				SCENE.remove(mysteryboxes[m])
 
 			}
@@ -1034,23 +1026,24 @@ var Game = (function(w, func) {
 			var ps = new Three.Vector3().copy(CAMERA.position)
 			var tarPs = new Three.Vector3(character.position.x + 15, character.position.y + 10, character.position.z + 15)
 
-			var tn = new TWEEN.Tween(ps)
-				.to(tarPs, 2500)
-				.easing(TWEEN.Easing.Back.InOut)
-				.onUpdate(function() {
-					CAMERA.position.copy(ps)
-					CAMERA.lookAt(character.position)
-				})
-				.onComplete(function() {
+			TweenMax.to(CAMERA.position, 2.5, {
+				x: tarPs.x,
+				y: tarPs.y,
+				z: tarPs.z,
+			
+				onUpdate: function(){
+				CAMERA.lookAt(character.position)
+				},
+				onComplete: function(){
 					CAMERA.lookAt(character.position)
 					// display elements
 					$("#gamewin, #gamewin2, #home").css("display", "grid")
 					// Facebook Save Data function
-				})
-				.start()
+				}
+			})
 
+	
 			// Win animation
-
 			var winAnim = function() {
 
 				var b = CLOCK.getElapsedTime()
@@ -1059,7 +1052,7 @@ var Game = (function(w, func) {
 
 				hero.anim(b)
 
-				TWEEN.update()
+
 				RENDERER.render(SCENE, CAMERA)
 				CAMERA.lookAt(character.position)
 				if (typeof winAnim === "function") {
@@ -1083,20 +1076,23 @@ var Game = (function(w, func) {
 				// Update Game data
 				$("#energy-txt").text("x" + Profile.energy)
 
-				var tween = new TWEEN.Tween(character.scale)
-					.to(new Three.Vector3(1, 1, 1), 1000)
-					.easing(TWEEN.Easing.Back.In)
-					.onUpdate(function(sc) {
-						character.scale.copy(sc)
+
+				TweenMax.to(character.scale, 1, {
+					x:1,
+					y:1,
+					z:1,
+					easing: Power2.easingIn,
+					onUpdate: function(){
 						CAMERA.lookAt(character.position)
-					})
-					.onComplete(function() {
+					},
+					onComplete: function(){
 						CAMERA.lookAt(character.position)
 						character.rotation.y = -10
 						$("#playbtn, #energy-container, #coin-container").css("display", "grid")
 						$("#settings, #version").css("display", "block")
-					})
-					.start()
+					}
+				})
+
 
 				Anim()
 

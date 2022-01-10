@@ -2,7 +2,7 @@ let Profile = {
 	level: 1,
 	heroName: "cube",
 	coins: 100,
-	bombReload: 100,
+	bombReload: 3,
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,

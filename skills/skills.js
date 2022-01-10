@@ -45,16 +45,15 @@ var Skills = [
 					z: hero.mesh.position.z+3
 				}	
 							
-				var targetX = pos.x + (-1 + Math.random() * 2) * 3;
-				var targetY = pos.y + (-1 + Math.random() * 2) * 3;
-				var targetZ = pos.z + (-1 + Math.random() * 2) * 3;
+				var targetX = pos.x + (-1 + Math.random() * 2) * 5;
+				var targetY = pos.y + (-1 + Math.random() * 2) * 5;
+				var targetZ = pos.z + (-1 + Math.random() * 2) * 5;
 
 				mesh.position.x = targetX
 				mesh.position.y = targetY
 				mesh.position.z = targetZ
 				mesh.needsUpdate = true
 	
-
 				SCENE.add(mesh)
 				parts.push(mesh)
 
@@ -71,10 +70,13 @@ var Skills = [
 						for (var u = 0; u < parts.length; u++) {
 							if (parts[u].parent) parts[u].parent.remove(parts[u])
 						}
+						return;
 					}
 				});
 
 			}
+			
+			return;
 		}
 	}
 	]

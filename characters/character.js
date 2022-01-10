@@ -2,7 +2,6 @@ import * as Three from '../src/three.js'
 import { RoundedBoxGeometry } from '../src/RoundedBoxGeometry.js'
 import { Profile } from '../profiles/profile.js'
 import { GAME } from '../app/script.js'
-import { TWEEN } from '../src/tween.module.min.js'
 import * as Sounds from '../app/audio.js'
 import * as Utils from '../app/utils.js'
 import rewards from '../app/rewards.js'
@@ -66,7 +65,10 @@ class Hero {
 	// Drop Bombs
 	bomb() {
 
-		if (Math.floor(Profile.bombReload > 0)) {
+		if (Math.floor(Profile.bombReload !== 0)) {
+
+			Profile.bombReload === 1 ? $("#bomb p").text("Reload") : $("#bomb p").text("Bomb")
+
 			// hero position
 			var HX = hero.mesh.position.x,
 				HZ = hero.mesh.position.z;
@@ -86,11 +88,12 @@ class Hero {
 
 			if (this.nearEnemy[0] && window.gobo) {
 				window.gobo = false
-				Profile.bombReload = Profile.bombReload - 33
+				Profile.bombReload = Profile.bombReload - 1
 
 				Utils.playSound(Sounds.bomb)
+
 				$("#bomb").css("transform", "scale(1.05)")
-				$("#bombbar div").css("width", Profile.bombReload + "%")
+				$("#bombbar div").css("width", Profile.bombReload * 100 / 3 + "%")
 
 				var tu = setTimeout(() => {
 					$("#bomb").css("transform", "scale(1.1)")
@@ -151,127 +154,108 @@ class Hero {
 
 			}
 			else if (SCENE.getObjectByName("boss") && window.gobo) {
+				hero.gunRange = 35
+				window.gunrange.scale.x = 1.5
+				window.gunrange.scale.z = 1.5
 
-				window.gobo = false
-				Profile.bombReload = Profile.bombReload - 33
+				var HX = hero.mesh.position.x,
+					HZ = hero.mesh.position.z;
 
-				Utils.playSound(Sounds.bomb)
-				$("#bomb").css("transform", "scale(1.05)")
-				$("#bombbar div").css("width", Profile.bombReload + "%")
+				if (window.boss.mesh.position.x > HX - hero.gunRange && HX + hero.gunRange > window.boss.mesh.position.x && HZ + hero.gunRange > window.boss.mesh.position.z && window.boss.mesh.position.z > HZ - hero.gunRange) {
+					Profile.bombReload === 1 ? $("#bomb p").text("Reload") : $("#bomb p").text("Bomb")
 
-				var tu = setTimeout(() => {
-					$("#bomb").css("transform", "scale(1.1)")
-					clearTimeout(tu)
-				}, 10)
+					window.gobo = false
+					Profile.bombReload = Profile.bombReload - 33
 
-				window.gunrange.material.opacity = 0
+					Utils.playSound(Sounds.bomb)
+					$("#bomb").css("transform", "scale(1.05)")
+					$("#bombbar div").css("width", Profile.bombReload + "%")
 
-				var sts = 0;
-				var x = window.boss.x
-				var z = window.boss.z
+					var tu = setTimeout(() => {
+						$("#bomb").css("transform", "scale(1.1)")
+						clearTimeout(tu)
+					}, 10)
 
-				// rotate Mesh
+					window.gunrange.material.opacity = 0
 
-				//	var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x) * 180 / Math.PI
+					var sts = 0;
+					var x = window.boss.x
+					var z = window.boss.z
 
-				// update quaternions
-				var angleYCameraDirection = Math.atan2(
-					(CAMERA.position.x - this.mesh.position.x),
-					(CAMERA.position.z - this.mesh.position.z))
+					// rotate Mesh
 
-				var cx = this.mesh.position.x,
-					cz = this.mesh.position.z
+					//	var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x) * 180 / Math.PI
 
-				var ex = window.boss.x,
-					ez = window.boss.z
+					// update quaternions
+					var angleYCameraDirection = Math.atan2(
+						(CAMERA.position.x - this.mesh.position.x),
+						(CAMERA.position.z - this.mesh.position.z))
 
-				var dy = ez - cz;
-				var dx = ex - cx;
-				var theta = Math.atan2(dy, dx) * 180 / Math.PI // range (-PI, PI]
-				// rads to degs, range (-180, 180]
-				//if (theta < 0) theta = 360 + theta; // range [0, 360)
+					var cx = this.mesh.position.x,
+						cz = this.mesh.position.z
 
-				TweenMax.to(this.mesh.rotation, .08, { x: 0, y: theta, z: 0 });
+					var ex = window.boss.x,
+						ez = window.boss.z
 
-				//var angle = angleYCameraDirection + directionOffset
-				//self.model.rotation.y = angle
-				//	this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection + theta)
-				//this.mesh.quaternion.rotateTowards(this.rotateQuarternion, .9)
+					var dy = ez - cz;
+					var dx = ex - cx;
+					var theta = Math.atan2(dy, dx) * 180 / Math.PI // range (-PI, PI]
+					// rads to degs, range (-180, 180]
+					//if (theta < 0) theta = 360 + theta; // range [0, 360)
 
-				var shoot = setInterval(() => {
+					TweenMax.to(this.mesh.rotation, .08, { x: 0, y: theta, z: 0 });
 
-					if (sts > 2) {
-						window.gobo = true
-						clearInterval(shoot);
-					} else {
-						sts++
-						var b = hero.renderBullet()
-						b.vtr = {
-							x: window.boss.x,
-							z: window.boss.z
+					//var angle = angleYCameraDirection + directionOffset
+					//self.model.rotation.y = angle
+					//	this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection + theta)
+					//this.mesh.quaternion.rotateTowards(this.rotateQuarternion, .9)
+
+					var shoot = setInterval(() => {
+
+						if (sts > 2) {
+							window.gobo = true
+							clearInterval(shoot);
+						} else {
+							sts++
+							var b = hero.renderBullet()
+							b.vtr = {
+								x: window.boss.x,
+								z: window.boss.z
+							}
+							window.SCENE.add(b)
+							window.droppedBomb.push(b)
 						}
-						window.SCENE.add(b)
-						window.droppedBomb.push(b)
-					}
 
-				}, 150)
+					}, 150)
+
+
+
+				} else {
+					window.gunrange.material.opacity = .1
+					var j = setTimeout(() => {
+						window.gunrange.material.opacity = 0
+						clearTimeout(j)
+					}, 100)
+				}
 			}
 			else {
-
 				window.gunrange.material.opacity = .1
 				var j = setTimeout(() => {
 					window.gunrange.material.opacity = 0
 					clearTimeout(j)
 				}, 100)
-
-				if (Math.floor(Profile.bombReload > 0)) {
-					Profile.bombReload = 0
-
-					var sett = setInterval(() => {
-
-						if (Math.floor(Profile.bombReload >= 100)) {
-							clearInterval(sett)
-							Profile.bombReload = 100
-							$("#bombbar div").css("width", Profile.bombReload + "%")
-
-						} else {
-							Profile.bombReload = Profile.bombReload + 10
-							$("#bombbar div").css("width", Profile.bombReload + "%")
-						}
-
-					}, 100)
-
-				} else {
-					Profile.bombReload = 0
-					var sett = setInterval(() => {
-						if (Math.floor(Profile.bombReload >= 100)) {
-							clearInterval(sett)
-							Profile.bombReload = 100
-							$("#bombbar div").css("width", Profile.bombReload + "%")
-						} else {
-							Profile.bombReload = Profile.bombReload + 10
-							$("#bombbar div").css("width", Profile.bombReload + "%")
-						}
-					}, 100)
-				}
-
 			}
-
 		} else {
-
-			Profile.bombReload = 0
-			var sett = setInterval(() => {
-
-				if (Math.floor(Profile.bombReload >= 100)) {
-					clearInterval(sett)
-					Profile.bombReload = 100
-					$("#bombbar div").css("width", Profile.bombReload + "%")
-				} else {
-					Profile.bombReload = Profile.bombReload + 10
-					$("#bombbar div").css("width", Profile.bombReload + "%")
-				}
-
-			}, 100)
+			if (Profile.bombReload === 3) {} else {
+				var sr = setInterval(() => {
+					if (Profile.bombReload > 2) {
+						clearInterval(sr)
+					} else {
+						Profile.bombReload++
+						$("#bombbar div").css("width", Profile.bombReload * 100 / 3 + "%")
+					}
+				}, 400)
+			}
 		}
 
 		this.nearEnemy.length = 0
@@ -281,7 +265,7 @@ class Hero {
 
 
 
-	bulletUpdate(time, p) {
+	bulletUpdate(time) {
 
 		// update bomb velocity and calculate
 		// bounding
@@ -358,7 +342,6 @@ class Hero {
 				var idx = Math.floor(Math.random() * (fcns.length - 1) + 1)
 
 				rewards[fcns[idx]]();
-				
 
 				var parts = []
 				var pos = {
@@ -801,7 +784,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 		}
 
 
-		TWEEN.update()
+
 		return;
 	}
 
@@ -985,7 +968,7 @@ var EnemyBoss = function() {
 				}
 
 				// decrrased hp
-				var dmg = hero.bombDamage / 60
+				var dmg = hero.bombDamage / 40
 				self.hp = self.hp - dmg
 			}
 
@@ -999,6 +982,8 @@ var EnemyBoss = function() {
 					e.material.dispose()
 					e.geometry.dispose()
 				}
+
+				return;
 			})
 			SCENE.remove(self.mesh)
 
@@ -1052,16 +1037,16 @@ class defaultHero extends Hero {
 	}
 
 	initAnim() {
-		window.huh = true;
+		var hh = 0
 		var hhh = setInterval(() => {
 
-			if (!huh) {
+			if (hh > 3) {
 				clearInterval(hhh)
 			} else {
-				var holo = new Utils.Holo(SCENE)
-				holo.commence(huh)
+				var holo = new Utils.Holo()
+				holo.commence()
+				hh++
 			}
-
 		}, 500)
 
 		return;

@@ -1,7 +1,6 @@
 import { Profile, Sounds } from "../profiles/profile.js"
 import * as sounds from './audio.js'
 import * as Three from '../src/three.js'
-import { TWEEN } from '../src/tween.module.min.js'
 
 $("#thanks").on('click', () => {
 	$("#cover, #ccnscvr").css("display", "none")
@@ -250,14 +249,14 @@ var Atom = function(scene, p, el) {
 
 var Holo = function(s) {
 
-	this.holo = new Three.Mesh(new Three.CylinderGeometry(4.5, 4.5, .09, 35), new Three.MeshPhongMaterial({ color: "lightblue" }))
-	this.holo.material.transparent = true
-	this.holo.material.opacity = .2
-	this.holo.position.y = -0.1
-	this.s = s
-	this.s.add(this.holo)
+	var holo = new Three.Mesh(new Three.CylinderGeometry(4.5, 4.5, .09, 35), new Three.MeshPhongMaterial({ color: "lightblue" }))
+	holo.material.transparent = true
+	holo.material.opacity = .2
+	holo.position.y = -0.1
 
-	this.cubes = []
+	window.SCENE.add(holo)
+
+	var cubes = []
 
 	for (var cu = 0; cu < 4; cu++) {
 
@@ -268,50 +267,39 @@ var Holo = function(s) {
 
 		var cube = new Three.Mesh(new Three.BoxGeometry(size, size, size), new Three.MeshPhongMaterial({ color: Profile.heroColor }))
 		cube.position.set(x, y, z)
-		this.s.add(cube)
-		this.cubes.push(cube)
+		window.SCENE.add(cube)
+		cubes.push(cube)
 	}
 
-	this.commence = function(hh) {
-		var gg = 0;
-		var ggg = setInterval(() => {
-			if (gg > 70) {
-				clearInterval(ggg)
-				for (var ii = 0; ii < this.cubes.length; ii++) {
-					//this.cubes[i].position.y += .1
+	this.commence = function() {
 
-					this.cubes[ii].material.dispose()
-					this.cubes[ii].geometry.dispose()
-					this.s.remove(this.cubes[ii])
+		TweenMax.to(holo.position, .9, {
+			x: 0,
+			y: 7,
+			z: 0,
+			onComplete: function() {
+				holo.material.dispose()
+				holo.geometry.dispose()
+				window.SCENE.remove(holo)
+			}
+		})
 
-				}
-
-			} else {
-				gg++
-
-				this.holo.position.y += .09
-
-				for (var i = 0; i < this.cubes.length; i++) {
-					this.cubes[i].position.y += .1
-
-					if (this.cubes[i].position.y >= 6) {
-						this.cubes[i].material.dispose()
-						this.cubes[i].geometry.dispose()
-						this.s.remove(this.cubes[i])
-						this.cubes.splice(i, 1)
+		for (var i = 0; i < cubes.length; i++) {
+			var ii = i
+			TweenMax.to(cubes[i].position, 2, {
+				x: cubes[i].position.x,
+				y: 7,
+				z: cubes[i].position.z,
+				easing: Power2.easingIn,
+				onComplete: function() {
+					for (var ii = 0; ii < cubes.length; ii++) {
+						cubes[ii].material.dispose()
+						cubes[ii].geometry.dispose()
+						window.SCENE.remove(cubes[ii])
 					}
 				}
-
-
-				if (this.holo.position.y >= 5) {
-					this.holo.material.dispose()
-					this.holo.geometry.dispose()
-					this.s.remove(this.holo)
-				}
-
-			}
-		}, 15)
-
+			})
+		}
 
 		return;
 	}
@@ -334,7 +322,7 @@ function spawnBox(p) {
 		var box = e.scene.children[0]
 		box.children.shift()
 		box.position.set(pos.x, 4, pos.z)
-		box.scale.set(0.2, .2, .2)
+		box.scale.set(0.05, .05, .05)
 
 		for (var i = 0; i < box.children.length; i++) {
 			if (box.children[i].type === "Mesh") {
@@ -347,33 +335,20 @@ function spawnBox(p) {
 				box.children[i].material.color.set(c)
 			}
 		}
-		
-		box.children[box.children.length-1].material.color.set(window.colors[Math.floor(Math.random()*(6-1)+1)])
+
+		box.children[box.children.length - 1].material.color.set(window.colors[Math.floor(Math.random() * (6 - 1) + 1)])
 
 		window.SCENE.add(box)
 
-		var scale = { x: .05, y: .05, z: .05}
+		var scale = { x: .2, y: .2, z: .2 }
 
-		var tween = new TWEEN.Tween(scale)
-			.to({
-				x: .2,
-				y: .2,
-				z: .2
-			}, 700)
-			.easing(TWEEN.Easing.Back.In)
-			.onUpdate(function() {
-				box.scale.set(scale.x, scale.y, scale.z)
-			})
-			.onComplete(function() {
-				//$("#changeColor, #playbtn").css("display", "grid")
-			})
-			.start()
+		TweenMax.to(box.scale, .4, { x: scale.x, y: scale.y, z: scale.z })
 
 
 		window.mysteryboxes.push(box)
 
 	})
-
+	return;
 }
 
 
