@@ -47,8 +47,19 @@ var rewards = {
 	},
 	f: function() {
 		// plus 10% HP
-		if (hero.hpLeft >= 100) {
-		} else {
+		if (hero.hpLeft >= 100) {}
+		else if (hero.hpLeft < 30) {
+			// 10% of its current hp
+			var hpToAdd = hero.hpLeft * .35
+			hero.hpLeft = hero.hpLeft + hpToAdd
+			if (hero.hpLeft > 100) {
+				hero.hpLeft = 100
+			}
+			hero.hp.style.width = hero.hpLeft + "%"
+
+		}
+		else
+		{
 			// 10% of its current hp
 			var hpToAdd = hero.hpLeft * .10
 			hero.hpLeft = hero.hpLeft + hpToAdd
@@ -64,10 +75,9 @@ var rewards = {
 	},
 	g: function() {
 		// plus 15% Velocity
-		if (hero.hpLeft >= 15) {
-		} else {
+		if (hero.hpLeft >= 15) {} else {
 			// 10% of its current hp
-			var vToAdd = hero.velocity * .15
+			var vToAdd = hero.velocity * .20
 			hero.velocity = hero.velocity + vToAdd
 			if (hero.velocity > 15) {
 				hero.velocity = 15

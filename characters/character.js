@@ -7,6 +7,9 @@ import * as Sounds from '../app/audio.js'
 import * as Utils from '../app/utils.js'
 import rewards from '../app/rewards.js'
 
+window.TxtLoader = new Three.TextureLoader();
+
+
 class Hero {
 
 	constructor() {
@@ -102,19 +105,31 @@ class Hero {
 
 				// rotate Mesh
 
-				var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x)*180 / Math.PI
+				//	var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x) * 180 / Math.PI
 
 				// update quaternions
 				var angleYCameraDirection = Math.atan2(
 					(CAMERA.position.x - this.mesh.position.x),
 					(CAMERA.position.z - this.mesh.position.z))
 
+				var cx = this.mesh.position.x,
+					cz = this.mesh.position.z
+
+				var ex = this.nearEnemy[0].mesh.position.x,
+					ez = this.nearEnemy[0].mesh.position.z
+
+				var dy = ez - cz;
+				var dx = ex - cx;
+				var theta = Math.atan2(dy, dx) * 180 / Math.PI // range (-PI, PI]
+				// rads to degs, range (-180, 180]
+				//if (theta < 0) theta = 360 + theta; // range [0, 360)
+
+				TweenMax.to(this.mesh.rotation, .08, { x: 0, y: theta, z: 0 });
+
 				//var angle = angleYCameraDirection + directionOffset
 				//self.model.rotation.y = angle
-
-				this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection + directionOffset)
-				this.mesh.quaternion.rotateTowards(this.rotateQuarternion, 1.5)
-
+				//	this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection + theta)
+				//this.mesh.quaternion.rotateTowards(this.rotateQuarternion, .9)
 
 				var shoot = setInterval(() => {
 
@@ -135,11 +150,12 @@ class Hero {
 				}, 200)
 
 			}
-			else if (SCENE.getObjectByName("boss")) {
+			else if (SCENE.getObjectByName("boss") && window.gobo) {
 
+				window.gobo = false
 				Profile.bombReload = Profile.bombReload - 33
-				Utils.playSound(Sounds.bomb)
 
+				Utils.playSound(Sounds.bomb)
 				$("#bomb").css("transform", "scale(1.05)")
 				$("#bombbar div").css("width", Profile.bombReload + "%")
 
@@ -150,16 +166,55 @@ class Hero {
 
 				window.gunrange.material.opacity = 0
 
-				var b = this.renderBullet()
+				var sts = 0;
+				var x = window.boss.x
+				var z = window.boss.z
 
-				b.vtr = {
-					x: window.boss.x, //this.nearEnemy[0].mesh.geometry.parameters.width < this.mesh.children[0].geometry.parameters.width ? -this.nearEnemy[0].x : this.nearEnemy[0].x,
-					z: window.boss.z //this.nearEnemy[0].mesh.geometry.parameters.width < this.mesh.children[0].geometry.parameters.width ? -this.nearEnemy[0].z : this.nearEnemy[0].z
-				}
+				// rotate Mesh
 
-				this.scene.add(b)
-				window.droppedBomb.push(b)
-				this.bullets = this.bullets - 1
+				//	var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x) * 180 / Math.PI
+
+				// update quaternions
+				var angleYCameraDirection = Math.atan2(
+					(CAMERA.position.x - this.mesh.position.x),
+					(CAMERA.position.z - this.mesh.position.z))
+
+				var cx = this.mesh.position.x,
+					cz = this.mesh.position.z
+
+				var ex = window.boss.x,
+					ez = window.boss.z
+
+				var dy = ez - cz;
+				var dx = ex - cx;
+				var theta = Math.atan2(dy, dx) * 180 / Math.PI // range (-PI, PI]
+				// rads to degs, range (-180, 180]
+				//if (theta < 0) theta = 360 + theta; // range [0, 360)
+
+				TweenMax.to(this.mesh.rotation, .08, { x: 0, y: theta, z: 0 });
+
+				//var angle = angleYCameraDirection + directionOffset
+				//self.model.rotation.y = angle
+				//	this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection + theta)
+				//this.mesh.quaternion.rotateTowards(this.rotateQuarternion, .9)
+
+				var shoot = setInterval(() => {
+
+					if (sts > 2) {
+						window.gobo = true
+						clearInterval(shoot);
+					} else {
+						sts++
+						var b = hero.renderBullet()
+						b.vtr = {
+							x: window.boss.x,
+							z: window.boss.z
+						}
+						window.SCENE.add(b)
+						window.droppedBomb.push(b)
+					}
+
+				}, 200)
 			}
 			else {
 
@@ -294,6 +349,7 @@ class Hero {
 
 			var cX = mysteryboxes[b].position.x,
 				cZ = mysteryboxes[b].position.z;
+			var clr = mysteryboxes[b].children[mysteryboxes[b].children.length - 1].material.color
 
 			if (zFront > cZ && cZ > zBack && xFront > cX && cX > xBack) {
 
@@ -303,6 +359,54 @@ class Hero {
 
 				//	var reward = rewards[fcns[idx]]();
 				rewards.f()
+
+				var parts = []
+				var pos = {
+					x: mysteryboxes[b].position.x,
+					y: mysteryboxes[b].position.y,
+					z: mysteryboxes[b].position.z
+				}
+
+				for (var i = 0; i < 10; i++) {
+
+					var geom = new Three.IcosahedronGeometry(3, 0);
+					var mat = new Three.MeshPhongMaterial({
+						color: clr
+					});
+
+					var mesh = new Three.Mesh(geom, mat);
+					mesh.position.x = mysteryboxes[b].position.x
+					mesh.position.y = mysteryboxes[b].position.y
+					mesh.position.z = mysteryboxes[b].position.z
+					mesh.rotation.y = Math.floor(Math.random() * 10)
+					mesh.needsUpdate = true
+					mesh.scale.set(.3, .3, .3)
+					var targetX = pos.x + (-1 + Math.random() * 2) * 10;
+					var targetY = pos.y + (-1 + Math.random() * 2) * 10;
+					var targetZ = pos.z + (-1 + Math.random() * 2) * 10;
+
+					SCENE.add(mesh)
+					parts.push(mesh)
+
+					TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
+					TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
+					TweenMax.to(mesh.position, .6, {
+						x: targetX,
+						y: targetY,
+						z: targetZ,
+						delay: Math.random() * .1,
+						ease: Power2.easeOut,
+						onComplete: function() {
+							mesh.scale.set(3, 3, 3)
+							mesh.material.dispose()
+							mesh.geometry.dispose()
+							for (var u = 0; u < parts.length; u++) {
+								if (parts[u].parent) parts[u].parent.remove(parts[u])
+							}
+						}
+					});
+
+				}
 
 				// dlete coins from array and scene
 				mysteryboxes[b].children.forEach(e => {
@@ -579,7 +683,6 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 		// Game Over
 
 		if (self.hp < 0) {
-			$(`#${self.name}`).remove()
 
 			// update Atom Level
 			Profile.atomLevel >= 90 ? Enemy.prototype.lvl() : Profile.atomLevel = Profile.atomLevel + 10, $('.chart').data('easyPieChart').update(Profile.atomLevel);
@@ -610,6 +713,53 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 				window.droppedCoins.push(mesh)
 				self.scene.add(mesh)
 			})
+
+			var parts = []
+			var pos = {
+				x: self.mesh.position.x,
+				y: self.mesh.position.y,
+				z: self.mesh.position.z
+			}
+
+			for (var i = 0; i < 10; i++) {
+
+				var geom = new Three.TetrahedronGeometry(3, 0);
+				var mat = new Three.MeshPhongMaterial({
+					color: "green"
+				});
+				var mesh = new Three.Mesh(geom, mat);
+				mesh.position.x = self.mesh.position.x
+				mesh.position.y = self.mesh.position.y
+				mesh.position.z = self.mesh.position.z
+				mesh.rotation.y = Math.floor(Math.random() * 10)
+				mesh.needsUpdate = true
+				mesh.scale.set(.3, .3, .3)
+				var targetX = pos.x + (-1 + Math.random() * 2) * 10;
+				var targetY = pos.y + (-1 + Math.random() * 2) * 10;
+				var targetZ = pos.z + (-1 + Math.random() * 2) * 10;
+
+				SCENE.add(mesh)
+				parts.push(mesh)
+
+				TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
+				TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
+				TweenMax.to(mesh.position, .6, {
+					x: targetX,
+					y: targetY,
+					z: targetZ,
+					delay: Math.random() * .1,
+					ease: Power2.easeOut,
+					onComplete: function() {
+
+						mesh.material.dispose()
+						mesh.geometry.dispose()
+						for (var u = 0; u < parts.length; u++) {
+							if (parts[u].parent) parts[u].parent.remove(parts[u])
+						}
+					}
+				});
+
+			}
 
 
 			p.setMeshPosition(self.mesh, {
@@ -764,6 +914,7 @@ var EnemyBoss = function() {
 		for (var b = 0; b < droppedBomb.length; b++) {
 
 			var bombX = droppedBomb[b].position.x,
+				bombY = droppedBomb[b].position.y,
 				bombZ = droppedBomb[b].position.z;
 
 			if (PosZFrontB > bombZ && bombZ > PosZBackB && PosXFrontB > bombX && bombX > PosXBackB) {
@@ -784,6 +935,54 @@ var EnemyBoss = function() {
 					self.mesh.children[1].material.color.set("green")
 					clearTimeout(u)
 				}, 100)
+
+
+				var parts = []
+				var pos = {
+					x: bombX,
+					y: bombY,
+					z: bombZ
+				}
+
+				for (var i = 0; i < 10; i++) {
+
+					var geom = new Three.TetrahedronGeometry(8, 0);
+					var mat = new Three.MeshPhongMaterial({
+						color: "green"
+					});
+					var mesh = new Three.Mesh(geom, mat);
+					mesh.position.x = self.mesh.position.x
+					mesh.position.y = self.mesh.position.y
+					mesh.position.z = self.mesh.position.z
+					mesh.rotation.y = Math.floor(Math.random() * 10)
+					mesh.needsUpdate = true
+					mesh.scale.set(.3, .3, .3)
+					var targetX = pos.x + (-1 + Math.random() * 2) * 10;
+					var targetY = pos.y + (-1 + Math.random() * 2) * 10;
+					var targetZ = pos.z + (-1 + Math.random() * 2) * 10;
+
+					SCENE.add(mesh)
+					parts.push(mesh)
+
+					TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
+					TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
+					TweenMax.to(mesh.position, .6, {
+						x: targetX,
+						y: targetY,
+						z: targetZ,
+						delay: Math.random() * .1,
+						ease: Power2.easeOut,
+						onComplete: function() {
+
+							mesh.material.dispose()
+							mesh.geometry.dispose()
+							for (var u = 0; u < parts.length; u++) {
+								if (parts[u].parent) parts[u].parent.remove(parts[u])
+							}
+						}
+					});
+
+				}
 
 				// decrrased hp
 				var dmg = hero.bombDamage / 60
@@ -826,7 +1025,10 @@ class defaultHero extends Hero {
 		mainBody.material.opacity = 0
 		group.add(mainBody)
 
-		const mesh = new Three.Mesh(new Three.BoxGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshPhongMaterial({ color: this.color }))
+		//	var maptxt = TxtLoader.load('assets/images/coin_reward.png')
+
+		const mesh = new Three.Mesh(new Three.BoxGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshStandardMaterial())
+		//	mesh.layers.set(1)
 		mesh.castShadow = true
 		mesh.receiveShadow = true
 		mesh.flatShading = true

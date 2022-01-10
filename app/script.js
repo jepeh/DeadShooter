@@ -13,9 +13,12 @@ import * as Sound from './audio.js'
 import { GLTFLoader } from '../src/Loader/GLTFLoader.js'
 import Skills from '../skills/skills.js'
 
-// Shaders
+// Composer & RenderPass
+//import * as Composer from '../src/Composer/EffectComposer.js'
+//import {RenderPass} from '../src/Composer/RenderPass.js'
 
-// Handle Sound Settings Event
+// Shader
+//import {UnrealBloomPass} from '../src/Composer/shaders/UnrealBloomPass.js'
 
 
 var GAME;
@@ -201,7 +204,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
 				})
 			} while (cnt <= 50)
 		}
@@ -288,7 +291,7 @@ var Game = (function(w, func) {
 		border.rotation.z = Math.PI / 4
 		//SCENE.add(border)
 
-		/*const renderScene = new RenderPass(SCENE, CAMERA)
+	/*	const renderScene = new RenderPass(SCENE, CAMERA)
 
 		const bloomPass = new UnrealBloomPass(new Three.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
 		// bloomPass.renderToScreen = true;
@@ -298,14 +301,20 @@ var Game = (function(w, func) {
 		bloomPass.radius = 0;
 
 		var composer = new Composer.EffectComposer(RENDERER)
-
+		composer.renderToScreen = false
 		composer.setSize(innerWidth, innerHeight);
 		composer.addPass(renderScene);
 		composer.addPass(bloomPass)
 
 		composer.render()
 
-		RENDERER.autoClear = false*/
+		RENDERER.autoClear = false
+		CAMERA.layers.enable(1)
+		
+		var m = new Three.Mesh(new Three.BoxGeometry(1,1,1), new Three.MeshPhongMaterial())
+		m.position.x = 3
+		m.layers.set(1)
+		SCENE.add(m)*/
 
 		const pLight = new Three.PointLight("#01F0FF", 1, 20)
 
@@ -314,7 +323,6 @@ var Game = (function(w, func) {
 		pLight.shadow.mapSize.height = 1024 * 2
 		pLight.shadow.radius = 8
 		SCENE.add(pLight)
-
 
 		// render hero
 		window.hero = makeHero()
@@ -495,19 +503,17 @@ var Game = (function(w, func) {
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
 
-				//render layer0 boom
-				/*RENDERER.clear()
-				CAMERA.layers.set(1)
-				composer.render()*/
+			//	render layer0 boom
+			//	RENDERER.clear()
+			//	CAMERA.layers.set(1)
+			//	composer.render()
 
 				//render layer1 normal
-				//RENDERER.clearDepth()
-				//	CAMERA.layers.set(0)
+			//	RENDERER.clearDepth()
+			//	CAMERA.layers.set(0)
 				RENDERER.render(SCENE, CAMERA)
 
-
 				TWEEN.update()
-
 
 				if (typeof Obj.initAnim === "function") {
 					requestAnimationFrame(Obj.initAnim)

@@ -44,9 +44,7 @@ function CharacterControls(scene, model, orbitControl, camera) {
 			var directionOffset = self.directionOffset(key)
 
 			// update quaternions
-			var angleYCameraDirection = Math.atan2(
-				(self.camera.position.x - self.model.position.x),
-				(self.camera.position.z - self.model.position.z))
+			var angleYCameraDirection = Math.atan2((self.camera.position.x - self.model.position.x),(self.camera.position.z - self.model.position.z))
 	
 			//var angle = angleYCameraDirection + directionOffset
 			//self.model.rotation.y = angle
