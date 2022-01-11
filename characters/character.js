@@ -353,7 +353,7 @@ class Hero {
 				for (var i = 0; i < 10; i++) {
 
 					var geom = new Three.IcosahedronGeometry(3, 0);
-					var mat = new Three.MeshPhongMaterial({
+					var mat = new Three.MeshToonMaterial({
 						color: clr
 					});
 
@@ -441,7 +441,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 
 	self.renderEnemy = function() {
 
-		const mesh = new Three.Mesh(new Three.BoxGeometry(self.size.w, self.size.h, self.size.d), new Three.MeshPhongMaterial({ color: self.color }))
+		const mesh = new Three.Mesh(new Three.BoxGeometry(self.size.w, self.size.h, self.size.d), new Three.MeshToonMaterial({ color: self.color }))
 		mesh.position.set(self.position.x, self.position.y, self.position.z)
 		mesh.castShadow = true
 		mesh.receiveShadow = true
@@ -683,7 +683,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 
 				for (var i = 0; i < mesh.children.length; i++) {
 					if (mesh.children[i].type === "Mesh") {
-						mesh.children[i].material = new Three.MeshPhongMaterial()
+						mesh.children[i].material = new Three.MeshToonMaterial()
 
 						var c = mesh.children[i].name
 
@@ -707,7 +707,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 			for (var i = 0; i < 10; i++) {
 
 				var geom = new Three.TetrahedronGeometry(3, 0);
-				var mat = new Three.MeshPhongMaterial({
+				var mat = new Three.MeshToonMaterial({
 					color: "green"
 				});
 				var mesh = new Three.Mesh(geom, mat);
@@ -815,7 +815,7 @@ var EnemyBoss = function() {
 		mainBody.material.opacity = 0
 		this.mesh.add(mainBody)
 
-		this.Body = new Three.Mesh(new Three.BoxBufferGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshPhongMaterial({ color: 'green' }))
+		this.Body = new Three.Mesh(new Three.BoxBufferGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshToonMaterial({ color: 'green' }))
 		this.mesh.add(this.Body)
 
 		this.mesh.position.copy(this.pos)
@@ -930,7 +930,7 @@ var EnemyBoss = function() {
 				for (var i = 0; i < 10; i++) {
 
 					var geom = new Three.TetrahedronGeometry(8, 0);
-					var mat = new Three.MeshPhongMaterial({
+					var mat = new Three.MeshToonMaterial({
 						color: "green"
 					});
 					var mesh = new Three.Mesh(geom, mat);
@@ -998,7 +998,7 @@ const Heroes = {}
 
 class defaultHero extends Hero {
 
-	constructor(c, s) {
+	constructor() {
 		super()
 	}
 
@@ -1008,11 +1008,12 @@ class defaultHero extends Hero {
 		const mainBody = new Three.Mesh(new Three.BoxBufferGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshNormalMaterial())
 		mainBody.material.transparent = true
 		mainBody.material.opacity = 0
+		mainBody.material.visible = false
 		group.add(mainBody)
 
 		//	var maptxt = TxtLoader.load('assets/images/coin_reward.png')
 
-		const mesh = new Three.Mesh(new Three.BoxGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshPhongMaterial())
+		const mesh = new Three.Mesh(new Three.BoxGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshToonMaterial())
 		//	mesh.layers.set(1)
 		mesh.castShadow = true
 		mesh.receiveShadow = true

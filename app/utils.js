@@ -141,7 +141,7 @@ var Atom = function(scene, p, el) {
 
 									for (var i = 0; i < mesh.children.length; i++) {
 										if (mesh.children[i].type === "Mesh") {
-											mesh.children[i].material = new Three.MeshPhongMaterial()
+											mesh.children[i].material = new Three.MeshToonMaterial()
 
 											var c = mesh.children[i].name
 
@@ -249,9 +249,12 @@ var Atom = function(scene, p, el) {
 
 var Holo = function(s) {
 
-	var holo = new Three.Mesh(new Three.CylinderGeometry(4.5, 4.5, .09, 35), new Three.MeshPhongMaterial({ color: "lightblue" }))
+	var holo = new Three.Mesh(new Three.CylinderGeometry(4.5, 4.5, .09, 35), new Three.MeshToonMaterial({ color: "lightblue" }))
 	holo.material.transparent = true
-	holo.material.opacity = .2
+		
+	var mp = TextureLoader.load("assets/images/textures/field.png")
+	holo.material.map = mp
+	
 	holo.position.y = -0.1
 
 	window.SCENE.add(holo)
@@ -265,7 +268,7 @@ var Holo = function(s) {
 		var y = Math.floor(Math.random() * (4.5 - (-4.5)) + (-4.5));
 		var z = Math.floor(Math.random() * (4.5 - (-4.5)) + (-4.5));
 
-		var cube = new Three.Mesh(new Three.BoxGeometry(size, size, size), new Three.MeshPhongMaterial({ color: Profile.heroColor }))
+		var cube = new Three.Mesh(new Three.BoxGeometry(size, size, size), new Three.MeshToonMaterial({ color: Profile.heroColor }))
 		cube.position.set(x, y, z)
 		window.SCENE.add(cube)
 		cubes.push(cube)
@@ -326,7 +329,7 @@ function spawnBox(p) {
 
 		for (var i = 0; i < box.children.length; i++) {
 			if (box.children[i].type === "Mesh") {
-				box.children[i].material = new Three.MeshPhongMaterial()
+				box.children[i].material = new Three.MeshToonMaterial()
 				var c = box.children[i].name
 
 				if (c.length > 7) {

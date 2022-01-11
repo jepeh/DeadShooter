@@ -278,14 +278,14 @@ var Game = (function(w, func) {
 		$("#coin-txt").text(Profile.coins)
 
 		// floor
-		const floor = new Three.Mesh(new Three.BoxGeometry(305, 1, 305), new Three.MeshPhongMaterial({ color: "#191C25" }))
+		const floor = new Three.Mesh(new Three.BoxGeometry(305, 1, 305), new Three.MeshToonMaterial({ color: "#191C25" }))
 		floor.position.y = -1
 		floor.castShadow = true
 		floor.receiveShadow = true
 
 		SCENE.add(floor)
 
-		const border = new Three.Mesh(new Three.RingGeometry(148, 145, 4), new Three.MeshPhongMaterial({ color: "yellowgreen", side: Three.DoubleSide }))
+		const border = new Three.Mesh(new Three.RingGeometry(148, 145, 4), new Three.MeshToonMaterial({ color: "yellowgreen", side: Three.DoubleSide }))
 		border.position.y = 1
 		border.rotation.x = Math.PI / 2
 		border.rotation.z = Math.PI / 4
@@ -311,7 +311,7 @@ var Game = (function(w, func) {
 			RENDERER.autoClear = false
 			CAMERA.layers.enable(1)
 			
-			var m = new Three.Mesh(new Three.BoxGeometry(1,1,1), new Three.MeshPhongMaterial())
+			var m = new Three.Mesh(new Three.BoxGeometry(1,1,1), new Three.MeshToonMaterial())
 			m.position.x = 3
 			m.layers.set(1)
 			SCENE.add(m)*/
@@ -354,14 +354,23 @@ var Game = (function(w, func) {
 
 		ch()
 
-		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshPhongMaterial())
+		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 2.5, 30, 80), new Three.MeshToonMaterial())
+		cu.material.transparent = true
+		cu.openEnded = false
+		cu.position.set(0,-2, 0)
+
+		var mp = TextureLoader.load('assets/images/textures/field.png')
+		cu.material.map = mp
+		SCENE.add(cu)
+
+		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
 		gunrange.material.transparent = true
 		gunrange.material.opacity = 0
 		gunrange.position.copy(character.position)
 		SCENE.add(gunrange)
 
 		var fog = new Three.Fog("black", 70, 100)
-		//	SCENE.fog = fog
+			SCENE.fog = fog
 
 		TweenMax.to(character.scale, .9, {
 			x: 1,
@@ -372,6 +381,17 @@ var Game = (function(w, func) {
 				$("#playbtn").css("display", "grid")
 			}
 		})
+		TweenMax.to(cu.position, 1.2, {
+			x: 0,
+			y: .4,
+			z: 0,
+			easing: Power2.easingIn,
+			onComplete: function() {
+				$("#playbtn").css("display", "grid")
+			}
+		})
+		
+		
 
 		//*******************************************
 		// Change Color 
@@ -489,6 +509,7 @@ var Game = (function(w, func) {
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
 
+				cu.rotation.y = elapsedTime
 				//	render layer0 boom
 				//	RENDERER.clear()
 				//	CAMERA.layers.set(1)
@@ -759,7 +780,7 @@ var Game = (function(w, func) {
 
 			}, 1000)
 
-			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 25000 : 20000 : 4000
+			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 20000
 			var boxes = setInterval(() => {
 				Utils.spawnBox(phys)
 			}, boxesTime)
@@ -799,15 +820,22 @@ var Game = (function(w, func) {
 					window.atom.update(tt)
 				}
 
+				// first skill anim
+				if (window.shieldOn) {
+					hero.shield.rotation.y = Math.sin(tt) * 1.5
+					hero.shield.rotation.x = -Math.cos(tt) * 1.5
+					hero.shield.position.copy(hero.mesh.position)
+				}
+
+
 				for (var i = 0; i < window.mysteryboxes.length; i++) {
 					//	mysteryboxes[i].position.y = -Math.cos(tt) *2
 					mysteryboxes[i].rotation.y = tt * 1.5
-
 				}
 
 				hero.anim(tt)
 				hero.bulletUpdate(tt, phys)
-
+				 
 
 				// Boss Game
 				window.bossGame ? window.boss.update(delta) : false
@@ -816,6 +844,8 @@ var Game = (function(w, func) {
 				if (typeof Obj.loop === "function") {
 					window.requestAnimationFrame(Obj.loop)
 				}
+
+				return;
 			}
 
 			// start loop
@@ -912,23 +942,23 @@ var Game = (function(w, func) {
 
 			var ps = new Three.Vector3().copy(CAMERA.position)
 			var tarPs = new Three.Vector3(20, 30, 20)
-		
+
 			TweenMax.to(CAMERA.position, 1.8, {
 				x: tarPs.x,
 				y: tarPs.y,
 				z: tarPs.z,
 				easing: Power2.easingIn,
-				onUpdate: function(){
-				CAMERA.lookAt(character.position)
+				onUpdate: function() {
+					CAMERA.lookAt(character.position)
 				},
-				onComplete: function(){
+				onComplete: function() {
 					CAMERA.lookAt(character.position)
 					$("#gameover, #time, #home")
 						.css("display", "block")
 					$("#gameoverstat").css("display", "grid")
 				}
 			})
-		
+
 
 			CLOCK.start()
 
@@ -1028,11 +1058,11 @@ var Game = (function(w, func) {
 				x: tarPs.x,
 				y: tarPs.y,
 				z: tarPs.z,
-			
-				onUpdate: function(){
-				CAMERA.lookAt(character.position)
+
+				onUpdate: function() {
+					CAMERA.lookAt(character.position)
 				},
-				onComplete: function(){
+				onComplete: function() {
 					CAMERA.lookAt(character.position)
 					// display elements
 					$("#gamewin, #gamewin2, #home").css("display", "grid")
@@ -1040,7 +1070,7 @@ var Game = (function(w, func) {
 				}
 			})
 
-	
+
 			// Win animation
 			var winAnim = function() {
 
@@ -1076,14 +1106,14 @@ var Game = (function(w, func) {
 
 
 				TweenMax.to(character.scale, 1, {
-					x:1,
-					y:1,
-					z:1,
+					x: 1,
+					y: 1,
+					z: 1,
 					easing: Power2.easingIn,
-					onUpdate: function(){
+					onUpdate: function() {
 						CAMERA.lookAt(character.position)
 					},
-					onComplete: function(){
+					onComplete: function() {
 						CAMERA.lookAt(character.position)
 						character.rotation.y = -10
 						$("#playbtn, #energy-container, #coin-container").css("display", "grid")
