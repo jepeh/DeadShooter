@@ -684,7 +684,7 @@ var Game = (function(w, func) {
 
 						for (var s = 0; s < Skills.length; s++) {
 							if (skillname === Skills[s].name) {
-								Skills[s].func()
+								Skills[s].func(phys)
 								fReloaded = 0
 								$("#Skill1 img").css({
 									opacity: .3
@@ -831,7 +831,12 @@ var Game = (function(w, func) {
 				if (window.shieldOn) {
 					hero.shield.rotation.y = Math.sin(tt) * 1.5
 					hero.shield.rotation.x = -Math.cos(tt) * 1.5
-					hero.shield.position.copy(hero.mesh.position)
+					//hero.shield.position.copy(hero.mesh.position)
+					phys.setMeshPosition(hero.shield, {
+						x: hero.mesh.position.x,
+						y: 4,
+						z: hero.mesh.position.z
+					})
 				}
 
 

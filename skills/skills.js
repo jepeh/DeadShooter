@@ -82,8 +82,9 @@ var Skills = [
 	{
 		name: "forceField",
 		duration: 19000,
-		func: function() {
+		func: function(p) {
 			const field = new Three.Mesh(new Three.SphereGeometry(6), new Three.MeshToonMaterial())
+			p.addMesh(field, 1)
 			field.material.transparent = true
 			field.scale.set(.1, .1, .1)
 			field.material.side = 2
@@ -92,6 +93,7 @@ var Skills = [
 			field.material.map = map
 
 			field.position.copy(hero.mesh.position)
+			field.position.y = 4
 			SCENE.add(field)
 
 			TweenMax.to(field.scale, .8, { x: 1, y: 1, z: 1 })
@@ -100,14 +102,19 @@ var Skills = [
 			hero.shield = field
 
 			var ts = setTimeout(() => {
-				window.shieldOn = false
-				hero.shield = undefined
-				TweenMax.to(field.scale, .8, {
+				TweenMax.to(field.scale, .9, {
 					x: 0,
 					y: 0,
 					z: 0,
 					onComplete: function() {
+						p.setMeshPosition(field, {
+							x: 0, 
+							y: -10,
+							z: 0
+						})
 						if (field.parent) field.parent.remove(field)
+						hero.shield = undefined
+						window.shieldOn = false
 						return;
 					}
 				})

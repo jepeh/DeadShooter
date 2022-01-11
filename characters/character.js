@@ -561,44 +561,13 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 			}
 
 
-			if (window.shieldOn) {
-
-				// Hero to Enemy distance
-				var Ax = self.mesh.position.x - hero.mesh.position.x,
-					Az = self.mesh.position.z - hero.mesh.position.z;
-
-				var HTEDis = Math.abs(Math.sqrt((Ax * Ax) + (Az * Az)))
-
-				// Hero to Shield distance offset
-				var Bx = hero.mesh.position.x + 6 - hero.mesh.position.x,
-					Bz = hero.mesh.position.z + 6 - hero.mesh.position.z;
-
-				var HTDDis = Math.abs(Math.sqrt((Bx * Bx) + (Bz * Bz)))
-
-				if (HTEDis <= HTDDis) {
-					p.setMeshPosition(self.mesh, {
-						x: self.mesh.position.x,
-						y: self.mesh.position.y,
-						z: self.mesh.position.z
-					})
-				} else {
-					p.setMeshPosition(self.mesh, {
-						x: self.mesh.position.x + mX,
-						y: self.mesh.position.y,
-						z: self.mesh.position.z + mZ
-					})
-				}
-
-			} else {
-
 				// Update mesh position
 				p.setMeshPosition(self.mesh, {
 					x: self.mesh.position.x + mX,
 					y: self.mesh.position.y,
 					z: self.mesh.position.z + mZ
 				})
-			}
-
+			
 
 
 			//	self.mesh.rotation.y = self.rotateQuarternion
