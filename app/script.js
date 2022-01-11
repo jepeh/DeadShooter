@@ -354,15 +354,15 @@ var Game = (function(w, func) {
 
 		ch()
 
-		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 2.5, 30, 80), new Three.MeshToonMaterial())
+		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 4, 50, 60), new Three.MeshToonMaterial())
 		cu.material.transparent = true
 		cu.openEnded = false
-		cu.position.set(0,-2, 0)
+		cu.position.set(0,-4, 0)
 
 		var mp = TextureLoader.load('assets/images/textures/field.png')
 		cu.material.map = mp
 		SCENE.add(cu)
-
+		
 		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
 		gunrange.material.transparent = true
 		gunrange.material.opacity = 0
@@ -383,7 +383,7 @@ var Game = (function(w, func) {
 		})
 		TweenMax.to(cu.position, 1.2, {
 			x: 0,
-			y: .4,
+			y: -1.3,
 			z: 0,
 			easing: Power2.easingIn,
 			onComplete: function() {
@@ -780,9 +780,9 @@ var Game = (function(w, func) {
 
 			}, 1000)
 
-			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 20000
+			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 2000
 			var boxes = setInterval(() => {
-				Utils.spawnBox(phys)
+				Utils.spawnBox()
 			}, boxesTime)
 
 			Obj.boxes = boxes

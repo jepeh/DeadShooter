@@ -1,4 +1,5 @@
 import { Profile } from '../profiles/profile.js'
+import * as Three from '../src/three.js'
 
 var rewards = {
 	a: function() {
@@ -69,6 +70,80 @@ var rewards = {
 			hero.hp.style.width = hero.hpLeft + "%"
 		}
 		rew("assets/images/rewards/hp.png");
+
+
+		// function
+
+		window.gobo = false
+
+		var m = [
+			new Three.MeshToonMaterial({ transparent: true, opacity: .6 }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
+			]
+
+		var mp = TextureLoader.load("assets/images/textures/rod.png");
+
+		m[0].map = mp
+
+		var field = new Three.Mesh(new Three.CylinderGeometry(6, 6, 20, 50), m)
+		field.position.copy(hero.mesh.position)
+		field.scale.set(0, 0, 0)
+
+		window.SCENE.add(field)
+
+		var pss = []
+
+		for (var i = 0; i < 6; i++) {
+			var fd = new Three.Mesh(new Three.CylinderGeometry(.15, .15, 12, ), new Three.MeshToonMaterial({ transparent: true, map: mp }))
+			fd.material.needsUpdate = true
+			var pos = {
+				x: hero.mesh.position.x + Math.floor(Math.random() * (3 - (-3)) + (-3)),
+				y: hero.mesh.position.y + Math.floor(Math.random() * (8 -(-3)) + (-3)),
+				z: hero.mesh.position.z + Math.floor(Math.random() * (3 - (-3)) + (-3)),
+			}
+
+			fd.position.set(pos.x, pos.y, pos.z)
+			window.SCENE.add(fd)
+			pss.push(fd)
+		}
+
+		for (var i = 0; i < pss.length; i++) {
+			var m = pss[i]
+
+			TweenMax.to(pss[i].scale, .5, {
+				x: 1,
+				y: .2,
+				z: 1
+			})
+
+			TweenMax.to(pss[i].position, .3, {
+				x: pss[i].position.x,
+				y: 20,
+				z: pss[i].position.z,
+				onComplete: function() {
+					for (var ii = 0; ii < pss.length; ii++) {
+						pss[ii].material.dispose()
+						pss[ii].geometry.dispose()
+						window.SCENE.remove(pss[ii])
+					}
+				}
+			})
+
+		}
+
+		TweenMax.to(field.scale, .4, {
+			x: 1,
+			y: 1,
+			z: 1,
+			onComplete: function() {
+				window.gobo = true
+				
+				field.geometry.dispose()
+				window.SCENE.remove(field)
+			}
+		})
+
 		return {
 			reward: "+10% HP!"
 		}
