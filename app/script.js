@@ -355,7 +355,7 @@ var Game = (function(w, func) {
 		ch()
 
 		var mm = [
-			new Three.MeshToonMaterial({ transparent: true }),
+			new Three.MeshToonMaterial({ transparent: true}),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
 			]
@@ -367,6 +367,7 @@ var Game = (function(w, func) {
 
 		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 4, 50, 60), mm)
 		cu.position.set(0, 4, 0)
+	
 
 		SCENE.add(cu)
 
