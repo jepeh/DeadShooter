@@ -86,6 +86,7 @@ var Skills = [
 			const field = new Three.Mesh(new Three.SphereGeometry(6), new Three.MeshToonMaterial())
 			field.material.transparent = true
 			field.scale.set(.1, .1, .1)
+			field.material.side = 2
 
 			var map = window.TextureLoader.load('assets/images/textures/field.png')
 			field.material.map = map

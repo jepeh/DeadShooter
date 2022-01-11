@@ -50,14 +50,17 @@ var rewards = {
 		// plus 10% HP
 		if (hero.hpLeft >= 100) {}
 		else if (hero.hpLeft < 30) {
-			// 10% of its current hp
+			// 35% of its current hp
 			var hpToAdd = hero.hpLeft * .35
 			hero.hpLeft = hero.hpLeft + hpToAdd
 			if (hero.hpLeft > 100) {
 				hero.hpLeft = 100
 			}
 			hero.hp.style.width = hero.hpLeft + "%"
-
+			if (hero.hpLeft > 30) {
+				hero.hp.style.backgroundColor = "#11CCFF"
+				$("#critical").css("display", "none")
+			}
 		}
 		else
 		{
@@ -85,6 +88,7 @@ var rewards = {
 		var mp = TextureLoader.load("assets/images/textures/rod.png");
 
 		m[0].map = mp
+		m[0].side = 2
 
 		var field = new Three.Mesh(new Three.CylinderGeometry(6, 6, 20, 50), m)
 		field.position.copy(hero.mesh.position)
@@ -99,7 +103,7 @@ var rewards = {
 			fd.material.needsUpdate = true
 			var pos = {
 				x: hero.mesh.position.x + Math.floor(Math.random() * (3 - (-3)) + (-3)),
-				y: hero.mesh.position.y + Math.floor(Math.random() * (8 -(-3)) + (-3)),
+				y: hero.mesh.position.y + Math.floor(Math.random() * (8 - (-3)) + (-3)),
 				z: hero.mesh.position.z + Math.floor(Math.random() * (3 - (-3)) + (-3)),
 			}
 
@@ -111,13 +115,13 @@ var rewards = {
 		for (var i = 0; i < pss.length; i++) {
 			var m = pss[i]
 
-			TweenMax.to(pss[i].scale, .5, {
+			TweenMax.to(pss[i].scale, .7, {
 				x: 1,
 				y: .2,
 				z: 1
 			})
 
-			TweenMax.to(pss[i].position, .3, {
+			TweenMax.to(pss[i].position, .7, {
 				x: pss[i].position.x,
 				y: 20,
 				z: pss[i].position.z,
@@ -132,13 +136,13 @@ var rewards = {
 
 		}
 
-		TweenMax.to(field.scale, .4, {
+		TweenMax.to(field.scale, .9, {
 			x: 1,
 			y: 1,
 			z: 1,
 			onComplete: function() {
 				window.gobo = true
-				
+
 				field.geometry.dispose()
 				window.SCENE.remove(field)
 			}

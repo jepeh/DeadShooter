@@ -341,8 +341,7 @@ class Hero {
 				var fcns = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
 				var idx = Math.floor(Math.random() * (fcns.length - 1) + 1)
 
-				//rewards[fcns[idx]]();
-				rewards["f"]();
+				rewards[fcns[idx]]();
 
 				var parts = []
 				var pos = {
@@ -562,15 +561,50 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 			}
 
 
-			// Update mesh position
-			p.setMeshPosition(self.mesh, {
-				x: self.mesh.position.x + mX,
-				y: self.mesh.position.y,
-				z: self.mesh.position.z + mZ
-			})
+			if (window.shieldOn) {
+
+				// Hero to Enemy distance
+				var Ax = self.mesh.position.x - hero.mesh.position.x,
+					Az = self.mesh.position.z - hero.mesh.position.z;
+
+				var HTEDis = Math.abs(Math.sqrt((Ax * Ax) + (Az * Az)))
+
+				// Hero to Shield distance offset
+				var Bx = hero.mesh.position.x + 6 - hero.mesh.position.x,
+					Bz = hero.mesh.position.z + 6 - hero.mesh.position.z;
+
+				var HTDDis = Math.abs(Math.sqrt((Bx * Bx) + (Bz * Bz)))
+
+				if (HTEDis <= HTDDis) {
+					p.setMeshPosition(self.mesh, {
+						x: self.mesh.position.x,
+						y: self.mesh.position.y,
+						z: self.mesh.position.z
+					})
+				} else {
+					p.setMeshPosition(self.mesh, {
+						x: self.mesh.position.x + mX,
+						y: self.mesh.position.y,
+						z: self.mesh.position.z + mZ
+					})
+				}
+
+			} else {
+
+				// Update mesh position
+				p.setMeshPosition(self.mesh, {
+					x: self.mesh.position.x + mX,
+					y: self.mesh.position.y,
+					z: self.mesh.position.z + mZ
+				})
+			}
+
+
 
 			//	self.mesh.rotation.y = self.rotateQuarternion
-		} else {
+		}
+		// continue walking
+		else {
 
 
 			self.walkDirection.x = self.x
@@ -1010,6 +1044,7 @@ class defaultHero extends Hero {
 		mainBody.material.transparent = true
 		mainBody.material.opacity = 0
 		mainBody.material.visible = false
+		mainBody.scale.set(.4, .4, .4)
 		group.add(mainBody)
 
 		//	var maptxt = TxtLoader.load('assets/images/coin_reward.png')

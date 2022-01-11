@@ -354,15 +354,22 @@ var Game = (function(w, func) {
 
 		ch()
 
-		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 4, 50, 60), new Three.MeshToonMaterial())
-		cu.material.transparent = true
-		cu.openEnded = false
-		cu.position.set(0,-4, 0)
+		var mm = [
+			new Three.MeshToonMaterial({ transparent: true }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
+			]
 
 		var mp = TextureLoader.load('assets/images/textures/field.png')
-		cu.material.map = mp
+		mm[0].map = mp
+		mm[0].side = 2
+
+
+		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 4, 50, 60), mm)
+		cu.position.set(0, 4, 0)
+
 		SCENE.add(cu)
-		
+
 		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
 		gunrange.material.transparent = true
 		gunrange.material.opacity = 0
@@ -370,7 +377,7 @@ var Game = (function(w, func) {
 		SCENE.add(gunrange)
 
 		var fog = new Three.Fog("black", 70, 100)
-			SCENE.fog = fog
+		SCENE.fog = fog
 
 		TweenMax.to(character.scale, .9, {
 			x: 1,
@@ -390,8 +397,8 @@ var Game = (function(w, func) {
 				$("#playbtn").css("display", "grid")
 			}
 		})
-		
-		
+
+
 
 		//*******************************************
 		// Change Color 
@@ -705,7 +712,7 @@ var Game = (function(w, func) {
 											opacity: 1
 										})
 									}
-								}, 200);
+								}, 350);
 							}
 						}
 					}
@@ -750,7 +757,7 @@ var Game = (function(w, func) {
 											opacity: 1
 										})
 									}
-								}, 150);
+								}, 350);
 							}
 						}
 					}
@@ -835,7 +842,7 @@ var Game = (function(w, func) {
 
 				hero.anim(tt)
 				hero.bulletUpdate(tt, phys)
-				 
+
 
 				// Boss Game
 				window.bossGame ? window.boss.update(delta) : false
