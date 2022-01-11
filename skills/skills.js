@@ -78,6 +78,40 @@ var Skills = [
 			
 			return;
 		}
+	},
+	{
+		name: "forceField",
+		duration: 20000,
+		func: function() {
+			const field = new Three.Mesh(new Three.SphereGeometry(6), new Three.MeshPhongMaterial())
+			field.material.transparent = true
+			field.material.opacity = .5
+			field.scale.set(.1,.1,.1)
+			
+			var map = window.TextureLoader.load('assets/images/textures/shield.png')
+			field.material.map = map
+			
+			field.position.copy(hero.mesh.position)
+			SCENE.add(field)
+			
+			TweenMax.to(field.scale, .8, {x: 1, y:1, z:1})
+			var ii = 0
+			var i = setInterval(()=>{
+				if (ii > this.duration) {
+					clearInterval(i)
+					TweenMax.to(field.scale, .8, {x: 0, y: 0, z:0, onComplete: function(){
+						field.material.dispose()
+						field.geometry.dispose()
+						if (field.parent) field.parent.remove(field)
+					}})
+				} else {
+					ii += 6.5
+					field.rotation.y += .009
+					field.rotation.x += .009
+					field.position.copy(hero.mesh.position)
+				}
+			}, 1)
+		}
 	}
 	]
 

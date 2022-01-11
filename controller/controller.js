@@ -50,7 +50,7 @@ function CharacterControls(scene, model, orbitControl, camera) {
 			//self.model.rotation.y = angle
 		
 			self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angleYCameraDirection + directionOffset)
-			self.model.quaternion.rotateTowards(self.rotateQuarternion, .09)
+			self.model.quaternion.rotateTowards(self.rotateQuarternion, .15)
 			
 			// calculate direction
 			self.camera.getWorldDirection(self.walkDirection)

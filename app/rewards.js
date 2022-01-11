@@ -79,8 +79,8 @@ var rewards = {
 			// 10% of its current hp
 			var vToAdd = hero.velocity * .20
 			hero.velocity = hero.velocity + vToAdd
-			if (hero.velocity > 15) {
-				hero.velocity = 15
+			if (hero.velocity > 20) {
+				hero.velocity = 20
 			}
 			//hero.hp.style.width = hero.hpLeft + "%"
 		}

@@ -16,7 +16,7 @@ let Profile = {
 	countdownMin: 8,
 	keys: 0,
 	skills: [{
-		name: "laserBeam",
+		name: "forceField",
 		damage: 3,
 		img: "assets/images/skills/octaBullets.png"
 	}, {

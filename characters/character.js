@@ -244,7 +244,7 @@ class Hero {
 					window.gunrange.material.opacity = 0
 					clearTimeout(j)
 				}, 100)
-			} 
+			}
 		} else {
 			if (Profile.bombReload === 3) {} else {
 				var sr = setInterval(() => {
@@ -1012,7 +1012,7 @@ class defaultHero extends Hero {
 
 		//	var maptxt = TxtLoader.load('assets/images/coin_reward.png')
 
-		const mesh = new Three.Mesh(new Three.BoxGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshStandardMaterial())
+		const mesh = new Three.Mesh(new Three.BoxGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshPhongMaterial())
 		//	mesh.layers.set(1)
 		mesh.castShadow = true
 		mesh.receiveShadow = true

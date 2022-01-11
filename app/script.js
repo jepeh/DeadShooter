@@ -32,7 +32,7 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-				FBInstant.initializeAsync()
+			/*	FBInstant.initializeAsync()
 					.then(() => {
 						var loaded = 1;
 						var loading = setInterval(() => {
@@ -57,9 +57,9 @@ var Game = (function(w, func) {
 					})
 					.catch(e => {
 						console.log(e)
-					})
+					})*/
 
-		//	loc.searchParams.get("play") ? playResume() : play()
+			loc.searchParams.get("play") ? playResume() : play()
 
 
 		})
@@ -203,7 +203,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
 				})
 			} while (cnt <= 50)
 		}
@@ -253,6 +253,7 @@ var Game = (function(w, func) {
 
 
 		window.loader = new GLTFLoader()
+		window.TextureLoader = new Three.TextureLoader()
 
 		var d = 200
 
@@ -282,7 +283,7 @@ var Game = (function(w, func) {
 		floor.castShadow = true
 		floor.receiveShadow = true
 
-		//SCENE.add(floor)
+		SCENE.add(floor)
 
 		const border = new Three.Mesh(new Three.RingGeometry(148, 145, 4), new Three.MeshPhongMaterial({ color: "yellowgreen", side: Three.DoubleSide }))
 		border.position.y = 1
@@ -352,9 +353,6 @@ var Game = (function(w, func) {
 		}
 
 		ch()
-
-
-
 
 		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshPhongMaterial())
 		gunrange.material.transparent = true
@@ -686,7 +684,7 @@ var Game = (function(w, func) {
 											opacity: 1
 										})
 									}
-								}, 150);
+								}, 200);
 							}
 						}
 					}
