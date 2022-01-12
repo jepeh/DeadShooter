@@ -203,7 +203,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
 				})
 			} while (cnt <= 50)
 		}
@@ -285,11 +285,13 @@ var Game = (function(w, func) {
 
 		SCENE.add(floor)
 
-		const border = new Three.Mesh(new Three.RingGeometry(148, 145, 4), new Three.MeshToonMaterial({ color: "yellowgreen", side: Three.DoubleSide }))
+		window.borderwidth = 150
+
+		const border = new Three.Mesh(new Three.RingGeometry(305, 306, 4), new Three.MeshToonMaterial({ color: "red", side: Three.DoubleSide}))
 		border.position.y = 1
 		border.rotation.x = Math.PI / 2
 		border.rotation.z = Math.PI / 4
-		//SCENE.add(border)
+		SCENE.add(border)
 
 		/*	const renderScene = new RenderPass(SCENE, CAMERA)
 
@@ -486,7 +488,7 @@ var Game = (function(w, func) {
 				easing: Power2.easingIn,
 				onUpdate: function() {
 					CAMERA.lookAt(character.position)
-					nm = nm + .5
+					nm = nm + .8
 					if (nm > 100) {} else {
 						$("#bar").css("width", nm + "%")
 					}
@@ -1109,7 +1111,6 @@ var Game = (function(w, func) {
 				character.position.set(0, character.position.y, 0)
 				CAMERA.position.set(0, 20, 20)
 				CAMERA.lookAt(character.position)
-				character.scale.set(.1, .1, .1)
 				pLight.position.set(0, pLight.position.y, 0)
 
 				window.killed = 0

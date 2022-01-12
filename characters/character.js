@@ -112,27 +112,31 @@ class Hero {
 
 				// update quaternions
 				var angleYCameraDirection = Math.atan2(
-					(CAMERA.position.x - this.mesh.position.x),
-					(CAMERA.position.z - this.mesh.position.z))
+					(window.CAMERA.position.x - this.mesh.position.x),
+					(window.CAMERA.position.z - this.mesh.position.z))
 
-				var cx = this.mesh.position.x,
+				/*	var cx = this.mesh.position.x,
 					cz = this.mesh.position.z
 
 				var ex = this.nearEnemy[0].mesh.position.x,
 					ez = this.nearEnemy[0].mesh.position.z
 
-				var dy = ez - cz;
-				var dx = ex - cx;
-				var theta = Math.atan2(dy, dx) * 180 / Math.PI // range (-PI, PI]
-				// rads to degs, range (-180, 180]
-				//if (theta < 0) theta = 360 + theta; // range [0, 360)
-
-				TweenMax.to(this.mesh.rotation, .08, { x: 0, y: theta, z: 0 });
+				var dy = cz - ez;
+				var dx = cx - ex;
+				var theta = (dy / dx) * 180 / Math.PI // range (-PI, PI	rads to degs, range(-180, 180]
+*/
+				var dir = Math.atan2(
+					(this.nearEnemy[0].mesh.position.x - window.CAMERA.position.x),
+					(this.nearEnemy[0].mesh.position.z - window.CAMERA.position.z))
 
 				//var angle = angleYCameraDirection + directionOffset
 				//self.model.rotation.y = angle
-				//	this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection + theta)
-				//this.mesh.quaternion.rotateTowards(this.rotateQuarternion, .9)
+				//this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection)
+				//this.mesh.quaternion.rotateTowards(this.rotateQuarternion, 1.4)
+				//this.mesh.rotation.y = angleYCameraDirection
+				TweenMax.to(this.mesh.rotation, .4, {
+					y: angleYCameraDirection + dir
+				})
 
 				var shoot = setInterval(() => {
 
@@ -185,30 +189,18 @@ class Hero {
 					// rotate Mesh
 
 					//	var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x) * 180 / Math.PI
-
-					// update quaternions
 					var angleYCameraDirection = Math.atan2(
-						(CAMERA.position.x - this.mesh.position.x),
-						(CAMERA.position.z - this.mesh.position.z))
+						(window.CAMERA.position.x - this.mesh.position.x),
+						(window.CAMERA.position.z - this.mesh.position.z))
 
-					var cx = this.mesh.position.x,
-						cz = this.mesh.position.z
+					var dir = Math.atan2(
+						(window.boss.mesh.position.x - window.CAMERA.position.x),
+						(window.boss.mesh.position.z - window.CAMERA.position.z))
 
-					var ex = window.boss.x,
-						ez = window.boss.z
-
-					var dy = ez - cz;
-					var dx = ex - cx;
-					var theta = Math.atan2(dy, dx) * 180 / Math.PI // range (-PI, PI]
-					// rads to degs, range (-180, 180]
-					//if (theta < 0) theta = 360 + theta; // range [0, 360)
-
-					TweenMax.to(this.mesh.rotation, .08, { x: 0, y: theta, z: 0 });
-
-					//var angle = angleYCameraDirection + directionOffset
-					//self.model.rotation.y = angle
-					//	this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection + theta)
-					//this.mesh.quaternion.rotateTowards(this.rotateQuarternion, .9)
+					TweenMax.to(this.mesh.rotation, .4, {
+						y: angleYCameraDirection + dir
+					})
+					// update quaternions
 
 					var shoot = setInterval(() => {
 
@@ -561,14 +553,12 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 			}
 
 
-				// Update mesh position
-				p.setMeshPosition(self.mesh, {
-					x: self.mesh.position.x + mX,
-					y: self.mesh.position.y,
-					z: self.mesh.position.z + mZ
-				})
-			
-
+			// Update mesh position
+			p.setMeshPosition(self.mesh, {
+				x: self.mesh.position.x + mX,
+				y: self.mesh.position.y,
+				z: self.mesh.position.z + mZ
+			})
 
 			//	self.mesh.rotation.y = self.rotateQuarternion
 		}

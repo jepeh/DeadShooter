@@ -69,7 +69,7 @@ function CharacterControls(scene, model, orbitControl, camera) {
 			self.model.position.z = self.model.position.z + moveZ
 
 
-			if (self.model.position.x > 100) {
+			/*if (self.model.position.x > 100) {
 				self.model.position.x = 100
 				self.camera.position.copy(self.camera.position)
 			} else if (self.model.position.x < -100) {
@@ -83,6 +83,15 @@ function CharacterControls(scene, model, orbitControl, camera) {
 			} else if (self.model.position.z < -100) {
 				self.model.position.z = -100
 				self.camera.position.copy(self.camera.position)
+			}*/
+			
+			// Check boundings
+			
+			if (Math.abs(self.model.position.x) >= window.borderwidth) {
+				hero.hurt(2)
+				
+			} else if(Math.abs(self.model.position.z) >= window.borderwidth){
+				hero.hurt(2)
 			}
 
 			self.updateCameraTarget(moveX, moveZ)

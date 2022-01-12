@@ -289,7 +289,7 @@ var Holo = function(s) {
 
 		for (var i = 0; i < cubes.length; i++) {
 			var ii = i
-			TweenMax.to(cubes[i].position, 2, {
+			TweenMax.to(cubes[i].position, 1.4, {
 				x: cubes[i].position.x,
 				y: 10,
 				z: cubes[i].position.z,
@@ -301,7 +301,7 @@ var Holo = function(s) {
 					}
 				}
 			})
-			TweenMax.to(cubes[i].scale, .7, {
+			TweenMax.to(cubes[i].scale, 1, {
 				x: 1, 
 				y: .3,
 				z: 1
