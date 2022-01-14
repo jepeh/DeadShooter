@@ -20,7 +20,7 @@ let Profile = {
 		damage: 3,
 		img: "assets/images/skills/octaBullets.png"
 	}, {
-		name: "dwarfism",
+		name: "laserBeam",
 		damage: 0.8, // scaling down targets to 80%
 		img: "assets/images/skills/dwarfism.png"
 	}],

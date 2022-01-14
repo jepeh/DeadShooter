@@ -269,9 +269,9 @@ var Holo = function(s) {
 	for (var cu = 0; cu < 8; cu++) {
 
 		var size = Math.random() * (.2 - .1) + .1;
-		var x = Math.floor(Math.random() * (3.5 - (-3.5)) + (-3.5));
-		var y = Math.floor(Math.random() * (2 - (-2)) + (-2));
-		var z = Math.floor(Math.random() * (3.5 - (-3.5)) + (-3.5));
+		var x = Math.floor(Math.random() * (3 - (-3)) + (-3));
+		var y = Math.floor(Math.random() * (1 - (-5)) + (-5));
+		var z = Math.floor(Math.random() * (3 - (-3)) + (-3));
 
 		var cube = new Three.Mesh(new Three.CylinderGeometry(.1, .1, 20), m)
 		cube.position.set(x, y, z)
@@ -291,7 +291,7 @@ var Holo = function(s) {
 			var ii = i
 			TweenMax.to(cubes[i].position, 1.4, {
 				x: cubes[i].position.x,
-				y: 10,
+				y: 22,
 				z: cubes[i].position.z,
 				easing: Power2.easingIn,
 				onComplete: function() {

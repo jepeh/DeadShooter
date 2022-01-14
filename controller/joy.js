@@ -106,13 +106,13 @@ var JoyStick = (function(container, parameters)
 
 		// Prevent the browser from doing its default thing (scroll, zoom)
 		event.preventDefault();
-		if (event.targetTouches[0].target === canvas)
+		if (event.targetTouches[0].target === canvas && window.gobo)
 		{
 
-		
-				joy.GetDir()
-			
-			
+
+			joy.GetDir()
+
+
 			movedX = event.targetTouches[0].pageX;
 			movedY = event.targetTouches[0].pageY;
 			// Manage offset
@@ -133,6 +133,14 @@ var JoyStick = (function(container, parameters)
 			drawInternal();
 
 
+		} else {
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			// Redraw object
+		
+			movedX = centerX;
+			movedY = centerY;
+			
+				drawInternal();
 		}
 	}
 

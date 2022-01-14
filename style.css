@@ -667,7 +667,7 @@ span>p {
 	position: relative;
 	width: 100%;
 	height: 100%;
-
+	overflow: hidden
 }
 
 #energy-container {
@@ -988,6 +988,7 @@ span>p {
 	white-space: nowrap;
 	overflow-x: hidden;
 	padding-bottom: 20px;
+	display: none;
 	animation: pop .5s cubic-bezier(0.19, 1, 0.22, 1)
 }
 
@@ -1159,6 +1160,92 @@ span>p {
 	background: linear-gradient(transparent, #FF3A3AD1)
 }
 
+#inventory-wrapper 
+{
+	position: relative; 
+	height: 100%;
+	width: 100%;
+	display: grid;
+	grid-template-rows: 10% 10% 80%
+}
+.inventory{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	justify-content: center;
+	align-items: center
+}
+#inv-header {
+	display: grid;
+	grid-template-columns: 50% 50%;
+}
+#inv-header p {
+	position: relative;
+	font-family: 'QS-M';
+	font-size: 5vw;
+	text-align: left;
+	
+	color: white
+}
+#inv-header div {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	display: grid;
+	grid-template-columns: 50% 50%
+}
+#inv-header div div {
+	display: grid;
+	grid-template-columns: 40% 60%;
+	background-color: #49494930;
+	height: 50%;
+	width: 90%;
+	border-radius: 3px
+}
+#inv-header div div p {
+	position: relative;
+	margin: auto;
+	text-align: right;
+	margin-right: 10px;
+	font-size: 3.5vw
+}
+#inv-header div div img {
+	position: relative;
+	margin: auto;
+	width: 50%
+}
+
+#inv-list {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 25% 25% 25% 25%;
+	justify-content: center;
+	align-items: center
+}
+.inv-lists {
+	position: relative;
+	width: 90%;
+	font-family: "QS-L";
+	margin: auto;
+	transform: skew(-30deg);
+	color: white
+}
+.inv-lists:active {
+	background: linear-gradient(to left, #06092754, #0FBAD599);
+}
+.inv-lists p {
+	font-size: 4vw;
+	text-align: center;
+	padding: 2px;
+	transform: skew(30deg)
+}
+#inv-body {
+	
+}
 /*
 LOADER
 */

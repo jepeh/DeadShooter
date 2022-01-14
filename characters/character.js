@@ -87,6 +87,7 @@ class Hero {
 			}
 
 			if (this.nearEnemy[0] && window.gobo) {
+				//this.mesh.rotation.y = 0
 				window.gobo = false
 				Profile.bombReload = Profile.bombReload - 1
 
@@ -109,11 +110,8 @@ class Hero {
 				// rotate Mesh
 
 				//	var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x) * 180 / Math.PI
-
+				//var gun = window.SCENE.getObjectByName("gun")
 				// update quaternions
-				var angleYCameraDirection = Math.atan2(
-					(window.CAMERA.position.x - this.mesh.position.x),
-					(window.CAMERA.position.z - this.mesh.position.z))
 
 				/*	var cx = this.mesh.position.x,
 					cz = this.mesh.position.z
@@ -124,25 +122,33 @@ class Hero {
 				var dy = cz - ez;
 				var dx = cx - ex;
 				var theta = (dy / dx) * 180 / Math.PI // range (-PI, PI	rads to degs, range(-180, 180]
+*/ //	this.mesh.rotation.y = 0
+				var angleYCameraDirection = Math.atan2(
+					(this.nearEnemy[0].mesh.position.x - this.mesh.position.x),
+					(this.nearEnemy[0].mesh.position.z - this.mesh.position.z))
+
+				/*	var CameraDirection = Math.atan2(
+					(window.CAMERA.position.x - this.mesh.position.x),
+					(window.CAMERA.position.z - this.mesh.position.z))
 */
-				var dir = Math.atan2(
-					(this.nearEnemy[0].mesh.position.x - window.CAMERA.position.x),
-					(this.nearEnemy[0].mesh.position.z - window.CAMERA.position.z))
 
 				//var angle = angleYCameraDirection + directionOffset
 				//self.model.rotation.y = angle
 				//this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection)
 				//this.mesh.quaternion.rotateTowards(this.rotateQuarternion, 1.4)
 				//this.mesh.rotation.y = angleYCameraDirection
-				TweenMax.to(this.mesh.rotation, .4, {
-					y: angleYCameraDirection + dir
+
+				//	this.mesh.rotation.y > 1 ? this.mesh.rotation.y = this.mesh.rotation.y - angleYCameraDirection : this.mesh.rotation.y = this.mesh.rotation.y + angleYCameraDirection
+
+				TweenMax.to(this.mesh.rotation, .25, {
+					y: angleYCameraDirection
+					
 				})
 
 				var shoot = setInterval(() => {
-
 					if (sts > 2) {
-						window.gobo = true
 						clearInterval(shoot);
+						window.gobo = true
 					} else {
 						sts++
 						var b = hero.renderBullet()
@@ -189,37 +195,32 @@ class Hero {
 					// rotate Mesh
 
 					//	var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x) * 180 / Math.PI
-					var angleYCameraDirection = Math.atan2(
-						(window.CAMERA.position.x - this.mesh.position.x),
-						(window.CAMERA.position.z - this.mesh.position.z))
+	var angleYCameraDirection = Math.atan2(
+					(window.boss.mesh.position.x - this.mesh.position.x),
+					(window.boss.mesh.position.z - this.mesh.position.z))
+					
+					TweenMax.to(this.mesh.rotation, .25, {
+						y: angleYCameraDirection,
+						onComplete: function() {
+							var shoot = setInterval(() => {
+								if (sts > 2) {
+									window.gobo = true
+									clearInterval(shoot);
+								} else {
+									sts++
+									var b = hero.renderBullet()
+									b.vtr = {
+										x: window.boss.x,
+										z: window.boss.z
+									}
+									window.SCENE.add(b)
+									window.droppedBomb.push(b)
+								}
 
-					var dir = Math.atan2(
-						(window.boss.mesh.position.x - window.CAMERA.position.x),
-						(window.boss.mesh.position.z - window.CAMERA.position.z))
-
-					TweenMax.to(this.mesh.rotation, .4, {
-						y: angleYCameraDirection + dir
+							}, 110)
+						}
 					})
 					// update quaternions
-
-					var shoot = setInterval(() => {
-
-						if (sts > 2) {
-							window.gobo = true
-							clearInterval(shoot);
-						} else {
-							sts++
-							var b = hero.renderBullet()
-							b.vtr = {
-								x: window.boss.x,
-								z: window.boss.z
-							}
-							window.SCENE.add(b)
-							window.droppedBomb.push(b)
-						}
-
-					}, 150)
-
 
 
 				} else {
@@ -539,7 +540,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 			else if (originZ < enemyZ && originX > enemyX) {
 				self.x = h.position.x - self.mesh.position.x
 				self.z = h.position.z - self.mesh.position.z
-				self.mesh.rotation.y > angleYCameraDirection ? self.mesh.rotation.y-- : self.mesh.rotation.y++
+				//	self.mesh.rotation.y > angleYCameraDirection ? self.mesh.rotation.y-- : self.mesh.rotation.y++
 			}
 			// Q3
 			else if (originZ > enemyZ && enemyX > originX) {
@@ -551,6 +552,13 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 				self.x = h.position.x - self.mesh.position.x
 				self.z = h.position.z - self.mesh.position.z
 			}
+			var angleYCameraDirection = Math.atan2(
+				(self.mesh.position.x - hero.mesh.position.x),
+				(self.mesh.position.z - hero.mesh.position.z))
+
+			TweenMax.to(self.mesh.rotation, .25, {
+				y: angleYCameraDirection
+			})
 
 
 			// Update mesh position
@@ -1012,9 +1020,11 @@ class defaultHero extends Hero {
 		//	mesh.layers.set(1)
 		mesh.castShadow = true
 		mesh.receiveShadow = true
-		mesh.flatShading = true
+
 		//mesh.layers.enable(1);
 
+		// GUN source
+		
 		group.add(mesh)
 		group.position.set(this.position.x, this.position.y, this.position.z)
 

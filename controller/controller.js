@@ -30,28 +30,31 @@ function CharacterControls(scene, model, orbitControl, camera) {
 			key === "NE" ||
 			key === "SW" ||
 			key === "SE") {
-
 			isTrue = true
 		}
 
 		// Bullet firing
-
 		// update bullets
-
 
 		if (isTrue && window.gobo) {
 			// diagonal movement angle offset
 			var directionOffset = self.directionOffset(key)
 
 			// update quaternions
-			var angleYCameraDirection = Math.atan2((self.camera.position.x - self.model.position.x),(self.camera.position.z - self.model.position.z))
-	
-			//var angle = angleYCameraDirection + directionOffset
-			//self.model.rotation.y = angle
-		
-			self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angleYCameraDirection + directionOffset)
-			self.model.quaternion.rotateTowards(self.rotateQuarternion, .15)
+			var angleYCameraDirection = Math.atan2(
+				(self.model.position.x - self.camera.position.x),
+				(self.model.position.z - self.camera.position.z))
+
+				var angle = angleYCameraDirection + directionOffset
+			//	angle >= 1 ? angle = angle - 1 : angle = angle
 			
+				TweenMax.to(self.model.rotation, .6, {
+					y: angle
+				})
+
+		//	self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angleYCameraDirection + directionOffset)
+		//	self.model.quaternion.rotateTowards(self.rotateQuarternion, .2)
+
 			// calculate direction
 			self.camera.getWorldDirection(self.walkDirection)
 			self.walkDirection.y = 0
@@ -84,43 +87,39 @@ function CharacterControls(scene, model, orbitControl, camera) {
 				self.model.position.z = -100
 				self.camera.position.copy(self.camera.position)
 			}*/
-			
+
 			// Check boundings
-			
-			if (Math.abs(self.model.position.x) >= window.borderwidth) {
+
+			/*if (Math.abs(self.model.position.x) >= window.borderwidth) {
 				hero.hurt(2)
 				
 			} else if(Math.abs(self.model.position.z) >= window.borderwidth){
 				hero.hurt(2)
-			}
+			}*/
 
 			self.updateCameraTarget(moveX, moveZ)
 			isTrue = false
 			window.gunrange.position.copy(self.model.position)
 			light.position.set(self.model.position.x, 1.5, self.model.position.z)
 			//	return {x: self.model.position.x+moveX, y: self.model.position.y, z: self.model.position.z+moveZ}
-		}
-
-		return false
+		} 
+		return;
 	}
 
 
 	self.updateCameraTarget = function(moveX, moveZ) {
 
-			self.camera.position.x += moveX
-			self.camera.position.z += moveZ
-			
-			
-			self.cameraTarget.x = self.model.position.x
-			self.cameraTarget.y = self.model.position.y
-			self.cameraTarget.z = self.model.position.z
-			self.orbitControl.target = self.cameraTarget
+		self.camera.position.x += moveX
+		self.camera.position.z += moveZ
 
+		self.cameraTarget.x = self.model.position.x
+		self.cameraTarget.y = self.model.position.y
+		self.cameraTarget.z = self.model.position.z
+		self.orbitControl.target = self.cameraTarget
 
 		// update camera target 
-
 		self.camera.lookAt(self.model.position)
-
+		return;
 	}
 
 	self.directionOffset = function(key) {

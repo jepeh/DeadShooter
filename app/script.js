@@ -165,7 +165,7 @@ var Game = (function(w, func) {
 		window.droppedCoins = []
 		window.inGame = false
 		window.firstS = true
-		window.secondS = false
+		window.secondS = true
 		window.mysteryboxes = []
 
 		CAMERA.layers.enable(0)
@@ -284,9 +284,7 @@ var Game = (function(w, func) {
 		floor.receiveShadow = true
 
 		SCENE.add(floor)
-
-		window.borderwidth = 150
-
+		
 		const border = new Three.Mesh(new Three.RingGeometry(305, 306, 4), new Three.MeshToonMaterial({ color: "red", side: Three.DoubleSide}))
 		border.position.y = 1
 		border.rotation.x = Math.PI / 2
@@ -351,7 +349,6 @@ var Game = (function(w, func) {
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)
 			SCENE.add(window.character)
-
 		}
 
 		ch()
@@ -369,9 +366,10 @@ var Game = (function(w, func) {
 
 		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 4, 50, 60), mm)
 		cu.position.set(0, 4, 0)
-	
 
 		SCENE.add(cu)
+		
+		
 
 		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
 		gunrange.material.transparent = true
@@ -515,16 +513,18 @@ var Game = (function(w, func) {
 		function Anim() {
 
 			window.initAnim = function() {
+				var now = Date.now()/400
+				
+				
 				var elapsedTime = CLOCK.getElapsedTime()
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
-
 				cu.rotation.y = elapsedTime
 				//	render layer0 boom
 				//	RENDERER.clear()
 				//	CAMERA.layers.set(1)
 				//	composer.render()
-
+			
 				//render layer1 normal
 				//	RENDERER.clearDepth()
 				//	CAMERA.layers.set(0)
@@ -733,7 +733,7 @@ var Game = (function(w, func) {
 						for (var s = 0; s < Skills.length; s++) {
 							if (skillname === Skills[s].name) {
 								Skills[s].func()
-								fReloaded = 0
+								sReloaded = 0
 								$("#Skill2 img").css({
 									opacity: .3
 								})
@@ -741,7 +741,7 @@ var Game = (function(w, func) {
 								var r = 1;
 								var rel = setInterval(() => {
 									if (r > 100) {
-										fReloaded = 100
+										sReloaded = 100
 										$("#Skill2 div").css({
 											top: "100%",
 											height: "0%",
@@ -790,7 +790,7 @@ var Game = (function(w, func) {
 
 			}, 1000)
 
-			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 2000
+			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 20000
 			var boxes = setInterval(() => {
 				Utils.spawnBox()
 			}, boxesTime)
@@ -825,7 +825,7 @@ var Game = (function(w, func) {
 
 				//update bombs
 				var tt = CLOCK.getElapsedTime()
-
+				cu.rotation.y = tt *1.6
 				if (window.atomBomb) {
 					window.atom.update(tt)
 				}
@@ -981,7 +981,7 @@ var Game = (function(w, func) {
 
 				var b = CLOCK.getElapsedTime()
 				character.rotation.y = Math.sin(b) * .6
-
+				cu.rotation.y = b *1.6
 				RENDERER.render(SCENE, CAMERA)
 				hero.anim(b)
 				CAMERA.lookAt(character.position)
@@ -1090,7 +1090,7 @@ var Game = (function(w, func) {
 			var winAnim = function() {
 
 				var b = CLOCK.getElapsedTime()
-
+				cu.rotation.y = b*1.6
 				character.rotation.y = Math.sin(b) * .6
 
 				hero.anim(b)
