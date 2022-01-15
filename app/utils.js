@@ -1,6 +1,7 @@
 import { Profile, Sounds } from "../profiles/profile.js"
 import * as sounds from './audio.js'
 import * as Three from '../src/three.js'
+import { GAME } from './script.js'
 
 $("#thanks").on('click', () => {
 	$("#cover, #ccnscvr").css("display", "none")
@@ -23,6 +24,84 @@ $("#sound").on('click', function() {
 	Sounds.sound ? Sounds.sound = false : Sounds.sound = true
 
 	playSound(sounds.toggle)
+})
+$("#inv").on('click', () => {
+	$("#settings-wrapper")
+		.css({
+			left: "150%",
+			display: "none"
+		})
+		
+	playSound(sounds.setting)
+	
+	$("#menu-close").attr("status", "busy")
+
+	var inv = `<div id="inventory-wrapper">
+				<div class="inventory" id="inv-header">
+					<p>INVENTORY</p>
+					<div>
+						<div>
+							<p>x0</p>
+							<img id="energy-img" src="assets/images/energy.png" />
+						</div>
+						<div>
+							<p>0</p>
+							<img id="coin-img" src="assets/images/coin.png" />
+						</div>
+					</div>
+				</div>
+				<div class="inventory" id="inv-list">
+					<div class="inv-lists">
+						<p>ITEMS</p>
+					</div>
+					<div class="inv-lists">
+						<p>SKILLS</p>
+					</div>
+					<div class="inv-lists">
+						<p>SKINS</p>
+					</div>
+					<div class="inv-lists">
+						<p>BULLETS</p>
+					</div>
+				</div>
+				<div class="inventory" id="inv-body"></div>
+			</div>`
+
+	$("#menu-container").prepend(inv)
+})
+
+//*******************************************
+// MENU 
+//*******************************************
+$("#settings").on('click', function() {
+	$("#menu").css('display', "grid")
+	$("#alert").css('display', "none")
+
+	playSound(sounds.setting)
+
+	// fetch settings interface
+
+})
+$("#menu-close").on('click', function() {
+
+	if ($("#menu-close").attr("status") === "busy") {
+		var parent = document.getElementById("menu-container")
+		parent.removeChild(parent.children[0])
+		$("#menu-close").attr("status", "notbusy")
+		$("#settings-wrapper")
+			.css({
+				left: "0",
+				display: "grid"
+			})
+	} else {
+		$("#menu").css('display', "none")
+	}
+	playSound(sounds.toggle)
+
+})
+
+$("#alert").on('click', function() {
+	$("#alert").css("display", "none")
 })
 
 
@@ -178,8 +257,9 @@ var Atom = function(scene, p, el) {
 
 
 								$("#zombiecount p").html("Zombies x" + window.enemies.length)
-
-
+								if (window.enemyList.length <= 0) {
+									GAME.EnemyBoss()
+								}
 							}
 
 							window.atom.mesh.geometry.dispose()
@@ -249,10 +329,10 @@ var Atom = function(scene, p, el) {
 
 var Holo = function(s) {
 
-		var m = [
-			new Three.MeshToonMaterial({transparent: true}),
-			new Three.MeshToonMaterial({transparent: true, opacity: 0}),
-			new Three.MeshToonMaterial({transparent: true, opacity: 0})
+	var m = [
+			new Three.MeshToonMaterial({ transparent: true }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
 			]
 
 	var mp = window.TextureLoader.load("assets/images/textures/halo.png")
@@ -260,8 +340,8 @@ var Holo = function(s) {
 	m[0].map = mp
 	m[0].side = 2
 	var holo = new Three.Mesh(new Three.CylinderGeometry(3.7, 3.7, 16, 35), m)
-	holo.scale.set(0,1,0)
-	
+	holo.scale.set(0, 1, 0)
+
 	window.SCENE.add(holo)
 
 	var cubes = []
@@ -302,7 +382,7 @@ var Holo = function(s) {
 				}
 			})
 			TweenMax.to(cubes[i].scale, 1, {
-				x: 1, 
+				x: 1,
 				y: .3,
 				z: 1
 			})

@@ -406,30 +406,6 @@ var Game = (function(w, func) {
 		//*******************************************
 		window.colors = ["orange", "blue", "violet", "yellow", "white", "pink"]
 
-		//*******************************************
-		// MENU 
-		//*******************************************
-		$("#settings").on('click', function() {
-			$("#menu").css('display', "grid")
-			$("#alert").css('display', "none")
-
-			Utils.playSound(Sound.setting)
-
-			// fetch settings interface
-
-		})
-		$("#menu-close").on('click', function() {
-			$("#menu").css('display', "none")
-
-
-			Utils.playSound(Sound.toggle)
-
-		})
-
-		$("#alert").on('click', function() {
-			$("#alert").css("display", "none")
-		})
-
 		/*
 		***********************************************
 		MAIN GAME
@@ -592,7 +568,7 @@ var Game = (function(w, func) {
 
 			function updateSkills() {
 				for (var i = 0; i < Profile.skills.length; i++) {
-					$(`#Skill${i+1}`).append(`<img class="skillImg" src="assets/images/coin.png"/>`)
+					$(`#Skill${i+1}`).append(`<img class="skillImg" src="${Profile.skills[i].img}"/>`)
 					$(`#Skill${i+1}`).attr("name", Profile.skills[i].name)
 
 				}

@@ -10,7 +10,7 @@ let Profile = {
 	energy: 6,
 	mapRadius: 90,
 	atomBombRadius: 20,
-	atomLevel: 0,
+	atomLevel: 100,
 	playGame: false,
 	gunRange: 20,
 	countdownMin: 8,
@@ -18,11 +18,11 @@ let Profile = {
 	skills: [{
 		name: "forceField",
 		damage: 3,
-		img: "assets/images/skills/octaBullets.png"
+		img: "assets/images/textures/field.png"
 	}, {
 		name: "laserBeam",
 		damage: 0.8, // scaling down targets to 80%
-		img: "assets/images/skills/dwarfism.png"
+		img: "assets/images/textures/gun.png"
 	}],
 	Heroes: [
 		{

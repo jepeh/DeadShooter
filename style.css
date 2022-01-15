@@ -988,7 +988,7 @@ span>p {
 	white-space: nowrap;
 	overflow-x: hidden;
 	padding-bottom: 20px;
-	display: none;
+	display: grid;
 	animation: pop .5s cubic-bezier(0.19, 1, 0.22, 1)
 }
 
@@ -1166,7 +1166,8 @@ span>p {
 	height: 100%;
 	width: 100%;
 	display: grid;
-	grid-template-rows: 10% 10% 80%
+	grid-template-rows: 10% 10% 80%;
+	animation: pop .6s cubic-bezier(0.19, 1, 0.22, 1)
 }
 .inventory{
 	position: relative;
@@ -1185,7 +1186,7 @@ span>p {
 	font-family: 'QS-M';
 	font-size: 5vw;
 	text-align: left;
-	
+	margin-left: 20px;
 	color: white
 }
 #inv-header div {
@@ -1199,10 +1200,10 @@ span>p {
 #inv-header div div {
 	display: grid;
 	grid-template-columns: 40% 60%;
-	background-color: #49494930;
+	background-color: #42445A36;
 	height: 50%;
 	width: 90%;
-	border-radius: 3px
+	border-radius: 6px
 }
 #inv-header div div p {
 	position: relative;
@@ -1228,14 +1229,19 @@ span>p {
 }
 .inv-lists {
 	position: relative;
-	width: 90%;
+	width: 80%;
 	font-family: "QS-L";
 	margin: auto;
 	transform: skew(-30deg);
-	color: white
+	color: white;
 }
 .inv-lists:active {
 	background: linear-gradient(to left, #06092754, #0FBAD599);
+	border-radius: 5px
+}
+.inv-lists:nth-child(1) {
+	background: linear-gradient(to left, #06092754, #0FBAD599);
+	border-radius: 5px
 }
 .inv-lists p {
 	font-size: 4vw;
