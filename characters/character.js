@@ -1023,11 +1023,12 @@ class defaultHero extends Hero {
 		group.add(mesh)
 	
 		const muzzle = new Three.Mesh(new Three.BoxGeometry(1, 1, 1), new Three.MeshToonMaterial({ transparent: true, opacity: 1}))
-		muzzle.position.set(0,2,4)
-		group.add(muzzle)
 		
+		muzzle.position.set(0,1,6)
+		group.add(muzzle)
 		this.mesh = group
-
+		
+ 
 		// update coins
 		$("#bulletCount").text("Bullets x" + this.bullets)
 		$("#coinstxt").text("coins x" + this.coins)
