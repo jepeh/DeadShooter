@@ -284,8 +284,8 @@ var Game = (function(w, func) {
 		floor.receiveShadow = true
 
 		SCENE.add(floor)
-		
-		const border = new Three.Mesh(new Three.RingGeometry(305, 306, 4), new Three.MeshToonMaterial({ color: "red", side: Three.DoubleSide}))
+
+		const border = new Three.Mesh(new Three.RingGeometry(305, 306, 4), new Three.MeshToonMaterial({ color: "red", side: Three.DoubleSide }))
 		border.position.y = 1
 		border.rotation.x = Math.PI / 2
 		border.rotation.z = Math.PI / 4
@@ -354,7 +354,7 @@ var Game = (function(w, func) {
 		ch()
 
 		var mm = [
-			new Three.MeshToonMaterial({ transparent: true}),
+			new Three.MeshToonMaterial({ transparent: true }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
 			]
@@ -368,8 +368,6 @@ var Game = (function(w, func) {
 		cu.position.set(0, 4, 0)
 
 		SCENE.add(cu)
-		
-		
 
 		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
 		gunrange.material.transparent = true
@@ -489,9 +487,9 @@ var Game = (function(w, func) {
 		function Anim() {
 
 			window.initAnim = function() {
-				var now = Date.now()/400
-				
-				
+				var now = Date.now() / 400
+
+
 				var elapsedTime = CLOCK.getElapsedTime()
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
@@ -500,7 +498,7 @@ var Game = (function(w, func) {
 				//	RENDERER.clear()
 				//	CAMERA.layers.set(1)
 				//	composer.render()
-			
+
 				//render layer1 normal
 				//	RENDERER.clearDepth()
 				//	CAMERA.layers.set(0)
@@ -801,7 +799,7 @@ var Game = (function(w, func) {
 
 				//update bombs
 				var tt = CLOCK.getElapsedTime()
-				cu.rotation.y = tt *1.6
+				cu.rotation.y = tt * 1.6
 				if (window.atomBomb) {
 					window.atom.update(tt)
 				}
@@ -957,7 +955,7 @@ var Game = (function(w, func) {
 
 				var b = CLOCK.getElapsedTime()
 				character.rotation.y = Math.sin(b) * .6
-				cu.rotation.y = b *1.6
+				cu.rotation.y = b * 1.6
 				RENDERER.render(SCENE, CAMERA)
 				hero.anim(b)
 				CAMERA.lookAt(character.position)
@@ -1066,7 +1064,7 @@ var Game = (function(w, func) {
 			var winAnim = function() {
 
 				var b = CLOCK.getElapsedTime()
-				cu.rotation.y = b*1.6
+				cu.rotation.y = b * 1.6
 				character.rotation.y = Math.sin(b) * .6
 
 				hero.anim(b)
