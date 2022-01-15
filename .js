@@ -94,18 +94,17 @@ var geometry = new THREE.TorusKnotBufferGeometry(1, 0.3, 128, 16);
 var material = THREE.extendMaterial(THREE.MeshStandardMaterial, {
 
 
-  // Will be prepended to vertex and fragment code
+	// Will be prepended to vertex and fragment code
 
-  header: 'varying vec3 vNN; varying vec3 vEye;',
-  fragmentHeader: 'uniform vec3 fresnelColor;',
+	header: 'varying vec3 vNN; varying vec3 vEye;',
+	fragmentHeader: 'uniform vec3 fresnelColor;',
 
 
-  // Insert code lines by hinting at a existing
+	// Insert code lines by hinting at a existing
 
-  vertex: {
-    // Inserts the line after #include <fog_vertex>
-    '#include <fog_vertex>': `
-
+	vertex: {
+		// Inserts the line after #include <fog_vertex>
+		'#include <fog_vertex>': `
 
           mat4 LM = modelMatrix;
           LM[2][3] = 0.0;
@@ -115,22 +114,26 @@ var material = THREE.extendMaterial(THREE.MeshStandardMaterial, {
 
           vec4 GN = LM * vec4(objectNormal.xyz, 1.0);
           vNN = normalize(GN.xyz);
-          vEye = normalize(GN.xyz-cameraPosition);` },
+          vEye = normalize(GN.xyz-cameraPosition);`
+	},
 
-  fragment: {
-    'gl_FragColor = vec4( outgoingLight, diffuseColor.a );': `
+	fragment: {
+		'gl_FragColor = vec4( outgoingLight, diffuseColor.a );': `
 
 gl_FragColor.rgb +=  ( 1.0 - -min(dot(vEye, normalize(vNN) ), 0.0) ) * fresnelColor;
 
-` },
+`
+	},
 
 
 
-  // Uniforms (will be applied to existing or added)
+	// Uniforms (will be applied to existing or added)
 
-  uniforms: {
-    diffuse: new THREE.Color('black'),
-    fresnelColor: new THREE.Color('blue') } });
+	uniforms: {
+		diffuse: new THREE.Color('black'),
+		fresnelColor: new THREE.Color('blue')
+	}
+});
 
 
 
@@ -145,10 +148,10 @@ scene.add(mesh);
 
 function animate() {
 
-  mesh.rotateY(0.02);
+	mesh.rotateY(0.02);
 
-  requestAnimationFrame(animate);
+	requestAnimationFrame(animate);
 
-  renderer.render(scene, camera);
+	renderer.render(scene, camera);
 
 }
