@@ -9,3 +9,4 @@ import rewards from './app/rewards.js'
 $("#playbtn").on(' click ', () => {
 	Utils.isEnergy() !== !true ? GAME.startAnim(Profile.level) : Utils.notEnergy()
 });
+

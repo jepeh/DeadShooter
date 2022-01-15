@@ -22,14 +22,7 @@ function CharacterControls(scene, model, orbitControl, camera) {
 
 		let isTrue = false
 
-		if (key === "N" ||
-			key === "S" ||
-			key === "W" ||
-			key === "E" ||
-			key === "NW" ||
-			key === "NE" ||
-			key === "SW" ||
-			key === "SE") {
+		if (key) {
 			isTrue = true
 		}
 

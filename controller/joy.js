@@ -47,6 +47,7 @@ var JoyStick = (function(container, parameters)
 
 
 	var pressed = 0; // Bool - 1=Yes - 0=No
+	var offSet = $("#joystick").offset()
 
 
 	var boxAreaX = canvas.width / 3
@@ -110,7 +111,7 @@ var JoyStick = (function(container, parameters)
 		{
 
 
-			joy.GetDir()
+			joy.GetDir(event.targetTouches[0])
 
 
 			movedX = event.targetTouches[0].pageX;
@@ -214,8 +215,39 @@ var JoyStick = (function(container, parameters)
 		//canvas.unbind('mousemove');
 	}
 
-	this.GetDir = function()
+	this.GetDir = function(e)
 	{
+		
+	/*	var eX = e.clientX - offSet.left
+		var eY = e.clientY - offSet.top
+		
+		if (eX >= centerX) {
+			eX = eX - centerX
+			
+		} else {
+			eX = -(centerX - eX)
+		}
+		
+		if (eY >= centerY) {
+			eY = centerY - eY
+		} else {
+			eY = -(eY - centerY)
+		}
+		
+		eX = eX / centerX
+		eY = eY / centerY
+		
+		eX >= 1 ? eX = 1 : eX = eX
+		eY >= 1 ? eY = 1 : eY = eY
+		
+		eX <= -1 ? eX = -1 : eX = eX
+		eY <= -1 ? eY = -1 : eY = eY
+		
+		keyPressed = {
+			x: eX,
+			z: eY
+		}*/
+			
 		var horizontal = movedX;
 		var vertical = movedY;
 
@@ -239,8 +271,8 @@ var JoyStick = (function(container, parameters)
 			keyPressed = "W"
 		} else if (horizontal >= boxAreaX * 2 && horizontal <= boxAreaX * 3) {
 			keyPressed = "E"
-		}
-
+		}	
+		
 		return;
 	};
 

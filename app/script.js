@@ -734,7 +734,7 @@ var Game = (function(w, func) {
 											opacity: 1
 										})
 									}
-								}, 350);
+								}, 10);
 							}
 						}
 					}

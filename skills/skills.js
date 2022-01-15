@@ -63,16 +63,41 @@ var Skills = [
 				fragmentShader: FresnelShader.fragmentShader
 			})
 
-
+						
 			var sphere = new Three.Mesh(gm, sm)
-			sphere.position.set(hero.mesh.position.x, hero.mesh.position.y, hero.mesh.position.z + 5)
-			sphere.scale.set(0,0,0)
+			sphere.position.copy(window.character.children[2].position)
+			sphere.scale.set(0, 0, 0)
 			window.SCENE.add(sphere)
+
+			//window.gobo = false
 
 			TweenMax.to(sphere.scale, 2, {
 				x: 1,
 				y: 1,
-				z: 1
+				z: 1,
+				onComplete: () => {
+					var laser = new Three.Mesh(new Three.CylinderBufferGeometry(1, 1, 40), new Three.MeshToonMaterial({ color: "blue" }))
+					laser.position.copy(sphere.position)
+						
+					laser.rotation.x = -Math.PI / 2
+					laser.rotation.z = window.character.rotation.y
+					window.SCENE.add(laser)
+
+
+					var mp = window.TextureLoader.load("assets/images/textures/laser.png")
+
+					var laser2 = new Three.Mesh(new Three.CylinderBufferGeometry(1.8, 1.8, 40), new Three.MeshToonMaterial({
+						map: mp,
+						transparent: true
+					}))
+
+					laser2.position.copy(sphere.position)
+					laser2.rotation.x = -Math.PI / 2
+					laser2.rotation.z = window.character.rotation.y
+					window.SCENE.add(laser2)
+
+
+				}
 			})
 
 			var parts = []

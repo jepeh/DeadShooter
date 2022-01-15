@@ -142,7 +142,7 @@ class Hero {
 
 				TweenMax.to(this.mesh.rotation, .25, {
 					y: angleYCameraDirection
-					
+
 				})
 
 				var shoot = setInterval(() => {
@@ -195,10 +195,10 @@ class Hero {
 					// rotate Mesh
 
 					//	var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x) * 180 / Math.PI
-	var angleYCameraDirection = Math.atan2(
-					(window.boss.mesh.position.x - this.mesh.position.x),
-					(window.boss.mesh.position.z - this.mesh.position.z))
-					
+					var angleYCameraDirection = Math.atan2(
+						(window.boss.mesh.position.x - this.mesh.position.x),
+						(window.boss.mesh.position.z - this.mesh.position.z))
+
 					TweenMax.to(this.mesh.rotation, .25, {
 						y: angleYCameraDirection,
 						onComplete: function() {
@@ -1006,6 +1006,7 @@ class defaultHero extends Hero {
 
 	renderHero() {
 		const group = new Three.Group()
+		group.position.set(this.position.x, this.position.y, this.position.z)
 
 		const mainBody = new Three.Mesh(new Three.BoxBufferGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshNormalMaterial())
 		mainBody.material.transparent = true
@@ -1017,17 +1018,14 @@ class defaultHero extends Hero {
 		//	var maptxt = TxtLoader.load('assets/images/coin_reward.png')
 
 		const mesh = new Three.Mesh(new Three.BoxGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshToonMaterial())
-		//	mesh.layers.set(1)
 		mesh.castShadow = true
 		mesh.receiveShadow = true
-
-		//mesh.layers.enable(1);
-
-		// GUN source
-		
 		group.add(mesh)
-		group.position.set(this.position.x, this.position.y, this.position.z)
-
+	
+		const muzzle = new Three.Mesh(new Three.BoxGeometry(1, 1, 1), new Three.MeshToonMaterial({ transparent: true, opacity: 1}))
+		muzzle.position.set(0,2,4)
+		group.add(muzzle)
+		
 		this.mesh = group
 
 		// update coins
