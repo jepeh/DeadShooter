@@ -366,10 +366,11 @@ var Game = (function(w, func) {
 
 		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 4, 50, 60), mm)
 		cu.position.set(0, 4, 0)
-		
-		
-		
+
 		SCENE.add(cu)
+
+		
+		
 
 		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
 		gunrange.material.transparent = true
@@ -500,7 +501,7 @@ var Game = (function(w, func) {
 				//	RENDERER.clear()
 				//	CAMERA.layers.set(1)
 				//	composer.render()
-				
+
 				//render layer1 normal
 				//	RENDERER.clearDepth()
 				//	CAMERA.layers.set(0)
