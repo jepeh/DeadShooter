@@ -90,7 +90,7 @@ var rewards = {
 		m[0].map = mp
 		m[0].side = 2
 
-		var field = new Three.Mesh(new Three.CylinderGeometry(6, 6, 20, 50), m)
+		var field = new Three.Mesh(new Three.CylinderGeometry(5, 5, 20, 50), m)
 		field.position.copy(hero.mesh.position)
 		field.scale.set(0, 0, 0)
 
@@ -98,12 +98,12 @@ var rewards = {
 
 		var pss = []
 
-		for (var i = 0; i < 6; i++) {
-			var fd = new Three.Mesh(new Three.CylinderGeometry(.15, .15, 12, ), new Three.MeshToonMaterial({ transparent: true, map: mp }))
+		for (var i = 0; i < 15; i++) {
+			var fd = new Three.Mesh(new Three.CylinderGeometry(.07, .08, 12, ), new Three.MeshToonMaterial({ transparent: true, map: mp }))
 			fd.material.needsUpdate = true
 			var pos = {
 				x: hero.mesh.position.x + Math.floor(Math.random() * (3 - (-3)) + (-3)),
-				y: hero.mesh.position.y + Math.floor(Math.random() * (8 - (-3)) + (-3)),
+				y: hero.mesh.position.y + Math.floor(Math.random() * (3 - (-5)) + (-5)),
 				z: hero.mesh.position.z + Math.floor(Math.random() * (3 - (-3)) + (-3)),
 			}
 
@@ -146,6 +146,42 @@ var rewards = {
 				field.geometry.dispose()
 				window.SCENE.remove(field)
 			}
+		})
+
+
+		var plane = new Three.Mesh(new Three.PlaneBufferGeometry(12, 12), new Three.MeshToonMaterial({
+			map: TextureLoader.load("assets/images/textures/heal.png"),
+			transparent: true,
+			side: 2
+		}))
+		plane.position.copy(character.position)
+		plane.position.y = 2
+		plane.rotation.x = -Math.PI / 2
+		plane.scale.set(0, 0, 0)
+
+		window.SCENE.add(plane)
+
+		TweenMax.to(plane.scale, 1, {
+			x: 1,
+			y: 1,
+			z: 1,
+			onComplete: function() {
+				TweenMax.to(plane.scale, .7, {
+					x: 0,
+					y: 0,
+					z: 0,
+					onComplete: function() {
+						if (plane.parent) {
+							plane.material.dispose()
+							plane.geometry.dispose()
+							SCENE.remove(plane)
+						}
+					}
+				})
+			}
+		})
+		TweenMax.to(plane.rotation, 3.5, {
+			z: 2
 		})
 
 		return {

@@ -58,7 +58,7 @@ var Skills = [
 			window.gobo = false
 			var HX = hero.mesh.position.x,
 				HZ = hero.mesh.position.z;
-
+			var targetPos;
 			for (var d = 0; d < enemies.length; d++) {
 
 				var en = {
@@ -71,7 +71,11 @@ var Skills = [
 					var angleYCameraDirection = Math.atan2(
 						(enemies[d].mesh.position.x - hero.mesh.position.x),
 						(enemies[d].mesh.position.z - hero.mesh.position.z))
+					targetPos = {
 
+						x: enemies[d].x,
+						z: enemies[d].z
+					}
 
 					TweenMax.to(hero.mesh.rotation, .5, {
 						y: angleYCameraDirection
@@ -83,9 +87,7 @@ var Skills = [
 
 			var go = setTimeout(() => {
 
-
 				var gm = new Three.SphereBufferGeometry(3);
-
 				var sm = new Three.ShaderMaterial({
 					vertexShader: FresnelShader.vertexShader,
 					fragmentShader: FresnelShader.fragmentShader
@@ -98,13 +100,42 @@ var Skills = [
 				sphere.scale.set(0, 0, 0)
 				window.SCENE.add(sphere)
 
+				var plane = new Three.Mesh(new Three.PlaneBufferGeometry(12, 12), new Three.MeshToonMaterial({
+					map: TextureLoader.load("assets/images/textures/laserAura.png"),
+					transparent: true,
+					side: 2,
+					opacity: .7
+				}))
+				plane.position.copy(character.position)
+				plane.position.y = 2
+				plane.rotation.x = -Math.PI / 2
+				plane.scale.set(0, 0, 0)
+
+				window.SCENE.add(plane)
+
+				TweenMax.to(plane.scale, .8, {
+					x: 1,
+					y: 1,
+					z: 1
+				})
+				TweenMax.to(plane.rotation, 3.5, {
+					z: 2
+				})
+
+				/*	var rotate = function() {
+							if (typeof rotate === "function") {
+								plane.rotation.z += .009
+								requestAnimationFrame(rotate)
+							}
+						}
+						rotate()*/
 
 				TweenMax.to(sphere.scale, 2, {
 					x: 1,
 					y: 1,
 					z: 1,
 					onComplete: () => {
-						var laser = new Three.Mesh(new Three.CylinderBufferGeometry(1, 1, 40), new Three.MeshToonMaterial({ color: "blue" }))
+						var laser = new Three.Mesh(new Three.CylinderBufferGeometry(1, 1, 10), new Three.MeshToonMaterial({ color: "blue" }))
 						laser.position.copy(sphere.position)
 						laser.scale.set(0, 1, 0)
 						laser.rotation.x = -Math.PI / 2
@@ -114,7 +145,7 @@ var Skills = [
 
 						var mp = window.TextureLoader.load("assets/images/textures/laser.png")
 
-						var laser2 = new Three.Mesh(new Three.CylinderBufferGeometry(1.8, 1.8, 40), new Three.MeshToonMaterial({
+						var laser2 = new Three.Mesh(new Three.CylinderBufferGeometry(1.8, 1.8, 10), new Three.MeshToonMaterial({
 							map: mp,
 							transparent: true
 						}))
@@ -124,7 +155,7 @@ var Skills = [
 						laser2.rotation.x = -Math.PI / 2
 						laser2.rotation.z = window.character.rotation.y
 						window.SCENE.add(laser2)
-						
+
 
 						TweenMax.to(laser.scale, .5, {
 							x: 1,
@@ -138,17 +169,17 @@ var Skills = [
 											if (laser.parent) {
 												laser.material.dispose()
 												laser.geometry.dispose()
-												
+
 												window.SCENE.remove(laser)
 											}
 										}
 									})
 									clearTimeout(ts)
-									
-									TweenMax.to(sphere.scale, .6, {
+
+									TweenMax.to(sphere.scale, .3, {
 										x: 0,
-										y: 0,
 										z: 0,
+										y: 0,
 										onComplete: () => {
 											if (sphere.parent) {
 												sphere.material.dispose()
@@ -156,6 +187,19 @@ var Skills = [
 												window.gobo = true
 												window.SCENE.remove(sphere)
 											}
+										}
+									})
+									TweenMax.to(plane.scale, .7, {
+										x: 0,
+										y: 0,
+										z: 0,
+										onComplete: function() {
+											if (plane.parent) {
+												plane.material.dispose()
+												plane.geometry.dispose()
+												SCENE.remove(plane)
+											}
+											//	rotate = undefined
 										}
 									})
 								}, 1000)
