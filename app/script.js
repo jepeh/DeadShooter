@@ -1134,33 +1134,40 @@ var Game = (function(w, func) {
 			Additional Rewards
 		**************************************************/
 
-			var rewardsArr = {
-				energy: {
+			var rewardsArr = [
+				{
+					type: "coin",
 					value: 0
 				},
-				key: {
+				{
+					type: "key",
 					value: 0
 				},
-				coin: {
+				{
+					type: "energy",
 					value: 0
 				}
-			}
+			]
 
 				for (var rw=0; rw<window.addRewards.length; rw++){
 					switch(addRewards[rw].type) {
 						case "coin": 
-							rewardsArr.coin.value += addRewards[rw].value
+							rewardsArr[0].value += addRewards[rw].value
 							break;
 						case "key": 
-							rewardsArr.key.value += addRewards[rw].value
+							rewardsArr[1].value += addRewards[rw].value
 							break;
 						case "energy": 
-							rewardsArr.energy.value += addRewards[rw].value
+							rewardsArr[2].value += addRewards[rw].value
 							break;
 					}
 				}
 				
 				// append rewards to banner
+				
+				for (var y=0; y<3; y++){
+					$(`#reward${y}`).text("+"+rewardsArr[y].value)
+				}
 
 				$("#ccnscvr").prepend(`	<img class="ccns" src="assets/images/coin_reward.png" alt="" />
 			<p id="ccnscoin">+100 Coins</p>`)
