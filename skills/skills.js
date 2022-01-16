@@ -43,7 +43,7 @@ var Skills = [
 
 		"void main() {",
 
-		"	vec3 color = vec3(0,0,.7);",
+		"	vec3 color = vec3(.62,.125,.941);",
 		"	vec3 viewDirectionW = normalize(cameraPosition - vPositionW);",
 		"	float fresnelTerm = dot(viewDirectionW, vNormalW);",
 		"	fresnelTerm = clamp(1.0 - fresnelTerm, 0.1, 1.);",
@@ -107,7 +107,7 @@ var Skills = [
 					opacity: .7
 				}))
 				plane.position.copy(character.position)
-				plane.position.y = 2
+				plane.position.y = 1
 				plane.rotation.x = -Math.PI / 2
 				plane.scale.set(0, 0, 0)
 
@@ -135,7 +135,7 @@ var Skills = [
 					y: 1,
 					z: 1,
 					onComplete: () => {
-						var laser = new Three.Mesh(new Three.CylinderBufferGeometry(1, 1, 10), new Three.MeshToonMaterial({ color: "blue" }))
+						var laser = new Three.Mesh(new Three.CylinderBufferGeometry(1, 1, 10), new Three.MeshToonMaterial({ color: "purple" }))
 						laser.position.copy(sphere.position)
 						laser.scale.set(0, 1, 0)
 						laser.rotation.x = -Math.PI / 2
@@ -147,6 +147,7 @@ var Skills = [
 
 						var laser2 = new Three.Mesh(new Three.CylinderBufferGeometry(1.8, 1.8, 10), new Three.MeshToonMaterial({
 							map: mp,
+							color: "yellow",
 							transparent: true
 						}))
 

@@ -155,7 +155,7 @@ var rewards = {
 			side: 2
 		}))
 		plane.position.copy(character.position)
-		plane.position.y = 2
+		plane.position.y = 1
 		plane.rotation.x = -Math.PI / 2
 		plane.scale.set(0, 0, 0)
 
