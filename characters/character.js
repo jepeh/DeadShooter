@@ -334,8 +334,8 @@ class Hero {
 				var fcns = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
 				var idx = Math.floor(Math.random() * (fcns.length - 1) + 1)
 
-			//	rewards[fcns[idx]]();
-			rewards["f"]()
+			rewards[fcns[idx]]();
+		
 
 				var parts = []
 				var pos = {
