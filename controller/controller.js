@@ -93,6 +93,7 @@ function CharacterControls(scene, model, orbitControl, camera) {
 			self.updateCameraTarget(moveX, moveZ)
 			isTrue = false
 			window.gunrange.position.copy(self.model.position)
+			window.gunrange.position.y = .1
 			light.position.set(self.model.position.x, 1.5, self.model.position.z)
 			//	return {x: self.model.position.x+moveX, y: self.model.position.y, z: self.model.position.z+moveZ}
 		} 

@@ -225,16 +225,20 @@ class Hero {
 
 				} else {
 					window.gunrange.material.opacity = .1
+					window.gunrange.position.y = 1
 					var j = setTimeout(() => {
 						window.gunrange.material.opacity = 0
+						window.gunrange.position.y = -5
 						clearTimeout(j)
 					}, 100)
 				}
 			}
 			else {
 				window.gunrange.material.opacity = .1
+				window.gunrange.position.y = 1
 				var j = setTimeout(() => {
 					window.gunrange.material.opacity = 0
+					window.gunrange.position.y = -5
 					clearTimeout(j)
 				}, 100)
 			}
@@ -1017,7 +1021,6 @@ class defaultHero extends Hero {
 		const mainBody = new Three.Mesh(new Three.BoxBufferGeometry(this.size.w, this.size.h, this.size.d), new Three.MeshNormalMaterial())
 		mainBody.material.transparent = true
 		mainBody.material.opacity = 0
-		mainBody.material.visible = false
 		mainBody.scale.set(.4, .4, .4)
 		group.add(mainBody)
 

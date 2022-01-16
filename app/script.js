@@ -370,13 +370,14 @@ var Game = (function(w, func) {
 
 		SCENE.add(cu)
 
-		
-		
+
+
 
 		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
 		gunrange.material.transparent = true
 		gunrange.material.opacity = 0
 		gunrange.position.copy(character.position)
+		gunrange.position.y = -2
 		SCENE.add(gunrange)
 
 		var fog = new Three.Fog("black", 70, 100)
@@ -401,8 +402,6 @@ var Game = (function(w, func) {
 			}
 		})
 
-
-
 		//*******************************************
 		// Change Color 
 		//*******************************************
@@ -414,6 +413,9 @@ var Game = (function(w, func) {
 		***********************************************
 		*/
 
+
+		var grp = new Three.Group()
+		var mk = TextureLoader.load("assets/images/textures/rod.png")
 
 
 		window.enemyList = []
@@ -640,7 +642,43 @@ var Game = (function(w, func) {
 
 					}
 				})
+				var mmm = [
+			new Three.MeshToonMaterial({ transparent: true }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
+			]
 
+				// Random Hexagons
+				var mk = TextureLoader.load("assets/images/textures/rod.png")
+
+				mmm[0].map = mk
+				mmm[1].color.set("green")
+				mmm[1].opacity = .4
+
+				for (var uu = 0; uu < 25; uu++) {
+					var posx = Math.floor(Math.random() * (150 - (-150)) + (-150))
+					var posz = Math.floor(Math.random() * (150 - (-150)) + (-150))
+					var grp = new Three.Group()
+
+					for (var u = 0; u < 10; u++) {
+						var size = Math.floor(Math.random() * (3 - 1) + 1)
+						var height = Math.random() * (1 - .3) + .3
+						var posX = Math.floor(Math.random() * (6 - (-6)) + (-6))
+						var posZ = Math.floor(Math.random() * (6 - (-6)) + (-6))
+
+						var kyub = new Three.Mesh(new Three.CylinderGeometry(size, size, height, 6), mmm)
+						if (u >= 1) {
+							kyub.position.set(posX, 1, posZ)
+						} else {
+							kyub.position.set(0, 1, 0)
+						}
+						grp.add(kyub)
+					}
+
+					SCENE.add(grp)
+					grp.position.set(posx, 0, posz)
+
+				}
 
 				// Default Bomb
 				bomb.addEventListener('touchstart', () => {
@@ -989,7 +1027,7 @@ var Game = (function(w, func) {
 		Obj.gameOver = gameOver
 
 		function gameWin() {
-			
+
 			$(".ccns, #ccnscoin, #critical").remove()
 			Utils.playSound(Sound.gameWin)
 
@@ -1097,12 +1135,12 @@ var Game = (function(w, func) {
 				$("#energy-txt").text("x" + Profile.energy)
 
 
-		
-						CAMERA.lookAt(character.position)
-						CAMERA.lookAt(character.position)
-						character.rotation.y = -10
-						$("#playbtn, #energy-container, #coin-container").css("display", "grid")
-						$("#settings, #version").css("display", "block")
+
+				CAMERA.lookAt(character.position)
+				CAMERA.lookAt(character.position)
+				character.rotation.y = -10
+				$("#playbtn, #energy-container, #coin-container").css("display", "grid")
+				$("#settings, #version").css("display", "block")
 
 
 				Anim()
@@ -1129,44 +1167,44 @@ var Game = (function(w, func) {
 				/*Obj.initAnim = initAnim
 				Obj.initAnim()*/
 
-		//*******************************************
-		/**************************************************
-			Additional Rewards
-		**************************************************/
+				//*******************************************
+				/**************************************************
+					Additional Rewards
+				**************************************************/
 
-			var rewardsArr = [
-				{
-					type: "coin",
-					value: 0
+				var rewardsArr = [
+					{
+						type: "coin",
+						value: 0
 				},
-				{
-					type: "key",
-					value: 0
+					{
+						type: "key",
+						value: 0
 				},
-				{
-					type: "energy",
-					value: 0
+					{
+						type: "energy",
+						value: 0
 				}
 			]
 
-				for (var rw=0; rw<window.addRewards.length; rw++){
-					switch(addRewards[rw].type) {
-						case "coin": 
+				for (var rw = 0; rw < window.addRewards.length; rw++) {
+					switch (addRewards[rw].type) {
+						case "coin":
 							rewardsArr[0].value += addRewards[rw].value
 							break;
-						case "key": 
+						case "key":
 							rewardsArr[1].value += addRewards[rw].value
 							break;
-						case "energy": 
+						case "energy":
 							rewardsArr[2].value += addRewards[rw].value
 							break;
 					}
 				}
-				
+
 				// append rewards to banner
-				
-				for (var y=0; y<3; y++){
-					$(`#reward${y}`).text("+"+rewardsArr[y].value)
+
+				for (var y = 0; y < 3; y++) {
+					$(`#reward${y}`).text("+" + rewardsArr[y].value)
 				}
 
 				$("#ccnscvr").prepend(`	<img class="ccns" src="assets/images/coin_reward.png" alt="" />

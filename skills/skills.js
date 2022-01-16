@@ -37,19 +37,14 @@ var Skills = [
 	].join("\n"),
 
 				fragmentShader: [
-
 		"varying vec3 vPositionW;",
 		"varying vec3 vNormalW;",
-
 		"void main() {",
-
 		"	vec3 color = vec3(.62,.125,.941);",
-		"	vec3 viewDirectionW = normalize(cameraPosition - vPositionW);",
+		"	vec3 viewDirectionW = normalize(cameraPosition - vNormalW);",
 		"	float fresnelTerm = dot(viewDirectionW, vNormalW);",
-		"	fresnelTerm = clamp(1.0 - fresnelTerm, 0.1, 1.);",
-
-		"	gl_FragColor = vec4( color * fresnelTerm, 1.);",
-
+		"	fresnelTerm = clamp(1. - fresnelTerm, 0.08, 1.);",
+		"	gl_FragColor = vec4( color * fresnelTerm, .5);",
 		"}"
 
 	].join("\n")
@@ -86,11 +81,12 @@ var Skills = [
 			var go = setTimeout(() => {
 
 				var gm = new Three.SphereBufferGeometry(3);
+
 				var sm = new Three.ShaderMaterial({
 					vertexShader: FresnelShader.vertexShader,
 					fragmentShader: FresnelShader.fragmentShader
 				})
-
+			
 				var sphere = new Three.Mesh(gm, sm)
 				var target = new Three.Vector3()
 				character.children[2].getWorldPosition(target)
@@ -115,7 +111,7 @@ var Skills = [
 					x: 1,
 					y: 1,
 					z: 1
-					
+
 				})
 				TweenMax.to(plane.rotation, 3.5, {
 					z: 2
@@ -129,37 +125,37 @@ var Skills = [
 						}
 						rotate()*/
 
-			var tst = setTimeout(()=>{
-				TweenMax.to(sphere.scale, .4, {
-					x: 0,
-					y: 0,
-					z: 0,
-					onComplete: function(){
-						window.gobo = true
-						if (sphere.parent) {
-							sphere.material.dispose()
-							sphere.geometry.dispose()
-							window.SCENE.remove(sphere)
+				var tst = setTimeout(() => {
+					TweenMax.to(sphere.scale, .4, {
+						x: 0,
+						y: 0,
+						z: 0,
+						onComplete: function() {
+							window.gobo = true
+							if (sphere.parent) {
+								sphere.material.dispose()
+								sphere.geometry.dispose()
+								window.SCENE.remove(sphere)
+							}
 						}
-					}
-				})
-				
-				TweenMax.to(plane.scale, .4, {
-					x: 0,
-					y: 0,
-					z: 0,
-					onComplete: function(){
-						
-						if (plane.parent) {
-							plane.material.dispose()
-							plane.geometry.dispose()
-							window.SCENE.remove(plane)
+					})
+
+					TweenMax.to(plane.scale, .4, {
+						x: 0,
+						y: 0,
+						z: 0,
+						onComplete: function() {
+
+							if (plane.parent) {
+								plane.material.dispose()
+								plane.geometry.dispose()
+								window.SCENE.remove(plane)
+							}
 						}
-					}
-				})
-				
-				clearTimeout(tst)
-			}, 2300)
+					})
+
+					clearTimeout(tst)
+				}, 2300)
 
 				TweenMax.to(sphere.scale, 2, {
 					x: 1,
