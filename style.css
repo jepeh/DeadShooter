@@ -1012,7 +1012,8 @@ span>p {
 	text-align: center
 }
 #addRewards div div p {
-	position: relative
+	position: relative;
+	top: 50%
 }
 #settings-wrapper {
 	position: relative;

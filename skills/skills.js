@@ -115,6 +115,7 @@ var Skills = [
 					x: 1,
 					y: 1,
 					z: 1
+					
 				})
 				TweenMax.to(plane.rotation, 3.5, {
 					z: 2
@@ -127,6 +128,38 @@ var Skills = [
 							}
 						}
 						rotate()*/
+
+			var tst = setTimeout(()=>{
+				TweenMax.to(sphere.scale, .4, {
+					x: 0,
+					y: 0,
+					z: 0,
+					onComplete: function(){
+						window.gobo = true
+						if (sphere.parent) {
+							sphere.material.dispose()
+							sphere.geometry.dispose()
+							window.SCENE.remove(sphere)
+						}
+					}
+				})
+				
+				TweenMax.to(plane.scale, .4, {
+					x: 0,
+					y: 0,
+					z: 0,
+					onComplete: function(){
+						
+						if (plane.parent) {
+							plane.material.dispose()
+							plane.geometry.dispose()
+							window.SCENE.remove(plane)
+						}
+					}
+				})
+				
+				clearTimeout(tst)
+			}, 2300)
 
 				TweenMax.to(sphere.scale, 2, {
 					x: 1,

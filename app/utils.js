@@ -31,9 +31,9 @@ $("#inv").on('click', () => {
 			left: "150%",
 			display: "none"
 		})
-		
+
 	playSound(sounds.setting)
-	
+
 	$("#menu-close").attr("status", "busy")
 
 	var inv = `<div id="inventory-wrapper">
@@ -331,8 +331,8 @@ var Holo = function(s) {
 
 	var m = [
 			new Three.MeshToonMaterial({ transparent: true }),
-			new Three.MeshToonMaterial({ transparent: true, opacity: 0, side: 2}),
-			new Three.MeshToonMaterial({ transparent: true, opacity: 0, side: 2})
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0, side: 2 }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0, side: 2 })
 			]
 
 	var mp = window.TextureLoader.load("assets/images/textures/halo.png")
@@ -346,14 +346,13 @@ var Holo = function(s) {
 
 	var cubes = []
 
-	for (var cu = 0; cu < 8; cu++) {
+	for (var cu = 0; cu < 5; cu++) {
 
-		var size = Math.random() * (.2 - .1) + .1;
 		var x = Math.floor(Math.random() * (3 - (-3)) + (-3));
 		var y = Math.floor(Math.random() * (1 - (-5)) + (-5));
 		var z = Math.floor(Math.random() * (3 - (-3)) + (-3));
 
-		var cube = new Three.Mesh(new Three.CylinderGeometry(.1, .1, 20), m)
+		var cube = new Three.Mesh(new Three.CylinderGeometry(.05, .05, 20), m)
 		cube.position.set(x, y, z)
 		window.SCENE.add(cube)
 		cubes.push(cube)

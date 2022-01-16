@@ -204,7 +204,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
 				})
 			} while (cnt <= 50)
 		}
@@ -768,7 +768,7 @@ var Game = (function(w, func) {
 
 			}, 1000)
 
-			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 2000
+			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 20000
 			var boxes = setInterval(() => {
 				Utils.spawnBox()
 			}, boxesTime)

@@ -68,10 +68,24 @@ var rewards = {
 	},
 	f: function() {
 		// plus 10% HP
-		if (hero.hpLeft >= 100) {}
+		if (hero.hpLeft >= 100) {
+
+		}
 		else if (hero.hpLeft < 30) {
 			// 35% of its current hp
 			var hpToAdd = hero.hpLeft * .35
+			hero.hpLeft = hero.hpLeft + hpToAdd
+			if (hero.hpLeft > 100) {
+				hero.hpLeft = 100
+			}
+			hero.hp.style.width = hero.hpLeft + "%"
+			if (hero.hpLeft > 30) {
+				hero.hp.style.backgroundColor = "#11CCFF"
+				$("#critical").css("display", "none")
+			}
+		} else if (hero.hpLeft < 10 || hero.hpLeft < 5) {
+			// 35% of its current hp
+			var hpToAdd = hero.hpLeft * .80
 			hero.hpLeft = hero.hpLeft + hpToAdd
 			if (hero.hpLeft > 100) {
 				hero.hpLeft = 100
