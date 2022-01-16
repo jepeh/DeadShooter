@@ -8,7 +8,11 @@ var rewards = {
 		$("#coins p").text(Profile.coins)
 		rew("assets/images/rewards/1coin.png")
 		return {
-			reward: "+1 coin!"
+			reward: "+1 coin!",
+			isAward: {
+				type: "coin",
+				value: 1
+			}
 		}
 	},
 	b: function() {
@@ -17,7 +21,11 @@ var rewards = {
 		$("#coins p").text(Profile.coins)
 		rew("assets/images/rewards/5coins.png")
 		return {
-			reward: "+5 coins!"
+			reward: "+5 coins!",
+			isAward: {
+				type: "coin",
+				value: 5
+			}
 		}
 	},
 	c: function() {
@@ -26,7 +34,11 @@ var rewards = {
 		$("#coins p").text(Profile.coins)
 		rew("assets/images/rewards/10coins.png")
 		return {
-			reward: "+10 coins!"
+			reward: "+10 coins!",
+			isAward: {
+				type: "coin",
+				value: 10
+			}
 		}
 	},
 	d: function() {
@@ -35,7 +47,11 @@ var rewards = {
 		$("#keystxt").text(Profile.keys)
 		rew("assets/images/rewards/1key.png")
 		return {
-			reward: "+1 key!"
+			reward: "+1 key!",
+			isAward: {
+				type: "key",
+				value: 1
+			}
 		}
 	},
 	e: function() {
@@ -43,7 +59,11 @@ var rewards = {
 		Profile.energy += 1
 		rew("assets/images/rewards/1energy.png")
 		return {
-			reward: "+1 energy!"
+			reward: "+1 energy!",
+			isAward: {
+				type: "energy",
+				value: 1
+			}
 		}
 	},
 	f: function() {

@@ -76,12 +76,10 @@ var Skills = [
 						x: enemies[d].x,
 						z: enemies[d].z
 					}
-
 					TweenMax.to(hero.mesh.rotation, .5, {
 						y: angleYCameraDirection
 					})
 				}
-
 			}
 
 
@@ -133,102 +131,7 @@ var Skills = [
 				TweenMax.to(sphere.scale, 2, {
 					x: 1,
 					y: 1,
-					z: 1,
-					onComplete: () => {
-						var laser = new Three.Mesh(new Three.CylinderBufferGeometry(1, 1, 10), new Three.MeshToonMaterial({ color: "purple" }))
-						laser.position.copy(sphere.position)
-						laser.scale.set(0, 1, 0)
-						laser.rotation.x = -Math.PI / 2
-						laser.rotation.z = window.character.rotation.y
-						window.SCENE.add(laser)
-
-
-						var mp = window.TextureLoader.load("assets/images/textures/laser.png")
-
-						var laser2 = new Three.Mesh(new Three.CylinderBufferGeometry(1.8, 1.8, 10), new Three.MeshToonMaterial({
-							map: mp,
-							color: "yellow",
-							transparent: true
-						}))
-
-						laser2.scale.set(0, 1, 0)
-						laser2.position.copy(sphere.position)
-						laser2.rotation.x = -Math.PI / 2
-						laser2.rotation.z = window.character.rotation.y
-						window.SCENE.add(laser2)
-
-
-						TweenMax.to(laser.scale, .5, {
-							x: 1,
-							z: 1,
-							onComplete: function() {
-								var ts = setTimeout(() => {
-									TweenMax.to(laser.scale, .3, {
-										x: 0,
-										z: 0,
-										onComplete: () => {
-											if (laser.parent) {
-												laser.material.dispose()
-												laser.geometry.dispose()
-
-												window.SCENE.remove(laser)
-											}
-										}
-									})
-									clearTimeout(ts)
-
-									TweenMax.to(sphere.scale, .3, {
-										x: 0,
-										z: 0,
-										y: 0,
-										onComplete: () => {
-											if (sphere.parent) {
-												sphere.material.dispose()
-												sphere.geometry.dispose()
-												window.gobo = true
-												window.SCENE.remove(sphere)
-											}
-										}
-									})
-									TweenMax.to(plane.scale, .7, {
-										x: 0,
-										y: 0,
-										z: 0,
-										onComplete: function() {
-											if (plane.parent) {
-												plane.material.dispose()
-												plane.geometry.dispose()
-												SCENE.remove(plane)
-											}
-											//	rotate = undefined
-										}
-									})
-								}, 1000)
-							}
-						})
-
-						TweenMax.to(laser2.scale, .5, {
-							x: 1,
-							z: 1,
-							onComplete: function() {
-								var ts = setTimeout(() => {
-									TweenMax.to(laser2.scale, .3, {
-										x: 0,
-										z: 0,
-										onComplete: () => {
-											if (laser2.parent) {
-												laser2.material.dispose()
-												laser2.geometry.dispose()
-												window.SCENE.remove(laser2)
-											}
-										}
-									})
-									clearTimeout(ts)
-								}, 1000)
-							}
-						})
-
-					}
+					z: 1
 				})
 
 				var parts = []
@@ -306,7 +209,7 @@ var Skills = [
 			field.position.y = 4
 			SCENE.add(field)
 
-			TweenMax.to(field.scale, .8, { x: 1, y: 1, z: 1 })
+			TweenMax.to(field.scale, 1.2, { x: 1, y: 1, z: 1 })
 
 			window.shieldOn = true
 			hero.shield = field

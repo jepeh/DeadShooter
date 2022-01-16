@@ -166,6 +166,7 @@ var Game = (function(w, func) {
 		window.inGame = false
 		window.firstS = true
 		window.secondS = true
+		window.addRewards = []
 		window.mysteryboxes = []
 
 		CAMERA.layers.enable(0)
@@ -610,7 +611,7 @@ var Game = (function(w, func) {
 					w: size,
 					h: size,
 					d: size
-				}, Math.random() * .2 - .09, Math.random() * .2 - .09, SCENE, CAMERA, RENDERER, i)
+				}, Math.random() * .2 - .09, Math.random() * .2 - .09, SCENE, CAMERA, RENDERER, i, phys)
 
 				var mesh = enemy.renderEnemy()
 				// name the mesh by iterated variable i
@@ -767,7 +768,7 @@ var Game = (function(w, func) {
 
 			}, 1000)
 
-			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 20000
+			var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 2000
 			var boxes = setInterval(() => {
 				Utils.spawnBox()
 			}, boxesTime)
@@ -988,6 +989,7 @@ var Game = (function(w, func) {
 		Obj.gameOver = gameOver
 
 		function gameWin() {
+			
 			$(".ccns, #ccnscoin, #critical").remove()
 			Utils.playSound(Sound.gameWin)
 
@@ -1072,7 +1074,6 @@ var Game = (function(w, func) {
 
 				hero.anim(b)
 
-
 				RENDERER.render(SCENE, CAMERA)
 				CAMERA.lookAt(character.position)
 				if (typeof winAnim === "function") {
@@ -1096,21 +1097,12 @@ var Game = (function(w, func) {
 				$("#energy-txt").text("x" + Profile.energy)
 
 
-				TweenMax.to(character.scale, 1, {
-					x: 1,
-					y: 1,
-					z: 1,
-					easing: Power2.easingIn,
-					onUpdate: function() {
+		
 						CAMERA.lookAt(character.position)
-					},
-					onComplete: function() {
 						CAMERA.lookAt(character.position)
 						character.rotation.y = -10
 						$("#playbtn, #energy-container, #coin-container").css("display", "grid")
 						$("#settings, #version").css("display", "block")
-					}
-				})
 
 
 				Anim()
@@ -1136,6 +1128,39 @@ var Game = (function(w, func) {
 				// start initial Animation
 				/*Obj.initAnim = initAnim
 				Obj.initAnim()*/
+
+		//*******************************************
+		/**************************************************
+			Additional Rewards
+		**************************************************/
+
+			var rewardsArr = {
+				energy: {
+					value: 0
+				},
+				key: {
+					value: 0
+				},
+				coin: {
+					value: 0
+				}
+			}
+
+				for (var rw=0; rw<window.addRewards.length; rw++){
+					switch(addRewards[rw].type) {
+						case "coin": 
+							rewardsArr.coin.value += addRewards[rw].value
+							break;
+						case "key": 
+							rewardsArr.key.value += addRewards[rw].value
+							break;
+						case "energy": 
+							rewardsArr.energy.value += addRewards[rw].value
+							break;
+					}
+				}
+				
+				// append rewards to banner
 
 				$("#ccnscvr").prepend(`	<img class="ccns" src="assets/images/coin_reward.png" alt="" />
 			<p id="ccnscoin">+100 Coins</p>`)

@@ -334,8 +334,12 @@ class Hero {
 				var fcns = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
 				var idx = Math.floor(Math.random() * (fcns.length - 1) + 1)
 
-			rewards[fcns[idx]]();
-		
+				var boxReward = rewards[fcns[idx]]();
+
+				// check if it's additional awards
+				if (boxReward.isAward) {
+					window.addRewards.push(boxReward.isAward)
+				}
 
 				var parts = []
 				var pos = {
@@ -406,10 +410,10 @@ class Hero {
 }
 
 
-var Enemy = function(position, color, size, x, z, scene, c, r, name) {
+var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 
 	var self = this
-
+	self.physics = physics
 	self.position = position
 	self.color = color
 	self.size = size
@@ -669,124 +673,125 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name) {
 		// Game Over
 
 		if (self.hp < 0) {
+			self.die()
+		}
 
-			// update Atom Level
-			Profile.atomLevel >= 90 ? Enemy.prototype.lvl() : Profile.atomLevel = Profile.atomLevel + 10, $('.chart').data('easyPieChart').update(Profile.atomLevel);
+		return;
+	}
 
-			window.loader.load('../assets/gltf/coin.gltf', e => {
+	self.die = function() {
+		// update Atom Level
+		Profile.atomLevel >= 90 ? Enemy.prototype.lvl() : Profile.atomLevel = Profile.atomLevel + 10, $('.chart').data('easyPieChart').update(Profile.atomLevel);
 
-				var mesh = e.scene.children[0]
-				mesh.children.shift()
+		window.loader.load('../assets/gltf/coin.gltf', e => {
 
-				mesh.scale.set(.08, .08, .08)
+			var mesh = e.scene.children[0]
+			mesh.children.shift()
 
-				mesh.rotation.x = Math.PI / 2
+			mesh.scale.set(.08, .08, .08)
 
-				mesh.position.set(self.mesh.position.x, 2, self.mesh.position.z)
+			mesh.rotation.x = Math.PI / 2
 
-				for (var i = 0; i < mesh.children.length; i++) {
-					if (mesh.children[i].type === "Mesh") {
-						mesh.children[i].material = new Three.MeshToonMaterial()
+			mesh.position.set(self.mesh.position.x, 2, self.mesh.position.z)
 
-						var c = mesh.children[i].name
+			for (var i = 0; i < mesh.children.length; i++) {
+				if (mesh.children[i].type === "Mesh") {
+					mesh.children[i].material = new Three.MeshToonMaterial()
 
-						if (c.length > 7) {
-							c = c.split("_")[0]
-						}
-						mesh.children[i].material.color.set(c)
+					var c = mesh.children[i].name
+
+					if (c.length > 7) {
+						c = c.split("_")[0]
 					}
-				}
-				window.droppedCoins.push(mesh)
-				self.scene.add(mesh)
-			})
-
-			var parts = []
-			var pos = {
-				x: self.mesh.position.x,
-				y: self.mesh.position.y,
-				z: self.mesh.position.z
-			}
-
-			for (var i = 0; i < 10; i++) {
-
-				var geom = new Three.TetrahedronGeometry(3, 0);
-				var mat = new Three.MeshToonMaterial({
-					color: "green"
-				});
-				var mesh = new Three.Mesh(geom, mat);
-				mesh.position.x = self.mesh.position.x
-				mesh.position.y = self.mesh.position.y
-				mesh.position.z = self.mesh.position.z
-				mesh.rotation.y = Math.floor(Math.random() * 10)
-				mesh.needsUpdate = true
-				mesh.scale.set(.3, .3, .3)
-				var targetX = pos.x + (-1 + Math.random() * 2) * 5;
-				var targetY = pos.y + (-1 + Math.random() * 2) * 5;
-				var targetZ = pos.z + (-1 + Math.random() * 2) * 5;
-
-				SCENE.add(mesh)
-				parts.push(mesh)
-
-				TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
-				TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
-				TweenMax.to(mesh.position, .6, {
-					x: targetX,
-					y: targetY,
-					z: targetZ,
-					delay: Math.random() * .1,
-					ease: Power2.easeOut,
-					onComplete: function() {
-
-						mesh.material.dispose()
-						mesh.geometry.dispose()
-						for (var u = 0; u < parts.length; u++) {
-							if (parts[u].parent) parts[u].parent.remove(parts[u])
-						}
-					}
-				});
-
-			}
-
-
-			p.setMeshPosition(self.mesh, {
-				x: self.mesh.position.x + mX,
-				y: -2,
-				z: self.mesh.position.z + mZ
-			})
-
-			for (var hh = 0; hh < hero.nearEnemy.length; hh++) {
-				if (self.mesh.name === hero.nearEnemy[hh].mesh.name) {
-					hero.nearEnemy.splice(hh, 1)
+					mesh.children[i].material.color.set(c)
 				}
 			}
+			window.droppedCoins.push(mesh)
+			self.scene.add(mesh)
+		})
 
-			self.scene.add(c)
-			var n = self.mesh.name
-			self.mesh.geometry.dispose()
-			self.mesh.material.dispose()
+		var parts = []
+		var pos = {
+			x: self.mesh.position.x,
+			y: self.mesh.position.y,
+			z: self.mesh.position.z
+		}
 
-			self.scene.remove(self.mesh)
+		for (var i = 0; i < 10; i++) {
 
-			var index = window.enemyList.findIndex(e => e.name === n);
-			window.enemyList.splice(index, 1)
-			window.enemies.splice(index, 1)
+			var geom = new Three.TetrahedronGeometry(3, 0);
+			var mat = new Three.MeshToonMaterial({
+				color: "green"
+			});
+			var mesh = new Three.Mesh(geom, mat);
+			mesh.position.x = self.mesh.position.x
+			mesh.position.y = self.mesh.position.y
+			mesh.position.z = self.mesh.position.z
+			mesh.rotation.y = Math.floor(Math.random() * 10)
+			mesh.needsUpdate = true
+			mesh.scale.set(.3, .3, .3)
+			var targetX = pos.x + (-1 + Math.random() * 2) * 5;
+			var targetY = pos.y + (-1 + Math.random() * 2) * 5;
+			var targetZ = pos.z + (-1 + Math.random() * 2) * 5;
 
-			// If Enemy lnegth < 0, summon Boss
-			if (window.inGame) {
-				window.enemies.length <= 0 ? GAME.EnemyBoss() : false
-			}
+			SCENE.add(mesh)
+			parts.push(mesh)
 
+			TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
+			TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
+			TweenMax.to(mesh.position, .6, {
+				x: targetX,
+				y: targetY,
+				z: targetZ,
+				delay: Math.random() * .1,
+				ease: Power2.easeOut,
+				onComplete: function() {
 
-			window.killed = window.killed + 1
-			//update zombie count
-			$("#zombiecount p").html("Zombies x" + window.enemies.length)
-
-			// Dust particles
-
+					mesh.material.dispose()
+					mesh.geometry.dispose()
+					for (var u = 0; u < parts.length; u++) {
+						if (parts[u].parent) parts[u].parent.remove(parts[u])
+					}
+				}
+			});
 
 		}
 
 
+		self.physics.setMeshPosition(self.mesh, {
+			x: self.mesh.position.x,
+			y: -10,
+			z: self.mesh.position.z
+		})
+
+		for (var hh = 0; hh < hero.nearEnemy.length; hh++) {
+			if (self.mesh.name === hero.nearEnemy[hh].mesh.name) {
+				hero.nearEnemy.splice(hh, 1)
+			}
+		}
+
+		self.scene.add(c)
+		var n = self.mesh.name
+		self.mesh.geometry.dispose()
+		self.mesh.material.dispose()
+
+		self.scene.remove(self.mesh)
+
+		var index = window.enemyList.findIndex(e => e.name === n);
+		window.enemyList.splice(index, 1)
+		window.enemies.splice(index, 1)
+
+		// If Enemy lnegth < 0, summon Boss
+		if (window.inGame) {
+			window.enemies.length <= 0 ? GAME.EnemyBoss() : false
+		}
+
+
+		window.killed = window.killed + 1
+		//update zombie count
+		$("#zombiecount p").html("Zombies x" + window.enemies.length)
+
+		// Dust particles
 
 		return;
 	}
@@ -1022,14 +1027,13 @@ class defaultHero extends Hero {
 		mesh.castShadow = true
 		mesh.receiveShadow = true
 		group.add(mesh)
-	
-		const muzzle = new Three.Mesh(new Three.BoxGeometry(1, 1, 1), new Three.MeshToonMaterial({ transparent: true, opacity: 1}))
-		
-		muzzle.position.set(0,1,6)
+
+		const muzzle = new Three.Mesh(new Three.BoxGeometry(1, 1, 1), new Three.MeshToonMaterial({ transparent: true, opacity: 0 }))
+		muzzle.position.set(0, 1, 6)
 		group.add(muzzle)
 		this.mesh = group
-		
- 
+
+
 		// update coins
 		$("#bulletCount").text("Bullets x" + this.bullets)
 		$("#coinstxt").text("coins x" + this.coins)

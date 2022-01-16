@@ -331,8 +331,8 @@ var Holo = function(s) {
 
 	var m = [
 			new Three.MeshToonMaterial({ transparent: true }),
-			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
-			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0, side: 2}),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0, side: 2})
 			]
 
 	var mp = window.TextureLoader.load("assets/images/textures/halo.png")
