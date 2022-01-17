@@ -208,7 +208,39 @@ var Game = (function(w, func) {
 
 		var LOC = new URL(window.location)
 
-		if (LOC.searchParams.get("play")) {} else {
+		if (LOC.searchParams.get("play")) {
+			// Fetch FB Data
+			User.id = FBInstant.player.getID();
+			User.name = FBInstant.player.getName();
+			User.image.crossOrigin = 'anonymous';
+			User.image.src = FBInstant.player.getPhoto();
+			User.locale = FBInstant.getLocale();
+			User.platform = FBInstant.getPlatform()
+
+			FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
+				.then(data => {
+
+					// Old Players
+					Profile.level = data["level"]
+					Profile.heroName = data["heroName"]
+					Profile.coins = data["coins"]
+					Profile.rank = data["rank"]
+					Profile.maxHP = data["maxHP"]
+					Profile.bombDamage = data["bombDamage"]
+					Profile.energy = data["energy"]
+					Profile.mapRadius = data["mapRadius"]
+					Profile.atomBombRadius = data["atomBombRadius"]
+					Profile.keys = data["keys"]
+					Profile.gunRange = data["gunRange"]
+					Profile.skills = data["skills"]
+					Profile.countdownMin = data["countdownMin"]
+					Profile.Heroes = data["Heroes"]
+					generateLevels()
+				}).catch(e => {
+					console.warn(e)
+				})
+
+		} else {
 			// Get Player User Data
 			User.id = FBInstant.player.getID();
 			User.name = FBInstant.player.getName();
@@ -277,6 +309,13 @@ var Game = (function(w, func) {
 					})
 				})
 		}
+
+
+		// Update Profile Names, Images
+		$("#Profile-src").attr("src", User.image.src)
+		$("#ProfileInfo-Name").text(User.name)
+		$("#gameid").text("Game ID: "+User.id)
+		$("#ProfileInfo-Rank").text("Rank: "+Profile.rank)
 
 		// FACEBOOK DATA UPDATE
 		//*******************************************%
