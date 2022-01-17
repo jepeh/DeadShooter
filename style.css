@@ -74,6 +74,58 @@ html {
 	text-align: center;
 	overflow: hidden;
 }
+#GameMode {
+	position: absolute;
+	width: 85%;
+	height: 50%;
+	top: 25%;
+	background: linear-gradient(130deg, #2A314D, #181D2D);
+	left: 50%;
+	margin-left: -42.5%;
+	display: grid;
+	z-index: 3;
+	border-radius: 5px;
+	grid-template-rows: 10% 90%;
+}
+#GMTitle{
+	position: relative;
+	text-align: center;
+	margin: auto;
+	color: white;
+	font-family: 'QS-M';
+	font-size: 5vw
+}
+#GMDiv {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	display: grid;
+	grid-template-rows: 33% 33% 33%
+}
+.GMDivs {
+	position: relative;
+	width: 90%;
+	height: 70%;
+	margin: auto;
+	background-image: url("assets/images/profile.jpg");
+	background-size: cover;
+	border-radius: 8px;
+	box-shadow: 0 0 10px 1px #0000006E;
+	left: 50%;
+	margin-left: -45%;
+}
+.GMTxt {
+	position: relative;
+	margin: auto;
+	width: 100%;
+	font-family: "QS-L";
+	font-size: 4.3vw;
+	color: white;
+	top: 35%;
+	text-align: left;
+	margin-left: 10px;
+}
 #bomb p {
 	position: relative;
 	height: 100%;
@@ -900,7 +952,7 @@ span>p {
 #cover {
 	position: absolute;
 	width: 100%;
-	display: none;
+	display: block;
 	height: 100%;
 	background-color: rgba(0, 0, 0, .8)
 }
