@@ -10,7 +10,7 @@ let Profile = {
 	energy: 10,
 	mapRadius: 90,
 	atomBombRadius: 20,
-	atomLevel: 100,
+	atomLevel: 0,
 	playGame: false,
 	gunRange: 20,
 	countdownMin: 8,
@@ -36,7 +36,7 @@ let Profile = {
 	// FB Data Functions
 	FB: {
 		update: function() {},
-		get: function() {},
+		get: function() {}, 
 		delete: function() {}
 	}
 
@@ -51,4 +51,12 @@ let Sounds = {
 	music: false
 }
 
-export { Profile, Levels, Sounds }
+let User = {
+	name: null,
+	id: null,
+	locale: null,
+	image: new Image(),
+	platform: null
+}
+
+export { Profile, Levels, Sounds, User }

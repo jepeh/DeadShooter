@@ -4,7 +4,7 @@ import { OrbitControls } from '../src/OrbitControls.js'
 import { JoyStick } from '../controller/joy.js'
 import { CharacterControls } from '../controller/controller.js'
 import * as Character from '../characters/character.js'
-import { Profile, Levels, Sounds } from '../profiles/profile.js'
+import { Profile, Levels, Sounds, User } from '../profiles/profile.js'
 import { OimoPhysics } from '../src/OimoPhysics.js'
 import { drawMap } from '../app/map/map.js'
 import * as Utils from './utils.js'
@@ -32,35 +32,34 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-			/*	FBInstant.initializeAsync()
-					.then(() => {
-						var loaded = 1;
-						var loading = setInterval(() => {
-							if (loaded >= 100) {
-								clearInterval(loading)
-							}
-							else {
-								loaded++
-							}
+			FBInstant.initializeAsync()
+				.then(() => {
+					var loaded = 1;
+					var loading = setInterval(() => {
+						if (loaded >= 100) {
+							clearInterval(loading)
+						}
+						else {
+							loaded++
+						}
 
-							FBInstant.setLoadingProgress(loaded)
-						}, 100)
+						FBInstant.setLoadingProgress(loaded)
+					}, 100)
 
-						FBInstant.startGameAsync()
-							.then(() => {
-								loc.searchParams.get("play") ? playResume() : play()
-							})
-							.catch(e => {
-								console.log(e)
-							})
+					FBInstant.startGameAsync()
+						.then(() => {
+							loc.searchParams.get("play") ? playResume(FBInstant) : play(FBInstant)
+						})
+						.catch(e => {
+							console.log(e)
+						})
 
-					})
-					.catch(e => {
-						console.log(e)
-					})*/
+				})
+				.catch(e => {
+					console.log(e)
+				})
 
-			loc.searchParams.get("play") ? playResume() : play()
-
+			//loc.searchParams.get("play") ? playResume() : play()
 
 		})
 
@@ -106,7 +105,7 @@ var Game = (function(w, func) {
 
 	}
 
-})(window || this, function() {
+})(window || this, function(FBInstant) {
 
 	var world = OimoPhysics().then(phys => {
 
@@ -191,12 +190,7 @@ var Game = (function(w, func) {
 		// display logo
 		$("#coin-container, #energy-container, #settings, #coin-container").css('display', 'grid')
 
-			// initiate Level array
-			!(() => {
-				Profile.level === 1 ? generateLevels() : false
-
-				// Save Array to Player FB database
-			})();
+		// initiate Level array
 
 		function generateLevels() {
 			var cnt = 0;
@@ -208,6 +202,84 @@ var Game = (function(w, func) {
 				})
 			} while (cnt <= 50)
 		}
+
+
+		// FACEBOOK DATA UPDATE
+
+		var LOC = new URL(window.location)
+
+		if (LOC.searchParams.get("play")) {} else {
+			// Get Player User Data
+			User.id = FBInstant.player.getID();
+			User.name = FBInstant.player.getName();
+			User.image.crossOrigin = 'anonymous';
+			User.image.src = FBInstant.player.getPhoto();
+			User.locale = FBInstant.getLocale();
+			User.platform = FBInstant.getPlatform()
+
+			// Save Initial Data
+			FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
+				.then(data => {
+					generateLevels()
+					// Old Players
+					Profile.level = data["level"]
+					Profile.heroName = data["heroName"]
+					Profile.coins = data["coins"]
+					Profile.rank = data["rank"]
+					Profile.maxHP = data["maxHP"]
+					Profile.bombDamage = data["bombDamage"]
+					Profile.energy = data["energy"]
+					Profile.mapRadius = data["mapRadius"]
+					Profile.atomBombRadius = data["atomBombRadius"]
+					Profile.keys = data["keys"]
+					Profile.gunRange = data["gunRange"]
+					Profile.skills = data["skills"]
+					Profile.countdownMin = data["countdownMin"]
+					Profile.Heroes = data["Heroes"]
+
+				}).catch((e) => {
+					console.warn(e)
+					// new Player, Set Initial Data
+					FBInstant.player.setDataAsync({
+						level: Profile.level,
+						heroName: Profile.heroName,
+						coins: Profile.coins,
+						rank: Profile.rank,
+						maxHP: Profile.maxHP,
+						bombDamage: Profile.bombDamage,
+						energy: Profile.energy,
+						mapRadius: Profile.mapRadius,
+						atomBombRadius: Profile.atomBombRadius,
+						gunRange: Profile.gunRange,
+						countdownMin: Profile.countdownMin,
+						keys: Profile.keys,
+						skills: [{
+							name: "forceField",
+							damage: 3,
+							img: "assets/images/textures/field.png"
+	}, {
+							name: "laserBeam",
+							damage: 0.8, // scaling down targets to 80%
+							img: "assets/images/textures/gun.png"
+	}],
+						Heroes: [
+							{
+								name: "cube",
+								heroClass: "default",
+								premium: false,
+								unlockable: false
+		}
+		]
+					}).then(() => {
+						console.log("Data Loaded!")
+					}).catch(e => {
+						console.warn(e)
+					})
+				})
+		}
+
+		// FACEBOOK DATA UPDATE
+		//*******************************************%
 
 		function resize() {
 
@@ -278,21 +350,21 @@ var Game = (function(w, func) {
 
 		for (var va = 0; va < modes.children.length - 1; va++) {
 			if (modes.children[va].attributes.status.value === "locked") {
-					modes.children[va].style.background = "#090C2BB5"
+				modes.children[va].style.background = "#090C2BB5"
 			}
-		
+
 		}
 
 
 		/**************************************************
 		PLAY GAME MODES
 		**************************************************/
-		$(".GMDivs").on("click", (e)=>{
-			switch(e.currentTarget.attributes.stage.value) {
-				case "farming": 
-					Utils.isEnergy() ? startAnim(Profile.level) : Utils.notEnergy() 
+		$(".GMDivs").on("click", (e) => {
+			switch (e.currentTarget.attributes.stage.value) {
+				case "farming":
+					Utils.isEnergy() ? startAnim(Profile.level) : Utils.notEnergy()
 					break;
-					default:
+				default:
 			}
 		})
 
@@ -390,13 +462,10 @@ var Game = (function(w, func) {
 		mm[0].map = mp
 		mm[0].side = 2
 
-
 		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 4, 50, 60), mm)
 		cu.position.set(0, 4, 0)
 
 		SCENE.add(cu)
-
-
 
 
 		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
@@ -468,10 +537,10 @@ var Game = (function(w, func) {
 
 		// animation game
 		function startAnim(lvl) {
-			
+
 			CONTROLS.enabled = false
 			$("#cover, #GameMode, #playbtn, #logo, #settings, #energy-container, #coin-container, #version, #trademark")
-			.css("display", "none")
+				.css("display", "none")
 			character.position.set(0, 2.5, 0)
 
 			var tarPos = new Three.Vector3(25, 70, 25)
@@ -569,6 +638,7 @@ var Game = (function(w, func) {
 
 			// decrease energy
 			Profile.energy = Profile.energy - 2
+
 
 			// inGame session
 			window.inGame = true
@@ -1035,6 +1105,19 @@ var Game = (function(w, func) {
 			}
 			overAnim()
 
+			// Update FACEBOOK PLAYER DATA
+			FBInstant.setDataAsync({
+				level: Profile.level,
+				coins: Profile.coins,
+				rank: Profile.rank,
+				keys: Profile.keys,
+				energy: Profile.energy
+			}).then(() => {
+				console.log("data updated!")
+			}).catch(e => {
+				console.warn(e)
+			})
+
 			// home 
 			$("#home").on('click', function() {
 				Utils.playSound(Sound.setting)
@@ -1148,6 +1231,19 @@ var Game = (function(w, func) {
 			}
 			winAnim()
 
+			// Update FACEBOOK PLAYER DATA
+			FBInstant.setDataAsync({
+				level: Profile.level,
+				coins: Profile.coins,
+				rank: Profile.rank,
+				keys: Profile.keys,
+				energy: Profile.energy
+			}).then(() => {
+				console.log("data updated!")
+			}).catch(e => {
+				console.warn(e)
+			})
+
 			// Home 
 			$("#home").on('click', function() {
 				Utils.playSound(Sound.setting)
@@ -1162,14 +1258,11 @@ var Game = (function(w, func) {
 				// Update Game data
 				$("#energy-txt").text("x" + Profile.energy)
 
-
-
 				CAMERA.lookAt(character.position)
 				CAMERA.lookAt(character.position)
 				character.rotation.y = -10
 				$("#playbtn, #energy-container, #coin-container").css("display", "grid")
 				$("#settings, #version").css("display", "block")
-
 
 				Anim()
 
