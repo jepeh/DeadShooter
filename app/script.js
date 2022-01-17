@@ -75,7 +75,7 @@ var Game = (function(w, func) {
 								Profile.skills = data["skills"]
 								Profile.countdownMin = data["countdownMin"]
 								Profile.Heroes = data["Heroes"]
-								generateLevels()
+						
 							}).catch(e => {
 								console.warn(e)
 							})
@@ -92,7 +92,7 @@ var Game = (function(w, func) {
 						// Save Initial Data
 						FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
 							.then(data => {
-								generateLevels()
+							
 								// Old Players
 								Profile.level = data["level"]
 								Profile.heroName = data["heroName"]
@@ -206,7 +206,7 @@ var Game = (function(w, func) {
 
 	}
 
-})(window || this, function(FBInstant) {
+})(window || this, function() {
 
 	var world = OimoPhysics().then(phys => {
 
