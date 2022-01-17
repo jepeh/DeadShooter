@@ -46,23 +46,124 @@ var Game = (function(w, func) {
 						FBInstant.setLoadingProgress(loaded)
 					}, 100)
 
-					FBInstant.startGameAsync()
-						.then(() => {
-							loc.searchParams.get("play") ? playResume(FBInstant) : play(FBInstant)
-						})
-						.catch(e => {
-							console.log(e)
-						})
+					// Fetch or Save FB Player Data
+
+					if (loc.searchParams.get("play")) {
+						// Fetch FB Data
+						User.id = FBInstant.player.getID();
+						User.name = FBInstant.player.getName();
+						User.image.crossOrigin = 'anonymous';
+						User.image.src = FBInstant.player.getPhoto();
+						User.locale = FBInstant.getLocale();
+						User.platform = FBInstant.getPlatform()
+
+						FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
+							.then(data => {
+
+								// Old Players
+								Profile.level = data["level"]
+								Profile.heroName = data["heroName"]
+								Profile.coins = data["coins"]
+								Profile.rank = data["rank"]
+								Profile.maxHP = data["maxHP"]
+								Profile.bombDamage = data["bombDamage"]
+								Profile.energy = data["energy"]
+								Profile.mapRadius = data["mapRadius"]
+								Profile.atomBombRadius = data["atomBombRadius"]
+								Profile.keys = data["keys"]
+								Profile.gunRange = data["gunRange"]
+								Profile.skills = data["skills"]
+								Profile.countdownMin = data["countdownMin"]
+								Profile.Heroes = data["Heroes"]
+								generateLevels()
+							}).catch(e => {
+								console.warn(e)
+							})
+
+					} else {
+						// Get Player User Data
+						User.id = FBInstant.player.getID();
+						User.name = FBInstant.player.getName();
+						User.image.crossOrigin = 'anonymous';
+						User.image.src = FBInstant.player.getPhoto();
+						User.locale = FBInstant.getLocale();
+						User.platform = FBInstant.getPlatform()
+
+						// Save Initial Data
+						FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
+							.then(data => {
+								generateLevels()
+								// Old Players
+								Profile.level = data["level"]
+								Profile.heroName = data["heroName"]
+								Profile.coins = data["coins"]
+								Profile.rank = data["rank"]
+								Profile.maxHP = data["maxHP"]
+								Profile.bombDamage = data["bombDamage"]
+								Profile.energy = data["energy"]
+								Profile.mapRadius = data["mapRadius"]
+								Profile.atomBombRadius = data["atomBombRadius"]
+								Profile.keys = data["keys"]
+								Profile.gunRange = data["gunRange"]
+								Profile.skills = data["skills"]
+								Profile.countdownMin = data["countdownMin"]
+								Profile.Heroes = data["Heroes"]
+
+							}).catch((e) => {
+								console.warn(e)
+								// new Player, Set Initial Data
+								FBInstant.player.setDataAsync({
+									level: Profile.level,
+									heroName: Profile.heroName,
+									coins: Profile.coins,
+									rank: Profile.rank,
+									maxHP: Profile.maxHP,
+									bombDamage: Profile.bombDamage,
+									energy: Profile.energy,
+									mapRadius: Profile.mapRadius,
+									atomBombRadius: Profile.atomBombRadius,
+									gunRange: Profile.gunRange,
+									countdownMin: Profile.countdownMin,
+									keys: Profile.keys,
+									skills: [{
+										name: "forceField",
+										damage: 3,
+										img: "assets/images/textures/field.png"
+	}, {
+										name: "laserBeam",
+										damage: 0.8, // scaling down targets to 80%
+										img: "assets/images/textures/gun.png"
+	}],
+									Heroes: [
+										{
+											name: "cube",
+											heroClass: "default",
+											premium: false,
+											unlockable: false
+		}
+		]
+								}).then(() => {
+									console.log("Data Loaded!")
+								}).catch(e => {
+									console.warn(e)
+								})
+							})
+					}
 
 				})
-				.catch(e =>{
+				.catch(e => {
 					console.log(e)
 				})
 
 			//loc.searchParams.get("play") ? playResume() : play()
-
+			FBInstant.startGameAsync()
+				.then(() => {
+					loc.searchParams.get("play") ? playResume(FBInstant) : play(FBInstant)
+				})
+				.catch(e => {
+					console.log(e)
+				})
 		})
-
 
 
 		function play() {
@@ -206,116 +307,11 @@ var Game = (function(w, func) {
 
 		// FACEBOOK DATA UPDATE
 
-		var LOC = new URL(window.location)
-
-		if (LOC.searchParams.get("play")) {
-			// Fetch FB Data
-			User.id = FBInstant.player.getID();
-			User.name = FBInstant.player.getName();
-			User.image.crossOrigin = 'anonymous';
-			User.image.src = FBInstant.player.getPhoto();
-			User.locale = FBInstant.getLocale();
-			User.platform = FBInstant.getPlatform()
-
-			FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
-				.then(data => {
-
-					// Old Players
-					Profile.level = data["level"]
-					Profile.heroName = data["heroName"]
-					Profile.coins = data["coins"]
-					Profile.rank = data["rank"]
-					Profile.maxHP = data["maxHP"]
-					Profile.bombDamage = data["bombDamage"]
-					Profile.energy = data["energy"]
-					Profile.mapRadius = data["mapRadius"]
-					Profile.atomBombRadius = data["atomBombRadius"]
-					Profile.keys = data["keys"]
-					Profile.gunRange = data["gunRange"]
-					Profile.skills = data["skills"]
-					Profile.countdownMin = data["countdownMin"]
-					Profile.Heroes = data["Heroes"]
-					generateLevels()
-				}).catch(e => {
-					console.warn(e)
-				})
-
-		} else {
-			// Get Player User Data
-			User.id = FBInstant.player.getID();
-			User.name = FBInstant.player.getName();
-			User.image.crossOrigin = 'anonymous';
-			User.image.src = FBInstant.player.getPhoto();
-			User.locale = FBInstant.getLocale();
-			User.platform = FBInstant.getPlatform()
-
-			// Save Initial Data
-			FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
-				.then(data => {
-					generateLevels()
-					// Old Players
-					Profile.level = data["level"]
-					Profile.heroName = data["heroName"]
-					Profile.coins = data["coins"]
-					Profile.rank = data["rank"]
-					Profile.maxHP = data["maxHP"]
-					Profile.bombDamage = data["bombDamage"]
-					Profile.energy = data["energy"]
-					Profile.mapRadius = data["mapRadius"]
-					Profile.atomBombRadius = data["atomBombRadius"]
-					Profile.keys = data["keys"]
-					Profile.gunRange = data["gunRange"]
-					Profile.skills = data["skills"]
-					Profile.countdownMin = data["countdownMin"]
-					Profile.Heroes = data["Heroes"]
-
-				}).catch((e) => {
-					console.warn(e)
-					// new Player, Set Initial Data
-					FBInstant.player.setDataAsync({
-						level: Profile.level,
-						heroName: Profile.heroName,
-						coins: Profile.coins,
-						rank: Profile.rank,
-						maxHP: Profile.maxHP,
-						bombDamage: Profile.bombDamage,
-						energy: Profile.energy,
-						mapRadius: Profile.mapRadius,
-						atomBombRadius: Profile.atomBombRadius,
-						gunRange: Profile.gunRange,
-						countdownMin: Profile.countdownMin,
-						keys: Profile.keys,
-						skills: [{
-							name: "forceField",
-							damage: 3,
-							img: "assets/images/textures/field.png"
-	}, {
-							name: "laserBeam",
-							damage: 0.8, // scaling down targets to 80%
-							img: "assets/images/textures/gun.png"
-	}],
-						Heroes: [
-							{
-								name: "cube",
-								heroClass: "default",
-								premium: false,
-								unlockable: false
-		}
-		]
-					}).then(() => {
-						console.log("Data Loaded!")
-					}).catch(e => {
-						console.warn(e)
-					})
-				})
-		}
-
-
 		// Update Profile Names, Images
 		$("#Profile-src").attr("src", User.image.src)
 		$("#ProfileInfo-Name").text(User.name)
-		$("#gameid").text("Game ID: "+User.id)
-		$("#ProfileInfo-Rank").text("Rank: "+Profile.rank)
+		$("#gameid").text("Game ID: " + User.id)
+		$("#ProfileInfo-Rank").text("Rank: " + Profile.rank)
 
 		// FACEBOOK DATA UPDATE
 		//*******************************************%
