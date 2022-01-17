@@ -46,6 +46,14 @@ var Game = (function(w, func) {
 						FBInstant.setLoadingProgress(loaded)
 					}, 100)
 
+					FBInstant.startGameAsync()
+				.then(() => {
+					loc.searchParams.get("play") ? playResume(FBInstant) : play(FBInstant)
+				})
+				.catch(e => {
+					console.log(e)
+				})
+
 					// Fetch or Save FB Player Data
 
 					if (loc.searchParams.get("play")) {
@@ -156,13 +164,7 @@ var Game = (function(w, func) {
 				})
 
 			//loc.searchParams.get("play") ? playResume() : play()
-			FBInstant.startGameAsync()
-				.then(() => {
-					loc.searchParams.get("play") ? playResume(FBInstant) : play(FBInstant)
-				})
-				.catch(e => {
-					console.log(e)
-				})
+			
 		})
 
 
