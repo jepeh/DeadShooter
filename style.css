@@ -79,12 +79,12 @@ html {
 	width: 85%;
 	height: 50%;
 	top: 25%;
-	background: linear-gradient(130deg, #2A314D, #181D2D);
+	background: linear-gradient(130deg, #3F40489E, #30324A7D);
 	left: 50%;
 	margin-left: -42.5%;
 	display: grid;
 	z-index: 3;
-	border-radius: 5px;
+	border-radius: 15px;
 	grid-template-rows: 10% 90%;
 }
 #GMTitle{
@@ -108,10 +108,10 @@ html {
 	width: 90%;
 	height: 70%;
 	margin: auto;
-	background-image: url("assets/images/profile.jpg");
+	background-image: url("assets/images/farming.png");
 	background-size: cover;
 	border-radius: 8px;
-	box-shadow: 0 0 10px 1px #0000006E;
+	box-shadow: 0 0 10px 1px #1B1B1C69;
 	left: 50%;
 	margin-left: -45%;
 }
