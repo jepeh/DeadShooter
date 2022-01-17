@@ -303,7 +303,7 @@ var Game = (function(w, func) {
 				})
 			} while (cnt <= 50)
 		}
-
+		generateLevels()
 
 		// FACEBOOK DATA UPDATE
 
