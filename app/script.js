@@ -271,6 +271,32 @@ var Game = (function(w, func) {
 		// Add ambient and dirlight in the scene
 
 
+		/**************************************************
+		Update Game Modes
+		**************************************************/
+		var modes = document.getElementById("GMDiv")
+
+		for (var va = 0; va < modes.children.length - 1; va++) {
+			if (modes.children[va].attributes.status.value === "locked") {
+					modes.children[va].style.background = "#090C2BB5"
+			}
+		
+		}
+
+
+		/**************************************************
+		PLAY GAME MODES
+		**************************************************/
+		$(".GMDivs").on("click", (e)=>{
+			switch(e.currentTarget.attributes.stage.value) {
+				case "farming": 
+					Utils.isEnergy() ? startAnim(Profile.level) : Utils.notEnergy() 
+					break;
+					default:
+			}
+		})
+
+
 		//*******************************************	
 		//Update  Personal Game Data
 		//*******************************************
@@ -442,8 +468,10 @@ var Game = (function(w, func) {
 
 		// animation game
 		function startAnim(lvl) {
+			
 			CONTROLS.enabled = false
-			$("#playbtn, #logo, #settings, #energy-container, #coin-container, #version, #trademark").css("display", "none")
+			$("#cover, #GameMode, #playbtn, #logo, #settings, #energy-container, #coin-container, #version, #trademark")
+			.css("display", "none")
 			character.position.set(0, 2.5, 0)
 
 			var tarPos = new Three.Vector3(25, 70, 25)

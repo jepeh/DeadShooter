@@ -7,7 +7,7 @@ let Profile = {
 	rank: "noob",
 	maxHP: 100,
 	bombDamage: 25,
-	energy: 6,
+	energy: 10,
 	mapRadius: 90,
 	atomBombRadius: 20,
 	atomLevel: 100,

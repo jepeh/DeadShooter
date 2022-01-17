@@ -7,7 +7,12 @@ import * as Three from '../src/three.js'
 //GAME.startGame(Profile.level)
 
 $("#playbtn").on(' click ', () => {
-	Utils.isEnergy() !== !true ? GAME.startAnim(Profile.level) : Utils.notEnergy()
+	$("#cover, #GameMode").css("display", "grid")
+	$("#playbtn").css("display", "none")
 });
 
 
+$("#GMCancel").on(' click ', () => {
+	$("#cover, #GameMode").css("display", "none")
+	$("#playbtn").css("display", "grid")
+});

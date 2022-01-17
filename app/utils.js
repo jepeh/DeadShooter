@@ -106,12 +106,14 @@ $("#alert").on('click', function() {
 
 
 function isEnergy() {
-	if (Profile.energy > 0) return true;
+	if (Profile.energy > 2) return true;
 	else return false
 }
 
 function notEnergy() {
 	$("#alert").css("display", "block")
+	$("#playbtn").css("display", "grid")
+	$("#cover, #GameMode").css("display", "none")
 	playSound(sounds.energy)
 
 }

@@ -82,10 +82,20 @@ html {
 	background: linear-gradient(130deg, #3F40489E, #30324A7D);
 	left: 50%;
 	margin-left: -42.5%;
-	display: grid;
+	display: none;
 	z-index: 3;
 	border-radius: 15px;
 	grid-template-rows: 10% 90%;
+	animation: pop .4s cubic-bezier(0.19, 1, 0.22, 1)
+}
+#GMCancel {
+	position: relative;
+	top: 105%;
+	width: 100%;
+	text-align: center;
+	color: white;
+	font-family: "QS-B";
+	font-size: 4vw
 }
 #GMTitle{
 	position: relative;
@@ -115,12 +125,13 @@ html {
 	left: 50%;
 	margin-left: -45%;
 }
+
 .GMTxt {
 	position: relative;
 	margin: auto;
 	width: 100%;
-	font-family: "QS-L";
-	font-size: 4.3vw;
+	font-family: "QS-B";
+	font-size: 4vw;
 	color: white;
 	top: 35%;
 	text-align: left;
@@ -952,7 +963,7 @@ span>p {
 #cover {
 	position: absolute;
 	width: 100%;
-	display: block;
+	display: none;
 	height: 100%;
 	background-color: rgba(0, 0, 0, .8)
 }
