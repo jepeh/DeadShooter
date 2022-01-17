@@ -55,7 +55,7 @@ var Game = (function(w, func) {
 						})
 
 				})
-				.catch(e => {
+				.catch(e =>{
 					console.log(e)
 				})
 
