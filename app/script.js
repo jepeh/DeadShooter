@@ -50,7 +50,7 @@ var Game = (function(w, func) {
 				.then(() => {
 					loc.searchParams.get("play") ? playResume(FBInstant) : play(FBInstant)
 					
-					/*if (loc.searchParams.get("play")) {
+					if (loc.searchParams.get("play")) {
 						// Fetch FB Data
 						User.id = FBInstant.player.getID();
 						User.name = FBInstant.player.getName();
@@ -151,7 +151,7 @@ var Game = (function(w, func) {
 								})
 							})
 					// Fetch FB Data End
-					}*/
+					}
 					
 				// FB start Game End
 				})
