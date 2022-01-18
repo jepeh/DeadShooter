@@ -49,7 +49,7 @@ var Game = (function(w, func) {
 					FBInstant.startGameAsync()
 				.then(() => {
 		
-					if (loc.searchParams.get("play")) {
+					/*if (loc.searchParams.get("play")) {
 						// Fetch FB Data
 						User.id = FBInstant.player.getID();
 						User.name = FBInstant.player.getName();
@@ -150,7 +150,7 @@ var Game = (function(w, func) {
 								})
 							})
 					// Fetch FB Data End
-					}
+					}*/
 				
 			//	play Game	
 				loc.searchParams.get("play") ? playResume() : play()
@@ -170,7 +170,7 @@ var Game = (function(w, func) {
 
 					// Fetch or Save FB Player Data
 
-		//	loc.searchParams.get("play") ? playResume() : play()
+			loc.searchParams.get("play") ? playResume() : play()
 			
 		})
 
@@ -1026,7 +1026,6 @@ var Game = (function(w, func) {
 			Obj.loop = window.loop
 			Obj.loop()
 
-
 			return;
 		}
 
@@ -1151,7 +1150,7 @@ var Game = (function(w, func) {
 			overAnim()
 
 			// Update FACEBOOK PLAYER DATA
-			FBInstant.setDataAsync({
+		/*	FBInstant.setDataAsync({
 				level: Profile.level,
 				coins: Profile.coins,
 				rank: Profile.rank,
@@ -1161,7 +1160,7 @@ var Game = (function(w, func) {
 				console.log("data updated!")
 			}).catch(e => {
 				console.warn(e)
-			})
+			})*/
 
 			// home 
 			$("#home").on('click', function() {
@@ -1277,7 +1276,7 @@ var Game = (function(w, func) {
 			winAnim()
 
 			// Update FACEBOOK PLAYER DATA
-			FBInstant.setDataAsync({
+		/*	FBInstant.setDataAsync({
 				level: Profile.level,
 				coins: Profile.coins,
 				rank: Profile.rank,
@@ -1287,7 +1286,7 @@ var Game = (function(w, func) {
 				console.log("data updated!")
 			}).catch(e => {
 				console.warn(e)
-			})
+			})*/
 
 			// Home 
 			$("#home").on('click', function() {
