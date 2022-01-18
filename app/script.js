@@ -48,7 +48,7 @@ var Game = (function(w, func) {
 
 					FBInstant.startGameAsync()
 				.then(() => {
-					loc.searchParams.get("play") ? playResume(FBInstant) : play(FBInstant)
+					loc.searchParams.get("play") ? playResume() : play()
 					
 					if (loc.searchParams.get("play")) {
 						// Fetch FB Data
@@ -173,7 +173,7 @@ var Game = (function(w, func) {
 			
 		})
 
-		function play(FBInstant) {
+		function play() {
 			$("body").append(`<img id="splash" src="assets/images/blockgameswhite.png"/>`)
 			$("body").css({ background: 'white', transition: 'all 2s' })
 			var bb = setTimeout(() => {
@@ -189,7 +189,7 @@ var Game = (function(w, func) {
 						clearTimeout(ho)
 						$("#logo").remove()
 						$("body").css('background', "#191C25")
-						func(FBInstant)
+						func()
 					}, 1300)
 
 
@@ -202,20 +202,20 @@ var Game = (function(w, func) {
 
 		}
 
-		function playResume(FBInstant) {
+		function playResume() {
 			$("body").css('background', "#191C25")
 			$("#splash, #logo").css("display", "none")
 			$("body").css('background', "#191C25")
 			$("#loader").css("display", "block")
 
 			setTimeout(()=>{
-				func(FBInstant);
+				func();
 			}, 1500)
 		}
 
 	}
 
-})(window || this, function(FBInstant) {
+})(window || this, function() {
 
 	var world = OimoPhysics().then(phys => {
 
