@@ -20,7 +20,7 @@ import Skills from '../skills/skills.js'
 //import {UnrealBloomPass} from '../src/Composer/shaders/UnrealBloomPass.js'
 
 
-var GAME;
+var GAME; 
 
 var Game = (function(w, func) {
 
@@ -32,7 +32,7 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-			FBInstant.initializeAsync()
+		/*	FBInstant.initializeAsync()
 				.then(() => {
 					var loaded = 1;
 					var loading = setInterval(() => {
@@ -162,13 +162,12 @@ var Game = (function(w, func) {
 				.catch(e => {
 					console.log(e)
 				})
-
-			//loc.searchParams.get("play") ? playResume() : play()
+*/
+			loc.searchParams.get("play") ? playResume() : play()
 			
 		})
 
-
-		function play() {
+		function play(FBInstant) {
 			$("body").append(`<img id="splash" src="assets/images/blockgameswhite.png"/>`)
 			$("body").css({ background: 'white', transition: 'all 2s' })
 			var bb = setTimeout(() => {
@@ -184,7 +183,7 @@ var Game = (function(w, func) {
 						clearTimeout(ho)
 						$("#logo").remove()
 						$("body").css('background', "#191C25")
-						func()
+						func(FBInstant)
 					}, 1300)
 
 
@@ -197,18 +196,20 @@ var Game = (function(w, func) {
 
 		}
 
-		function playResume() {
+		function playResume(FBInstant) {
 			$("body").css('background', "#191C25")
 			$("#splash, #logo").css("display", "none")
 			$("body").css('background', "#191C25")
 			$("#loader").css("display", "block")
 
-			setTimeout(func, 1500)
+			setTimeout(()=>{
+				func(FBInstant);
+			}, 1500)
 		}
 
 	}
 
-})(window || this, function() {
+})(window || this, function(FBInstant) {
 
 	var world = OimoPhysics().then(phys => {
 
@@ -387,7 +388,7 @@ var Game = (function(w, func) {
 
 		for (var va = 0; va < modes.children.length - 1; va++) {
 			if (modes.children[va].attributes.status.value === "locked") {
-				modes.children[va].style.background = "#090C2BB5"
+				modes.children[va].style.backgroundImage = "url(assets/images/lockmode.png)"
 			}
 
 		}
