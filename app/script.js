@@ -20,7 +20,7 @@ import Skills from '../skills/skills.js'
 //import {UnrealBloomPass} from '../src/Composer/shaders/UnrealBloomPass.js'
 
 
-var GAME; 
+var GAME;
 
 var Game = (function(w, func) {
 
@@ -46,10 +46,8 @@ var Game = (function(w, func) {
 						FBInstant.setLoadingProgress(loaded)
 					}, 100)
 
-					FBInstant.startGameAsync()
-				.then(() => {
-		
-					/*if (loc.searchParams.get("play")) {
+
+					if (loc.searchParams.get("play")) {
 						// Fetch FB Data
 						User.id = FBInstant.player.getID();
 						User.name = FBInstant.player.getName();
@@ -76,7 +74,7 @@ var Game = (function(w, func) {
 								Profile.skills = data["skills"]
 								Profile.countdownMin = data["countdownMin"]
 								Profile.Heroes = data["Heroes"]
-						
+
 							}).catch(e => {
 								console.warn(e)
 							})
@@ -93,7 +91,7 @@ var Game = (function(w, func) {
 						// Save Initial Data
 						FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
 							.then(data => {
-							
+
 								// Old Players
 								Profile.level = data["level"]
 								Profile.heroName = data["heroName"]
@@ -149,29 +147,34 @@ var Game = (function(w, func) {
 									console.warn(e)
 								})
 							})
-					// Fetch FB Data End
-					}*/
-				
-			//	play Game	
-				loc.searchParams.get("play") ? playResume() : play()
-				// FB start Game End
-				})
-				.catch(e => {
-					// FB Start Game Async Error
-					console.log(e)
-				})
-				
-				// FB Initialize end
+						// Fetch FB Data End
+					}
+
+
+
+					FBInstant.startGameAsync()
+						.then(() => {
+
+							//	play Game	
+							loc.searchParams.get("play") ? playResume() : play()
+							// FB start Game End
+						})
+						.catch(e => {
+							// FB Start Game Async Error
+							console.log(e)
+						})
+
+					// FB Initialize end
 				})
 				.catch(e => {
 					// FB Initiwlize Async error
 					console.log(e)
 				})
 
-					// Fetch or Save FB Player Data
+			// Fetch or Save FB Player Data
 
 			loc.searchParams.get("play") ? playResume() : play()
-			
+
 		})
 
 		function play() {
@@ -209,7 +212,7 @@ var Game = (function(w, func) {
 			$("body").css('background', "#191C25")
 			$("#loader").css("display", "block")
 
-			setTimeout(()=>{
+			setTimeout(() => {
 				func();
 			}, 1500)
 		}
@@ -1150,17 +1153,17 @@ var Game = (function(w, func) {
 			overAnim()
 
 			// Update FACEBOOK PLAYER DATA
-		/*	FBInstant.setDataAsync({
-				level: Profile.level,
-				coins: Profile.coins,
-				rank: Profile.rank,
-				keys: Profile.keys,
-				energy: Profile.energy
-			}).then(() => {
-				console.log("data updated!")
-			}).catch(e => {
-				console.warn(e)
-			})*/
+			/*	FBInstant.setDataAsync({
+					level: Profile.level,
+					coins: Profile.coins,
+					rank: Profile.rank,
+					keys: Profile.keys,
+					energy: Profile.energy
+				}).then(() => {
+					console.log("data updated!")
+				}).catch(e => {
+					console.warn(e)
+				})*/
 
 			// home 
 			$("#home").on('click', function() {
@@ -1276,17 +1279,17 @@ var Game = (function(w, func) {
 			winAnim()
 
 			// Update FACEBOOK PLAYER DATA
-		/*	FBInstant.setDataAsync({
-				level: Profile.level,
-				coins: Profile.coins,
-				rank: Profile.rank,
-				keys: Profile.keys,
-				energy: Profile.energy
-			}).then(() => {
-				console.log("data updated!")
-			}).catch(e => {
-				console.warn(e)
-			})*/
+			/*	FBInstant.setDataAsync({
+					level: Profile.level,
+					coins: Profile.coins,
+					rank: Profile.rank,
+					keys: Profile.keys,
+					energy: Profile.energy
+				}).then(() => {
+					console.log("data updated!")
+				}).catch(e => {
+					console.warn(e)
+				})*/
 
 			// Home 
 			$("#home").on('click', function() {
