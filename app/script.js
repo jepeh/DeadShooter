@@ -48,8 +48,7 @@ var Game = (function(w, func) {
 
 					FBInstant.startGameAsync()
 				.then(() => {
-					loc.searchParams.get("play") ? playResume() : play()
-					
+		
 					if (loc.searchParams.get("play")) {
 						// Fetch FB Data
 						User.id = FBInstant.player.getID();
@@ -152,7 +151,9 @@ var Game = (function(w, func) {
 							})
 					// Fetch FB Data End
 					}
-					
+				
+			//	play Game	
+				loc.searchParams.get("play") ? playResume() : play()
 				// FB start Game End
 				})
 				.catch(e => {
