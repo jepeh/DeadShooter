@@ -111,7 +111,7 @@ var JoyStick = (function(container, parameters)
 		{
 
 
-			joy.GetDir(event.targetTouches[0])
+			joy.GetDir()
 
 
 			movedX = event.targetTouches[0].pageX;
@@ -215,7 +215,7 @@ var JoyStick = (function(container, parameters)
 		//canvas.unbind('mousemove');
 	}
 
-	this.GetDir = function(e)
+	this.GetDir = function()
 	{
 		
 	/*	var eX = e.clientX - offSet.left

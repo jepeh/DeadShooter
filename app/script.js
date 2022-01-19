@@ -32,7 +32,7 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-			FBInstant.initializeAsync()
+				FBInstant.initializeAsync()
 				.then(() => {
 					var loaded = 1;
 					var loading = setInterval(() => {
@@ -47,7 +47,7 @@ var Game = (function(w, func) {
 					}, 100)
 
 
-					if (loc.searchParams.get("play")) {
+					/*if (loc.searchParams.get("play")) {
 						// Fetch FB Data
 						User.id = FBInstant.player.getID();
 						User.name = FBInstant.player.getName();
@@ -148,7 +148,7 @@ var Game = (function(w, func) {
 								})
 							})
 						// Fetch FB Data End
-					}
+					}*/
 
 
 
@@ -173,7 +173,7 @@ var Game = (function(w, func) {
 
 			// Fetch or Save FB Player Data
 
-			loc.searchParams.get("play") ? playResume() : play()
+		//loc.searchParams.get("play") ? playResume() : play()
 
 		})
 
@@ -212,9 +212,7 @@ var Game = (function(w, func) {
 			$("body").css('background', "#191C25")
 			$("#loader").css("display", "block")
 
-			setTimeout(() => {
-				func();
-			}, 1500)
+			setTimeout(func, 1500)
 		}
 
 	}
@@ -515,6 +513,7 @@ var Game = (function(w, func) {
 
 		SCENE.add(cu)
 
+		
 
 		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
 		gunrange.material.transparent = true
@@ -788,43 +787,6 @@ var Game = (function(w, func) {
 
 					}
 				})
-				var mmm = [
-			new Three.MeshToonMaterial({ transparent: true }),
-			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
-			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
-			]
-
-				// Random Hexagons
-				var mk = TextureLoader.load("assets/images/textures/rod.png")
-
-				mmm[0].map = mk
-				mmm[1].color.set("green")
-				mmm[1].opacity = .4
-
-				for (var uu = 0; uu < 25; uu++) {
-					var posx = Math.floor(Math.random() * (150 - (-150)) + (-150))
-					var posz = Math.floor(Math.random() * (150 - (-150)) + (-150))
-					var grp = new Three.Group()
-
-					for (var u = 0; u < 10; u++) {
-						var size = Math.floor(Math.random() * (3 - 1) + 1)
-						var height = Math.random() * (1 - .3) + .3
-						var posX = Math.floor(Math.random() * (6 - (-6)) + (-6))
-						var posZ = Math.floor(Math.random() * (6 - (-6)) + (-6))
-
-						var kyub = new Three.Mesh(new Three.CylinderGeometry(size, size, height, 6), mmm)
-						if (u >= 1) {
-							kyub.position.set(posX, 1, posZ)
-						} else {
-							kyub.position.set(0, 1, 0)
-						}
-						grp.add(kyub)
-					}
-
-					SCENE.add(grp)
-					grp.position.set(posx, 0, posz)
-
-				}
 
 				// Default Bomb
 				bomb.addEventListener('touchstart', () => {
@@ -839,6 +801,46 @@ var Game = (function(w, func) {
 					secondSkill()
 				})
 			}
+
+			var mmm = [
+			new Three.MeshToonMaterial({ transparent: true }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
+			]
+
+			// Random Hexagons
+			var mk = TextureLoader.load("assets/images/textures/rod.png")
+
+			mmm[0].map = mk
+			mmm[1].color.set("green")
+			mmm[1].opacity = .4
+
+			for (var uu = 0; uu < 25; uu++) {
+				var posx = Math.floor(Math.random() * (150 - (-150)) + (-150))
+				var posz = Math.floor(Math.random() * (150 - (-150)) + (-150))
+				var grp = new Three.Group()
+
+				for (var u = 0; u < 10; u++) {
+					var size = Math.floor(Math.random() * (3 - 1) + 1)
+					var height = Math.random() * (1 - .3) + .3
+					var posX = Math.floor(Math.random() * (6 - (-6)) + (-6))
+					var posZ = Math.floor(Math.random() * (6 - (-6)) + (-6))
+
+					var kyub = new Three.Mesh(new Three.CylinderGeometry(size, size, height, 6), mmm)
+					if (u >= 1) {
+						kyub.position.set(posX, 1, posZ)
+					} else {
+						kyub.position.set(0, 1, 0)
+					}
+					grp.add(kyub)
+				}
+
+				SCENE.add(grp)
+				grp.position.set(posx, 0, posz)
+
+			}
+
+
 			var fReloaded = 100,
 				sReloaded = 100;
 
