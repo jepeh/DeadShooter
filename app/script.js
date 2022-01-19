@@ -32,7 +32,7 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-			FBInstant.initializeAsync()
+			/*FBInstant.initializeAsync()
 				.then(() => {
 					var loaded = 1;
 					var loading = setInterval(() => {
@@ -177,11 +177,11 @@ var Game = (function(w, func) {
 				.catch(e => {
 					// FB Initiwlize Async error
 					console.log(e)
-				})
+				})*/
 
 			// Fetch or Save FB Player Data
 
-			//loc.searchParams.get("play") ? playResume() : play()
+			loc.searchParams.get("play") ? playResume(true) : play(true)
 
 		})
 
@@ -436,6 +436,7 @@ var Game = (function(w, func) {
 		floor.position.y = -1
 		floor.castShadow = true
 		floor.receiveShadow = true
+		floor.meshType = "static"
 
 		SCENE.add(floor)
 
@@ -443,7 +444,9 @@ var Game = (function(w, func) {
 		border.position.y = 1
 		border.rotation.x = Math.PI / 2
 		border.rotation.z = Math.PI / 4
+		border.meshType = "static"
 		SCENE.add(border)
+
 
 		/*	const renderScene = new RenderPass(SCENE, CAMERA)
 
@@ -495,6 +498,7 @@ var Game = (function(w, func) {
 		function ch() {
 
 			window.character = hero.renderHero()
+			character.meshType = "static"
 			character.name = Profile.heroName
 			character.position.set(0, 2.5, 0)
 			character.receiveShadow = true
@@ -519,7 +523,7 @@ var Game = (function(w, func) {
 
 		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 4, 50, 60), mm)
 		cu.position.set(0, 4, 0)
-
+		cu.meshType = "static"
 		SCENE.add(cu)
 
 
@@ -529,6 +533,7 @@ var Game = (function(w, func) {
 		gunrange.material.opacity = 0
 		gunrange.position.copy(character.position)
 		gunrange.position.y = -2
+		gunrange.meshType = "static"
 		SCENE.add(gunrange)
 
 		var fog = new Three.Fog("black", 70, 100)
@@ -571,6 +576,7 @@ var Game = (function(w, func) {
 
 		window.enemyList = []
 		window.enemies = []
+		window.bloods = []
 
 		function notif(txt) {
 			$("#status").css("display", "block")
@@ -1081,9 +1087,19 @@ var Game = (function(w, func) {
 				enemyList[j].material.dispose()
 				SCENE.remove(enemyList[j])
 
-				$(`#${enemyList[j].name}`).remove()
+			
 			}
 			window.enemyList.length = 0
+
+			for (var j = 0; j < window.bloods.length; j++) {
+
+				bloods[j].geometry.dispose()
+				bloods[j].material.dispose()
+				SCENE.remove(bloods[j])
+
+				
+			}
+			window.bloods.length = 0
 
 			for (var m = 0; m < mysteryboxes.length; m++) {
 
@@ -1109,6 +1125,45 @@ var Game = (function(w, func) {
 			}
 
 			droppedCoins.length = 0
+
+			// remove SCENE childrens and remain static mesh
+			for (var sc = 0; sc < window.SCENE.children.length; sc++)
+			{
+				if (window.SCENE.children[sc].type === "Mesh") {
+					if (window.SCENE.children[sc].meshType === "static") {
+
+					} else {
+
+						if (Array.isArray(SCENE.children[sc].material)) {
+							SCENE.children[sc].material.forEach(e => {
+								e.dispose()
+							})
+						} else {
+							window.SCENE.children[sc].material.dispose()
+						}
+
+						window.SCENE.children[sc].geometry.dispose()
+						window.SCENE.remove(window.SCENE.children[sc])
+					}
+				} else if (window.SCENE.children[sc].type === "Group") {
+					if (window.SCENE.children[sc].meshType === "static") {
+
+					} else {
+						window.SCENE.children[sc].children.forEach(e => {
+							if (Array.isArray(e.material)) {
+								e.material.forEach(f => {
+									f.dispose()
+								})
+							} else {
+								e.material.dispose()
+							}
+							e.geometry.dispose()
+							SCENE.remove(e)
+						})
+						SCENE.remove(SCENE.children[sc])
+					}
+				}
+			}
 
 			$("#statcount, #counter, #life, #bombbar, #atombomb, #critical, #utils, #mapicon")
 				.css("display", "none")
@@ -1164,7 +1219,7 @@ var Game = (function(w, func) {
 			overAnim()
 
 			// Update FACEBOOK PLAYER DATA
-			Facebook.player.setDataAsync({
+			/*Facebook.player.setDataAsync({
 				level: Profile.level,
 				coins: Profile.coins,
 				rank: Profile.rank,
@@ -1174,7 +1229,7 @@ var Game = (function(w, func) {
 				console.log("data updated!")
 			}).catch(e => {
 				console.warn(e)
-			})
+			})*/
 
 			// home 
 			$("#home").on('click', function() {
@@ -1185,11 +1240,58 @@ var Game = (function(w, func) {
 				window.hero.velocity = Profile.velocity
 				window.hero.bullets = Profile.bombs
 				Profile.atomLevel = 0
+				$("#hp")
+				.css({
+					width: "100%",
+					backgroundColor: "#11CCFF"
+				})
+				
+				CONTROLS.enabled = true
 
-				var nURL = new URL(window.location)
-				nURL.searchParams.set("play", true)
+				// remove HTML elements
+				$("#home, #gameover, #gameoverstat").css("display", "none")
 
-				window.location.href = nURL
+				// not applicable
+				/*	var nURL = new URL(window.location)
+					nURL.searchParams.set("play", true)
+
+					window.location.href = nURL*/
+
+				character.children.forEach(e =>{
+					e.material.dispose();
+					e.geometry.dispose()
+					SCENE.remove(e)
+				})
+				SCENE.remove(character)
+				window.character = undefined
+				
+				ch()
+
+				// reset Character mesh
+				character.position.set(0, character.position.y, 0)
+				character.scale.set(0, 0, 0)
+
+				TweenMax.to(character.scale, .5, {
+					x: 1,
+					y: 1,
+					z: 1,
+					onComplete: function() {
+						// display html element
+						$("#coin-container, #energy-container, #playbtn, #settings").css('display', 'grid')
+					}
+				})
+				
+				TweenMax.to(CAMERA.position, .8, {
+					x: 0,
+					y: 25,
+					z: 20,
+					onComplete: function(){
+						CONTROLS.target = character.position
+					}
+					
+				})
+				
+
 
 				return;
 			})
@@ -1293,7 +1395,7 @@ var Game = (function(w, func) {
 			winAnim()
 
 			// Update FACEBOOK PLAYER DATA
-			Facebook.player.setDataAsync({
+			/*Facebook.player.setDataAsync({
 				level: Profile.level,
 				coins: Profile.coins,
 				rank: Profile.rank,
@@ -1303,7 +1405,7 @@ var Game = (function(w, func) {
 				console.log("data updated!")
 			}).catch(e => {
 				console.warn(e)
-			})
+			})*/
 
 			// Home 
 			$("#home").on('click', function() {

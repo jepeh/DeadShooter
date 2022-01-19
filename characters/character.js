@@ -74,6 +74,7 @@ class Hero {
 			let blood = new Three.Mesh(new Three.BoxBufferGeometry(ranW, ranH, ranW), new Three.MeshToonMaterial({ color: "red", transparent: true, opacity: .6 }))
 			blood.position.copy(pos)
 			window.SCENE.add(blood)
+			window.bloods.push(blood)
 		
 		return false;
 	}
