@@ -32,7 +32,7 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-			/*	FBInstant.initializeAsync()
+				FBInstant.initializeAsync()
 				.then(() => {
 					var loaded = 1;
 					var loading = setInterval(() => {
@@ -47,7 +47,7 @@ var Game = (function(w, func) {
 					}, 100)
 
 
-					/*if (loc.searchParams.get("play")) {
+				/*	if (loc.searchParams.get("play")) {
 						// Fetch FB Data
 						User.id = FBInstant.player.getID();
 						User.name = FBInstant.player.getName();
@@ -148,7 +148,7 @@ var Game = (function(w, func) {
 								})
 							})
 						// Fetch FB Data End
-					}
+					}*/
 
 
 
@@ -157,6 +157,7 @@ var Game = (function(w, func) {
 							//	play Game	
 							loc.searchParams.get("play") ? playResume() : play()
 							// FB start Game End
+							User.id = FBInstant.player.getID();
 						})
 						.catch(e => {
 							// FB Start Game Async Error
@@ -168,11 +169,11 @@ var Game = (function(w, func) {
 				.catch(e => {
 					// FB Initiwlize Async error
 					console.log(e)
-				})*/
+				})
 
 			// Fetch or Save FB Player Data
 
-		loc.searchParams.get("play") ? playResume() : play()
+		//loc.searchParams.get("play") ? playResume() : play()
 
 		})
 
