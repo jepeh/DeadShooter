@@ -154,7 +154,6 @@ var Game = (function(w, func) {
 
 					FBInstant.startGameAsync()
 						.then(() => {
-
 							//	play Game	
 							loc.searchParams.get("play") ? playResume() : play()
 							// FB start Game End
@@ -400,7 +399,6 @@ var Game = (function(w, func) {
 			}
 
 		}
-
 
 		/**************************************************
 		PLAY GAME MODES
