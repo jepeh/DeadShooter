@@ -7,7 +7,11 @@ $("#thanks").on('click', () => {
 	$("#cover, #ccnscvr").css("display", "none")
 	Profile.coins = Profile.coins + 100
 	$("#coin-txt").text(Profile.coins)
-	window.location.href = "/index.html?play=true"
+
+
+	var nURL = new URL(window.location)
+	nURL.searchParams.set("play", true)
+	window.location.href = nURL
 })
 
 $("#music").on('click', function() {
