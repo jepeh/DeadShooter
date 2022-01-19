@@ -157,7 +157,7 @@ var Game = (function(w, func) {
 							//	play Game	
 							loc.searchParams.get("play") ? playResume() : play()
 							// FB start Game End
-							User.id = FBInstant.player.getID();
+						//	User.id = FBInstant.player.getID();
 						})
 						.catch(e => {
 							// FB Start Game Async Error
