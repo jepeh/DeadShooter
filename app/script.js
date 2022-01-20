@@ -21,6 +21,7 @@ import Skills from '../skills/skills.js'
 
 
 var GAME;
+window.newGame = true
 
 var Game = (function(w, func) {
 
@@ -150,7 +151,7 @@ var Game = (function(w, func) {
 
 			// Fetch or Save FB Player Data
 
-			play(true)
+			window.newGame ? play(true) : playResume(true)
 
 		})
 
@@ -529,6 +530,7 @@ var Game = (function(w, func) {
 
 		window.enemyList = []
 		window.enemies = []
+		window.bloods = []
 
 		function notif(txt) {
 			$("#status").css("display", "block")

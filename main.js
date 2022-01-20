@@ -10,3 +10,7 @@ $("#GMCancel").on(' click ', () => {
 	$("#cover, #GameMode").css("display", "none")
 	$("#playbtn").css("display", "grid")
 });
+
+console.log(window.frameElement)
+console.log(document.location)
+console.log(window.location)
