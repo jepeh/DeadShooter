@@ -32,7 +32,7 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-			/*FBInstant.initializeAsync()
+			FBInstant.initializeAsync()
 				.then(() => {
 					var loaded = 1;
 					var loading = setInterval(() => {
@@ -50,19 +50,60 @@ var Game = (function(w, func) {
 						.then(() => {
 
 
-							if (loc.searchParams.get("play")) {
-								console.log(1)
-								// Fetch FB Data
-								User.id = FBInstant.player.getID();
-								User.name = FBInstant.player.getName();
-								User.image.crossOrigin = 'anonymous';
-								User.image.src = FBInstant.player.getPhoto();
-								User.locale = FBInstant.getLocale();
-								User.platform = FBInstant.getPlatform()
+							console.log("Game Started!")
+							// Get Player User Data
+							User.id = FBInstant.player.getID();
+							User.name = FBInstant.player.getName();
+							User.image.crossOrigin = 'anonymous';
+							User.image.src = FBInstant.player.getPhoto();
+							User.locale = FBInstant.getLocale();
+							User.platform = FBInstant.getPlatform()
 
-								FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
-									.then(data => {
-										console.log(2)
+							// Save Initial Data
+							FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
+								.then(data => {
+
+
+									if (data["level"] === undefined) {
+										
+										console.log("Player is new")
+										FBInstant.player.setDataAsync({
+											level: Profile.level,
+											heroName: Profile.heroName,
+											coins: Profile.coins,
+											rank: Profile.rank,
+											maxHP: Profile.maxHP,
+											bombDamage: Profile.bombDamage,
+											energy: Profile.energy,
+											mapRadius: Profile.mapRadius,
+											atomBombRadius: Profile.atomBombRadius,
+											gunRange: Profile.gunRange,
+											countdownMin: Profile.countdownMin,
+											keys: Profile.keys,
+											skills: [{
+												name: "forceField",
+												damage: 3,
+												img: "assets/images/textures/field.png"
+	}, {
+												name: "laserBeam",
+												damage: 0.8, // scaling down targets to 80%
+												img: "assets/images/textures/gun.png"
+	}],
+											Heroes: [
+												{
+													name: "cube",
+													heroClass: "default",
+													premium: false,
+													unlockable: false
+		}
+		]
+										}).then(() => {
+											console.log("Data Set!")
+										}).catch(e => {
+											console.warn(e)
+										})
+									} else {
+
 										// Old Players
 										Profile.level = data["level"]
 										Profile.heroName = data["heroName"]
@@ -78,93 +119,21 @@ var Game = (function(w, func) {
 										Profile.skills = data["skills"]
 										Profile.countdownMin = data["countdownMin"]
 										Profile.Heroes = data["Heroes"]
-
-									}).catch(e => {
-										console.warn(e)
-									})
-
-							} else {
-								console.log(3)
-								// Get Player User Data
-								User.id = FBInstant.player.getID();
-								User.name = FBInstant.player.getName();
-								User.image.crossOrigin = 'anonymous';
-								User.image.src = FBInstant.player.getPhoto();
-								User.locale = FBInstant.getLocale();
-								User.platform = FBInstant.getPlatform()
-
-								// Save Initial Data
-								FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
-									.then(data => {
-
-
-										if (data["level"] === undefined) {
-											FBInstant.player.setDataAsync({
-												level: Profile.level,
-												heroName: Profile.heroName,
-												coins: Profile.coins,
-												rank: Profile.rank,
-												maxHP: Profile.maxHP,
-												bombDamage: Profile.bombDamage,
-												energy: Profile.energy,
-												mapRadius: Profile.mapRadius,
-												atomBombRadius: Profile.atomBombRadius,
-												gunRange: Profile.gunRange,
-												countdownMin: Profile.countdownMin,
-												keys: Profile.keys,
-												skills: [{
-													name: "forceField",
-													damage: 3,
-													img: "assets/images/textures/field.png"
-	}, {
-													name: "laserBeam",
-													damage: 0.8, // scaling down targets to 80%
-													img: "assets/images/textures/gun.png"
-	}],
-												Heroes: [
-													{
-														name: "cube",
-														heroClass: "default",
-														premium: false,
-														unlockable: false
-		}
-		]
-											}).then(() => {
-												console.log("Data Loaded!")
-											}).catch(e => {
-												console.warn(e)
-											})
-										} else {
-
-											// Old Players
-											Profile.level = data["level"]
-											Profile.heroName = data["heroName"]
-											Profile.coins = data["coins"]
-											Profile.rank = data["rank"]
-											Profile.maxHP = data["maxHP"]
-											Profile.bombDamage = data["bombDamage"]
-											Profile.energy = data["energy"]
-											Profile.mapRadius = data["mapRadius"]
-											Profile.atomBombRadius = data["atomBombRadius"]
-											Profile.keys = data["keys"]
-											Profile.gunRange = data["gunRange"]
-											Profile.skills = data["skills"]
-											Profile.countdownMin = data["countdownMin"]
-											Profile.Heroes = data["Heroes"]
-
-										}
+											
+										console.log("Data fetched!")
+									}
 
 
 
-									}).catch((e) => {
-										console.warn(e)
+								}).catch((e) => {
+									console.warn(e)
 
-									})
-								// Fetch FB Data End
-							}
+								})
+							// Fetch FB Data End
 
 							//	play Game	
-							loc.searchParams.get("play") ? playResume(FBInstant) : play(FBInstant)
+							play(FBInstant)
+							// FB start Game End
 
 						})
 						.catch(e => {
@@ -177,11 +146,11 @@ var Game = (function(w, func) {
 				.catch(e => {
 					// FB Initiwlize Async error
 					console.log(e)
-				})*/
+				})
 
 			// Fetch or Save FB Player Data
 
-			loc.searchParams.get("play") ? playResume(true) : play(true)
+			//play(true)
 
 		})
 
@@ -212,17 +181,6 @@ var Game = (function(w, func) {
 				clearTimeout(bb)
 			}, 1800)
 
-		}
-
-		function playResume(FB) {
-			$("body").css('background', "#191C25")
-			$("#splash, #logo").css("display", "none")
-			$("body").css('background', "#191C25")
-			$("#loader").css("display", "block")
-
-			setTimeout(() => {
-				func(FB)
-			}, 1500)
 		}
 
 	}
@@ -436,7 +394,6 @@ var Game = (function(w, func) {
 		floor.position.y = -1
 		floor.castShadow = true
 		floor.receiveShadow = true
-		floor.meshType = "static"
 
 		SCENE.add(floor)
 
@@ -444,9 +401,7 @@ var Game = (function(w, func) {
 		border.position.y = 1
 		border.rotation.x = Math.PI / 2
 		border.rotation.z = Math.PI / 4
-		border.meshType = "static"
 		SCENE.add(border)
-
 
 		/*	const renderScene = new RenderPass(SCENE, CAMERA)
 
@@ -489,7 +444,7 @@ var Game = (function(w, func) {
 			var hero;
 			switch (Profile.heroName) {
 				case "cube":
-					hero = new Character.Heroes.defaultHero()
+					hero = new Character.Heroes.defaultHero();
 					break;
 			}
 			return hero;
@@ -498,7 +453,6 @@ var Game = (function(w, func) {
 		function ch() {
 
 			window.character = hero.renderHero()
-			character.meshType = "static"
 			character.name = Profile.heroName
 			character.position.set(0, 2.5, 0)
 			character.receiveShadow = true
@@ -523,7 +477,7 @@ var Game = (function(w, func) {
 
 		var cu = new Three.Mesh(new Three.CylinderGeometry(4, 4, 4, 50, 60), mm)
 		cu.position.set(0, 4, 0)
-		cu.meshType = "static"
+
 		SCENE.add(cu)
 
 
@@ -533,7 +487,6 @@ var Game = (function(w, func) {
 		gunrange.material.opacity = 0
 		gunrange.position.copy(character.position)
 		gunrange.position.y = -2
-		gunrange.meshType = "static"
 		SCENE.add(gunrange)
 
 		var fog = new Three.Fog("black", 70, 100)
@@ -576,7 +529,6 @@ var Game = (function(w, func) {
 
 		window.enemyList = []
 		window.enemies = []
-		window.bloods = []
 
 		function notif(txt) {
 			$("#status").css("display", "block")
@@ -1087,19 +1039,9 @@ var Game = (function(w, func) {
 				enemyList[j].material.dispose()
 				SCENE.remove(enemyList[j])
 
-			
+				$(`#${enemyList[j].name}`).remove()
 			}
 			window.enemyList.length = 0
-
-			for (var j = 0; j < window.bloods.length; j++) {
-
-				bloods[j].geometry.dispose()
-				bloods[j].material.dispose()
-				SCENE.remove(bloods[j])
-
-				
-			}
-			window.bloods.length = 0
 
 			for (var m = 0; m < mysteryboxes.length; m++) {
 
@@ -1125,45 +1067,6 @@ var Game = (function(w, func) {
 			}
 
 			droppedCoins.length = 0
-
-			// remove SCENE childrens and remain static mesh
-			for (var sc = 0; sc < window.SCENE.children.length; sc++)
-			{
-				if (window.SCENE.children[sc].type === "Mesh") {
-					if (window.SCENE.children[sc].meshType === "static") {
-
-					} else {
-
-						if (Array.isArray(SCENE.children[sc].material)) {
-							SCENE.children[sc].material.forEach(e => {
-								e.dispose()
-							})
-						} else {
-							window.SCENE.children[sc].material.dispose()
-						}
-
-						window.SCENE.children[sc].geometry.dispose()
-						window.SCENE.remove(window.SCENE.children[sc])
-					}
-				} else if (window.SCENE.children[sc].type === "Group") {
-					if (window.SCENE.children[sc].meshType === "static") {
-
-					} else {
-						window.SCENE.children[sc].children.forEach(e => {
-							if (Array.isArray(e.material)) {
-								e.material.forEach(f => {
-									f.dispose()
-								})
-							} else {
-								e.material.dispose()
-							}
-							e.geometry.dispose()
-							SCENE.remove(e)
-						})
-						SCENE.remove(SCENE.children[sc])
-					}
-				}
-			}
 
 			$("#statcount, #counter, #life, #bombbar, #atombomb, #critical, #utils, #mapicon")
 				.css("display", "none")
@@ -1219,7 +1122,7 @@ var Game = (function(w, func) {
 			overAnim()
 
 			// Update FACEBOOK PLAYER DATA
-			/*Facebook.player.setDataAsync({
+			Facebook.player.setDataAsync({
 				level: Profile.level,
 				coins: Profile.coins,
 				rank: Profile.rank,
@@ -1229,7 +1132,7 @@ var Game = (function(w, func) {
 				console.log("data updated!")
 			}).catch(e => {
 				console.warn(e)
-			})*/
+			})
 
 			// home 
 			$("#home").on('click', function() {
@@ -1240,58 +1143,8 @@ var Game = (function(w, func) {
 				window.hero.velocity = Profile.velocity
 				window.hero.bullets = Profile.bombs
 				Profile.atomLevel = 0
-				$("#hp")
-				.css({
-					width: "100%",
-					backgroundColor: "#11CCFF"
-				})
-				
-				CONTROLS.enabled = true
 
-				// remove HTML elements
-				$("#home, #gameover, #gameoverstat").css("display", "none")
-
-				// not applicable
-				/*	var nURL = new URL(window.location)
-					nURL.searchParams.set("play", true)
-
-					window.location.href = nURL*/
-
-				character.children.forEach(e =>{
-					e.material.dispose();
-					e.geometry.dispose()
-					SCENE.remove(e)
-				})
-				SCENE.remove(character)
-				window.character = undefined
-				
-				ch()
-
-				// reset Character mesh
-				character.position.set(0, character.position.y, 0)
-				character.scale.set(0, 0, 0)
-
-				TweenMax.to(character.scale, .5, {
-					x: 1,
-					y: 1,
-					z: 1,
-					onComplete: function() {
-						// display html element
-						$("#coin-container, #energy-container, #playbtn, #settings").css('display', 'grid')
-					}
-				})
-				
-				TweenMax.to(CAMERA.position, .8, {
-					x: 0,
-					y: 25,
-					z: 20,
-					onComplete: function(){
-						CONTROLS.target = character.position
-					}
-					
-				})
-				
-
+				window.location.reload()
 
 				return;
 			})
@@ -1395,7 +1248,7 @@ var Game = (function(w, func) {
 			winAnim()
 
 			// Update FACEBOOK PLAYER DATA
-			/*Facebook.player.setDataAsync({
+			Facebook.player.setDataAsync({
 				level: Profile.level,
 				coins: Profile.coins,
 				rank: Profile.rank,
@@ -1405,7 +1258,7 @@ var Game = (function(w, func) {
 				console.log("data updated!")
 			}).catch(e => {
 				console.warn(e)
-			})*/
+			})
 
 			// Home 
 			$("#home").on('click', function() {

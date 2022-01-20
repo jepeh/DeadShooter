@@ -8,10 +8,7 @@ $("#thanks").on('click', () => {
 	Profile.coins = Profile.coins + 100
 	$("#coin-txt").text(Profile.coins)
 
-
-	var nURL = new URL(window.location)
-	nURL.searchParams.set("play", true)
-	window.location.href = nURL
+	window.location.reload()
 })
 
 $("#music").on('click', function() {
