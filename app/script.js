@@ -23,8 +23,6 @@ import Skills from '../skills/skills.js'
 var GAME;
 
 $("#GameMode").css("display", "grid")
-
-
 var Game = (function(w, func) {
 
 	// Check if browser support WebGL
