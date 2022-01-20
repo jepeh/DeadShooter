@@ -21,7 +21,6 @@ import Skills from '../skills/skills.js'
 
 
 var GAME;
-window.newGame = true
 
 var Game = (function(w, func) {
 
@@ -33,7 +32,7 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-			/*FBInstant.initializeAsync()
+			FBInstant.initializeAsync()
 				.then(() => {
 					var loaded = 1;
 					var loading = setInterval(() => {
@@ -66,7 +65,7 @@ var Game = (function(w, func) {
 
 
 									if (data["level"] === undefined) {
-										
+
 										console.log("Player is new")
 										FBInstant.player.setDataAsync({
 											level: Profile.level,
@@ -120,11 +119,9 @@ var Game = (function(w, func) {
 										Profile.skills = data["skills"]
 										Profile.countdownMin = data["countdownMin"]
 										Profile.Heroes = data["Heroes"]
-											
+
 										console.log("Data fetched!")
 									}
-
-
 
 								}).catch((e) => {
 									console.warn(e)
@@ -147,12 +144,11 @@ var Game = (function(w, func) {
 				.catch(e => {
 					// FB Initiwlize Async error
 					console.log(e)
-				})*/
+				})
 
 			// Fetch or Save FB Player Data
 
-			window.newGame ? play(true) : playResume(true)
-
+			// play(true)
 		})
 
 		function play(FB) {
@@ -1250,17 +1246,17 @@ var Game = (function(w, func) {
 			winAnim()
 
 			// Update FACEBOOK PLAYER DATA
-		/*	Facebook.player.setDataAsync({
-				level: Profile.level,
-				coins: Profile.coins,
-				rank: Profile.rank,
-				keys: Profile.keys,
-				energy: Profile.energy
-			}).then(() => {
-				console.log("data updated!")
-			}).catch(e => {
-				console.warn(e)
-			})*/
+			/*	Facebook.player.setDataAsync({
+					level: Profile.level,
+					coins: Profile.coins,
+					rank: Profile.rank,
+					keys: Profile.keys,
+					energy: Profile.energy
+				}).then(() => {
+					console.log("data updated!")
+				}).catch(e => {
+					console.warn(e)
+				})*/
 
 			// Home 
 			$("#home").on('click', function() {
