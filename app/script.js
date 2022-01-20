@@ -32,7 +32,7 @@ var Game = (function(w, func) {
 		$(window).on('load', function() {
 			var loc = new URL(window.location)
 
-			FBInstant.initializeAsync()
+			/*FBInstant.initializeAsync()
 				.then(() => {
 					var loaded = 1;
 					var loading = setInterval(() => {
@@ -146,11 +146,11 @@ var Game = (function(w, func) {
 				.catch(e => {
 					// FB Initiwlize Async error
 					console.log(e)
-				})
+				})*/
 
 			// Fetch or Save FB Player Data
 
-			//play(true)
+			play(true)
 
 		})
 
@@ -1122,7 +1122,7 @@ var Game = (function(w, func) {
 			overAnim()
 
 			// Update FACEBOOK PLAYER DATA
-			Facebook.player.setDataAsync({
+			/*Facebook.player.setDataAsync({
 				level: Profile.level,
 				coins: Profile.coins,
 				rank: Profile.rank,
@@ -1132,7 +1132,7 @@ var Game = (function(w, func) {
 				console.log("data updated!")
 			}).catch(e => {
 				console.warn(e)
-			})
+			})*/
 
 			// home 
 			$("#home").on('click', function() {
@@ -1248,7 +1248,7 @@ var Game = (function(w, func) {
 			winAnim()
 
 			// Update FACEBOOK PLAYER DATA
-			Facebook.player.setDataAsync({
+		/*	Facebook.player.setDataAsync({
 				level: Profile.level,
 				coins: Profile.coins,
 				rank: Profile.rank,
@@ -1258,7 +1258,7 @@ var Game = (function(w, func) {
 				console.log("data updated!")
 			}).catch(e => {
 				console.warn(e)
-			})
+			})*/
 
 			// Home 
 			$("#home").on('click', function() {
