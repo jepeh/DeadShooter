@@ -22,6 +22,9 @@ import Skills from '../skills/skills.js'
 
 var GAME;
 
+$("#GameMode").css("display", "grid")
+
+
 var Game = (function(w, func) {
 
 	// Check if browser support WebGL
@@ -29,127 +32,124 @@ var Game = (function(w, func) {
 		// morph window device pixel ratio
 		window.devicePixelRatio = 2
 
-		$(window).on('load', function() {
-			var loc = new URL(window.location)
+		$("#alert").css("display", "block")
+		FBInstant.initializeAsync()
+			.then(() => {
+				var loaded = 1;
+				var loading = setInterval(() => {
+					if (loaded >= 100) {
+						clearInterval(loading)
+					}
+					else {
+						loaded++
+					}
 
-			FBInstant.initializeAsync()
-				.then(() => {
-					var loaded = 1;
-					var loading = setInterval(() => {
-						if (loaded >= 100) {
-							clearInterval(loading)
-						}
-						else {
-							loaded++
-						}
+					FBInstant.setLoadingProgress(loaded)
+				}, 100)
 
-						FBInstant.setLoadingProgress(loaded)
-					}, 100)
-
-					FBInstant.startGameAsync()
-						.then(() => {
+				FBInstant.startGameAsync()
+					.then(() => {
 
 
-							console.log("Game Started!")
-							// Get Player User Data
-							User.id = FBInstant.player.getID();
-							User.name = FBInstant.player.getName();
-							User.image.crossOrigin = 'anonymous';
-							User.image.src = FBInstant.player.getPhoto();
-							User.locale = FBInstant.getLocale();
-							User.platform = FBInstant.getPlatform()
+						console.log("Game Started!")
+						// Get Player User Data
+						User.id = FBInstant.player.getID();
+						User.name = FBInstant.player.getName();
+						User.image.crossOrigin = 'anonymous';
+						User.image.src = FBInstant.player.getPhoto();
+						User.locale = FBInstant.getLocale();
+						User.platform = FBInstant.getPlatform()
 
-							// Save Initial Data
-							FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
-								.then(data => {
+						// Save Initial Data
+						FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
+							.then(data => {
 
+								if (data["level"] === undefined) {
 
-									if (data["level"] === undefined) {
-
-										console.log("Player is new")
-										FBInstant.player.setDataAsync({
-											level: Profile.level,
-											heroName: Profile.heroName,
-											coins: Profile.coins,
-											rank: Profile.rank,
-											maxHP: Profile.maxHP,
-											bombDamage: Profile.bombDamage,
-											energy: Profile.energy,
-											mapRadius: Profile.mapRadius,
-											atomBombRadius: Profile.atomBombRadius,
-											gunRange: Profile.gunRange,
-											countdownMin: Profile.countdownMin,
-											keys: Profile.keys,
-											skills: [{
-												name: "forceField",
-												damage: 3,
-												img: "assets/images/textures/field.png"
+									console.log("Player is new")
+									FBInstant.player.setDataAsync({
+										level: Profile.level,
+										heroName: Profile.heroName,
+										coins: Profile.coins,
+										rank: Profile.rank,
+										maxHP: Profile.maxHP,
+										bombDamage: Profile.bombDamage,
+										energy: Profile.energy,
+										mapRadius: Profile.mapRadius,
+										atomBombRadius: Profile.atomBombRadius,
+										gunRange: Profile.gunRange,
+										countdownMin: Profile.countdownMin,
+										keys: Profile.keys,
+										skills: [{
+											name: "forceField",
+											damage: 3,
+											img: "assets/images/textures/field.png"
 	}, {
-												name: "laserBeam",
-												damage: 0.8, // scaling down targets to 80%
-												img: "assets/images/textures/gun.png"
+											name: "laserBeam",
+											damage: 0.8, // scaling down targets to 80%
+											img: "assets/images/textures/gun.png"
 	}],
-											Heroes: [
-												{
-													name: "cube",
-													heroClass: "default",
-													premium: false,
-													unlockable: false
+										Heroes: [
+											{
+												name: "cube",
+												heroClass: "default",
+												premium: false,
+												unlockable: false
 		}
 		]
-										}).then(() => {
-											console.log("Data Set!")
-										}).catch(e => {
-											console.warn(e)
-										})
-									} else {
+									}).then(() => {
+										console.log("Data Set!")
+									}).catch(e => {
+										console.warn(e)
+									})
+								} else {
 
-										// Old Players
-										Profile.level = data["level"]
-										Profile.heroName = data["heroName"]
-										Profile.coins = data["coins"]
-										Profile.rank = data["rank"]
-										Profile.maxHP = data["maxHP"]
-										Profile.bombDamage = data["bombDamage"]
-										Profile.energy = data["energy"]
-										Profile.mapRadius = data["mapRadius"]
-										Profile.atomBombRadius = data["atomBombRadius"]
-										Profile.keys = data["keys"]
-										Profile.gunRange = data["gunRange"]
-										Profile.skills = data["skills"]
-										Profile.countdownMin = data["countdownMin"]
-										Profile.Heroes = data["Heroes"]
+									// Old Players
+									Profile.level = data["level"]
+									Profile.heroName = data["heroName"]
+									Profile.coins = data["coins"]
+									Profile.rank = data["rank"]
+									Profile.maxHP = data["maxHP"]
+									Profile.bombDamage = data["bombDamage"]
+									Profile.energy = data["energy"]
+									Profile.mapRadius = data["mapRadius"]
+									Profile.atomBombRadius = data["atomBombRadius"]
+									Profile.keys = data["keys"]
+									Profile.gunRange = data["gunRange"]
+									Profile.skills = data["skills"]
+									Profile.countdownMin = data["countdownMin"]
+									Profile.Heroes = data["Heroes"]
 
-										console.log("Data fetched!")
-									}
+									console.log("Data fetched!")
+								}
 
-								}).catch((e) => {
-									console.warn(e)
+							}).catch((e) => {
+								console.warn(e)
 
-								})
-							// Fetch FB Data End
+							})
+						// Fetch FB Data End
 
-							//	play Game	
-							play(FBInstant)
-							// FB start Game End
+						//	play Game	
+						play(FBInstant)
+						// FB start Game End
 
-						})
-						.catch(e => {
-							// FB Start Game Async Error
-							console.log(e)
-						})
+					})
+					.catch(e => {
+						// FB Start Game Async Error
+						console.log(e)
+					})
 
-					// FB Initialize end
-				})
-				.catch(e => {
-					// FB Initiwlize Async error
-					console.log(e)
-				})
+				// FB Initialize end
+			})
+			.catch(e => {
+				// FB Initiwlize Async error
+				console.log(e)
+			})
 
-			// Fetch or Save FB Player Data
+		// Fetch or Save FB Player Data
 
-			// play(true)
-		})
+		//play(true)
+
 
 		function play(FB) {
 			$("body").append(`<img id="splash" src="assets/images/blockgameswhite.png"/>`)

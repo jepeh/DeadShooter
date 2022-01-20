@@ -7,6 +7,7 @@ var energy = new Audio('assets/audio/energy.wav')
 var coin = new Audio('assets/audio/coin.wav')
 var gameWin = new Audio('assets/audio/gameWin.wav')
 var gameOver = new Audio('assets/audio/gameOver.wav')
+var gameMode = new Audio("assets/audio/gamemode.wav")
 
-export {gameWin, gameOver, bomb, eat, setting, color, toggle, energy, coin}
+export {gameMode, gameWin, gameOver, bomb, eat, setting, color, toggle, energy, coin}
 
