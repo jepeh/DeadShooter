@@ -22,7 +22,7 @@ import Skills from '../skills/skills.js'
 
 var GAME;
 
-	
+
 var Game = (function(w, func) {
 
 	// Check if browser support WebGL
@@ -30,7 +30,7 @@ var Game = (function(w, func) {
 		// morph window device pixel ratio
 		window.devicePixelRatio = 2
 
-		
+
 		FBInstant.initializeAsync()
 			.then(() => {
 				$("#alert").css("display", "block")
@@ -49,7 +49,8 @@ var Game = (function(w, func) {
 				FBInstant.startGameAsync()
 					.then(() => {
 
-$("#alert").css("display", "block")
+						$("#alert-txt").text("start game")
+						$("#alert").css("display", "block")
 						console.log("Game Started!")
 						// Get Player User Data
 						User.id = FBInstant.player.getID();
@@ -100,6 +101,8 @@ $("#alert").css("display", "block")
 										console.log("Data Set!")
 									}).catch(e => {
 										console.warn(e)
+										$("#alert-txt").text("error game 2")
+										$("#alert").css("display", "block")
 									})
 								} else {
 
@@ -118,13 +121,15 @@ $("#alert").css("display", "block")
 									Profile.skills = data["skills"]
 									Profile.countdownMin = data["countdownMin"]
 									Profile.Heroes = data["Heroes"]
-$("#alert").css("display", "block")
+									$("#alert-txt").text("data fetched")
+									$("#alert").css("display", "block")
 									console.log("Data fetched!")
 								}
 
 							}).catch((e) => {
 								console.warn(e)
-
+								$("#alert-txt").text("error game 3")
+								$("#alert").css("display", "block")
 							})
 						// Fetch FB Data End
 
@@ -136,6 +141,8 @@ $("#alert").css("display", "block")
 					.catch(e => {
 						// FB Start Game Async Error
 						console.log(e)
+						$("#alert-txt").text("error game 4")
+						$("#alert").css("display", "block")
 					})
 
 				// FB Initialize end
@@ -143,6 +150,8 @@ $("#alert").css("display", "block")
 			.catch(e => {
 				// FB Initiwlize Async error
 				console.log(e)
+				$("#alert-txt").text("error game 5")
+				$("#alert").css("display", "block")
 			})
 
 		// Fetch or Save FB Player Data
@@ -182,7 +191,8 @@ $("#alert").css("display", "block")
 	}
 
 })(window || this, function(Facebook) {
-$("#alert").css("display", "block")
+	$("#alert-txt").text("Game Initialize")
+	$("#alert").css("display", "block")
 	var world = OimoPhysics().then(phys => {
 
 		$("#loader").css('display', 'none')
