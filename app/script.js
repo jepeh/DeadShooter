@@ -118,7 +118,7 @@ $("#alert").css("display", "block")
 									Profile.skills = data["skills"]
 									Profile.countdownMin = data["countdownMin"]
 									Profile.Heroes = data["Heroes"]
-
+$("#alert").css("display", "block")
 									console.log("Data fetched!")
 								}
 
