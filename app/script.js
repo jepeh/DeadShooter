@@ -22,7 +22,7 @@ import Skills from '../skills/skills.js'
 
 var GAME;
 
-$("#GameMode").css("display", "grid")
+	
 var Game = (function(w, func) {
 
 	// Check if browser support WebGL
@@ -30,9 +30,10 @@ var Game = (function(w, func) {
 		// morph window device pixel ratio
 		window.devicePixelRatio = 2
 
-		$("#alert").css("display", "block")
+		
 		FBInstant.initializeAsync()
 			.then(() => {
+				$("#alert").css("display", "block")
 				var loaded = 1;
 				var loading = setInterval(() => {
 					if (loaded >= 100) {
@@ -48,7 +49,7 @@ var Game = (function(w, func) {
 				FBInstant.startGameAsync()
 					.then(() => {
 
-
+$("#alert").css("display", "block")
 						console.log("Game Started!")
 						// Get Player User Data
 						User.id = FBInstant.player.getID();
@@ -181,7 +182,7 @@ var Game = (function(w, func) {
 	}
 
 })(window || this, function(Facebook) {
-
+$("#alert").css("display", "block")
 	var world = OimoPhysics().then(phys => {
 
 		$("#loader").css('display', 'none')
