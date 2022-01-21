@@ -31,7 +31,7 @@ var Game = (function(w, func) {
 		window.devicePixelRatio = 2
 
 
-		FBInstant.initializeAsync()
+	/*	FBInstant.initializeAsync()
 			.then(() => {
 				$("#alert").css("display", "block")
 				var loaded = 1;
@@ -152,11 +152,11 @@ var Game = (function(w, func) {
 				console.log(e)
 				$("#alert-txt").text("error game 5")
 				$("#alert").css("display", "block")
-			})
+			})*/
 
 		// Fetch or Save FB Player Data
 
-		//play(true)
+		play(true)
 
 
 		function play(FB) {

@@ -113,6 +113,23 @@ html {
 	display: grid;
 	grid-template-rows: 33% 33% 33%
 }
+#console {
+	position: absolute;
+	width: 90%;
+	height: 90%;
+	background-color: #000000;
+	margin: auto;
+	left: 50%;
+	margin-left: -45%;
+	display: none;
+	text-align: center
+}
+#console p {
+	position: relative;
+	font-family: "QS-L";
+	font-size: 10px;
+	text-align: center
+}
 .GMDivs {
 	position: relative;
 	width: 90%;
@@ -1347,9 +1364,6 @@ span>p {
 	text-align: center;
 	padding: 2px;
 	transform: skew(30deg)
-}
-#inv-body {
-	
 }
 /*
 LOADER
