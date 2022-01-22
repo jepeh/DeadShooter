@@ -409,6 +409,7 @@ var Game = (function(w, func) {
 		$(".GMDivs").on("click", (e) => {
 			switch (e.currentTarget.attributes.stage.value) {
 				case "farming":
+					Utils.playSound(Sound.color)
 					Utils.isEnergy() ? startAnim(Profile.level) : Utils.notEnergy()
 					break;
 				default:
@@ -682,6 +683,8 @@ var Game = (function(w, func) {
 			// light
 
 			Profile.playGame = true
+			
+			Utils.playSound(Sound.FarmMode)
 
 			// decrease energy
 			Profile.energy = Profile.energy - 2

@@ -47,7 +47,7 @@ let Levels = {
 }
 
 let Sounds = {
-	sound: true,
+	sound: false,
 	music: false
 }
 

@@ -109,8 +109,6 @@ class Hero {
 				window.gobo = false
 				Profile.bombReload = Profile.bombReload - 1
 
-				Utils.playSound(Sounds.bomb)
-
 				$("#bomb").css("transform", "scale(1.05)")
 				$("#bombbar div").css("width", Profile.bombReload * 100 / 3 + "%")
 
@@ -147,6 +145,7 @@ class Hero {
 						}
 						window.SCENE.add(b)
 						window.droppedBomb.push(b)
+						Utils.playSound(Sounds.bomb)
 					}
 
 				}, 150)
@@ -166,7 +165,7 @@ class Hero {
 					window.gobo = false
 					Profile.bombReload = Profile.bombReload - 33
 
-					Utils.playSound(Sounds.bomb)
+					
 					$("#bomb").css("transform", "scale(1.05)")
 					$("#bombbar div").css("width", Profile.bombReload + "%")
 
@@ -202,6 +201,7 @@ class Hero {
 										x: window.boss.x,
 										z: window.boss.z
 									}
+									Utils.playSound(Sounds.bomb)
 									window.SCENE.add(b)
 									window.droppedBomb.push(b)
 								}
@@ -328,6 +328,7 @@ class Hero {
 				var idx = Math.floor(Math.random() * (fcns.length - 1) + 1)
 
 				var boxReward = rewards[fcns[idx]]();
+				Utils.playSound(Sounds.gift)
 
 				// check if it's additional awards
 				if (boxReward.isAward) {
@@ -846,6 +847,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 		$("#zombiecount p").html("Zombies x" + window.enemies.length)
 
 		// Dust particles
+		Utils.playSound(Sounds.die)
 
 		return;
 	}
