@@ -8,7 +8,10 @@ $("#thanks").on('click', () => {
 	Profile.coins = Profile.coins + 100
 	$("#coin-txt").text(Profile.coins)
 
-	window.location.reload()
+	var newUrl = new URL(window.location.href)
+	newUrl.searchParams.set("isPlaying", true)
+	window.location.href = newUrl
+
 })
 
 $("#music").on('click', function() {
@@ -107,7 +110,7 @@ $("#alert").on('click', function() {
 
 
 function isEnergy() {
-	if (Profile.energy > 2) return true;
+	if (Profile.energy > 1) return true;
 	else return false
 }
 
