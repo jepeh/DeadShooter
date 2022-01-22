@@ -125,38 +125,9 @@ class Hero {
 				var x = this.nearEnemy[0].x
 				var z = this.nearEnemy[0].z
 
-				// rotate Mesh
-
-				//	var directionOffset = Math.atan2(this.nearEnemy[0].mesh.position.z, this.nearEnemy[0].mesh.position.x) * 180 / Math.PI
-				//var gun = window.SCENE.getObjectByName("gun")
-				// update quaternions
-
-				/*	var cx = this.mesh.position.x,
-					cz = this.mesh.position.z
-
-				var ex = this.nearEnemy[0].mesh.position.x,
-					ez = this.nearEnemy[0].mesh.position.z
-
-				var dy = cz - ez;
-				var dx = cx - ex;
-				var theta = (dy / dx) * 180 / Math.PI // range (-PI, PI	rads to degs, range(-180, 180]
-*/ //	this.mesh.rotation.y = 0
 				var angleYCameraDirection = Math.atan2(
 					(this.nearEnemy[0].mesh.position.x - this.mesh.position.x),
 					(this.nearEnemy[0].mesh.position.z - this.mesh.position.z))
-
-				/*	var CameraDirection = Math.atan2(
-					(window.CAMERA.position.x - this.mesh.position.x),
-					(window.CAMERA.position.z - this.mesh.position.z))
-*/
-
-				//var angle = angleYCameraDirection + directionOffset
-				//self.model.rotation.y = angle
-				//this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection)
-				//this.mesh.quaternion.rotateTowards(this.rotateQuarternion, 1.4)
-				//this.mesh.rotation.y = angleYCameraDirection
-
-				//	this.mesh.rotation.y > 1 ? this.mesh.rotation.y = this.mesh.rotation.y - angleYCameraDirection : this.mesh.rotation.y = this.mesh.rotation.y + angleYCameraDirection
 
 				TweenMax.to(this.mesh.rotation, .25, {
 					y: angleYCameraDirection
