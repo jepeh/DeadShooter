@@ -41,12 +41,12 @@ function CharacterControls(scene, model, orbitControl, camera) {
 				var angle = angleYCameraDirection + directionOffset
 			//	angle >= 1 ? angle = angle - 1 : angle = angle
 			
-			/*	TweenMax.to(self.model.rotation, .6, {
+				TweenMax.to(self.model.rotation, .6, {
 					y: angle
-				})*/
+				})
 
-		self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angle)
-		self.model.quaternion.rotateTowards(self.rotateQuarternion, .11)
+		//self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angle)
+		//self.model.quaternion.rotateTowards(self.rotateQuarternion, .11)
 
 			// calculate direction
 			self.camera.getWorldDirection(self.walkDirection)

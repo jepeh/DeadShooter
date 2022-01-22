@@ -59,23 +59,23 @@ class Hero {
 		this.hpLeft < 0 ? GAME.gameOver() : false
 
 		// Blood drops Effect
-	
-			var ranW = Math.random() * (1.5 - .5) + .5
-			var ranH = Math.random() * (0.3 - .1) + 0.1
 
-			var ranX = Math.random() * (3 - 0.5) + 0.5
+		var ranW = Math.random() * (1.5 - .5) + .5
+		var ranH = Math.random() * (0.3 - .1) + 0.1
 
-			var pos = {
-				x: this.mesh.position.x + ranX,
-				y: 1,
-				z: this.mesh.position.z + ranX
-			}
+		var ranX = Math.random() * (3 - 0.5) + 0.5
 
-			let blood = new Three.Mesh(new Three.BoxBufferGeometry(ranW, ranH, ranW), new Three.MeshToonMaterial({ color: "red", transparent: true, opacity: .6 }))
-			blood.position.copy(pos)
-			window.SCENE.add(blood)
-			window.bloods.push(blood)
-		
+		var pos = {
+			x: this.mesh.position.x + ranX,
+			y: 1,
+			z: this.mesh.position.z + ranX
+		}
+
+		let blood = new Three.Mesh(new Three.BoxBufferGeometry(ranW, ranH, ranW), new Three.MeshToonMaterial({ color: "red", transparent: true, opacity: .6 }))
+		blood.position.copy(pos)
+		window.SCENE.add(blood)
+		window.bloods.push(blood)
+
 		return false;
 	}
 
@@ -160,8 +160,8 @@ class Hero {
 
 				TweenMax.to(this.mesh.rotation, .25, {
 					y: angleYCameraDirection
-
 				})
+
 
 				var shoot = setInterval(() => {
 					if (sts > 2) {
@@ -547,7 +547,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 
 			// chase the hero
 
-			var angleYCameraDirection = Math.atan2(h.position.x, h.position.z) * 180 / Math.PI
+			//	var angleYCameraDirection = Math.atan2(h.position.x, h.position.z) * 180 / Math.PI
 
 			var originX = h.position.x,
 				originZ = h.position.z
