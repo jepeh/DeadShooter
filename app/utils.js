@@ -213,7 +213,7 @@ var Atom = function(scene, p, el) {
 
 							for (var ene = 0; ene < eneKilling.length; ene++) {
 								var pos = eneKilling[ene].mesh.position
-								window.loader.load('../assets/gltf/coin.gltf', e => {
+								window.loader.load('assets/gltf/coin.gltf', e => {
 
 									var mesh = e.scene.children[0]
 									mesh.children.shift()

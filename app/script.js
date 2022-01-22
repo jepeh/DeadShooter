@@ -26,10 +26,12 @@ var Game = (function(w, func) {
 
 	// Check if browser support WebGL
 	if (w) {
+		var loc = new URL(window.location.href)
+
 		// morph window device pixel ratio
 		window.devicePixelRatio = 2
 
-		FBInstant.initializeAsync()
+	/*	FBInstant.initializeAsync()
 			.then(() => {
 
 				var loaded = 1;
@@ -71,11 +73,11 @@ var Game = (function(w, func) {
 			.catch(e => {
 				// FB Initialize Async error
 				console.log(e)
-			})
+			})*/
 
 		// Fetch or Save FB Player Data
 
-		//play(true)
+		loc.searchParams.get("isPlaying") ? playResume(true) : play(true)
 
 
 		function play(FB) {
@@ -125,7 +127,7 @@ var Game = (function(w, func) {
 
 	// Fetch FB User Data
 	// Get Player User Data
-	User.id = FBInstant.player.getID();
+/*	User.id = FBInstant.player.getID();
 	User.name = FBInstant.player.getName();
 	User.image.crossOrigin = 'anonymous';
 	User.image.src = FBInstant.player.getPhoto();
@@ -225,7 +227,7 @@ var Game = (function(w, func) {
 		}).catch((e) => {
 			console.warn(e)
 		})
-
+*/
 
 	var world = OimoPhysics().then(phys => {
 
@@ -1153,7 +1155,7 @@ var Game = (function(w, func) {
 			overAnim()
 
 			// Update FACEBOOK PLAYER DATA
-			FBInstant.player.setDataAsync({
+		/*	FBInstant.player.setDataAsync({
 				level: Profile.level,
 				coins: Profile.coins,
 				rank: Profile.rank,
@@ -1165,7 +1167,7 @@ var Game = (function(w, func) {
 			}).catch(e => {
 				console.warn(e)
 				
-			})
+			})*/
 
 			// home 
 			$("#home").on('click', function() {
