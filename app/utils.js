@@ -132,6 +132,9 @@ function playSound(sound) {
 	}
 }
 
+function stopSound(s) {
+	s.pause()
+}
 
 var Atom = function(scene, p, el) {
 	this.scene = scene
@@ -445,4 +448,4 @@ function spawnBox(p) {
 
 
 
-export { isEnergy, notEnergy, playSound, Atom, Holo, spawnBox }
+export {stopSound, isEnergy, notEnergy, playSound, Atom, Holo, spawnBox }

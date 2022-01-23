@@ -17,4 +17,7 @@ var gift = new Audio("assets/audio/gift.wav")
 
 var FarmMode = new Audio("assets/audio/farmmode.mp3")
 FarmMode.volume = .34
-export {FarmMode, gift, die, gameMode, gameWin, gameOver, bomb, eat, setting, color, toggle, energy, coin}
+var mainMusic = new Audio("assets/audio/mainMusic.mp3")
+mainMusic.volume = .3
+
+export {mainMusic, FarmMode, gift, die, gameMode, gameWin, gameOver, bomb, eat, setting, color, toggle, energy, coin}

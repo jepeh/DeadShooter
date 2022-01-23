@@ -165,7 +165,7 @@ class Hero {
 					window.gobo = false
 					Profile.bombReload = Profile.bombReload - 33
 
-					
+
 					$("#bomb").css("transform", "scale(1.05)")
 					$("#bombbar div").css("width", Profile.bombReload + "%")
 
@@ -868,6 +868,7 @@ var EnemyBoss = function() {
 	this.z = .2
 	this.pos = new Three.Vector3(0, 7.5, 0)
 	this.velocity = 5
+	this.summonTime = Profile.level > 5 ? 25000 : 30000
 	this.walkDirection = new Three.Vector3()
 	this.rotateAngle = new Three.Vector3(0, 2, 0)
 
@@ -1056,6 +1057,47 @@ var EnemyBoss = function() {
 
 		return;
 	}
+
+	self.summonZombies = function() {
+		for (var i = 0; i < 6; i++) {
+
+			var posIn = self.mesh.position
+			var w = self.mesh.children[1].geometry.parameters.width
+
+			var pos = {
+				x: posIn.x + Math.random() * (w + 10 - (-(w + 10))) + (-(w + 10)),
+				y: posIn.y + Math.random() * (15 - 5) + 5,
+				z: posIn.z + Math.random() * (w + 10 - (-(w + 10))) + (-(w + 10))
+			}
+
+			var zombie = new Three.Group()
+
+			var m1 = new Three.Mesh(new Three.BoxBufferGeometry(6, 6, 6), new Three.MeshToonMaterial({ color: "green", transparent: true, opacity: .4 }))
+			m1.castShadow = true
+			m1.receiveShadow = true
+			zombie.add(m1)
+			var m2 = new Three.Mesh(new Three.BoxBufferGeometry(4.5, 4.5, 4.5), new Three.MeshToonMaterial({ color: "#580404"}))
+			m2.castShadow = true
+			m2.receiveShadow = true
+			zombie.add(m2)
+			
+			
+			zombie.position.copy(pos)
+			window.SCENE.add(zombie)
+			TweenMax.to(zombie.position, .8, {
+				y: 2
+			})
+		}
+	}
+
+	var sum = setInterval(() => {
+		if (self.hp <= 0) {
+			clearInterval(sum)
+		} else {
+			self.summonZombies()
+		}
+	}, self.summonTime)
+
 }
 
 const Heroes = {}
