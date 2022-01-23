@@ -869,7 +869,7 @@ var EnemyBoss = function() {
 	this.pos = new Three.Vector3(0, 7.5, 0)
 	this.velocity = 5
 	this.run = true
-	this.summonTime = Profile.level > 5 ? 25000 : 35000
+	this.summonTime = Profile.level > 5 ? 25000 : 15000
 	this.walkDirection = new Three.Vector3()
 	this.rotateAngle = new Three.Vector3(0, 2, 0)
 
@@ -893,169 +893,179 @@ var EnemyBoss = function() {
 	var self = this
 
 	this.update = function(d) {
-		if (this.run) {
-			self.walkDirection.x = self.x
-			self.walkDirection.z = self.z
-			self.rotateAngle.normalize()
-			self.walkDirection.normalize()
 
-			// Update self mesh's position
-			self.walkDirection.applyAxisAngle(self.rotateAngle, 0)
+		self.walkDirection.x = self.x
+		self.walkDirection.z = self.z
+		self.rotateAngle.normalize()
+		self.walkDirection.normalize()
 
-			self.velocity = 5
+		// Update self mesh's position
+		self.walkDirection.applyAxisAngle(self.rotateAngle, 0)
 
-			// move model & camera
-			var mX = self.walkDirection.x * self.velocity * d
-			var mZ = self.walkDirection.z * self.velocity * d
+		self.velocity = 5
 
-			self.z = hero.mesh.position.z - self.mesh.position.z
-			self.x = hero.mesh.position.x - self.mesh.position.x
+		// Rotation towards Hero
+		var angleYCameraDirection = Math.atan2(
+			(self.mesh.position.x - hero.mesh.position.x),
+			(self.mesh.position.z - hero.mesh.position.z))
 
+		TweenMax.to(self.mesh.rotation, .25, {
+			y: angleYCameraDirection
+		})
 
+		// move model & camera
+		var mX = self.walkDirection.x * self.velocity * d
+		var mZ = self.walkDirection.z * self.velocity * d
+
+		self.z = hero.mesh.position.z - self.mesh.position.z
+		self.x = hero.mesh.position.x - self.mesh.position.x
+
+		if (self.run) {
 			self.mesh.position.x += mX
 			self.mesh.position.z += mZ
+		}
 
-			var zBack = hero.mesh.position.z - hero.mesh.children[0].geometry.parameters.depth / 2,
-				zFront = hero.mesh.position.z + hero.mesh.children[0].geometry.parameters.depth / 2,
-				xBack = hero.mesh.position.x - hero.mesh.children[0].geometry.parameters.width / 2,
-				xFront = hero.mesh.position.x + hero.mesh.children[0].geometry.parameters.width / 2;
+		var zBack = hero.mesh.position.z - hero.mesh.children[0].geometry.parameters.depth / 2,
+			zFront = hero.mesh.position.z + hero.mesh.children[0].geometry.parameters.depth / 2,
+			xBack = hero.mesh.position.x - hero.mesh.children[0].geometry.parameters.width / 2,
+			xFront = hero.mesh.position.x + hero.mesh.children[0].geometry.parameters.width / 2;
 
-			var zzBack = self.mesh.position.z - self.mesh.children[0].geometry.parameters.depth / 2,
-				zzFront = self.mesh.position.z + self.mesh.children[0].geometry.parameters.depth / 2,
-				xxBack = self.mesh.position.x - self.mesh.children[0].geometry.parameters.width / 2,
-				xxFront = self.mesh.position.x + self.mesh.children[0].geometry.parameters.width / 2;
-
-
-			//*******************************************
-			// Hurt the hero
-			//*******************************************
-
-			if (zzFront > zFront && zBack > zzBack && xxFront > xFront && xBack > xxBack) {
-				hero.hurt(self.attack)
-			}
-			//Phase 1 hurt
-			else if (zzFront >= zFront && zBack >= zzBack && xFront > xxBack && xxBack > xBack) {
-				hero.hurt(self.attack)
-
-			}
-			// Phase 3 hurt
-			else if (zzFront >= zFront && zBack >= zzBack && xxFront > xBack && xFront > xxFront) {
-				hero.hurt(self.attack)
-			}
-			// Phase 2 hurt
-			else if (xBack >= xxBack && xxFront >= xFront && zFront > zzBack && zzBack > zBack) {
-				hero.hurt(self.attack)
-
-			}
-			// Phase 4 hurt
-			else if (xBack >= xxBack && xxFront >= xFront & zzFront > zBack && zFront > zzFront) {
-				hero.hurt(self.attack)
-			}
-
-			// Bullet Hurt
-
-			var PosXBackB = self.mesh.position.x - self.mesh.children[0].geometry.parameters.width / 2,
-				PosXFrontB = self.mesh.position.x + self.mesh.children[0].geometry.parameters.width / 2,
-				PosZBackB = self.mesh.position.z - self.mesh.children[0].geometry.parameters.depth / 2,
-				PosZFrontB = self.mesh.position.z + self.mesh.children[0].geometry.parameters.depth / 2;
+		var zzBack = self.mesh.position.z - self.mesh.children[0].geometry.parameters.depth / 2,
+			zzFront = self.mesh.position.z + self.mesh.children[0].geometry.parameters.depth / 2,
+			xxBack = self.mesh.position.x - self.mesh.children[0].geometry.parameters.width / 2,
+			xxFront = self.mesh.position.x + self.mesh.children[0].geometry.parameters.width / 2;
 
 
-			for (var b = 0; b < droppedBomb.length; b++) {
+		//*******************************************
+		// Hurt the hero
+		//*******************************************
 
-				var bombX = droppedBomb[b].position.x,
-					bombY = droppedBomb[b].position.y,
-					bombZ = droppedBomb[b].position.z;
+		if (zzFront > zFront && zBack > zzBack && xxFront > xFront && xBack > xxBack) {
+			hero.hurt(self.attack)
+		}
+		//Phase 1 hurt
+		else if (zzFront >= zFront && zBack >= zzBack && xFront > xxBack && xxBack > xBack) {
+			hero.hurt(self.attack)
 
-				if (PosZFrontB > bombZ && bombZ > PosZBackB && PosXFrontB > bombX && bombX > PosXBackB) {
+		}
+		// Phase 3 hurt
+		else if (zzFront >= zFront && zBack >= zzBack && xxFront > xBack && xFront > xxFront) {
+			hero.hurt(self.attack)
+		}
+		// Phase 2 hurt
+		else if (xBack >= xxBack && xxFront >= xFront && zFront > zzBack && zzBack > zBack) {
+			hero.hurt(self.attack)
+
+		}
+		// Phase 4 hurt
+		else if (xBack >= xxBack && xxFront >= xFront & zzFront > zBack && zFront > zzFront) {
+			hero.hurt(self.attack)
+		}
+
+		// Bullet Hurt
+
+		var PosXBackB = self.mesh.position.x - self.mesh.children[0].geometry.parameters.width / 2,
+			PosXFrontB = self.mesh.position.x + self.mesh.children[0].geometry.parameters.width / 2,
+			PosZBackB = self.mesh.position.z - self.mesh.children[0].geometry.parameters.depth / 2,
+			PosZFrontB = self.mesh.position.z + self.mesh.children[0].geometry.parameters.depth / 2;
 
 
-					for (var bb = 0; bb < droppedBomb[b].children.length; bb++) {
-						droppedBomb[b].children[bb].geometry.dispose()
-						droppedBomb[b].children[bb].material.dispose()
-					}
+		for (var b = 0; b < droppedBomb.length; b++) {
 
-					SCENE.remove(droppedBomb[b])
-					window.droppedBomb[b].removed = true
-					window.droppedBomb.splice(b, 1)
+			var bombX = droppedBomb[b].position.x,
+				bombY = droppedBomb[b].position.y,
+				bombZ = droppedBomb[b].position.z;
 
-					// Hurt animation for enemy
-					self.mesh.children[1].material.color.set("red")
-					var u = setTimeout(() => {
-						self.mesh.children[1].material.color.set("green")
-						clearTimeout(u)
-					}, 100)
+			if (PosZFrontB > bombZ && bombZ > PosZBackB && PosXFrontB > bombX && bombX > PosXBackB) {
 
 
-					var parts = []
-					var pos = {
-						x: bombX,
-						y: bombY,
-						z: bombZ
-					}
-
-					for (var i = 0; i < 10; i++) {
-
-						var geom = new Three.TetrahedronGeometry(8, 0);
-						var mat = new Three.MeshToonMaterial({
-							color: "green"
-						});
-						var mesh = new Three.Mesh(geom, mat);
-						mesh.position.x = self.mesh.position.x
-						mesh.position.y = self.mesh.position.y
-						mesh.position.z = self.mesh.position.z
-						mesh.rotation.y = Math.floor(Math.random() * 10)
-						mesh.needsUpdate = true
-						mesh.scale.set(.3, .3, .3)
-						var targetX = pos.x + (-1 + Math.random() * 2) * 10;
-						var targetY = pos.y + (-1 + Math.random() * 2) * 10;
-						var targetZ = pos.z + (-1 + Math.random() * 2) * 10;
-
-						SCENE.add(mesh)
-						parts.push(mesh)
-
-						TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
-						TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
-						TweenMax.to(mesh.position, .6, {
-							x: targetX,
-							y: targetY,
-							z: targetZ,
-							delay: Math.random() * .1,
-							ease: Power2.easeOut,
-							onComplete: function() {
-
-								mesh.material.dispose()
-								mesh.geometry.dispose()
-								for (var u = 0; u < parts.length; u++) {
-									if (parts[u].parent) parts[u].parent.remove(parts[u])
-								}
-							}
-						});
-
-					}
-
-					// decrrased hp
-					var dmg = hero.bombDamage / 40
-					self.hp = self.hp - dmg
+				for (var bb = 0; bb < droppedBomb[b].children.length; bb++) {
+					droppedBomb[b].children[bb].geometry.dispose()
+					droppedBomb[b].children[bb].material.dispose()
 				}
 
+				SCENE.remove(droppedBomb[b])
+				window.droppedBomb[b].removed = true
+				window.droppedBomb.splice(b, 1)
+
+				// Hurt animation for enemy
+				self.mesh.children[1].material.color.set("red")
+				var u = setTimeout(() => {
+					self.mesh.children[1].material.color.set("green")
+					clearTimeout(u)
+				}, 100)
+
+
+				var parts = []
+				var pos = {
+					x: bombX,
+					y: bombY,
+					z: bombZ
+				}
+
+				for (var i = 0; i < 10; i++) {
+
+					var geom = new Three.TetrahedronGeometry(8, 0);
+					var mat = new Three.MeshToonMaterial({
+						color: "green"
+					});
+					var mesh = new Three.Mesh(geom, mat);
+					mesh.position.x = self.mesh.position.x
+					mesh.position.y = self.mesh.position.y
+					mesh.position.z = self.mesh.position.z
+					mesh.rotation.y = Math.floor(Math.random() * 10)
+					mesh.needsUpdate = true
+					mesh.scale.set(.3, .3, .3)
+					var targetX = pos.x + (-1 + Math.random() * 2) * 10;
+					var targetY = pos.y + (-1 + Math.random() * 2) * 10;
+					var targetZ = pos.z + (-1 + Math.random() * 2) * 10;
+
+					SCENE.add(mesh)
+					parts.push(mesh)
+
+					TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
+					TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
+					TweenMax.to(mesh.position, .6, {
+						x: targetX,
+						y: targetY,
+						z: targetZ,
+						delay: Math.random() * .1,
+						ease: Power2.easeOut,
+						onComplete: function() {
+
+							mesh.material.dispose()
+							mesh.geometry.dispose()
+							for (var u = 0; u < parts.length; u++) {
+								if (parts[u].parent) parts[u].parent.remove(parts[u])
+							}
+						}
+					});
+
+				}
+
+				// decrrased hp
+				var dmg = hero.bombDamage / 40
+				self.hp = self.hp - dmg
 			}
 
-			// if hp < 0, game win
-			if (self.hp <= 0) {
-
-				self.mesh.traverse(e => {
-					if (e.type === "Mesh") {
-						e.material.dispose()
-						e.geometry.dispose()
-					}
-
-					return;
-				})
-				SCENE.remove(self.mesh)
-
-				GAME.gameWin()
-			}
 		}
+
+		// if hp < 0, game win
+		if (self.hp <= 0) {
+
+			self.mesh.traverse(e => {
+				if (e.type === "Mesh") {
+					e.material.dispose()
+					e.geometry.dispose()
+				}
+
+				return;
+			})
+			SCENE.remove(self.mesh)
+
+			GAME.gameWin()
+		}
+
 		return;
 	}
 
@@ -1095,7 +1105,7 @@ var EnemyBoss = function() {
 		if (self.hp <= 0) {
 			clearInterval(sum)
 		} else {
-			this.run = false
+			self.run = false
 			var plane = new Three.Mesh(new Three.PlaneBufferGeometry(32, 32), new Three.MeshToonMaterial({
 				map: TextureLoader.load("assets/images/textures/summonZombie.png"),
 				transparent: true,
@@ -1107,6 +1117,44 @@ var EnemyBoss = function() {
 			plane.scale.set(0, 0, 0)
 
 			window.SCENE.add(plane)
+
+
+			var m = [
+			new Three.MeshToonMaterial({ transparent: true, opacity: .9, color: "red" }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
+			]
+
+			var mp = TextureLoader.load("assets/images/textures/rod.png");
+
+			m[0].map = mp
+			m[0].side = 2
+
+
+			var field = new Three.Mesh(new Three.CylinderGeometry(19, 19, 30, 50), m)
+			field.position.copy(self.mesh.position)
+			field.scale.set(0, 1, 0)
+
+			window.SCENE.add(field)
+
+			TweenMax.to(field.scale, 3.5, {
+				x: 1,
+				y: 1,
+				z: 1,
+				onComplete: function() {
+					TweenMax.to(field.scale, 3, {
+						x: 0,
+						y: 1,
+						z: 0,
+						onComplete: function() {
+							field.geometry.dispose()
+							window.SCENE.remove(field)
+						}
+					})
+
+				}
+			})
+
 			TweenMax.to(plane.scale, 1, {
 				x: 1,
 				y: 1,
@@ -1117,9 +1165,9 @@ var EnemyBoss = function() {
 						onComplete: function() {
 
 							self.summonZombies()
-						
 
-							TweenMax.to(plane.scale, 2, {
+
+							TweenMax.to(plane.scale, 1, {
 								x: 0,
 								y: 0,
 								z: 0,
@@ -1129,7 +1177,7 @@ var EnemyBoss = function() {
 										plane.geometry.dispose()
 										SCENE.remove(plane)
 									}
-									this.run = true
+									self.run = true
 								}
 							})
 
@@ -1137,6 +1185,7 @@ var EnemyBoss = function() {
 					})
 				}
 			})
+
 
 
 		}
