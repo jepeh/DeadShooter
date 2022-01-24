@@ -77,11 +77,12 @@ html {
 #GameMode {
 	position: absolute;
 	width: 85%;
-	height: 50%;
-	top: 25%;
+	height: 20%;
+	top: 50%;
 	background: linear-gradient(130deg, #3F40489E, #30324A7D);
 	left: 50%;
 	margin-left: -42.5%;
+	margin-top: -42%;
 	display: none;
 	z-index: 3;
 	border-radius: 15px;
@@ -90,7 +91,7 @@ html {
 }
 #GMCancel {
 	position: relative;
-	top: 105%;
+	margin: auto;
 	width: 100%;
 	text-align: center;
 	color: white;
@@ -111,7 +112,7 @@ html {
 	height: 100%;
 	margin: auto;
 	display: grid;
-	grid-template-rows: 33% 33% 33%
+	grid-template-rows: 80% 10%
 }
 #console {
 	position: absolute;
