@@ -5,6 +5,7 @@ import { GAME } from '../app/script.js'
 import * as Sounds from '../app/audio.js'
 import * as Utils from '../app/utils.js'
 import rewards from '../app/rewards.js'
+import {FARM} from '../app/modes/farm.js'
 
 window.TxtLoader = new Three.TextureLoader();
 
@@ -56,7 +57,7 @@ class Hero {
 			$("#critical").css("display", "none")
 		}
 
-		this.hpLeft < 0 ? GAME.gameOver() : false
+		this.hpLeft < 0 ? FARM.gameOver() : false
 
 		// Blood drops Effect
 
@@ -838,9 +839,8 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 
 		// If Enemy lnegth < 0, summon Boss
 		if (window.inGame) {
-			window.enemies.length <= 0 ? GAME.EnemyBoss() : false
-		}
-
+				enemies.length <= 0 ? FARM.EnemyBoss() : false
+			}
 
 		window.killed = window.killed + 1
 		//update zombie count
@@ -1063,7 +1063,7 @@ var EnemyBoss = function() {
 			})
 			SCENE.remove(self.mesh)
 
-			GAME.gameWin()
+			FARM.gameWin()
 		}
 
 		return;

@@ -1,0 +1,743 @@
+import * as Three from '/src/three.js'
+import { RoundedBoxGeometry } from '/src/RoundedBoxGeometry.js'
+import { OrbitControls } from '/src/OrbitControls.js'
+import { JoyStick } from '/controller/joy.js'
+import { CharacterControls } from '/controller/controller.js'
+import * as Character from '/characters/character.js'
+import { Profile, Levels, Sounds, User } from '/profiles/profile.js'
+import { OimoPhysics } from '/src/OimoPhysics.js'
+import { drawMap } from '/app/map/map.js'
+import * as Utils from '../utils.js'
+import * as Sound from '../audio.js'
+import { GLTFLoader } from '/src/Loader/GLTFLoader.js'
+import Skills from '/skills/skills.js'
+import { GAME } from '../script.js'
+
+var FARM = {
+	farmOBJ: {},
+	startGame: function(lvl, phys) {
+		// stop animation
+		GAME.initAnim = undefined
+		GAME.initanim = undefined
+		//console.log(document.getElementById('webgl'))
+
+		// update cgart atombomb
+		$('.chart').data('easyPieChart').update(Profile.atomLevel)
+
+		// light
+
+		Profile.playGame = true
+		Utils.stopSound(Sound.mainMusic)
+		Utils.playSound(Sound.FarmMode)
+
+		// decrease energy
+		Profile.energy = Profile.energy - 2
+
+
+		// inGame session
+		window.inGame = true
+
+		pLight.position.set(0, pLight.position.y, 0)
+
+		// reset hero's life stat
+		hero.hp.style.width = "100%"
+		$("#lifecount").text("life " + Math.floor(hero.hpLeft) + "/100")
+		$("#speed").text("speed " + Math.floor(hero.velocity * 100 / Profile.velocity) + "%")
+
+
+		// display stats
+		$("#statcount, #tips, #life, #bombbar, #counter, #utils, #mapicon").css("display", "grid")
+		$("#joystick")
+			.css("opacity", "1")
+		$("#atombomb").css("display", "block")
+
+
+		// hide elements
+		$("#status, #statusbar")
+			.css("display", "none")
+
+		$("#coinstxt").text("coins x" + hero.coins)
+
+		//*******************************************
+		//	update skills
+		//*******************************************	
+
+		function updateSkills() {
+			for (var i = 0; i < Profile.skills.length; i++) {
+				$(`#Skill${i+1}`).append(`<img class="skillImg" src="${Profile.skills[i].img}"/>`)
+				$(`#Skill${i+1}`).attr("name", Profile.skills[i].name)
+
+			}
+			return;
+		}
+		updateSkills()
+
+		// show map
+		$("#mapicon").on('touchstart', function() {
+			$("#map").css("display", "block")
+		})
+		$("#mapicon").on('touchend', function() {
+			$("#map").css("display", "none")
+		})
+
+
+		/***************************************************
+		Physics World 
+		**************************************************/
+
+		// Fog
+
+		var tp = setTimeout(() => {
+			$("#tips").css({ width: "0%", left: "50%", marginLeft: "-0%" })
+			clearTimeout(tp)
+		}, 4000)
+
+
+		phys.addMesh(floor, 0)
+
+		// Generate Enemies
+		for (var i = 0; i < Levels.levels[lvl].enemy; i++) {
+			var x = Math.floor(Math.random() * (100 - (-100)) + (-100))
+			var z = Math.floor(Math.random() * (100 - (-100)) + (-100))
+			var size = Math.floor(Math.random() * (8 - 4) + 4)
+
+			var enemy = new Character.Enemy({ x: x, y: size / 2, z: z }, 'green', {
+				w: size,
+				h: size,
+				d: size
+			}, Math.random() * .2 - .09, Math.random() * .2 - .09, SCENE, CAMERA, RENDERER, i, phys)
+
+			var mesh = enemy.renderEnemy()
+			// name the mesh by iterated variable i
+
+			window.enemyList.push(mesh)
+			window.enemies.push(enemy)
+			phys.addMesh(mesh, 1)
+			window.SCENE.add(mesh)
+		}
+
+		// atomBomb
+		window.bmb = true
+
+		var bomb = document.getElementById('bomb')
+
+		if ("ontouchstart" in document.documentElement) {
+			document.getElementById("atombomb").addEventListener('touchstart', () => {
+
+				if (Profile.atomLevel >= 100 && bmb) {
+					bmb = false
+					window.atom = new Utils.Atom(SCENE, phys, enemyList)
+					window.a = atom.show()
+					window.atomBomb = true
+					SCENE.add(window.a)
+				} else {
+
+				}
+			})
+
+			// Default Bomb
+			bomb.addEventListener('touchstart', () => {
+				hero.bomb()
+			})
+
+			$("#Skill1").on("touchstart", () => {
+				firstSkill()
+
+			})
+			$("#Skill2").on("touchstart", () => {
+				secondSkill()
+			})
+		}
+
+		var mmm = [
+			new Three.MeshToonMaterial({ transparent: true }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
+			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
+			]
+
+		// Random Hexagons
+		var mk = TextureLoader.load("assets/images/textures/rod.png")
+
+		mmm[0].map = mk
+		mmm[1].color.set("green")
+		mmm[1].opacity = .4
+
+		for (var uu = 0; uu < 25; uu++) {
+			var posx = Math.floor(Math.random() * (150 - (-150)) + (-150))
+			var posz = Math.floor(Math.random() * (150 - (-150)) + (-150))
+			var grp = new Three.Group()
+
+			for (var u = 0; u < 10; u++) {
+				var size = Math.floor(Math.random() * (3 - 1) + 1)
+				var height = Math.random() * (1 - .3) + .3
+				var posX = Math.floor(Math.random() * (6 - (-6)) + (-6))
+				var posZ = Math.floor(Math.random() * (6 - (-6)) + (-6))
+
+				var kyub = new Three.Mesh(new Three.CylinderGeometry(size, size, height, 6), mmm)
+				if (u >= 1) {
+					kyub.position.set(posX, 1, posZ)
+				} else {
+					kyub.position.set(0, 1, 0)
+				}
+				grp.add(kyub)
+			}
+
+			SCENE.add(grp)
+			grp.position.set(posx, 0, posz)
+
+		}
+
+
+		var fReloaded = 100,
+			sReloaded = 100;
+
+		function firstSkill() {
+			if (firstS) {
+				if (fReloaded >= 100) {
+					var skillname = $("#Skill1").attr("name")
+
+					for (var s = 0; s < Skills.length; s++) {
+						if (skillname === Skills[s].name) {
+							Skills[s].func(phys)
+							fReloaded = 0
+							$("#Skill1 img").css({
+								opacity: .3
+							})
+
+							var r = 1;
+							var rel = setInterval(() => {
+								if (r > 100) {
+									fReloaded = 100
+									$("#Skill1 div").css({
+										top: "100%",
+										height: "0%",
+										opacity: 0
+
+									})
+									$("#Skill1 img").css({
+										opacity: 1
+									})
+									clearInterval(rel)
+								} else {
+									r++
+									$("#Skill1 div").css({
+										height: r + "%",
+										top: 100 - r + "%",
+										opacity: 1
+									})
+								}
+							}, 350);
+						}
+					}
+				}
+
+			}
+
+			return;
+		}
+
+		function secondSkill() {
+			if (secondS) {
+				if (sReloaded >= 100) {
+					var skillname = $("#Skill2").attr("name")
+
+					for (var s = 0; s < Skills.length; s++) {
+						if (skillname === Skills[s].name) {
+							Skills[s].func()
+							sReloaded = 0
+							$("#Skill2 img").css({
+								opacity: .3
+							})
+
+							var r = 1;
+							var rel = setInterval(() => {
+								if (r > 100) {
+									sReloaded = 100
+									$("#Skill2 div").css({
+										top: "100%",
+										height: "0%",
+										opacity: 0
+
+									})
+									$("#Skill2 img").css({
+										opacity: 1
+									})
+									clearInterval(rel)
+								} else {
+									r++
+									$("#Skill2 div").css({
+										height: r + "%",
+										top: 100 - r + "%",
+										opacity: 1
+									})
+								}
+							}, 10);
+						}
+					}
+				}
+
+			}
+
+			return;
+		}
+
+		//*******************************************
+		// COUNTER
+		//**************************************************
+
+		window.particles = [];
+		window.killed = 0
+		window.gobo = true
+
+		var seconds = Profile.countdownMin * 60
+
+		var counter = setInterval(() => {
+
+			// decrease counter by 1 second
+			seconds--
+			$("#seconds").text(seconds + " s")
+
+			if (seconds < 0) this.farmObj.gameOver();
+
+		}, 1000)
+
+		var boxesTime = Profile.level > 10 ? Profile.level > 30 ? 12000 : 18000 : 20000
+		var boxes = setInterval(() => {
+			Utils.spawnBox()
+		}, boxesTime)
+
+		FARM.farmOBJ.boxes = boxes
+		FARM.farmOBJ.counter = counter
+
+		//update zombie count
+		$("#zombiecount p").html("Zombies x" + enemies.length)
+
+		/**************************************************
+		Character Controls
+		**************************************************/
+		var CHARCONTROLS = new CharacterControls(SCENE, window.character, CONTROLS, CAMERA)
+
+		// Initial Render
+		RENDERER.render(SCENE, CAMERA)
+
+		// LOOP FUNCTION
+		window.loop = function() {
+			// animate map
+			drawMap(enemies)
+			var delta = CLOCK.getDelta()
+			//	window.atom === undefined ? true : window.atom.update(delta)
+			CONTROLS.update()
+			CHARCONTROLS.update(delta, keyPressed, pLight, window.isFiring)
+
+			for (var i = 0; i < enemies.length; i++) {
+				// Update enemies walking and hero detection
+				enemies[i].update(phys, delta, character, enemyList)
+			}
+
+			//update bombs
+			var tt = CLOCK.getElapsedTime()
+			cu.rotation.y = tt * 1.6
+			if (window.atomBomb) {
+				window.atom.update(tt)
+			}
+
+			// first skill anim
+			if (window.shieldOn) {
+				hero.shield.rotation.y = Math.sin(tt) * 1.5
+				hero.shield.rotation.x = -Math.cos(tt) * 1.5
+				//hero.shield.position.copy(hero.mesh.position)
+				phys.setMeshPosition(hero.shield, {
+					x: hero.mesh.position.x,
+					y: 4,
+					z: hero.mesh.position.z
+				})
+			}
+
+			// Summon Enemy Boss
+			
+			for (var i = 0; i < window.mysteryboxes.length; i++) {
+				//	mysteryboxes[i].position.y = -Math.cos(tt) *2
+				mysteryboxes[i].rotation.y = tt * 1.5
+			}
+
+			hero.anim(tt)
+			hero.bulletUpdate(tt, phys)
+
+
+			// Boss Game
+			window.bossGame ? window.boss.update(delta) : false
+
+			RENDERER.render(SCENE, CAMERA);
+			if (typeof FARM.farmOBJ.loop === "function") {
+				window.requestAnimationFrame(FARM.farmOBJ.loop)
+			}
+
+			return;
+		}
+
+		// start loop
+		FARM.farmOBJ.loop = window.loop
+		FARM.farmOBJ.loop()
+
+		return;
+	},
+	
+	gameOver: function() {
+		Utils.stopSound(Sound.FarmMode)
+		
+		if (window.bossGame) {
+			var b = SCENE.getObjectByName("boss")
+			b.traverse(e => {
+				if (e.type === "Mesh") {
+					e.material.dispose()
+					e.geometry.dispose()
+				}
+			})
+			SCENE.remove(b)
+		}
+
+		SCENE.remove(b)
+
+		Utils.playSound(Sound.gameOver)
+
+		// stop clock
+
+		window.inGame = false
+
+		$("#status").text("")
+		Profile.level = Profile.level
+
+		FARM.farmOBJ.loop = undefined
+		clearInterval(FARM.farmOBJ.counter)
+		clearInterval(FARM.farmOBJ.boxes)
+
+		// clear scene childrens
+		for (var j = 0; j < enemyList.length; j++) {
+
+			enemyList[j].geometry.dispose()
+			enemyList[j].material.dispose()
+			SCENE.remove(enemyList[j])
+
+			$(`#${enemyList[j].name}`).remove()
+		}
+		window.enemyList.length = 0
+
+		for (var m = 0; m < mysteryboxes.length; m++) {
+
+			mysteryboxes[m].traverse(e => {
+				e.type === "Mesh" ? e.geometry.dispose() : false
+				e.type === "Mesh" ? e.material.dispose() : false
+			})
+
+			SCENE.remove(mysteryboxes[m])
+
+		}
+		window.mysteryboxes.length = 0
+
+
+		for (var o = 0; o < droppedBomb.length; o++) {
+			SCENE.remove(droppedBomb[o])
+		}
+
+		droppedBomb.length = 0
+
+		for (var c = 0; c < droppedCoins.length; c++) {
+			SCENE.remove(droppedCoins[c])
+		}
+
+		droppedCoins.length = 0
+
+		$("#statcount, #counter, #life, #bombbar, #atombomb, #critical, #utils, #mapicon")
+			.css("display", "none")
+
+		$("#joystick")
+			.css("opacity", "0")
+
+		// update time over and gameover stat
+
+		$("#zkilled").text("killed " + window.killed)
+		$("#cgained").text("coins " + Profile.coins)
+		$("#rank").text(Profile.rank)
+		window.enemies.length = 0
+
+		// Center the hero
+		character.position.set(0, character.position.y, 0)
+		pLight.position.set(0, pLight.position.y, 3.8)
+
+		var ps = new Three.Vector3().copy(CAMERA.position)
+		var tarPs = new Three.Vector3(20, 30, 20)
+
+		TweenMax.to(CAMERA.position, 1.8, {
+			x: tarPs.x,
+			y: tarPs.y,
+			z: tarPs.z,
+			easing: Power2.easingIn,
+			onUpdate: function() {
+				CAMERA.lookAt(character.position)
+			},
+			onComplete: function() {
+				CAMERA.lookAt(character.position)
+				$("#gameover, #time, #home")
+					.css("display", "block")
+				$("#gameoverstat").css("display", "grid")
+			}
+		})
+
+
+		CLOCK.start()
+
+		var overAnim = function() {
+
+			var b = CLOCK.getElapsedTime()
+			character.rotation.y = Math.sin(b) * .6
+			cu.rotation.y = b * 1.6
+			RENDERER.render(SCENE, CAMERA)
+			hero.anim(b)
+			CAMERA.lookAt(character.position)
+			if (typeof overAnim === "function") {
+				window.requestAnimationFrame(overAnim)
+			}
+		}
+		overAnim()
+
+		// Update FACEBOOK PLAYER DATA
+		/*	FBInstant.player.setDataAsync({
+				level: Profile.level,
+				coins: Profile.coins,
+				rank: Profile.rank,
+				keys: Profile.keys,
+				energy: Profile.energy
+			}).then(() => {
+				console.log("data updated!")
+				$("#energy-txt").text(Profile.energy)
+			}).catch(e => {
+				console.warn(e)
+				
+			})*/
+
+		// home 
+		$("#home").on('click', function() {
+			$("#gameover, #time, #home")
+				.css("display", "none")
+			$("#gameoverstat").css("display", "none")
+
+			//restart hero Character
+			window.hero.hpLeft = Profile.maxHP
+			window.hero.velocity = Profile.velocity
+			window.hero.bullets = Profile.bombs
+			Profile.atomLevel = 0
+
+
+			var newUrl = new URL(window.location.href)
+			newUrl.searchParams.set("isPlaying", true)
+			window.location.href = newUrl
+
+		})
+
+	},
+	gameWin: function() {
+
+		$(".ccns, #ccnscoin, #critical").remove()
+		Utils.playSound(Sound.gameWin)
+		Utils.stopSound(Sound.FarmMode)
+
+		window.inGame = false
+
+		// increase level
+		$("#status, #gamewin2").text("")
+
+		$("#gamewin2").html("You passed level " + Profile.level + " <br /> +100 coins")
+
+		Profile.level = Profile.level + 1
+		hero.coins = hero.coins + 100
+
+		// clear timer and Obj loop function
+		FARM.farmOBJ.loop = undefined
+		clearInterval(FARM.farmOBJ.counter)
+		clearInterval(FARM.farmOBJ.boxes)
+
+		// clear scene childrens
+		for (var j = 0; j < enemyList.length; j++) {
+			enemyList[j].geometry.dispose()
+			enemyList[j].material.dispose()
+			SCENE.remove(enemyList[j])
+		}
+
+		enemyList.length = 0
+
+		for (var m = 0; m < mysteryboxes.length; m++) {
+
+			mysteryboxes[m].traverse(e => {
+				e.type === "Mesh" ? e.geometry.dispose() : false
+				e.type === "Mesh" ? e.material.dispose() : false
+			})
+
+			SCENE.remove(mysteryboxes[m])
+
+		}
+		window.mysteryboxes.length = 0
+
+
+		for (var c = 0; c < droppedCoins.length; c++) {
+			SCENE.remove(droppedCoins[c])
+		}
+
+		droppedCoins.length = 0
+
+		// hide stats and joystick
+		$("#statcount, #counter, #life, #bombbar, #atombomb, #utils, #mapicon")
+			.css("display", "none")
+		$("#joystick")
+			.css("opacity", "0")
+
+		// animate scene win
+		pLight.position.set(character.position.x + 2.8, pLight.position.y, character.position.z + 2.8)
+
+		var ps = new Three.Vector3().copy(CAMERA.position)
+		var tarPs = new Three.Vector3(character.position.x + 15, character.position.y + 10, character.position.z + 15)
+
+		TweenMax.to(CAMERA.position, 2.5, {
+			x: tarPs.x,
+			y: tarPs.y,
+			z: tarPs.z,
+
+			onUpdate: function() {
+				CAMERA.lookAt(character.position)
+			},
+			onComplete: function() {
+				CAMERA.lookAt(character.position)
+				// display elements
+				$("#gamewin, #gamewin2, #home").css("display", "grid")
+				// Facebook Save Data function
+			}
+		})
+
+
+		// Win animation
+		var winAnim = function() {
+
+			var b = CLOCK.getElapsedTime()
+			cu.rotation.y = b * 1.6
+			character.rotation.y = Math.sin(b) * .6
+
+			hero.anim(b)
+
+			RENDERER.render(SCENE, CAMERA)
+			CAMERA.lookAt(character.position)
+			if (typeof winAnim === "function") {
+				window.requestAnimationFrame(winAnim)
+			}
+		}
+		winAnim()
+
+		// Update FACEBOOK PLAYER DATA
+		/*	FBInstant.player.setDataAsync({
+				level: Profile.level,
+				coins: Profile.coins,
+				rank: Profile.rank,
+				keys: Profile.keys,
+				energy: Profile.energy
+			}).then(() => {
+				console.log("data updated!")
+			}).catch(e => {
+				console.warn(e)
+			})*/
+
+		// Home 
+		$("#home").on('click', function() {
+			
+			character.position.set(0, character.position.y, 0)
+			CAMERA.position.set(0, 20, 20)
+			CAMERA.lookAt(character.position)
+			pLight.position.set(0, pLight.position.y, 0)
+
+			window.killed = 0
+
+			// Update Game data
+
+			CAMERA.lookAt(character.position)
+
+			character.rotation.y = -10
+			$("#playbtn, #energy-container, #coin-container").css("display", "grid")
+			$("#settings, #version").css("display", "block")
+
+			//restart hero Character
+			window.hero.hpLeft = Profile.maxHP
+			window.hero.velocity = Profile.velocity
+			window.hero.bullets = Profile.bombs
+			Profile.atomLevel = 0
+
+			winAnim = undefined
+			// hide elements
+			$("#gameover, #time, #home, #gameoverstat, #atombomb, #gamewin, #gamewin2")
+				.css("display", "none")
+
+			// start initial Animation
+			/*Obj.initAnim = initAnim
+			Obj.initAnim()*/
+
+			//*******************************************
+			/**************************************************
+				Additional Rewards
+			**************************************************/
+
+			var rewardsArr = [
+				{
+					type: "coin",
+					value: 0
+				},
+				{
+					type: "key",
+					value: 0
+				},
+				{
+					type: "energy",
+					value: 0
+				}
+			]
+
+			for (var rw = 0; rw < window.addRewards.length; rw++) {
+				switch (addRewards[rw].type) {
+					case "coin":
+						rewardsArr[0].value += addRewards[rw].value
+						break;
+					case "key":
+						rewardsArr[1].value += addRewards[rw].value
+						break;
+					case "energy":
+						rewardsArr[2].value += addRewards[rw].value
+						break;
+				}
+			}
+
+			// append rewards to banner
+
+			for (var y = 0; y < 3; y++) {
+				$(`#reward${y}`).text("+" + rewardsArr[y].value)
+			}
+
+			$("#ccnscvr").prepend(`	<img class="ccns" src="assets/images/coin_reward.png" alt="" />
+			<p id="ccnscoin">+100 Coins</p>`)
+
+			// REWARDS TIME
+			var o = setTimeout(() => {
+				$("#cover, #ccnscvr").css("display", "block")
+				clearTimeout(o)
+			}, 800)
+			return;
+		})
+		return;
+	},
+	EnemyBoss: function() {
+		window.boss = new Character.EnemyBoss()
+
+		var m = boss.render()
+		m.name = "boss"
+		SCENE.add(m)
+
+		window.bossGame = true
+		GAME.tips("Boss Enemy has been summoned!")
+	}
+}
+
+export { FARM }
