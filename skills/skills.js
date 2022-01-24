@@ -14,7 +14,7 @@ var Skills = [
 	},
 	{
 		name: "laserBeam",
-		func: function() {
+		func: function(pos) {
 
 
 			var FresnelShader = {
@@ -51,31 +51,20 @@ var Skills = [
 
 			};
 			window.gobo = false
-			var HX = hero.mesh.position.x,
-				HZ = hero.mesh.position.z;
-			var targetPos;
-			for (var d = 0; d < enemies.length; d++) {
 
-				var en = {
-					x: enemies[d].mesh.position.x,
-					z: enemies[d].mesh.position.z
-				}
-
-				if (en.x > HX - hero.gunRange && HX + hero.gunRange > en.x && HZ + hero.gunRange > en.z && en.z > HZ - hero.gunRange) {
-
-					var angleYCameraDirection = Math.atan2(
-						(enemies[d].mesh.position.x - hero.mesh.position.x),
-						(enemies[d].mesh.position.z - hero.mesh.position.z))
-					targetPos = {
-
-						x: enemies[d].x,
-						z: enemies[d].z
-					}
-					TweenMax.to(hero.mesh.rotation, .5, {
-						y: angleYCameraDirection
-					})
-				}
+			var angleYCameraDirection = Math.atan2(
+				(pos.x - hero.mesh.position.x),
+				(pos.z - hero.mesh.position.z))
+		
+		var targetPos = {
+				x: pos.x,
+				z: pos.z
 			}
+			TweenMax.to(hero.mesh.rotation, .5, {
+				y: angleYCameraDirection
+			})
+
+
 
 
 			var go = setTimeout(() => {
@@ -86,7 +75,7 @@ var Skills = [
 					vertexShader: FresnelShader.vertexShader,
 					fragmentShader: FresnelShader.fragmentShader
 				})
-			
+
 				var sphere = new Three.Mesh(gm, sm)
 				var target = new Three.Vector3()
 				character.children[2].getWorldPosition(target)
@@ -223,7 +212,7 @@ var Skills = [
 	{
 		name: "forceField",
 		duration: 19000,
-		func: function(p) {
+		func: function(pos, p) {
 			const field = new Three.Mesh(new Three.SphereGeometry(6), new Three.MeshToonMaterial())
 			p.addMesh(field, 1)
 			field.material.transparent = true

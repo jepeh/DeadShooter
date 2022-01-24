@@ -541,6 +541,7 @@ var Game = (function(w, func) {
 				$("#status").css("display", "none")
 				clearTimeout(ggg)
 			}, 3400)
+			return;
 		}
 
 		Obj.notif = notif
@@ -657,6 +658,27 @@ var Game = (function(w, func) {
 			}, 4000)
 		}
 		Obj.tips = tips
+
+		Obj.findTarget = function(arr, pos) {
+			var HX = pos.x,
+				HZ = pos.z;
+
+			for (var d = 0; d < arr.length; d++) {
+
+				var en = {
+					x: arr[d].mesh.position.x,
+					z: arr[d].mesh.position.z
+				}
+
+				if (en.x > HX - hero.gunRange && HX + hero.gunRange > en.x && HZ + hero.gunRange > en.z && en.z > HZ - hero.gunRange) {
+					return {
+						status: true,
+						pos: arr[d].mesh.position
+					}
+				}
+
+			}
+		}
 
 		/**************************************************
 		Instantiate Game Object

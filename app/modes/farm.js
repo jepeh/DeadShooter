@@ -194,41 +194,49 @@ var FARM = {
 		function firstSkill() {
 			if (firstS) {
 				if (fReloaded >= 100) {
-					var skillname = $("#Skill1").attr("name")
+					var stat = GAME.findTarget(enemies, hero.mesh.position)
+					if (stat) {
 
-					for (var s = 0; s < Skills.length; s++) {
-						if (skillname === Skills[s].name) {
-							Skills[s].func(phys)
-							fReloaded = 0
-							$("#Skill1 img").css({
-								opacity: .3
-							})
+						var skillname = $("#Skill1").attr("name")
 
-							var r = 1;
-							var rel = setInterval(() => {
-								if (r > 100) {
-									fReloaded = 100
-									$("#Skill1 div").css({
-										top: "100%",
-										height: "0%",
-										opacity: 0
+						for (var s = 0; s < Skills.length; s++) {
+							if (skillname === Skills[s].name) {
+								Skills[s].func(stat.pos, phys)
+								fReloaded = 0
+								$("#Skill1 img").css({
+									opacity: .3
+								})
 
-									})
-									$("#Skill1 img").css({
-										opacity: 1
-									})
-									clearInterval(rel)
-								} else {
-									r++
-									$("#Skill1 div").css({
-										height: r + "%",
-										top: 100 - r + "%",
-										opacity: 1
-									})
-								}
-							}, 350);
+								var r = 1;
+								var rel = setInterval(() => {
+									if (r > 100) {
+										fReloaded = 100
+										$("#Skill1 div").css({
+											top: "100%",
+											height: "0%",
+											opacity: 0
+
+										})
+										$("#Skill1 img").css({
+											opacity: 1
+										})
+										clearInterval(rel)
+									} else {
+										r++
+										$("#Skill1 div").css({
+											height: r + "%",
+											top: 100 - r + "%",
+											opacity: 1
+										})
+									}
+								}, 350);
+							}
 						}
+
+					} else {
+						GAME.notif("No Target!")
 					}
+
 				}
 
 			}
@@ -239,40 +247,47 @@ var FARM = {
 		function secondSkill() {
 			if (secondS) {
 				if (sReloaded >= 100) {
-					var skillname = $("#Skill2").attr("name")
+					var stat = GAME.findTarget(enemies, hero.mesh.position)
+				
+					if (stat) {
 
-					for (var s = 0; s < Skills.length; s++) {
-						if (skillname === Skills[s].name) {
-							Skills[s].func()
-							sReloaded = 0
-							$("#Skill2 img").css({
-								opacity: .3
-							})
+						var skillname = $("#Skill2").attr("name")
 
-							var r = 1;
-							var rel = setInterval(() => {
-								if (r > 100) {
-									sReloaded = 100
-									$("#Skill2 div").css({
-										top: "100%",
-										height: "0%",
-										opacity: 0
+						for (var s = 0; s < Skills.length; s++) {
+							if (skillname === Skills[s].name) {
+								Skills[s].func(stat.pos, phys)
+								sReloaded = 0
+								$("#Skill2 img").css({
+									opacity: .3
+								})
 
-									})
-									$("#Skill2 img").css({
-										opacity: 1
-									})
-									clearInterval(rel)
-								} else {
-									r++
-									$("#Skill2 div").css({
-										height: r + "%",
-										top: 100 - r + "%",
-										opacity: 1
-									})
-								}
-							}, 10);
+								var r = 1;
+								var rel = setInterval(() => {
+									if (r > 100) {
+										sReloaded = 100
+										$("#Skill2 div").css({
+											top: "100%",
+											height: "0%",
+											opacity: 0
+
+										})
+										$("#Skill2 img").css({
+											opacity: 1
+										})
+										clearInterval(rel)
+									} else {
+										r++
+										$("#Skill2 div").css({
+											height: r + "%",
+											top: 100 - r + "%",
+											opacity: 1
+										})
+									}
+								}, 10);
+							}
 						}
+					} else {
+						GAME.notif("No Target!")
 					}
 				}
 
@@ -354,7 +369,7 @@ var FARM = {
 			}
 
 			// Summon Enemy Boss
-			
+
 			for (var i = 0; i < window.mysteryboxes.length; i++) {
 				//	mysteryboxes[i].position.y = -Math.cos(tt) *2
 				mysteryboxes[i].rotation.y = tt * 1.5
@@ -381,10 +396,10 @@ var FARM = {
 
 		return;
 	},
-	
+
 	gameOver: function() {
 		Utils.stopSound(Sound.FarmMode)
-		
+
 		if (window.bossGame) {
 			var b = SCENE.getObjectByName("boss")
 			b.traverse(e => {
@@ -645,7 +660,7 @@ var FARM = {
 
 		// Home 
 		$("#home").on('click', function() {
-			
+
 			character.position.set(0, character.position.y, 0)
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)

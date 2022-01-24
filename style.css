@@ -588,7 +588,7 @@ span>p {
 	width: 100%;
 	font-family: 'QS-M';
 	margin: auto;
-	top: 80%;
+	top: 20%;
 	text-align: center;
 	color: white;
 	display: none;
@@ -1577,7 +1577,7 @@ ANIMATIONS
 	}
 
 	to {
-		top: 80%;
+		top: 20%;
 	}
 }
 
