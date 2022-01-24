@@ -254,6 +254,33 @@ var Skills = [
 
 			return;
 		}
+	},
+	{
+		name: "rockBomb",
+		duration: 20000,
+		func: function(pos) {
+			
+			window.gobo = false
+			TweenMax.to(hero.mesh.position, .7, {
+				y: hero.mesh.position.y + 6,
+				onComplete: function(){
+					TweenMax.to(hero.mesh.position, .4, {
+						x: pos.x * .01,
+						y: hero.mesh.position.y - 6,
+						z: pos.z * .01,
+						onComplete: function(){
+							window.gobo = true
+							var tarPos = new Three.Vector3(25, 70, 25)
+							window.CAMERA.position.copy(tarPos)
+							CAMERA.lookAt(hero.mesh.position)
+							CONTROLS.target = hero.mesh.position
+						}
+					})
+				}
+			})
+			
+			return;
+		}
 	}
 	]
 
