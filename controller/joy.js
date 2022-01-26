@@ -63,11 +63,10 @@ var JoyStick = (function(container, parameters)
 		canvas.addEventListener("touchend", onTouchEnd, false);
 
 	}
-	else
+	else if ("onkeydown" in document.documentElement)
 	{
-		document.addEventListener("mousedown", onMouseDown, false);
-		document.addEventListener("mousemove", onMouseMove, false);
-		document.addEventListener("mouseup", onMouseUp, false);
+		document.addEventListener("keydown", onKeyDown, false);
+		document.addEventListener("keyup", onKeyUp, false);
 	}
 	// Draw the object
 
@@ -137,11 +136,11 @@ var JoyStick = (function(container, parameters)
 		} else {
 			context.clearRect(0, 0, canvas.width, canvas.height);
 			// Redraw object
-		
+
 			movedX = centerX;
 			movedY = centerY;
-			
-				drawInternal();
+
+			drawInternal();
 		}
 	}
 
@@ -168,86 +167,50 @@ var JoyStick = (function(container, parameters)
 	/**
 	 * @desc Events for manage mouse
 	 */
-	function onMouseDown(event)
-	{
-		pressed = 1;
-	}
 
-	function onMouseMove(event)
+	function onKeyDown(event)
 	{
-		if (pressed === 1)
-		{
-			movedX = event.pageX;
-			movedY = event.pageY;
-			// Manage offset
-			if (canvas.offsetParent.tagName.toUpperCase() === "BODY")
-			{
-				movedX -= canvas.offsetLeft;
-				movedY -= canvas.offsetTop;
-			}
-			else
-			{
-				movedX -= canvas.offsetParent.offsetLeft;
-				movedY -= canvas.offsetParent.offsetTop;
-			}
-			// Delete canvas
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			// Redraw object
-
-			drawInternal();
-		}
+		joy.GetMouseDir(event);
 	}
 
 	function onMouseUp(event)
 	{
-		pressed = 0;
-		// If required reset position store variable
-		if (autoReturnToCenter)
-		{
-			movedX = centerX;
-			movedY = centerY;
-		}
-		// Delete canvas
-		context.clearRect(0, 0, canvas.width, canvas.height);
-		// Redraw object
-
-		drawInternal();
-		//canvas.unbind('mousemove');
+		keyPressed = ""
 	}
 
 	this.GetDir = function()
 	{
-		
-	/*	var eX = e.clientX - offSet.left
-		var eY = e.clientY - offSet.top
-		
-		if (eX >= centerX) {
-			eX = eX - centerX
+
+		/*	var eX = e.clientX - offSet.left
+			var eY = e.clientY - offSet.top
 			
-		} else {
-			eX = -(centerX - eX)
-		}
-		
-		if (eY >= centerY) {
-			eY = centerY - eY
-		} else {
-			eY = -(eY - centerY)
-		}
-		
-		eX = eX / centerX
-		eY = eY / centerY
-		
-		eX >= 1 ? eX = 1 : eX = eX
-		eY >= 1 ? eY = 1 : eY = eY
-		
-		eX <= -1 ? eX = -1 : eX = eX
-		eY <= -1 ? eY = -1 : eY = eY
-		
-		keyPressed = {
-			x: eX,
-			z: eY
-		}*/
+			if (eX >= centerX) {
+				eX = eX - centerX
+				
+			} else {
+				eX = -(centerX - eX)
+			}
 			
+			if (eY >= centerY) {
+				eY = centerY - eY
+			} else {
+				eY = -(eY - centerY)
+			}
+			
+			eX = eX / centerX
+			eY = eY / centerY
+			
+			eX >= 1 ? eX = 1 : eX = eX
+			eY >= 1 ? eY = 1 : eY = eY
+			
+			eX <= -1 ? eX = -1 : eX = eX
+			eY <= -1 ? eY = -1 : eY = eY
+			
+			keyPressed = {
+				x: eX,
+				z: eY
+			}*/
+
 		var horizontal = movedX;
 		var vertical = movedY;
 
@@ -271,11 +234,58 @@ var JoyStick = (function(container, parameters)
 			keyPressed = "W"
 		} else if (horizontal >= boxAreaX * 2 && horizontal <= boxAreaX * 3) {
 			keyPressed = "E"
-		}	
-		
+		}
+
+
 		return;
 	};
 
+	this.GetMouseDir = function(e)
+	{
+
+		/*	var eX = e.clientX - offSet.left
+			var eY = e.clientY - offSet.top
+			
+			if (eX >= centerX) {
+				eX = eX - centerX
+				
+			} else {
+				eX = -(centerX - eX)
+			}
+			
+			if (eY >= centerY) {
+				eY = centerY - eY
+			} else {
+				eY = -(eY - centerY)
+			}
+			
+			eX = eX / centerX
+			eY = eY / centerY
+			
+			eX >= 1 ? eX = 1 : eX = eX
+			eY >= 1 ? eY = 1 : eY = eY
+			
+			eX <= -1 ? eX = -1 : eX = eX
+			eY <= -1 ? eY = -1 : eY = eY
+			
+			keyPressed = {
+				x: eX,
+				z: eY
+			}*/
+
+		if (e.keyCode === 87) {
+			keyPressed = "N"
+
+		} else if (e.keyCode === 83) {
+			keyPressed = "S"
+
+		} else if (e.keyCode === 63) {
+			keyPressed = "W"
+		} else if (e.keyCode === 68) {
+			keyPressed = "E"
+		}
+		return;
+	}
 
 });
 

@@ -30,7 +30,7 @@ var Game = (function(w, func) {
 		var loc = new URL(window.location.href)
 
 		// morph window device pixel ratio
-		window.devicePixelRatio = 2
+		//	window.devicePixelRatio = 2
 
 		/*	FBInstant.initializeAsync()
 				.then(() => {
@@ -514,6 +514,7 @@ var Game = (function(w, func) {
 				$("#playbtn").css("display", "grid")
 			}
 		})
+
 
 		//*******************************************
 		// Change Color 

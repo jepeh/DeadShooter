@@ -14,3 +14,4 @@ $("#GMCancel").on(' click ', () => {
 	$("#playbtn").css("display", "grid")
 
 });
+

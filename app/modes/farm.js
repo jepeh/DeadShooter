@@ -147,6 +147,32 @@ var FARM = {
 			$("#Skill2").on("touchstart", () => {
 				secondSkill()
 			})
+		} else {
+			document.getElementById("atombomb").addEventListener('click', () => {
+
+				if (Profile.atomLevel >= 100 && bmb) {
+					bmb = false
+					window.atom = new Utils.Atom(SCENE, phys, enemyList)
+					window.a = atom.show()
+					window.atomBomb = true
+					SCENE.add(window.a)
+				} else {
+
+				}
+			})
+
+			// Default Bomb
+			bomb.addEventListener('click', () => {
+				hero.bomb()
+			})
+
+			$("#Skill1").on("click", () => {
+				firstSkill()
+
+			})
+			$("#Skill2").on("click", () => {
+				secondSkill()
+			})
 		}
 
 		var mmm = [
@@ -248,7 +274,7 @@ var FARM = {
 			if (secondS) {
 				if (sReloaded >= 100) {
 					var stat = GAME.findTarget(enemies, hero.mesh.position)
-				
+
 					if (stat) {
 
 						var skillname = $("#Skill2").attr("name")
