@@ -346,6 +346,14 @@ var Game = (function(w, func) {
 			RENDERER.shadowMap.enabled = true
 
 			RENDERER.render(SCENE, CAMERA)
+			
+			// Landscape detector
+			if (innerWidth > innerHeight) {
+				$("#LANDSCAPEDetector").css("display", "block")
+			} else {
+				$("#LANDSCAPEDetector").css("display", "none")
+
+			}
 
 			return false
 		}

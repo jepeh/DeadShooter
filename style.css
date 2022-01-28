@@ -61,7 +61,26 @@ html {
 	grid-template-columns: 50% 50%;
 	animation: pop .3s cubic-bezier(0.19, 1, 0.22, 1)
 }
-
+#LANDSCAPEDetector {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	align-items: center;
+	justify-content: center;
+	z-index: 5;
+	display: none
+	
+}
+#LANDSCAPEDetector p {
+	position: relative;
+	margin: auto;
+	font-family: "QS-B";
+	font-size: 6vw;
+	
+	top: 50%;
+	left: 20%
+}
 #Skill1,
 #Skill2,
 #bomb {
@@ -1383,12 +1402,12 @@ span>p {
 	position: relative;
 	width: 95%;
 	height: 95%;
-	background: linear-gradient(30deg, #53CCF542, #0203334D);
+	background: linear-gradient(30deg, #13EEF31C, #01213F29);
 	margin: auto;
 	
 	border-radius: 5px;
 	border: .5px solid #000000;
-	box-shadow: 0 0 10px 2px rgba(0, 0, 0, .2);
+	box-shadow: 0 0 10px 2px rgba(0, 0, 0, .08);
 	animation: pop .25s cubic-bezier(0.39, 0.575, 0.565, 1);
 	display: grid;
 	grid-template-rows: 80% 20%
