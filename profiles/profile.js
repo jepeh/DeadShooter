@@ -7,7 +7,7 @@ let Profile = {
 	rank: "noob",
 	maxHP: 100,
 	bombDamage: 25,
-	bulletType: "laser",
+	bulletType: "normal",
 	energy: 10,
 	mapRadius: 90,
 	atomBombRadius: 20,

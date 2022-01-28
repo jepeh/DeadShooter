@@ -1,4 +1,4 @@
-var bomb = new Audio('assets/audio/gun2.wav')
+
 var eat = new Audio('assets/audio/eat.mp3')
 var setting = new Audio('assets/audio/menu.wav')
 setting.volume = .5
@@ -20,4 +20,10 @@ FarmMode.volume = .34
 var mainMusic = new Audio("assets/audio/mainMusic.mp3")
 mainMusic.volume = .3
 
-export {mainMusic, FarmMode, gift, die, gameMode, gameWin, gameOver, bomb, eat, setting, color, toggle, energy, coin}
+// Gun Sounds
+var normalGun = new Audio('assets/audio/normalGun.wav')
+var laserGun = new Audio("assets/audio/laserGun.wav")
+var laserLightGun = new Audio("assets/audio/laserLightGun.wav")	
+var bladeGun = new Audio("assets/audio/bladeGun.wav")
+
+export {laserLightGun, bladeGun, laserGun, mainMusic, FarmMode, gift, die, gameMode, gameWin, gameOver, normalGun, eat, setting, color, toggle, energy, coin}

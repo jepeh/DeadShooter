@@ -156,10 +156,10 @@ class Hero {
 
 						window.SCENE.add(b)
 						window.droppedBomb.push(b)
-						Utils.playSound(Sounds.bomb)
+						
 					}
 
-				}, 150)
+				}, 200)
 
 			}
 			else if (SCENE.getObjectByName("boss") && window.gobo) {
@@ -219,12 +219,12 @@ class Hero {
 										(b.position.z - zz))
 
 									b.rotation.y = bDirection
-									Utils.playSound(Sounds.bomb)
+								
 									window.SCENE.add(b)
 									window.droppedBomb.push(b)
 								}
 
-							}, 110)
+							}, 190)
 						}
 					})
 					// update quaternions
@@ -1452,6 +1452,9 @@ class defaultHero extends Hero {
 				break;
 			case "laser":
 				g = Bullets.laser()
+				break;
+			case "laserlight": 
+				g = Bullets.laserLight()
 				break;
 		}
 
