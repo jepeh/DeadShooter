@@ -133,12 +133,13 @@ window.selectINV = function(e) {
 			$("#inv-body").html("")
 
 			for (var o = 0; o < Profile[elem[i].id].length; o++) {
-			let div = `<div class="Items">
+			let div = `<div class="Items" id="item${o}" onClick="handlePreview(this)">
 			<img src="assets/images/coin.png"/>
 			<p>Title</p>
 			</div>`
 				$("#inv-body").append(div)
 			}
+			playSound(sounds.selectINV)
 
 		} else {
 			elem[i].style.background = "transparent"
@@ -146,6 +147,17 @@ window.selectINV = function(e) {
 	}
 }
 
+
+window.handlePreview = function(e){
+	$("#cover").css("display", "grid")
+	let d = `<div id="itempreview" onClick="closePreview()"></div>`
+	$("body").append(d)
+}
+
+window.closePreview = function(){
+	$("#itempreview").remove()
+	$("#cover").css("display", "none")
+}
 
 $("#alert").on('click', function() {
 	$("#alert").css("display", "none")

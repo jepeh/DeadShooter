@@ -103,7 +103,7 @@ html {
 	margin-left: -42.5%;
 	margin-top: -42%;
 	display: none;
-	z-index: 3;
+	z-index: 7;
 	border-radius: 15px;
 	grid-template-rows: 10% 90%;
 	animation: pop .4s cubic-bezier(0.19, 1, 0.22, 1)
@@ -1002,6 +1002,7 @@ span>p {
 	width: 100%;
 	display: none;
 	height: 100%;
+	z-index: 6;
 	background-color: rgba(0, 0, 0, .8)
 }
 
@@ -1425,6 +1426,28 @@ span>p {
 	color: white
 	
 }
+
+#itempreview {
+	position: absolute;
+	width: 70%;
+	height: 50%;
+	background: linear-gradient(30deg, #26294A8A, #0359698A);
+	margin: auto;
+	border-radius: 8px;
+	border: .5px solid #000000;
+	box-shadow: 0 0 10px 2px rgba(0, 0, 0, .08);
+	animation: pop .25s cubic-bezier(0.39, 0.575, 0.565, 1);
+	left: 50%;
+	margin-left: -35%;
+	top: 20%;
+	grid-template-rows: 80% 20%;
+	z-index: 6;
+	display: grid
+}
+
+
+
+
 /*
 LOADER
 */
