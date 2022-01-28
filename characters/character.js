@@ -5,7 +5,7 @@ import { GAME } from '../app/script.js'
 import * as Sounds from '../app/audio.js'
 import * as Utils from '../app/utils.js'
 import rewards from '../app/rewards.js'
-import {FARM} from '../app/modes/farm.js'
+import { FARM } from '../app/modes/farm.js'
 
 window.TxtLoader = new Three.TextureLoader();
 
@@ -123,6 +123,8 @@ class Hero {
 				var sts = 0;
 				var x = this.nearEnemy[0].x
 				var z = this.nearEnemy[0].z
+				var xx = this.nearEnemy[0].mesh.position.x
+				var zz = this.nearEnemy[0].mesh.position.z
 
 				var angleYCameraDirection = Math.atan2(
 					(this.nearEnemy[0].mesh.position.x - this.mesh.position.x),
@@ -144,6 +146,13 @@ class Hero {
 							x: x,
 							z: z
 						}
+
+						var bDirection = Math.atan2(
+							(b.position.x - xx),
+							(b.position.z - zz))
+
+						b.rotation.y = bDirection
+
 						window.SCENE.add(b)
 						window.droppedBomb.push(b)
 						Utils.playSound(Sounds.bomb)
@@ -180,6 +189,8 @@ class Hero {
 					var sts = 0;
 					var x = window.boss.x
 					var z = window.boss.z
+					var xx = window.boss.mesh.position.x
+					var zz = window.boss.mesh.position.z
 
 					// rotate Mesh
 
@@ -202,6 +213,11 @@ class Hero {
 										x: window.boss.x,
 										z: window.boss.z
 									}
+									var bDirection = Math.atan2(
+										(b.position.x - xx),
+										(b.position.z - zz))
+
+									b.rotation.y = bDirection
 									Utils.playSound(Sounds.bomb)
 									window.SCENE.add(b)
 									window.droppedBomb.push(b)
@@ -839,8 +855,8 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 
 		// If Enemy lnegth < 0, summon Boss
 		if (window.inGame) {
-				enemies.length <= 0 ? FARM.EnemyBoss() : false
-			}
+			enemies.length <= 0 ? FARM.EnemyBoss() : false
+		}
 
 		window.killed = window.killed + 1
 		//update zombie count
@@ -1080,21 +1096,14 @@ var EnemyBoss = function() {
 				y: posIn.y + Math.random() * (15 - 5) + 5,
 				z: posIn.z + Math.random() * (w + 10 - (-(w + 10))) + (-(w + 10))
 			}
-
-			var zombie = new Three.Group()
-
-			var m1 = new Three.Mesh(new Three.BoxBufferGeometry(6, 6, 6), new Three.MeshToonMaterial({ color: "green", transparent: true, opacity: .4 }))
-			m1.castShadow = true
-			m1.receiveShadow = true
-			zombie.add(m1)
-			var m2 = new Three.Mesh(new Three.BoxBufferGeometry(4.5, 4.5, 4.5), new Three.MeshToonMaterial({ color: "#580404" }))
-			m2.castShadow = true
-			m2.receiveShadow = true
-			zombie.add(m2)
-
+			var n = i + "bb"
+			var zb = new BabyZombies(n)
+			var zombie = zb.makeZombies()
 
 			zombie.position.copy(pos)
-			window.SCENE.add(zombie)
+
+			SCENE.add(zombie)
+			window.babyZombies.push(zb)
 			TweenMax.to(zombie.position, .8, {
 				y: 2
 			})
@@ -1187,11 +1196,180 @@ var EnemyBoss = function() {
 			})
 
 
-
 		}
 	}, self.summonTime)
 
 }
+
+
+class BabyZombies {
+	constructor(n) {
+		this.width = 6
+		this.inWidth = 4.5
+		this.walkDirection = new Three.Vector3()
+		this.rotateAngle = new Three.Vector3(0, 1, 0)
+		this.x = 0
+		this.z = 0
+		this.velocity = 4
+		this.zombies = null
+		this.times = 3
+		this.name = n
+	}
+
+	makeZombies() {
+		var zombie = new Three.Group()
+
+		var m1 = new Three.Mesh(new Three.BoxBufferGeometry(this.width, this.width, this.width), new Three.MeshToonMaterial({ color: "green", transparent: true, opacity: .5 }))
+		m1.castShadow = true
+		m1.receiveShadow = true
+		zombie.add(m1)
+		var m2 = new Three.Mesh(new Three.BoxBufferGeometry(this.inWidth, this.inWidth, this.inWidth), new Three.MeshToonMaterial({ color: "#580404" }))
+		m2.castShadow = true
+		m2.receiveShadow = true
+		zombie.add(m2)
+		this.zombies = zombie
+
+		return zombie;
+	}
+
+	update(delta) {
+
+		this.walkDirection.x = this.x
+		this.walkDirection.z = this.z
+		this.rotateAngle.normalize()
+		this.walkDirection.normalize()
+
+		// Update self mesh's position
+		this.walkDirection.applyAxisAngle(this.rotateAngle, 0)
+
+
+		// Rotation towards Hero
+		var angleYCameraDirection = Math.atan2(
+			(this.zombies.position.x - hero.mesh.position.x),
+			(this.zombies.position.z - hero.mesh.position.z))
+
+		TweenMax.to(this.zombies.rotation, .25, {
+			y: angleYCameraDirection
+		})
+
+		// move model & camera
+		var mX = this.walkDirection.x * this.velocity * delta
+		var mZ = this.walkDirection.z * this.velocity * delta
+
+		this.z = hero.mesh.position.z - this.zombies.position.z
+		this.x = hero.mesh.position.x - this.zombies.position.x
+
+
+		this.zombies.position.x += mX
+		this.zombies.position.z += mZ
+
+
+		var PosXBackB = this.zombies.position.x - this.width / 2,
+			PosXFrontB = this.zombies.position.x + this.width / 2, //self.mesh.geometry.parameters.width / 2,
+			PosZBackB = this.zombies.position.z - this.width / 2, //self.mesh.geometry.parameters.depth / 2,
+			PosZFrontB = this.zombies.position.z + this.width / 2 //self.mesh.geometry.parameters.depth / 2;
+
+
+		for (var b = 0; b < droppedBomb.length; b++) {
+
+			var bombX = droppedBomb[b].position.x,
+				bombZ = droppedBomb[b].position.z;
+
+			if (PosZFrontB > bombZ && bombZ > PosZBackB && PosXFrontB > bombX && bombX > PosXBackB) {
+				this.times = this.times - 1
+				// Hurt animation for enemy
+
+				// Hit Effect
+				var hit = new Three.Mesh(new Three.SphereGeometry(5), new Three.MeshToonMaterial({ color: "white", transparent: true, opacity: .3 }))
+				hit.position.copy(window.droppedBomb[b].position)
+				hit.scale.set(0, 0, 0)
+				window.SCENE.add(hit)
+
+				TweenMax.to(hit.scale, .1, {
+					x: 1,
+					y: 1,
+					z: 1,
+					onComplete: function() {
+						if (hit.parent) {
+							hit.material.dispose()
+							hit.geometry.dispose()
+							window.SCENE.remove(hit)
+						}
+					}
+				})
+
+				var pos = droppedBomb[b].position
+				var parts = []
+
+				for (var i = 0; i < 10; i++) {
+
+					var geom = new Three.BoxGeometry(1.3, 1.3, 1.3);
+					var mat = new Three.MeshToonMaterial({
+						color: "white"
+					});
+					var mesh = new Three.Mesh(geom, mat);
+					mesh.position.copy(droppedBomb[b].position)
+					mesh.rotation.y = Math.floor(Math.random() * 10)
+					mesh.needsUpdate = true
+					mesh.scale.set(.2, .2, .2)
+					var targetX = pos.x + (-1 + Math.random() * 2) * 6;
+					var targetY = pos.y + (-1 + Math.random() * 2) * 6;
+					var targetZ = pos.z + (-1 + Math.random() * 2) * 6;
+
+					SCENE.add(mesh)
+					parts.push(mesh)
+
+					TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
+					TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
+					TweenMax.to(mesh.position, .6, {
+						x: targetX,
+						y: targetY,
+						z: targetZ,
+						delay: Math.random() * .1,
+						ease: Power2.easeOut,
+						onComplete: function() {
+
+							mesh.material.dispose()
+							mesh.geometry.dispose()
+							for (var u = 0; u < parts.length; u++) {
+								if (parts[u].parent) parts[u].parent.remove(parts[u])
+							}
+						}
+					});
+
+				}
+
+				for (var bb = 0; bb < droppedBomb[b].children.length; bb++) {
+					droppedBomb[b].children[bb].geometry.dispose()
+					droppedBomb[b].children[bb].material.dispose()
+				}
+
+				window.SCENE.remove(droppedBomb[b])
+				SCENE.remove(droppedBomb[b].child)
+				window.droppedBomb[b].removed = true
+				window.droppedBomb.splice(b, 1)
+
+			}
+
+		}
+		if (this.times <= 0) {
+
+			for (var i = 0; i < babyZombies.length; i++) {
+				if (this.name === babyZombies[i].name) {
+					babyZombies[i].zombies.children.forEach(e => {
+						e.material.dispose()
+						e.geometry.dispose()
+					})
+					SCENE.remove(babyZombies[i].zombies)
+					babyZombies.splice(i, 1)
+
+				}
+			}
+
+		}
+	}
+}
+
 
 const Heroes = {}
 

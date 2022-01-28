@@ -374,6 +374,11 @@ var FARM = {
 				// Update enemies walking and hero detection
 				enemies[i].update(phys, delta, character, enemyList)
 			}
+			for (var i = 0; i < babyZombies.length; i++) {
+				// Update enemies walking and hero detection
+				babyZombies[i].update(delta)
+			}
+
 
 			//update bombs
 			var tt = CLOCK.getElapsedTime()
