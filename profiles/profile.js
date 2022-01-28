@@ -57,7 +57,10 @@ let Profile = {
 				break;
 		}
 		return g
-	}
+	},
+	items: [1, 2, 2, 8,9,9,9,9,9,9],
+	bullets: [8,8,9],
+	skins: [9]
 
 }
 

@@ -63,7 +63,7 @@ var Bullets = {
 	laserLight: function(){
 		var g = new Three.Group()
 
-		var b = new Three.Mesh(new Three.PlaneBufferGeometry(7,7), new Three.MeshToonMaterial({
+		var b = new Three.Mesh(new Three.PlaneBufferGeometry(7,9), new Three.MeshToonMaterial({
 			transparent: true,
 			map: TextureLoader.load("assets/images/textures/laserlight.png")
 		}))

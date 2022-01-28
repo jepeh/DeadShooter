@@ -175,7 +175,7 @@ var rewards = {
 			y: 1,
 			z: 1,
 			onComplete: function() {
-				window.gobo = true
+				
 
 				field.geometry.dispose()
 				window.SCENE.remove(field)
@@ -210,6 +210,7 @@ var rewards = {
 							plane.geometry.dispose()
 							SCENE.remove(plane)
 						}
+						window.gobo = true
 					}
 				})
 			}

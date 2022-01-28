@@ -55,23 +55,33 @@ $("#inv").on('click', () => {
 					</div>
 				</div>
 				<div class="inventory" id="inv-list">
-					<div class="inv-lists">
+					<div class="inv-lists" id="items" onClick="selectINV(this)">
 						<p>ITEMS</p>
 					</div>
-					<div class="inv-lists">
+					<div class="inv-lists" id="skills" onClick="selectINV(this)">
 						<p>SKILLS</p>
 					</div>
-					<div class="inv-lists">
+					<div class="inv-lists" id="skins" onClick="selectINV(this)">
 						<p>SKINS</p>
 					</div>
-					<div class="inv-lists">
+					<div class="inv-lists" id="bullets" onClick="selectINV(this)">
 						<p>BULLETS</p>
 					</div>
 				</div>
-				<div class="inventory" id="inv-body"></div>
+				<div class="inventory" id="inv-body">
+				
+				</div>
 			</div>`
 
 	$("#menu-container").prepend(inv)
+
+	for (var i = 0; i < Profile.items.length; i++) {
+		let div = `<div class="Items">
+		<img />
+		<p></p>
+		</div>`
+		$("#inv-body").append(div)
+	}
 })
 
 //*******************************************
@@ -89,6 +99,7 @@ $("#settings").on('click', function() {
 $("#menu-close").on('click', function() {
 
 	if ($("#menu-close").attr("status") === "busy") {
+
 		var parent = document.getElementById("menu-container")
 		parent.removeChild(parent.children[0])
 		$("#menu-close").attr("status", "notbusy")
@@ -97,12 +108,44 @@ $("#menu-close").on('click', function() {
 				left: "0",
 				display: "grid"
 			})
+		$("#inv-body").html("")
 	} else {
 		$("#menu").css('display', "none")
 	}
 	playSound(sounds.toggle)
 
 })
+
+/**************************************************
+SELECT INVENTORY
+**************************************************/
+
+window.selectINV = function(e) {
+
+	var elem = document.getElementsByClassName("inv-lists")
+	for (var i = 0; i < elem.length; i++) {
+		if (elem[i].id === e.id) {
+
+			elem[i].style.background = "linear-gradient(to left, #06092754, #0FBAD599)"
+			elem[i].style.borderRadius = "5px"
+
+			// reload inventory
+			$("#inv-body").html("")
+
+			for (var o = 0; o < Profile[elem[i].id].length; o++) {
+			let div = `<div class="Items">
+			<img src="assets/images/coin.png"/>
+			<p>Title</p>
+			</div>`
+				$("#inv-body").append(div)
+			}
+
+		} else {
+			elem[i].style.background = "transparent"
+		}
+	}
+}
+
 
 $("#alert").on('click', function() {
 	$("#alert").css("display", "none")
@@ -448,4 +491,4 @@ function spawnBox(p) {
 
 
 
-export {stopSound, isEnergy, notEnergy, playSound, Atom, Holo, spawnBox }
+export { stopSound, isEnergy, notEnergy, playSound, Atom, Holo, spawnBox }

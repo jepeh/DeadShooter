@@ -78,7 +78,7 @@ var Game = (function(w, func) {
 
 		// Fetch or Save FB Player Data
 
-		loc.searchParams.get("isPlaying") ? playResume(true) : play(true)
+		loc.searchParams.get("isPlaying") ? playResume(true) : playResume(true)
 
 
 		function play(FB) {
@@ -111,13 +111,13 @@ var Game = (function(w, func) {
 		}
 
 		function playResume(FB) {
-			$("#loader").css("display", "block");
+			//$("#loader").css("display", "block");
 
 			var hu = setTimeout(() => {
 				$("#loader").css("display", "none")
 				func(FB)
 				clearTimeout(hu)
-			}, 1200)
+			}, 100)
 
 		}
 
