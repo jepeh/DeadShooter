@@ -6,6 +6,7 @@ import * as Sounds from '../app/audio.js'
 import * as Utils from '../app/utils.js'
 import rewards from '../app/rewards.js'
 import { FARM } from '../app/modes/farm.js'
+import {Bullets} from '../app/bullets/bullet.js'
 
 window.TxtLoader = new Three.TextureLoader();
 
@@ -1441,15 +1442,18 @@ class defaultHero extends Hero {
 	}
 
 	renderBullet() {
-
-		var g = new Three.Group()
-
-		var b = new Three.Mesh(new Three.IcosahedronGeometry(.9), new Three.MeshNormalMaterial())
-		b.castShadow = true
-		b.receiveShadow = true
-
-		g.add(b)
-		g.position.copy(this.mesh.position)
+	var g;
+		switch (Profile.bulletType) {
+			case "normal":
+				g = Bullets.normal()
+				break;
+			case "blade":
+				g = Bullets.blade()
+				break;
+			case "laser":
+				g = Bullets.laser()
+				break;
+		}
 
 		return g;
 	}

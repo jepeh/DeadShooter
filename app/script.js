@@ -137,7 +137,7 @@ var Game = (function(w, func) {
 		User.platform = FBInstant.getPlatform()
 
 		// Save Initial Data
-		FBInstant.player.getDataAsync(["level", "heroName", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
+		FBInstant.player.getDataAsync(["level", "heroName", "bulletType", "coins", "rank", "maxHP", "bombDamage", "energy", "mapRadius", "atomBombRadius", "gunRange", "keys", "skills", "Heroes", "countdownMin"])
 			.then(data => {
 
 				if (data["level"] === undefined) {
@@ -146,6 +146,7 @@ var Game = (function(w, func) {
 					FBInstant.player.setDataAsync({
 						level: Profile.level,
 						heroName: Profile.heroName,
+						bulletType: Profile.bulletType,
 						coins: Profile.coins,
 						rank: Profile.rank,
 						maxHP: Profile.maxHP,
@@ -202,6 +203,7 @@ var Game = (function(w, func) {
 					Profile.coins = data["coins"]
 					Profile.rank = data["rank"]
 					Profile.maxHP = data["maxHP"]
+					Profile.bulletType = data["bulletType"]
 					Profile.bombDamage = data["bombDamage"]
 					Profile.mapRadius = data["mapRadius"]
 					Profile.atomBombRadius = data["atomBombRadius"]
@@ -322,7 +324,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
 				})
 			} while (cnt <= 50)
 		}
