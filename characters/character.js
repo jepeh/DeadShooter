@@ -24,7 +24,7 @@ class Hero {
 		this.life = document.getElementById('life')
 		this.hp = document.getElementById('hp')
 		this.hpLeft = Profile.maxHP
-		this.bombDamage = Profile.bombDamage
+		this.bombDamage = Profile.bombDamage + Profile.bombDamage * Profile.bulletDamage(Profile.bulletType)
 		this.velocity = Profile.velocity
 		this.mapRadius = Profile.mapRadius
 		this.gunRange = Profile.gunRange

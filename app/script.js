@@ -430,7 +430,6 @@ var Game = (function(w, func) {
 		floor.receiveShadow = true
 
 		SCENE.add(floor)
-
 		window.border = new Three.Mesh(new Three.RingGeometry(305, 306, 4), new Three.MeshToonMaterial({ color: "red", side: Three.DoubleSide }))
 		border.position.y = 1
 		border.rotation.x = Math.PI / 2

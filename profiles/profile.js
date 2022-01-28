@@ -6,8 +6,8 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
+	bulletType: "laserlight",
 	bombDamage: 25,
-	bulletType: "normal",
 	energy: 10,
 	mapRadius: 90,
 	atomBombRadius: 20,
@@ -37,8 +37,26 @@ let Profile = {
 	// FB Data Functions
 	FB: {
 		update: function() {},
-		get: function() {}, 
+		get: function() {},
 		delete: function() {}
+	},
+	bulletDamage: function(type) {
+		var g;
+		switch (type) {
+			case "normal":
+				g = .1
+				break;
+			case "blade":
+				g = .3
+				break;
+			case "laser":
+				g = .35
+				break;
+			case "laserlight":
+				g = .4
+				break;
+		}
+		return g
 	}
 
 }
@@ -59,5 +77,7 @@ let User = {
 	image: new Image(),
 	platform: null
 }
+
+
 
 export { Profile, Levels, Sounds, User }
