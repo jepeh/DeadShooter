@@ -1445,14 +1445,18 @@ span>p {
 	left: 50%;
 	margin-left: -35%;
 	top: 20%;
-	grid-template-rows: 40% 10% 40%;
+	grid-template-rows: 50% 10% 40%;
 	z-index: 6;
-	display: grid
+	display: grid;
+	border-top: .8px #C0FBFF7D solid;
+	border-right: .8px #C0FBFF7D solid;
+	border-left: .8px #012628AB solid;
+	border-bottom: .8px #012628AB solid;
 }
 
 #itempreview img {
 	position: relative;
-	width: 50%;
+	width: 60%;
 	height: auto;
 	margin: auto;
 }
@@ -1460,11 +1464,40 @@ span>p {
 	position: relative;
 	text-align: center;
 	font-family: "QS-M";
-	font-size: 5vh;
+	font-size: 3.5vh;
 	color: white;
 	
 }
 
+#itempreview div {
+	position: relative;
+	width: 90%;
+	height: 90%;
+	margin: auto;
+	text-align: center;
+	color: white;
+	font-size: 2vh;
+	font-family: "QS-L"
+}
+#invuse {
+	position: absolute;
+	background: linear-gradient(to right, #06092754, #0FBAD599);
+	width: 100px;
+	height: 30px;
+	color: white;
+	left: 50%;
+	padding-top: 5px;
+	border-radius: 3px;
+	margin-left: -50px;
+	text-align: center;
+	top: 80%;
+	transform: skew(-20deg);
+	font-size: 5vw;
+	display: none;
+	font-family: "QS-B";
+	z-index: 6;
+	animation: pop .2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+}
 /*
 LOADER
 */

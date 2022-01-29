@@ -55,7 +55,7 @@ $("#inv").on('click', () => {
 					</div>
 				</div>
 				<div class="inventory" id="inv-list">
-					<div class="inv-lists" id="items" onClick="selectINV(this)">
+					<div class="inv-lists" usable="true" id="items" onClick="selectINV(this)">
 						<p>ITEMS</p>
 					</div>
 					<div class="inv-lists" id="skills" onClick="selectINV(this)">
@@ -135,7 +135,7 @@ window.selectINV = function(e) {
 			$("#inv-body").html("")
 
 			for (var o = 0; o < Profile[elem[i].id].length; o++) {
-			let div = `<div class="Items" id="item${o}" onClick="handlePreview(this)">
+			let div = `<div class="Items" usable="true" id="item${o}" onClick="handlePreview(this)">
 			<img id="itemimg${o}" src="assets/images/coin.png"/>
 			<p id="itemtitle${o}">Title</p>
 			</div>`
@@ -156,18 +156,24 @@ window.handlePreview = function(e){
 	
 	var img = $(`#itemimg${b}`).attr("src")
 	var title = document.getElementById(`itemtitle${b}`).innerText
+	var description;
 	
 	$("#cover").css("display", "grid")
 	let d = `<div id="itempreview" onClick="closePreview()">
 	<img src="${img}"/>
 	<p>${title}</p>
+	<div>${description}</div>
 	</div>`
 	$("body").append(d)
+	
+	var usable = $(`#${e.id}`).attr("usable")
+	
+	if (usable) $("#invuse").css("display", "grid")
 }
 
 window.closePreview = function(){
 	$("#itempreview").remove()
-	$("#cover").css("display", "none")
+	$("#cover, #invuse").css("display", "none")
 }
 
 $("#alert").on('click', function() {
