@@ -1456,6 +1456,9 @@ class defaultHero extends Hero {
 			case "laserlight": 
 				g = Bullets.laserLight()
 				break;
+			case "laserfire":
+				g = Bullets.laserFire()
+				break;
 		}
 
 		return g;

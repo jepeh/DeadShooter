@@ -6,7 +6,7 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
-	bulletType: "normal",
+	bulletType: "laserfire",
 	bombDamage: 20,
 	energy: 10,
 	mapRadius: 90,
@@ -55,12 +55,15 @@ let Profile = {
 			case "laserlight":
 				g = .4
 				break;
+			case "laserfire": 
+				g = .45
+				break;
 		}
 		return g
 	},
 	items: [],
 	bullets: [{
-		name: "normal",
+		name: "laserfire",
 		description: "",
 		stats: {
 			damage: "+10%",

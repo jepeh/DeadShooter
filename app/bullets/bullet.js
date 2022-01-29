@@ -84,6 +84,44 @@ var Bullets = {
 		Utils.playSound(Sounds.laserLightGun)
 		
 		return g;
+	},
+	laserFire: function() {
+		var g = new Three.Group()
+
+		var b = new Three.Mesh(new Three.PlaneBufferGeometry(7,7), new Three.MeshToonMaterial({
+			transparent: true,
+			map: TextureLoader.load("assets/images/textures/laserfire.png"),
+			side: 2
+		}))
+		
+		b.rotation.x = - Math.PI/2
+		b.castShadow = true
+		b.receiveShadow = true
+		g.add(b)
+		
+		var bb = new Three.Mesh(new Three.PlaneBufferGeometry(7,7), new Three.MeshToonMaterial({
+			transparent: true,
+			map: TextureLoader.load("assets/images/textures/laserfire.png"),
+			side: 2
+		}))
+		bb.castShadow = true
+		bb.receiveShadow = true
+		bb.rotation.y = Math.PI/2
+		bb.rotation.z = -Math.PI/2
+	
+		g.add(bb)
+		g.position.copy(hero.mesh.position)
+		
+		g.scale.set(.2,.2,.2)
+		TweenMax.to(g.scale, .5, {
+			x: 1,
+			y: 1,
+			z: 1
+		})
+		
+		Utils.playSound(Sounds.bladeGun)
+		
+		return g;
 	}
 	
 }

@@ -12,6 +12,7 @@ import * as Sound from './audio.js'
 import { GLTFLoader } from '../src/Loader/GLTFLoader.js'
 import Skills from '../skills/skills.js'
 import { FARM } from '../app/modes/farm.js'
+import {Bullets} from "../app/bullets/bullet.js"
 
 // Composer & RenderPass
 //import * as Composer from '../src/Composer/EffectComposer.js'
