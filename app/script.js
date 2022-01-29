@@ -183,9 +183,7 @@ var Game = (function(w, func) {
 						$("#ProfileInfo-Rank").text("Rank: " + Profile.rank)
 
 
-						$("#energy-txt").text(Profile.energy)
-						$("#coin-txt").text(Profile.coins)
-
+						
 						// FACEBOOK DATA UPDATE
 						//*******************************************%
 
@@ -221,8 +219,7 @@ var Game = (function(w, func) {
 					$("#ProfileInfo-Rank").text("Rank: " + Profile.rank)
 
 
-					$("#energy-txt").text(Profile.energy)
-					$("#coin-txt").text(Profile.coins)
+					
 
 					// FACEBOOK DATA UPDATE
 					//*******************************************%
@@ -232,6 +229,10 @@ var Game = (function(w, func) {
 				console.warn(e)
 			})
 	*/
+
+	$(".e-TXT").text(Profile.energy)
+	$(".c-TXT").text(Profile.coins)
+
 
 	var world = OimoPhysics().then(phys => {
 
@@ -331,7 +332,7 @@ var Game = (function(w, func) {
 		generateLevels()
 
 		// FACEBOOK DATA UPDATE
-		Utils.playSound(Sound.mainMusic)
+		Utils.playMusic(Sound.mainMusic)
 
 		function resize() {
 
@@ -346,7 +347,7 @@ var Game = (function(w, func) {
 			RENDERER.shadowMap.enabled = true
 
 			RENDERER.render(SCENE, CAMERA)
-			
+
 			// Landscape detector
 			if (innerWidth > innerHeight) {
 				$("#LANDSCAPEDetector").css("display", "block")
@@ -517,14 +518,13 @@ var Game = (function(w, func) {
 		})
 		TweenMax.to(cu.position, 1.2, {
 			x: 0,
-			y: -1.3,
+			y: -1.3, 
 			z: 0,
 			easing: Power2.easingIn,
 			onComplete: function() {
 				$("#playbtn").css("display", "grid")
 			}
 		})
-
 
 		//*******************************************
 		// Change Color 

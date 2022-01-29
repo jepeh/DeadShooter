@@ -28,7 +28,7 @@ var FARM = {
 
 		Profile.playGame = true
 		Utils.stopSound(Sound.mainMusic)
-		Utils.playSound(Sound.FarmMode)
+		Utils.playMusic(Sound.FarmMode)
 
 		// decrease energy
 		Profile.energy = Profile.energy - 2
@@ -585,7 +585,7 @@ var FARM = {
 
 		$(".ccns, #ccnscoin, #critical").remove()
 		Utils.playSound(Sound.gameWin)
-		Utils.stopSound(Sound.FarmMode)
+		Utils.stopMusic(Sound.FarmMode)
 
 		window.inGame = false
 

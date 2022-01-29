@@ -994,6 +994,7 @@ span>p {
 	text-align: center;
 	left: 50%;
 	margin-left: -45%;
+	z-index: 6
 
 }
 
@@ -1016,6 +1017,7 @@ span>p {
 	left: 50%;
 	margin-left: -0%;
 	margin-top: -10%;
+	z-index: 6;
 	display: none;
 	animation: cc .9s cubic-bezier(0.19, 1, 0.22, 1);
 	animation-fill-mode: forwards

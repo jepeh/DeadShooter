@@ -6,8 +6,8 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
-	bulletType: "blade",
-	bombDamage: 25,
+	bulletType: "normal",
+	bombDamage: 20,
 	energy: 10,
 	mapRadius: 90,
 	atomBombRadius: 20,
@@ -58,9 +58,16 @@ let Profile = {
 		}
 		return g
 	},
-	items: [1, 2, 2, 8,9,9,9,9,9,9],
-	bullets: [8,8,9],
-	skins: [9]
+	items: [],
+	bullets: [{
+		name: "normal",
+		description: "",
+		stats: {
+			damage: "+10%",
+			bulletSpeed: 250
+		}
+	}],
+	skins: []
 
 }
 

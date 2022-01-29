@@ -29,7 +29,7 @@ class Hero {
 		this.mapRadius = Profile.mapRadius
 		this.gunRange = Profile.gunRange
 		this.nearEnemy = []
-
+		this.bulletSpeed = Profile.bullets.filter(e =>{ return e.name === Profile.bulletType})[0].stats.bulletSpeed
 		this.rotateAngle = new Three.Vector3(0, 1, 0)
 		this.rotateQuarternion = new Three.Quaternion()
 
@@ -159,7 +159,7 @@ class Hero {
 						
 					}
 
-				}, 200)
+				}, this.bulletSpeed)
 
 			}
 			else if (SCENE.getObjectByName("boss") && window.gobo) {
@@ -224,7 +224,7 @@ class Hero {
 									window.droppedBomb.push(b)
 								}
 
-							}, 190)
+							}, this.bulletSpeed)
 						}
 					})
 					// update quaternions

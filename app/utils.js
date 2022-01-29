@@ -45,11 +45,11 @@ $("#inv").on('click', () => {
 					<p>INVENTORY</p>
 					<div>
 						<div>
-							<p>x0</p>
+							<p class="e-TXT">0</p>
 							<img id="energy-img" src="assets/images/energy.png" />
 						</div>
 						<div>
-							<p>0</p>
+							<p class="c-TXT">0</p>
 							<img id="coin-img" src="assets/images/coin.png" />
 						</div>
 					</div>
@@ -82,6 +82,8 @@ $("#inv").on('click', () => {
 		</div>`
 		$("#inv-body").append(div)
 	}
+	$(".e-TXT").text(Profile.energy)
+	$(".c-TXT").text(Profile.coins)
 })
 
 //*******************************************
@@ -180,6 +182,16 @@ function notEnergy() {
 function playSound(sound) {
 
 	if (Sounds.sound) {
+		sound.currentTime > 0 ? sound.currentTime = 0 : false
+		var ss = sound.play()
+		if (ss !== undefined) ss.then(() => {})
+			.catch((e) => {})
+	}
+}
+
+function playMusic(sound) {
+
+	if (Sounds.music) {
 		sound.currentTime > 0 ? sound.currentTime = 0 : false
 		var ss = sound.play()
 		if (ss !== undefined) ss.then(() => {})
@@ -503,4 +515,4 @@ function spawnBox(p) {
 
 
 
-export { stopSound, isEnergy, notEnergy, playSound, Atom, Holo, spawnBox }
+export {playMusic, stopSound, isEnergy, notEnergy, playSound, Atom, Holo, spawnBox }
