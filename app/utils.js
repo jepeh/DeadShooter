@@ -42,7 +42,7 @@ $("#inv").on('click', () => {
 
 	var inv = `<div id="inventory-wrapper">
 				<div class="inventory" id="inv-header">
-					<p>INVENTORY</p>
+					<p id='invtitle'>INVENTORY</p>
 					<div>
 						<div>
 							<p class="e-TXT">0</p>
@@ -136,8 +136,8 @@ window.selectINV = function(e) {
 
 			for (var o = 0; o < Profile[elem[i].id].length; o++) {
 			let div = `<div class="Items" id="item${o}" onClick="handlePreview(this)">
-			<img src="assets/images/coin.png"/>
-			<p>Title</p>
+			<img id="itemimg${o}" src="assets/images/coin.png"/>
+			<p id="itemtitle${o}">Title</p>
 			</div>`
 				$("#inv-body").append(div)
 			}
@@ -151,8 +151,17 @@ window.selectINV = function(e) {
 
 
 window.handlePreview = function(e){
+	var a = e.id.split("")
+	var b = a[a.length-1]
+	
+	var img = $(`#itemimg${b}`).attr("src")
+	var title = document.getElementById(`itemtitle${b}`).innerText
+	
 	$("#cover").css("display", "grid")
-	let d = `<div id="itempreview" onClick="closePreview()"></div>`
+	let d = `<div id="itempreview" onClick="closePreview()">
+	<img src="${img}"/>
+	<p>${title}</p>
+	</div>`
 	$("body").append(d)
 }
 

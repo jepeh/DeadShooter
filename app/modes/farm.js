@@ -118,6 +118,7 @@ var FARM = {
 
 		// atomBomb
 		window.bmb = true
+		window.bombgo = true
 
 		var bomb = document.getElementById('bomb')
 
@@ -137,7 +138,9 @@ var FARM = {
 
 			// Default Bomb
 			bomb.addEventListener('touchstart', () => {
-				hero.bomb()
+			
+			window.bombgo ? hero.bomb() : false
+			
 			})
 
 			$("#Skill1").on("touchstart", () => {

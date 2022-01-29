@@ -140,6 +140,7 @@ class Hero {
 					if (sts > 2) {
 						clearInterval(shoot);
 						window.gobo = true
+					
 					} else {
 						sts++
 						var b = hero.renderBullet()
@@ -206,6 +207,7 @@ class Hero {
 							var shoot = setInterval(() => {
 								if (sts > 2) {
 									window.gobo = true
+								
 									clearInterval(shoot);
 								} else {
 									sts++
@@ -231,8 +233,8 @@ class Hero {
 
 
 				} else {
-					window.gunrange.material.opacity = .1
-					window.gunrange.position.y = 1
+					window.gunrange.material.opacity = .07
+					window.gunrange.position.y = .2
 					var j = setTimeout(() => {
 						window.gunrange.material.opacity = 0
 						window.gunrange.position.y = -5
@@ -241,8 +243,8 @@ class Hero {
 				}
 			}
 			else {
-				window.gunrange.material.opacity = .1
-				window.gunrange.position.y = 1
+				window.gunrange.material.opacity = .07
+				window.gunrange.position.y = .2
 				var j = setTimeout(() => {
 					window.gunrange.material.opacity = 0
 					window.gunrange.position.y = -5
@@ -1456,8 +1458,11 @@ class defaultHero extends Hero {
 			case "laserlight": 
 				g = Bullets.laserLight()
 				break;
-			case "laserfire":
-				g = Bullets.laserFire()
+			case "phoenixfire":
+				g = Bullets.phoenixFire()
+				break;
+			case "jellyfish": 
+				g = Bullets.jellyFish()
 				break;
 		}
 
