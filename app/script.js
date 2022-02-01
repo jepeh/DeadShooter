@@ -12,7 +12,7 @@ import * as Sound from './audio.js'
 import { GLTFLoader } from '../src/Loader/GLTFLoader.js'
 import Skills from '../skills/skills.js'
 import { FARM } from '../app/modes/farm.js'
-import {Bullets} from "../app/bullets/bullet.js"
+import { Bullets } from "../app/bullets/bullet.js"
 
 // Composer & RenderPass
 //import * as Composer from '../src/Composer/EffectComposer.js'
@@ -428,6 +428,8 @@ var Game = (function(w, func) {
 		})
 
 
+
+
 		//*******************************************	
 		//Update  Personal Game Data
 		//*******************************************
@@ -482,7 +484,7 @@ var Game = (function(w, func) {
 
 		ch()
 
-		var mm = [
+		window.mm = [
 			new Three.MeshToonMaterial({ transparent: true }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
@@ -519,7 +521,7 @@ var Game = (function(w, func) {
 		})
 		TweenMax.to(cu.position, 1.2, {
 			x: 0,
-			y: -1.3, 
+			y: -1.3,
 			z: 0,
 			easing: Power2.easingIn,
 			onComplete: function() {
@@ -537,6 +539,9 @@ var Game = (function(w, func) {
 		MAIN GAME
 		***********************************************
 		*/
+
+
+
 
 		var grp = new Three.Group()
 		var mk = TextureLoader.load("assets/images/textures/rod.png")
@@ -615,6 +620,61 @@ var Game = (function(w, func) {
 			return;
 		}
 
+
+		/*	var FresnelShader = {
+
+					uniforms: {},
+					vertexShader: [
+
+			"varying vec3 vPositionW;",
+			"varying vec3 vNormalW;",
+
+			"void main() {",
+
+			"	vPositionW = vec3( vec4( position, 1.0 ) * modelMatrix);",
+			" vNormalW = normalize( vec3( vec4( normal, 0.0 ) * modelMatrix ) );",
+
+			"	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1 );",
+
+			"}"
+
+		].join("\n"),
+
+					fragmentShader: [
+			"varying vec3 vPositionW;",
+			"varying vec3 vNormalW;",
+			"void main() {",
+			"	vec3 color = vec3(1.,1.,1.);",
+			"	vec3 viewDirectionW = normalize(cameraPosition - vNormalW);",
+			"	float fresnelTerm = dot(viewDirectionW, vNormalW);",
+			"	fresnelTerm = clamp(1. - fresnelTerm, 0.08, 10.);",
+			"	gl_FragColor = vec4( color * fresnelTerm, 1.);",
+			"}"
+
+		].join("\n")
+
+				};
+
+			var spt = new Three.Mesh(new Three.SphereGeometry(2), new Three.ShaderMaterial({
+				vertexShader: FresnelShader.vertexShader,
+				fragmentShader: FresnelShader.fragmentShader
+			}))
+			
+			spt.position.set(6,4,0)
+			var cu2 = new Three.Mesh(new Three.CylinderGeometry(4, 4, 1, 50, 60), mm)
+			cu2.position.copy(spt.position)
+			
+			var cu3 = new Three.Mesh(new Three.CylinderGeometry(4, 4, 1, 50, 60), mm)
+			cu3.position.copy(spt.position)
+			cu3.rotation.x = Math.PI/4
+			
+			var cu4 = new Three.Mesh(new Three.CylinderGeometry(4, 4, 1, 50, 60), mm)
+			cu4.position.copy(spt.position)
+			cu4.rotation.z = Math.PI/2
+			
+			SCENE.add(spt, cu2, cu3, cu4)*/
+		
+
 		// initial animation
 		//RENDERER.autoClear = false
 		function Anim() {
@@ -627,6 +687,16 @@ var Game = (function(w, func) {
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
 				cu.rotation.y = elapsedTime
+
+				/*cu2.rotation.y = Math.cos(elapsedTime)
+				cu2.rotation.z = elapsedTime
+				cu2.rotation.x = Math.sin(-elapsedTime)
+				cu3.rotation.y = elapsedTime
+				cu3.rotation.z = Math.sin(elapsedTime)
+				cu3.rotation.x = elapsedTime
+				cu4.rotation.y = elapsedTime
+				cu4.rotation.z = elapsedTime
+				cu4.rotation.x = Math.cos(elapsedTime)*/
 				//	render layer0 boom
 				//	RENDERER.clear()
 				//	CAMERA.layers.set(1)

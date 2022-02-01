@@ -15,8 +15,7 @@ var Skills = [
 	{
 		name: "laserBeam",
 		func: function(pos) {
-
-
+			
 			var FresnelShader = {
 
 				uniforms: {},
@@ -50,13 +49,15 @@ var Skills = [
 	].join("\n")
 
 			};
+
+
 			window.gobo = false
 
 			var angleYCameraDirection = Math.atan2(
 				(pos.x - hero.mesh.position.x),
 				(pos.z - hero.mesh.position.z))
-		
-		var targetPos = {
+
+			var targetPos = {
 				x: pos.x,
 				z: pos.z
 			}
@@ -259,16 +260,16 @@ var Skills = [
 		name: "rockBomb",
 		duration: 20000,
 		func: function(pos) {
-			
+
 			window.gobo = false
 			TweenMax.to(hero.mesh.position, .7, {
 				y: hero.mesh.position.y + 6,
-				onComplete: function(){
+				onComplete: function() {
 					TweenMax.to(hero.mesh.position, .4, {
 						x: pos.x * .01,
 						y: hero.mesh.position.y - 6,
 						z: pos.z * .01,
-						onComplete: function(){
+						onComplete: function() {
 							window.gobo = true
 							var tarPos = new Three.Vector3(25, 70, 25)
 							window.CAMERA.position.copy(tarPos)
@@ -278,7 +279,7 @@ var Skills = [
 					})
 				}
 			})
-			
+
 			return;
 		}
 	}

@@ -6,7 +6,7 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
-	bulletType: "jellyfish",
+	bulletType: "phoenixfire",
 	bombDamage: 20,
 	energy: 10,
 	mapRadius: 90,
@@ -61,12 +61,21 @@ let Profile = {
 			case "jellyfish": 
 				g = .55
 				break;
+			case "lasertube":
+				g = .59
+				break;
+			case "pixelbullet":
+				g = .5
+				break;
+			case "ninjablade":
+				g = .6
+				break;
 		}
 		return g
 	},
 	items: [],
 	bullets: [{
-		name: "jellyfish",
+		name: "phoenixfire",
 		description: "",
 		stats: {
 			damage: "+10%",

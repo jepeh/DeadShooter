@@ -6,7 +6,7 @@ import * as Sounds from '../app/audio.js'
 import * as Utils from '../app/utils.js'
 import rewards from '../app/rewards.js'
 import { FARM } from '../app/modes/farm.js'
-import {Bullets} from '../app/bullets/bullet.js'
+import {Bullets, bulletSprite} from '../app/bullets/bullet.js'
 
 window.TxtLoader = new Three.TextureLoader();
 
@@ -652,65 +652,11 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 					clearTimeout(u)
 				}, 100)
 
-				// Hit Effect
-				var hit = new Three.Mesh(new Three.SphereGeometry(5), new Three.MeshToonMaterial({ color: "white", transparent: true, opacity: .3 }))
-				hit.position.copy(window.droppedBomb[b].position)
-				hit.scale.set(0, 0, 0)
-				window.SCENE.add(hit)
-
-				TweenMax.to(hit.scale, .1, {
-					x: 1,
-					y: 1,
-					z: 1,
-					onComplete: function() {
-						if (hit.parent) {
-							hit.material.dispose()
-							hit.geometry.dispose()
-							window.SCENE.remove(hit)
-						}
-					}
-				})
+	
 
 				var pos = droppedBomb[b].position
-				var parts = []
 
-				for (var i = 0; i < 10; i++) {
-
-					var geom = new Three.BoxGeometry(1.3, 1.3, 1.3);
-					var mat = new Three.MeshToonMaterial({
-						color: "white"
-					});
-					var mesh = new Three.Mesh(geom, mat);
-					mesh.position.copy(droppedBomb[b].position)
-					mesh.rotation.y = Math.floor(Math.random() * 10)
-					mesh.needsUpdate = true
-					mesh.scale.set(.2, .2, .2)
-					var targetX = pos.x + (-1 + Math.random() * 2) * 6;
-					var targetY = pos.y + (-1 + Math.random() * 2) * 6;
-					var targetZ = pos.z + (-1 + Math.random() * 2) * 6;
-
-					SCENE.add(mesh)
-					parts.push(mesh)
-
-					TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
-					TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
-					TweenMax.to(mesh.position, .6, {
-						x: targetX,
-						y: targetY,
-						z: targetZ,
-						delay: Math.random() * .1,
-						ease: Power2.easeOut,
-						onComplete: function() {
-
-							mesh.material.dispose()
-							mesh.geometry.dispose()
-							for (var u = 0; u < parts.length; u++) {
-								if (parts[u].parent) parts[u].parent.remove(parts[u])
-							}
-						}
-					});
-
-				}
+				bulletSprite(pos)
 
 				for (var bb = 0; bb < droppedBomb[b].children.length; bb++) {
 					droppedBomb[b].children[bb].geometry.dispose()
@@ -1463,6 +1409,15 @@ class defaultHero extends Hero {
 				break;
 			case "jellyfish": 
 				g = Bullets.jellyFish()
+				break;
+			case "lasertube":
+				g = Bullets.laserTube()
+				break;
+			case "pixelbullet":
+				g = Bullets.pixelBullet()
+				break;
+			case "ninjablade":
+				g = Bullets.ninjaBlade();
 				break;
 		}
 
