@@ -762,7 +762,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 			TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
 			TweenMax.to(mesh.position, .6, {
 				x: targetX,
-				y: targetY,
+				y: .2,
 				z: targetZ,
 				delay: Math.random() * .1,
 				ease: Power2.easeOut,
@@ -771,7 +771,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 					mesh.material.dispose()
 					mesh.geometry.dispose()
 					for (var u = 0; u < parts.length; u++) {
-						if (parts[u].parent) parts[u].parent.remove(parts[u])
+					//	if (parts[u].parent) parts[u].parent.remove(parts[u])
 					}
 				}
 			});

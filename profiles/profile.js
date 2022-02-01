@@ -6,7 +6,7 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
-	bulletType: "phoenixfire",
+	bulletType: "pixelbullet",
 	bombDamage: 20,
 	energy: 10,
 	mapRadius: 90,
@@ -75,11 +75,11 @@ let Profile = {
 	},
 	items: [],
 	bullets: [{
-		name: "phoenixfire",
+		name: "pixelbullet",
 		description: "",
 		stats: {
 			damage: "+10%",
-			bulletSpeed: 250
+			bulletSpeed: 200
 		}
 	}],
 	skins: []
