@@ -226,7 +226,7 @@ var Bullets = {
 
 		var b = new Three.Mesh(new Three.PlaneBufferGeometry(7, 9), new Three.MeshToonMaterial({
 			transparent: true,
-			color: "red",
+			
 			map: TextureLoader.load("assets/images/textures/laserlightHit.png")
 		}))
 		b.rotation.x = -Math.PI / 2
@@ -241,6 +241,9 @@ var Bullets = {
 			x: 1,
 			y: 1,
 			z: 1
+		})
+		TweenMax.to(g.rotation, .7, {
+			y: 2
 		})
 
 		Utils.playSound(Sounds.laserLightGun)
@@ -543,7 +546,7 @@ function ninjablade(pos) {
 	var hit = new Three.Mesh(new Three.SphereGeometry(5), new Three.MeshToonMaterial({
 		transparent: true,
 		side: 2,
-		color: "red",
+		
 		map: TextureLoader.load("assets/images/textures/bladeHit.png")
 	}))
 
