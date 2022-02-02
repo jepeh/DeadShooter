@@ -11,7 +11,7 @@ let Profile = {
 	energy: 10,
 	mapRadius: 90,
 	atomBombRadius: 20,
-	atomLevel: 0,
+	atomLevel: 100,
 	playGame: false,
 	gunRange: 20,
 	countdownMin: 8,

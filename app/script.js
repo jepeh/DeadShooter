@@ -13,6 +13,8 @@ import { GLTFLoader } from '../src/Loader/GLTFLoader.js'
 import Skills from '../skills/skills.js'
 import { FARM } from '../app/modes/farm.js'
 import { Bullets } from "../app/bullets/bullet.js"
+import { FontLoader } from "../src/Loader/FontLoader.js"
+import { TextGeometry } from '../src/TextGeometry.js'
 
 // Composer & RenderPass
 //import * as Composer from '../src/Composer/EffectComposer.js'
@@ -294,6 +296,7 @@ var Game = (function(w, func) {
 		window.addRewards = []
 		window.babyZombies = []
 		window.mysteryboxes = []
+		window.TextLoader = new FontLoader();
 
 
 		CAMERA.layers.enable(0)
@@ -326,7 +329,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 35
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
 				})
 			} while (cnt <= 50)
 		}
@@ -483,6 +486,9 @@ var Game = (function(w, func) {
 		}
 
 		ch()
+
+		
+		
 
 		window.mm = [
 			new Three.MeshToonMaterial({ transparent: true }),
@@ -673,7 +679,7 @@ var Game = (function(w, func) {
 			cu4.rotation.z = Math.PI/2
 			
 			SCENE.add(spt, cu2, cu3, cu4)*/
-		
+
 
 		// initial animation
 		//RENDERER.autoClear = false

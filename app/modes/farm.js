@@ -125,9 +125,10 @@ var FARM = {
 		if ("ontouchstart" in document.documentElement) {
 			document.getElementById("atombomb").addEventListener('touchstart', () => {
 
-				if (Profile.atomLevel >= 100 && bmb) {
+				if (Profile.atomLevel >= 0 && bmb) {
 					bmb = false
-					window.atom = new Utils.Atom(SCENE, phys, enemyList)
+					var arrS = enemies.length >= 1 ? enemies : babyZombies
+					window.atom = new Utils.Atom(SCENE, phys, arrS)
 					window.a = atom.show()
 					window.atomBomb = true
 					SCENE.add(window.a)
@@ -138,9 +139,9 @@ var FARM = {
 
 			// Default Bomb
 			bomb.addEventListener('touchstart', () => {
-			
-			window.bombgo ? hero.bomb() : false
-			
+
+				window.bombgo ? hero.bomb() : false
+
 			})
 
 			$("#Skill1").on("touchstart", () => {

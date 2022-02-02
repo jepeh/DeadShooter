@@ -55,7 +55,7 @@ function CharacterControls(scene, model, orbitControl, camera) {
 
 			self.walkDirection.applyAxisAngle(self.rotateAngle, directionOffset)
 
-			const velocity = hero.velocity
+			const velocity = hero.velocity < 0 ? .01 : hero.velocity
 
 			// move model & camera
 			window.moveX = self.walkDirection.x * velocity * delta

@@ -6,7 +6,7 @@ import * as Sounds from '../app/audio.js'
 import * as Utils from '../app/utils.js'
 import rewards from '../app/rewards.js'
 import { FARM } from '../app/modes/farm.js'
-import {Bullets, bulletSprite} from '../app/bullets/bullet.js'
+import { Bullets, bulletSprite } from '../app/bullets/bullet.js'
 
 window.TxtLoader = new Three.TextureLoader();
 
@@ -29,7 +29,7 @@ class Hero {
 		this.mapRadius = Profile.mapRadius
 		this.gunRange = Profile.gunRange
 		this.nearEnemy = []
-		this.bulletSpeed = Profile.bullets.filter(e =>{ return e.name === Profile.bulletType})[0].stats.bulletSpeed
+		this.bulletSpeed = Profile.bullets.filter(e => { return e.name === Profile.bulletType })[0].stats.bulletSpeed
 		this.rotateAngle = new Three.Vector3(0, 1, 0)
 		this.rotateQuarternion = new Three.Quaternion()
 
@@ -140,7 +140,7 @@ class Hero {
 					if (sts > 2) {
 						clearInterval(shoot);
 						window.gobo = true
-					
+
 					} else {
 						sts++
 						var b = hero.renderBullet()
@@ -157,7 +157,7 @@ class Hero {
 
 						window.SCENE.add(b)
 						window.droppedBomb.push(b)
-						
+
 					}
 
 				}, this.bulletSpeed)
@@ -207,26 +207,26 @@ class Hero {
 							var shoot = setInterval(() => {
 								if (sts > 2) {
 									window.gobo = true
-								
+
 									clearInterval(shoot);
 								} else {
 									sts++
 									var b = hero.renderBullet()
 									b.vtr = {
-										x: window.boss.x,
-										z: window.boss.z
+										x: x,
+										z: z
 									}
 									var bDirection = Math.atan2(
 										(b.position.x - xx),
 										(b.position.z - zz))
 
 									b.rotation.y = bDirection
-								
+
 									window.SCENE.add(b)
 									window.droppedBomb.push(b)
 								}
 
-							}, this.bulletSpeed)
+							}, hero.bulletSpeed)
 						}
 					})
 					// update quaternions
@@ -309,19 +309,69 @@ class Hero {
 			if (zFront > cZ && cZ > zBack && xFront > cX && cX > xBack) {
 
 				droppedCoins[b].position.y = 2
+				Profile.coins = Profile.coins + droppedCoins[b].val
 
 				// dlete coins from array and scene
 				droppedCoins[b].children.forEach(e => {
-					e.material.dispose()
-					e.geometry.dispose()
+
+					if (e.type === "Mesh") {
+						if (e.material.length) {
+							e.material.forEach(ee => {
+								ee.dispose()
+							})
+						} else {
+							var hh = SCENE.getObjectByName("haha")
+							if (hh) {
+								TweenMax.to(hh.scale, .5, {
+									x: 0,
+									z: 0,
+									onComplete: () => {
+										hh.material.dispose()
+										hh.geometry.dispose()
+										SCENE.remove(hh)
+									}
+								})
+							}
+							e.material.dispose()
+							e.geometry.dispose()
+							SCENE.remove(e)
+						}
+
+
+						window.SCENE.remove(e)
+					}
+
+
 				})
 
-				this.scene.remove(droppedCoins[b])
+				/*if (droppedCoins[b].field) {
+
+					TweenMax.to(droppedCoins[b].field.scale, .5, {
+						x: 0,
+						z: 0,
+						onComplete: () => {
+							window.droppedCoins[b].field.geometry.dispose()
+							window.droppedCoins[b].field.material.forEach(e => {
+								e.dispose()
+							})
+
+							window.SCENE.remove(droppedCoins[b].field)
+							SCENE.remove(droppedCoins[b].field)
+							SCENE.remove(droppedCoins[b])
+							droppedCoins.splice(b, 1)
+						}
+					})
+
+
+
+				}*/
+
+				window.SCENE.remove(droppedCoins[b])
 				droppedCoins.splice(b, 1)
 
 				Utils.playSound(Sounds.coin)
 
-				Profile.coins = Profile.coins + 1
+
 				$("#coins p").text(Profile.coins)
 			}
 
@@ -652,7 +702,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 					clearTimeout(u)
 				}, 100)
 
-	
+
 
 				var pos = droppedBomb[b].position
 
@@ -727,6 +777,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 					mesh.children[i].material.color.set(c)
 				}
 			}
+			mesh.val = 1
 			window.droppedCoins.push(mesh)
 			self.scene.add(mesh)
 		})
@@ -771,7 +822,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 					mesh.material.dispose()
 					mesh.geometry.dispose()
 					for (var u = 0; u < parts.length; u++) {
-					//	if (parts[u].parent) parts[u].parent.remove(parts[u])
+						//	if (parts[u].parent) parts[u].parent.remove(parts[u])
 					}
 				}
 			});
@@ -1160,7 +1211,7 @@ class BabyZombies {
 		this.x = 0
 		this.z = 0
 		this.velocity = 4
-		this.zombies = null
+		this.mesh = null
 		this.times = 3
 		this.name = n
 	}
@@ -1176,7 +1227,7 @@ class BabyZombies {
 		m2.castShadow = true
 		m2.receiveShadow = true
 		zombie.add(m2)
-		this.zombies = zombie
+		this.mesh = zombie
 
 		return zombie;
 	}
@@ -1194,10 +1245,10 @@ class BabyZombies {
 
 		// Rotation towards Hero
 		var angleYCameraDirection = Math.atan2(
-			(this.zombies.position.x - hero.mesh.position.x),
-			(this.zombies.position.z - hero.mesh.position.z))
+			(this.mesh.position.x - hero.mesh.position.x),
+			(this.mesh.position.z - hero.mesh.position.z))
 
-		TweenMax.to(this.zombies.rotation, .25, {
+		TweenMax.to(this.mesh.rotation, .25, {
 			y: angleYCameraDirection
 		})
 
@@ -1205,18 +1256,65 @@ class BabyZombies {
 		var mX = this.walkDirection.x * this.velocity * delta
 		var mZ = this.walkDirection.z * this.velocity * delta
 
-		this.z = hero.mesh.position.z - this.zombies.position.z
-		this.x = hero.mesh.position.x - this.zombies.position.x
+		this.z = hero.mesh.position.z - this.mesh.position.z
+		this.x = hero.mesh.position.x - this.mesh.position.x
 
 
-		this.zombies.position.x += mX
-		this.zombies.position.z += mZ
+		this.mesh.position.x += mX
+		this.mesh.position.z += mZ
 
 
-		var PosXBackB = this.zombies.position.x - this.width / 2,
-			PosXFrontB = this.zombies.position.x + this.width / 2, //self.mesh.geometry.parameters.width / 2,
-			PosZBackB = this.zombies.position.z - this.width / 2, //self.mesh.geometry.parameters.depth / 2,
-			PosZFrontB = this.zombies.position.z + this.width / 2 //self.mesh.geometry.parameters.depth / 2;
+		var PosXBackB = this.mesh.position.x - this.width / 2,
+			PosXFrontB = this.mesh.position.x + this.width / 2, //self.mesh.geometry.parameters.width / 2,
+			PosZBackB = this.mesh.position.z - this.width / 2, //self.mesh.geometry.parameters.depth / 2,
+			PosZFrontB = this.mesh.position.z + this.width / 2 //self.mesh.geometry.parameters.depth / 2;
+
+
+		var zBack = hero.mesh.position.z - hero.mesh.children[0].geometry.parameters.depth / 2,
+			zFront = hero.mesh.position.z + hero.mesh.children[0].geometry.parameters.depth / 2,
+			xBack = hero.mesh.position.x - hero.mesh.children[0].geometry.parameters.width / 2,
+			xFront = hero.mesh.position.x + hero.mesh.children[0].geometry.parameters.width / 2;
+
+		var zzBack = this.mesh.position.z - this.mesh.children[0].geometry.parameters.depth / 2,
+			zzFront = this.mesh.position.z + this.mesh.children[0].geometry.parameters.depth / 2,
+			xxBack = this.mesh.position.x - this.mesh.children[0].geometry.parameters.width / 2,
+			xxFront = this.mesh.position.x + this.mesh.children[0].geometry.parameters.width / 2;
+
+
+		//*******************************************
+		// Hurt the hero
+		//*******************************************
+
+		if (zzFront > zFront && zBack > zzBack && xxFront > xFront && xBack > xxBack) {
+			//hero.hurt(self.attack)
+			hero.velocity -= .03
+			hero.hurt(.001)
+		}
+		//Phase 1 hurt
+		else if (zzFront >= zFront && zBack >= zzBack && xFront > xxBack && xxBack > xBack) {
+			//	hero.hurt(self.attack)
+			hero.velocity -= .03
+			hero.hurt(.001)
+		}
+		// Phase 3 hurt
+		else if (zzFront >= zFront && zBack >= zzBack && xxFront > xBack && xFront > xxFront) {
+			//	hero.hurt(self.attack)
+			hero.velocity -= .03
+			hero.hurt(.001)
+		}
+		// Phase 2 hurt
+		else if (xBack >= xxBack && xxFront >= xFront && zFront > zzBack && zzBack > zBack) {
+			//hero.hurt(self.attack)
+			hero.velocity -= .03
+			hero.hurt(.001)
+
+		}
+		// Phase 4 hurt
+		else if (xBack >= xxBack && xxFront >= xFront & zzFront > zBack && zFront > zzFront) {
+			//hero.hurt(self.attack)
+			hero.velocity -= .03
+			hero.hurt(.01)
+		}
 
 
 		for (var b = 0; b < droppedBomb.length; b++) {
@@ -1229,64 +1327,7 @@ class BabyZombies {
 				// Hurt animation for enemy
 
 				// Hit Effect
-				var hit = new Three.Mesh(new Three.SphereGeometry(5), new Three.MeshToonMaterial({ color: "white", transparent: true, opacity: .3 }))
-				hit.position.copy(window.droppedBomb[b].position)
-				hit.scale.set(0, 0, 0)
-				window.SCENE.add(hit)
-
-				TweenMax.to(hit.scale, .1, {
-					x: 1,
-					y: 1,
-					z: 1,
-					onComplete: function() {
-						if (hit.parent) {
-							hit.material.dispose()
-							hit.geometry.dispose()
-							window.SCENE.remove(hit)
-						}
-					}
-				})
-
-				var pos = droppedBomb[b].position
-				var parts = []
-
-				for (var i = 0; i < 10; i++) {
-
-					var geom = new Three.BoxGeometry(1.3, 1.3, 1.3);
-					var mat = new Three.MeshToonMaterial({
-						color: "white"
-					});
-					var mesh = new Three.Mesh(geom, mat);
-					mesh.position.copy(droppedBomb[b].position)
-					mesh.rotation.y = Math.floor(Math.random() * 10)
-					mesh.needsUpdate = true
-					mesh.scale.set(.2, .2, .2)
-					var targetX = pos.x + (-1 + Math.random() * 2) * 6;
-					var targetY = pos.y + (-1 + Math.random() * 2) * 6;
-					var targetZ = pos.z + (-1 + Math.random() * 2) * 6;
-
-					SCENE.add(mesh)
-					parts.push(mesh)
-
-					TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
-					TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
-					TweenMax.to(mesh.position, .6, {
-						x: targetX,
-						y: targetY,
-						z: targetZ,
-						delay: Math.random() * .1,
-						ease: Power2.easeOut,
-						onComplete: function() {
-
-							mesh.material.dispose()
-							mesh.geometry.dispose()
-							for (var u = 0; u < parts.length; u++) {
-								if (parts[u].parent) parts[u].parent.remove(parts[u])
-							}
-						}
-					});
-
-				}
+				bulletSprite(droppedBomb[b].position)
 
 				for (var bb = 0; bb < droppedBomb[b].children.length; bb++) {
 					droppedBomb[b].children[bb].geometry.dispose()
@@ -1302,20 +1343,32 @@ class BabyZombies {
 
 		}
 		if (this.times <= 0) {
+			Profile.atomLevel >= 90 ? this.lvl() : Profile.atomLevel = Profile.atomLevel + 10, $('.chart').data('easyPieChart').update(Profile.atomLevel);
 
 			for (var i = 0; i < babyZombies.length; i++) {
 				if (this.name === babyZombies[i].name) {
-					babyZombies[i].zombies.children.forEach(e => {
+					babyZombies[i].mesh.children.forEach(e => {
 						e.material.dispose()
 						e.geometry.dispose()
 					})
-					SCENE.remove(babyZombies[i].zombies)
+					SCENE.remove(babyZombies[i].mesh)
 					babyZombies.splice(i, 1)
 
 				}
 			}
 
 		}
+	}
+
+	lvl = function() {
+		Profile.atomLevel = Profile.atomLevel + 10
+		$(".atomimgoff").css({
+			opacity: 1
+		})
+		$(".atomimgoff").attr("src", "assets/images/atomon.png")
+		$(".atomimgoff").removeClass().addClass("atomimgon")
+		Profile.atomLevel = 100
+
 	}
 }
 
@@ -1390,7 +1443,7 @@ class defaultHero extends Hero {
 	}
 
 	renderBullet() {
-	var g;
+		var g;
 		switch (Profile.bulletType) {
 			case "normal":
 				g = Bullets.normal()
@@ -1401,13 +1454,13 @@ class defaultHero extends Hero {
 			case "laser":
 				g = Bullets.laser()
 				break;
-			case "laserlight": 
+			case "laserlight":
 				g = Bullets.laserLight()
 				break;
 			case "phoenixfire":
 				g = Bullets.phoenixFire()
 				break;
-			case "jellyfish": 
+			case "jellyfish":
 				g = Bullets.jellyFish()
 				break;
 			case "lasertube":
