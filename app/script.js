@@ -114,7 +114,7 @@ var Game = (function(w, func) {
 		}
 
 		function playResume(FB) {
-			//$("#loader").css("display", "block");
+		//	$("#loader").css("display", "block");
 
 			var hu = setTimeout(() => {
 				$("#loader").css("display", "none")

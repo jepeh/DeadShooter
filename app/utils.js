@@ -369,7 +369,7 @@ var Atom = function(scene, p, Arr) {
 
 								window.TextLoader.load('assets/fonts/Quicksand_Medium_Regular.json', function(font) {
 
-									var textGeometry = new TextGeometry(eneKilling.length + "x", {
+									var textGeometry = new TextGeometry(eneKilling.length+"x", {
 										font: font,
 										size: 3,
 										height: .2,
@@ -389,7 +389,7 @@ var Atom = function(scene, p, Arr) {
 									meshTimes.castShadow = true
 									meshTimes.position.copy(cField.position)
 									meshTimes.position.y = 5
-									meshTimes.position.x -= 1.6
+									meshTimes.position.x -= 2
 									coinMesh.children.push(meshTimes)
 									meshTimes.name = "-huhu"
 									SCENE.add(meshTimes)

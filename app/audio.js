@@ -27,5 +27,7 @@ var normalGun = new Audio('assets/audio/normalGun.wav')
 var laserGun = new Audio("assets/audio/laserGun.wav")
 var laserLightGun = new Audio("assets/audio/laserLightGun.wav")	
 var bladeGun = new Audio("assets/audio/bladeGun.wav")
+var pixelBulletGun = new Audio("assets/audio/pixelBullet.mp3")
 
-export {selectINV, laserLightGun, bladeGun, laserGun, mainMusic, FarmMode, gift, die, gameMode, gameWin, gameOver, normalGun, eat, setting, color, toggle, energy, coin}
+
+export {pixelBulletGun, selectINV, laserLightGun, bladeGun, laserGun, mainMusic, FarmMode, gift, die, gameMode, gameWin, gameOver, normalGun, eat, setting, color, toggle, energy, coin}

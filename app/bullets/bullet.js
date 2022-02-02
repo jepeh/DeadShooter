@@ -191,6 +191,8 @@ var Bullets = {
 			z: 1.4
 		})
 
+		Utils.playSound(Sounds.laserLightGun)
+
 		return g;
 	},
 	pixelBullet: function() {
@@ -218,6 +220,7 @@ var Bullets = {
 		g.add(tail, head)
 
 		g.position.copy(hero.mesh.position)
+		Utils.playSound(Sounds.pixelBulletGun)
 
 		return g;
 	},
