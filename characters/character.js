@@ -314,37 +314,7 @@ class Hero {
 				Profile.coins = Profile.coins + droppedCoins[b].val
 
 				// dlete coins from array and scene
-				droppedCoins[b].children.forEach(e => {
-
-					if (e.type === "Mesh") {
-						if (e.material.length) {
-							e.material.forEach(ee => {
-								ee.dispose()
-							})
-						} else {
-							var hh = SCENE.getObjectByName("haha")
-							if (hh) {
-								TweenMax.to(hh.scale, .5, {
-									x: 0,
-									z: 0,
-									onComplete: () => {
-										hh.material.dispose()
-										hh.geometry.dispose()
-										SCENE.remove(hh)
-									}
-								})
-							}
-							e.material.dispose()
-							e.geometry.dispose()
-							SCENE.remove(e)
-						}
-
-
-						window.SCENE.remove(e)
-					}
-
-
-				})
+				
 
 				/*if (droppedCoins[b].field) {
 
@@ -745,7 +715,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 		// Hero died
 		// Game Over
 
-		if (self.hp < 0) {
+		if (self.hp <= 0) {
 			self.die()
 		}
 
@@ -848,12 +818,11 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 		var n = self.mesh.name
 		self.mesh.geometry.dispose()
 		self.mesh.material.dispose()
-
 		self.scene.remove(self.mesh)
-
 		var index = window.enemyList.findIndex(e => e.name === n);
 		window.enemyList.splice(index, 1)
 		window.enemies.splice(index, 1)
+		
 
 		// If Enemy lnegth < 0, summon Boss
 		if (window.inGame) {
@@ -1214,7 +1183,7 @@ class BabyZombies {
 		this.z = 0
 		this.velocity = 4
 		this.mesh = null
-		this.times = 3
+		this.hp = 3
 		this.name = n
 	}
 
@@ -1326,7 +1295,7 @@ class BabyZombies {
 				bombZ = droppedBomb[b].position.z;
 
 			if (PosZFrontB > bombZ && bombZ > PosZBackB && PosXFrontB > bombX && bombX > PosXBackB) {
-				this.times = this.times - 1
+				this.hp = this.hp - 1
 				// Hurt animation for enemy
 
 				// Hit Effect
@@ -1345,7 +1314,7 @@ class BabyZombies {
 			}
 
 		}
-		if (this.times <= 0) {
+		if (this.hp <= 0) {
 			this.die()
 		}
 	}
@@ -1361,7 +1330,6 @@ class BabyZombies {
 				})
 				SCENE.remove(babyZombies[i].mesh)
 				babyZombies.splice(i, 1)
-
 			}
 		}
 	}

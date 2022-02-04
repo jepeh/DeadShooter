@@ -90,13 +90,7 @@ var Skills = [
 							y: 1
 						})
 						arrToKill[o].hp = 0
-						arrToKill[o].die()
-
-						for (var e = 0; e < arr.length; e++) {
-							if (arrToKill[o].mesh.name === arr[e].mesh.name) {
-								arr.splice(e, 1)
-							}
-						}
+						
 
 						var strike = new Three.Mesh(new Three.SphereGeometry(5), new Three.MeshToonMaterial({
 							transparent: true,
