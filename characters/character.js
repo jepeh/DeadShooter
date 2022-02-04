@@ -18,9 +18,10 @@ class Hero {
 		this.color = "white"
 		this.size = { w: 4, h: 4, d: 4 }
 		this.mesh = null
-
+		this.mapBullet = window.TextureLoader.load(`assets/images/textures/${Profile.bulletType}.png`)
 		this.position = new Three.Vector3(0, 4, 0)
 		this.scene = SCENE
+		this.HitMap = TextureLoader.load("assets/images/textures/bladeHit.png")
 		this.life = document.getElementById('life')
 		this.hp = document.getElementById('hp')
 		this.hpLeft = Profile.maxHP
@@ -238,7 +239,7 @@ class Hero {
 					window.gunrange.position.y = .2
 					var j = setTimeout(() => {
 						window.gunrange.material.opacity = 0
-					
+
 						clearTimeout(j)
 					}, 100)
 				}
@@ -248,7 +249,7 @@ class Hero {
 				window.gunrange.position.y = .2
 				var j = setTimeout(() => {
 					window.gunrange.material.opacity = 0
-					
+
 					clearTimeout(j)
 				}, 100)
 			}
@@ -790,7 +791,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 			z: self.mesh.position.z
 		}
 
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < 5; i++) {
 
 			var geom = new Three.TetrahedronGeometry(3, 0);
 			var mat = new Three.MeshToonMaterial({
@@ -958,25 +959,25 @@ var EnemyBoss = function() {
 		//*******************************************
 
 		if (zzFront > zFront && zBack > zzBack && xxFront > xFront && xBack > xxBack) {
-			hero.hurt(self.attack)
+			//	hero.hurt(self.attack)
 		}
 		//Phase 1 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xFront > xxBack && xxBack > xBack) {
-			hero.hurt(self.attack)
+			//hero.hurt(self.attack)
 
 		}
 		// Phase 3 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xxFront > xBack && xFront > xxFront) {
-			hero.hurt(self.attack)
+			//hero.hurt(self.attack)
 		}
 		// Phase 2 hurt
 		else if (xBack >= xxBack && xxFront >= xFront && zFront > zzBack && zzBack > zBack) {
-			hero.hurt(self.attack)
+			//hero.hurt(self.attack)
 
 		}
 		// Phase 4 hurt
 		else if (xBack >= xxBack && xxFront >= xFront & zzFront > zBack && zFront > zzFront) {
-			hero.hurt(self.attack)
+			//hero.hurt(self.attack)
 		}
 
 		// Bullet Hurt
@@ -1345,24 +1346,27 @@ class BabyZombies {
 
 		}
 		if (this.times <= 0) {
-			Profile.atomLevel >= 90 ? this.lvl() : Profile.atomLevel = Profile.atomLevel + 10, $('.chart').data('easyPieChart').update(Profile.atomLevel);
-
-			for (var i = 0; i < babyZombies.length; i++) {
-				if (this.name === babyZombies[i].name) {
-					babyZombies[i].mesh.children.forEach(e => {
-						e.material.dispose()
-						e.geometry.dispose()
-					})
-					SCENE.remove(babyZombies[i].mesh)
-					babyZombies.splice(i, 1)
-
-				}
-			}
-
+			this.die()
 		}
 	}
 
-	lvl = function() {
+	die() {
+		Profile.atomLevel >= 90 ? this.lvl() : Profile.atomLevel = Profile.atomLevel + 10, $('.chart').data('easyPieChart').update(Profile.atomLevel);
+
+		for (var i = 0; i < babyZombies.length; i++) {
+			if (this.name === babyZombies[i].name) {
+				babyZombies[i].mesh.children.forEach(e => {
+					e.material.dispose()
+					e.geometry.dispose()
+				})
+				SCENE.remove(babyZombies[i].mesh)
+				babyZombies.splice(i, 1)
+
+			}
+		}
+	}
+
+	lvl() {
 		Profile.atomLevel = Profile.atomLevel + 10
 		$(".atomimgoff").css({
 			opacity: 1
@@ -1447,31 +1451,31 @@ class defaultHero extends Hero {
 	renderBullet() {
 		var g;
 		switch (Profile.bulletType) {
-			case "normal":
+			case "normalBullet":
 				g = Bullets.normal()
 				break;
-			case "blade":
+			case "bladeBullet":
 				g = Bullets.blade()
 				break;
-			case "laser":
+			case "laserBullet":
 				g = Bullets.laser()
 				break;
-			case "laserlight":
+			case "laserlightBullet":
 				g = Bullets.laserLight()
 				break;
-			case "phoenixfire":
+			case "phoenixfireBullet":
 				g = Bullets.phoenixFire()
 				break;
-			case "jellyfish":
+			case "jellyfishBullet":
 				g = Bullets.jellyFish()
 				break;
-			case "lasertube":
+			case "lasertubeBullet":
 				g = Bullets.laserTube()
 				break;
-			case "pixelbullet":
+			case "pixelBullet":
 				g = Bullets.pixelBullet()
 				break;
-			case "ninjablade":
+			case "ninjabladeBullet":
 				g = Bullets.ninjaBlade();
 				break;
 		}

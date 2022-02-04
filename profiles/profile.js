@@ -6,7 +6,7 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
-	bulletType: "ninjablade",
+	bulletType: "phoenixfireBullet",
 	bombDamage: 20,
 	energy: 10,
 	mapRadius: 120,
@@ -43,31 +43,31 @@ let Profile = {
 	bulletDamage: function(type) {
 		var g;
 		switch (type) {
-			case "normal":
+			case "normalBullet":
 				g = .1
 				break;
-			case "blade":
+			case "bladeBullet":
 				g = .3
 				break;
-			case "laser":
+			case "laserBullet":
 				g = .35
 				break;
-			case "laserlight":
+			case "laserlightBullet":
 				g = .4
 				break;
-			case "phoenixfire": 
+			case "phoenixfireBullet": 
 				g = .45
 				break;
-			case "jellyfish": 
+			case "jellyfishBullet": 
 				g = .55
 				break;
-			case "lasertube":
+			case "lasertubeBullet":
 				g = .59
 				break;
-			case "pixelbullet":
+			case "pixelBullet":
 				g = .5
 				break;
-			case "ninjablade":
+			case "ninjabladeBullet":
 				g = .6
 				break;
 		}
@@ -75,7 +75,7 @@ let Profile = {
 	},
 	items: [],
 	bullets: [{
-		name: "ninjablade",
+		name: "phoenixfireBullet",
 		description: "",
 		stats: {
 			damage: "+10%",

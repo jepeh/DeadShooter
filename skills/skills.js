@@ -32,9 +32,9 @@ var Skills = [
 				y: angleYCameraDirection
 			})
 
-			var arr = window.enemies.length >= 0 ? window.enemies : window.babyZombies
+			var arr = window.enemies.length > 0 ? window.enemies : window.babyZombies
 			var arrToKill = GAME.findTargetS(arr, hero.mesh.position)
-
+			var lightningMap = TextureLoader.load("assets/images/textures/lightning.png")
 
 			var go = setTimeout(() => {
 
@@ -69,11 +69,13 @@ var Skills = [
 
 				var ty = setTimeout(() => {
 					// Lightning Strikes
+
+
 					for (var o = 0; o < arrToKill.length; o++) {
 						var lightning = new Three.Mesh(new Three.PlaneGeometry(4, 150), new Three.MeshToonMaterial({
 							side: 2,
 							transparent: true,
-							map: TextureLoader.load("assets/images/textures/lightning.png")
+							map: lightningMap
 
 						}))
 						lightning.position.copy(arrToKill[o].mesh.position)
@@ -91,16 +93,41 @@ var Skills = [
 						arrToKill[o].die()
 					}
 
-				var tyy = setTimeout(()=>{
-					for (var p = 0; p < pp.length; p++) {
-						pp[p].material.dispose()
-						pp[p].geometry.dispose()
-						SCENE.remove(pp[p])
+					if (window.bossGame) {
+						var lightning = new Three.Mesh(new Three.PlaneGeometry(9, 100), new Three.MeshToonMaterial({
+							side: 2,
+							transparent: true,
+							map: lightningMap
+
+						}))
+						
+						lightning.position.copy(window.boss.mesh.position)
+						lightning.scale.y = 0
+						lightning.rotation.y = Math.atan2((CAMERA.position.x - window.boss.mesh.position.x), (CAMERA.position.z - window.boss.mesh.position.z))
+						pp.push(lightning)
+						SCENE.add(lightning)
+						TweenMax.to(lightning.scale, .4, {
+							y: 1,
+							onComplete: () => {
+
+							}
+						})
+						window.boss.hp -= 10
+						
 					}
-					clearTimeout(tyy)
-				}, 2000)
-					
+
+					var tyy = setTimeout(() => {
+						for (var p = 0; p < pp.length; p++) {
+							pp[p].material.dispose()
+							pp[p].geometry.dispose()
+							SCENE.remove(pp[p])
+						}
+						clearTimeout(tyy)
+					}, 2000)
+
 					clearTimeout(ty)
+
+
 				}, 1200)
 
 				var parts = []

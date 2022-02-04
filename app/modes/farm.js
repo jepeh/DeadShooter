@@ -97,18 +97,18 @@ var FARM = {
 
 		// Generate Enemies
 		for (var i = 0; i < Levels.levels[lvl].enemy; i++) {
-		
+
 			var x = Math.floor(Math.random() * (100 - (-100)) + (-100))
 			var z = Math.floor(Math.random() * (100 - (-100)) + (-100))
-			
+
 			if (-10 <= z && z <= 10) {
 				z += 10
 			}
 			if (-10 <= x && x <= 10) {
 				x += 10
 			}
-			
-			
+
+
 			var size = Math.floor(Math.random() * (8 - 4) + 4)
 
 			var enemy = new Character.Enemy({ x: x, y: size / 2, z: z }, 'green', {
@@ -234,7 +234,7 @@ var FARM = {
 		function firstSkill() {
 			if (firstS) {
 				if (fReloaded >= 100) {
-					var arrs = window.enemies.length > 0 ? enemies : babyZombies
+					var arrs = window.enemies.length > 0 ? window.enemies : window.babyZombies
 					var stat = GAME.findTarget(arrs, hero.mesh.position)
 					if (stat || window.bossGame === true) {
 
@@ -793,14 +793,17 @@ var FARM = {
 		return;
 	},
 	EnemyBoss: function() {
-		window.boss = new Character.EnemyBoss()
+		var hu = setTimeout(() => {
+			window.boss = new Character.EnemyBoss()
 
-		var m = boss.render()
-		m.name = "boss"
-		SCENE.add(m)
+			var m = boss.render()
+			m.name = "boss"
+			SCENE.add(m)
 
-		window.bossGame = true
-		GAME.tips("Boss Enemy has been summoned!")
+			window.bossGame = true
+			GAME.tips("Boss Enemy has been summoned!")
+			clearTimeout(hu)
+		}, 1900)
 	}
 }
 

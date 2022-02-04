@@ -404,7 +404,6 @@ var Game = (function(w, func) {
 
 		// Add ambient and dirlight in the scene
 
-
 		/**************************************************
 		Update Game Modes
 		**************************************************/
@@ -488,8 +487,6 @@ var Game = (function(w, func) {
 		ch()
 
 		
-		
-
 		window.mm = [
 			new Three.MeshToonMaterial({ transparent: true }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),

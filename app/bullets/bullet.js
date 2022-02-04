@@ -2,6 +2,8 @@ import * as Three from '/src/three.js'
 import * as Sounds from '../audio.js'
 import * as Utils from '../utils.js'
 import { Profile } from '/profiles/profile.js'
+import {GAME} from '../script.js'
+
 
 var Bullets = {
 	normal: function() {
@@ -24,7 +26,7 @@ var Bullets = {
 
 		var b = new Three.Mesh(new Three.PlaneBufferGeometry(7, 7), new Three.MeshToonMaterial({
 			transparent: true,
-			map: TextureLoader.load("assets/images/textures/blade.png")
+			map: hero.mapBullet
 		}))
 		b.rotation.x = -Math.PI / 2
 		b.castShadow = true
@@ -49,7 +51,7 @@ var Bullets = {
 
 		var b = new Three.Mesh(new Three.CylinderGeometry(1, 1, 6), new Three.MeshToonMaterial({
 			transparent: true,
-			map: TextureLoader.load("assets/images/textures/field.png")
+			map: hero.mapBullet
 		}))
 		b.rotation.x = -Math.PI / 2
 		b.castShadow = true
@@ -66,7 +68,7 @@ var Bullets = {
 
 		var b = new Three.Mesh(new Three.PlaneBufferGeometry(7, 9), new Three.MeshToonMaterial({
 			transparent: true,
-			map: TextureLoader.load("assets/images/textures/laserlight.png")
+			map: hero.mapBullet
 		}))
 		b.rotation.x = -Math.PI / 2
 		b.castShadow = true
@@ -91,7 +93,7 @@ var Bullets = {
 
 		var b = new Three.Mesh(new Three.PlaneBufferGeometry(7, 7), new Three.MeshToonMaterial({
 			transparent: true,
-			map: TextureLoader.load("assets/images/textures/laserfire.png"),
+			map: hero.mapBullet,
 			side: 2
 		}))
 
@@ -102,7 +104,7 @@ var Bullets = {
 
 		var bb = new Three.Mesh(new Three.PlaneBufferGeometry(7, 7), new Three.MeshToonMaterial({
 			transparent: true,
-			map: TextureLoader.load("assets/images/textures/laserfire.png"),
+			map: hero.mapBullet,
 			side: 2
 		}))
 		bb.castShadow = true
@@ -129,7 +131,7 @@ var Bullets = {
 
 		var b = new Three.Mesh(new Three.PlaneBufferGeometry(19, 19), new Three.MeshToonMaterial({
 			transparent: true,
-			map: TextureLoader.load("assets/images/textures/jellyfish.png")
+			map: hero.mapBullet
 		}))
 		b.rotation.x = -Math.PI / 2
 		b.castShadow = true
@@ -229,8 +231,7 @@ var Bullets = {
 
 		var b = new Three.Mesh(new Three.PlaneBufferGeometry(7, 9), new Three.MeshToonMaterial({
 			transparent: true,
-			
-			map: TextureLoader.load("assets/images/textures/laserlightHit.png")
+			map: hero.mapBullet
 		}))
 		b.rotation.x = -Math.PI / 2
 		b.castShadow = true
@@ -258,31 +259,31 @@ var Bullets = {
 
 function bulletSprite(pos) {
 	switch (Profile.bulletType) {
-		case "normal": //
+		case "normalBullet": //
 			normal(pos)
 			break;
-		case "blade": //
+		case "bladeBullet": //
 			blade(pos)
 			break;
-		case "laser": //
+		case "laserBullet": //
 			laser(pos)
 			break;
-		case "laserlight": //
+		case "laserlightBullet": //
 			laserlight(pos)
 			break;
-		case "phoenixfire":
-		//	phoenixfire(pos)
+		case "phoenixfireBullet":
+			phoenixfire(pos)
 			break;
-		case "jellyfish":
+		case "jellyfishBullet":
 			jellyfish(pos)
 			break;
-		case "lasertube": //
+		case "lasertubeBullet": //
 			lasertube(pos)
 			break;
-		case "pixelbullet": //
+		case "pixelBullet": //
 			pixelbullet(pos)
 			break;
-		case "ninjablade": //
+		case "ninjabladeBullet": //
 			ninjablade(pos)
 			break;
 	}
@@ -486,7 +487,7 @@ function blade(pos) {
 	var hit = new Three.Mesh(new Three.PlaneGeometry(11, 11), new Three.MeshToonMaterial({
 		transparent: true,
 		side: 2,
-		map: TextureLoader.load("assets/images/textures/bladeHit.png")
+		map: hero.HitMap
 	}))
 	hit.position.copy(pos)
 	hit.scale.set(0, 0, 0)
@@ -518,7 +519,7 @@ function laserlight(pos) {
 		transparent: true,
 		side: 2,
 		color: "green",
-		map: TextureLoader.load("assets/images/textures/bladeHit.png")
+		map: hero.HitMap
 	}))
 
 	hit.position.copy(pos)
@@ -549,8 +550,7 @@ function ninjablade(pos) {
 	var hit = new Three.Mesh(new Three.SphereGeometry(5), new Three.MeshToonMaterial({
 		transparent: true,
 		side: 2,
-		
-		map: TextureLoader.load("assets/images/textures/bladeHit.png")
+		map: hero.HitMap
 	}))
 
 	hit.position.copy(pos)
@@ -574,6 +574,39 @@ function ninjablade(pos) {
 	return;
 }
 
+function phoenixfire(pos) {
+	var parts = []
+
+	// Hit Effect
+	var hit = new Three.Mesh(new Three.SphereGeometry(5), new Three.MeshToonMaterial({
+		transparent: true,
+		side: 2,
+		color: "orangered",
+		map: hero.HitMap
+	}))
+
+	hit.position.copy(pos)
+	hit.scale.set(0, 0, 0)
+	SCENE.add(hit)
+
+	TweenMax.to(hit.scale, .25, {
+		x: 1,
+		y: 1,
+		z: 1,
+		onComplete: function() {
+			if (hit.parent) {
+				hit.material.dispose()
+				hit.geometry.dispose()
+				window.SCENE.remove(hit)
+			}
+		}
+	})
+
+
+	return;
+}
+
+
 function jellyfish(pos) {
 	var parts = []
 
@@ -582,7 +615,7 @@ function jellyfish(pos) {
 		transparent: true,
 		side: 2,
 		color: "purple",
-		map: TextureLoader.load("assets/images/textures/bladeHit.png")
+		map: hero.HitMap
 	}))
 
 	hit.position.copy(pos)

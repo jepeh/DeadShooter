@@ -292,38 +292,71 @@ var Atom = function(scene, p, Arr) {
 							var eneKilling = []
 
 							for (var en = 0; en < uniq.length; en++) {
-								for (var u = 0; u < window.enemies.length; u++) {
-									if (window.enemies[u].mesh.name === uniq[en]) {
-										eneKilling.push(enemies[u])
+
+								if (!window.bossGame) {
+
+									for (var u = 0; u < window.enemies.length; u++) {
+										if (window.enemies[u].mesh.name === uniq[en]) {
+											eneKilling.push(enemies[u])
+										}
+									}
+								} else {
+
+									for (var uu = 0; uu < window.babyZombies.length; uu++) {
+										if (babyZombies[uu].mesh.name === uniq[en]) {
+											eneKilling.push(babyZombies[uu])
+
+										}
 									}
 								}
+
+
 							}
+
 							var pos = self.group.position
 							for (var ene = 0; ene < eneKilling.length; ene++) {
 
-
 								window.killed = window.killed + 1
 
-								eneKilling[ene].mesh.geometry.dispose()
-								eneKilling[ene].mesh.material.dispose()
-								self.scene.remove(eneKilling[ene].mesh)
+								if (window.bossGame) {
+									eneKilling[ene].mesh.children.forEach(e => {
+										e.geometry.dispose()
+										e.material.dispose()
+									})
+								} else {
+									eneKilling[ene].mesh.geometry.dispose()
+									eneKilling[ene].mesh.material.dispose()
 
+								}
+								SCENE.remove(eneKilling[ene].mesh)
 
-								for (var ejj = 0; ejj < self.Arr.length; ejj++) {
-									if (self.Arr[ejj].mesh.name === eneKilling[ene].mesh.name) {
-										self.Arr.splice(ejj, 1)
+								if (window.bossGame) {
+
+									for (var ejj = 0; ejj < window.babyZombies.length; ejj++) {
+										if (babyZombies[ejj].mesh.name === eneKilling[ene].mesh.name) {
+											babyZombies.splice(ejj, 1)
+
+										}
+									}
+								} else {
+
+									for (var ejj = 0; ejj < window.enemies.length; ejj++) {
+										if (enemies[ejj].mesh.name === eneKilling[ene].mesh.name) {
+											enemies.splice(ejj, 1)
+										}
+									}
+
+									for (var ehh = 0; ehh < window.enemyList.length; ehh++) {
+										if (window.enemyList.name === eneKilling[ene].mesh.name) {
+											window.enemyList.splice(ehh, 1)
+										}
 									}
 								}
 
-								for (var ehh = 0; ehh < window.enemyList.length; ehh++) {
-									if (window.enemyList[ehh].name === eneKilling[ene].mesh.name) {
-										window.enemyList.splice(ehh, 1)
-									}
-								}
 
 
 								$("#zombiecount p").html("Zombies x" + window.enemies.length)
-								if (window.enemyList.length <= 0) {
+								if (!window.bossGame && window.enemies.length <= 0) {
 									FARM.EnemyBoss()
 								}
 							}
