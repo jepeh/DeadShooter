@@ -234,14 +234,16 @@ var FARM = {
 		function firstSkill() {
 			if (firstS) {
 				if (fReloaded >= 100) {
-					var stat = GAME.findTarget(enemies, hero.mesh.position)
-					if (stat) {
+					var arrs = window.enemies.length > 0 ? enemies : babyZombies
+					var stat = GAME.findTarget(arrs, hero.mesh.position)
+					if (stat || window.bossGame === true) {
 
 						var skillname = $("#Skill1").attr("name")
 
 						for (var s = 0; s < Skills.length; s++) {
 							if (skillname === Skills[s].name) {
-								Skills[s].func(stat.pos, phys)
+								var pps = stat ? stat.pos : window.boss.mesh.position
+								Skills[s].func(pps, phys)
 								fReloaded = 0
 								$("#Skill1 img").css({
 									opacity: .3
@@ -287,15 +289,17 @@ var FARM = {
 		function secondSkill() {
 			if (secondS) {
 				if (sReloaded >= 100) {
-					var stat = GAME.findTarget(enemies, hero.mesh.position)
+					var arrs = window.enemies.length > 0 ? enemies : babyZombies
+					var stat = GAME.findTarget(arrs, hero.mesh.position)
 
-					if (stat) {
+					if (stat || window.bossGame === true) {
 
 						var skillname = $("#Skill2").attr("name")
 
 						for (var s = 0; s < Skills.length; s++) {
 							if (skillname === Skills[s].name) {
-								Skills[s].func(stat.pos, phys)
+								var pps = stat ? stat.pos : window.boss.mesh.position
+								Skills[s].func(pps, phys)
 								sReloaded = 0
 								$("#Skill2 img").css({
 									opacity: .3

@@ -167,6 +167,7 @@ class Hero {
 				hero.gunRange = 35
 				window.gunrange.scale.x = 1.5
 				window.gunrange.scale.z = 1.5
+				gunrange.scale.y = 1.5
 
 				var HX = hero.mesh.position.x,
 					HZ = hero.mesh.position.z;
@@ -1228,6 +1229,7 @@ class BabyZombies {
 		m2.receiveShadow = true
 		zombie.add(m2)
 		this.mesh = zombie
+		this.mesh.name = this.name
 
 		return zombie;
 	}
