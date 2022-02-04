@@ -834,7 +834,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 
 		self.physics.setMeshPosition(self.mesh, {
 			x: self.mesh.position.x,
-			y: -10,
+			y: -15,
 			z: self.mesh.position.z
 		})
 

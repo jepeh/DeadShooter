@@ -1,5 +1,7 @@
 import * as Three from '../src/three.js'
 import { GAME } from '../app/script.js'
+import * as Utils from "../app/utils.js"
+import * as Sounds from "../app/audio.js"
 
 var Skills = [
 	{
@@ -70,6 +72,7 @@ var Skills = [
 				var ty = setTimeout(() => {
 					// Lightning Strikes
 
+					Utils.playSound(Sounds.lightningStrike)
 
 					for (var o = 0; o < arrToKill.length; o++) {
 						var lightning = new Three.Mesh(new Three.PlaneGeometry(4, 150), new Three.MeshToonMaterial({
@@ -84,13 +87,38 @@ var Skills = [
 						pp.push(lightning)
 						SCENE.add(lightning)
 						TweenMax.to(lightning.scale, .4, {
-							y: 1,
-							onComplete: () => {
-
-							}
+							y: 1
 						})
 						arrToKill[o].hp = 0
 						arrToKill[o].die()
+
+						for (var e = 0; e < arr.length; e++) {
+							if (arrToKill[o].mesh.name === arr[e].mesh.name) {
+								arr.splice(e, 1)
+							}
+						}
+
+						var strike = new Three.Mesh(new Three.SphereGeometry(5), new Three.MeshToonMaterial({
+							transparent: true,
+							opacity: .5
+						}))
+						strike.position.copy(arrToKill[o].mesh.position)
+						strike.scale.set(0, 0, 0)
+
+						SCENE.add(strike)
+						TweenMax.to(strike.scale, .4, {
+							x: 1,
+							y: 1,
+							z: 1,
+							onComplete: () => {
+								TweenMax.to(strike.scale, .3, {
+									x: 0,
+									y: 0,
+									z: 0
+								})
+							}
+						})
+						pp.push(strike)
 					}
 
 					if (window.bossGame) {
@@ -100,20 +128,17 @@ var Skills = [
 							map: lightningMap
 
 						}))
-						
+
 						lightning.position.copy(window.boss.mesh.position)
 						lightning.scale.y = 0
 						lightning.rotation.y = Math.atan2((CAMERA.position.x - window.boss.mesh.position.x), (CAMERA.position.z - window.boss.mesh.position.z))
 						pp.push(lightning)
 						SCENE.add(lightning)
 						TweenMax.to(lightning.scale, .4, {
-							y: 1,
-							onComplete: () => {
-
-							}
+							y: 1
 						})
 						window.boss.hp -= 10
-						
+
 					}
 
 					var tyy = setTimeout(() => {
@@ -123,7 +148,7 @@ var Skills = [
 							SCENE.remove(pp[p])
 						}
 						clearTimeout(tyy)
-					}, 2000)
+					}, 1800)
 
 					clearTimeout(ty)
 
@@ -136,7 +161,7 @@ var Skills = [
 					if (skss >= 2) {
 						skss = 0
 						clearInterval(sks)
-						TweenMax.to(plane.scale, 1, {
+						TweenMax.to(plane.scale, .6, {
 							x: 0,
 							y: 0,
 							z: 0,
