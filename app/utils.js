@@ -298,9 +298,9 @@ var Atom = function(scene, p, Arr) {
 									}
 								}
 							}
-
+							var pos = self.group.position
 							for (var ene = 0; ene < eneKilling.length; ene++) {
-								var pos = self.group.position
+
 
 								window.killed = window.killed + 1
 
@@ -369,7 +369,7 @@ var Atom = function(scene, p, Arr) {
 
 								window.TextLoader.load('assets/fonts/Quicksand_Medium_Regular.json', function(font) {
 
-									var textGeometry = new TextGeometry(eneKilling.length+"x", {
+									var textGeometry = new TextGeometry(eneKilling.length + "x", {
 										font: font,
 										size: 3,
 										height: .2,

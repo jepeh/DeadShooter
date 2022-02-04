@@ -1,4 +1,5 @@
 import * as Three from '../src/three.js'
+import { GAME } from '../app/script.js'
 
 var Skills = [
 	{
@@ -13,42 +14,8 @@ var Skills = [
 		}
 	},
 	{
-		name: "laserBeam",
+		name: "lightningStrike",
 		func: function(pos) {
-			
-			var FresnelShader = {
-
-				uniforms: {},
-				vertexShader: [
-
-		"varying vec3 vPositionW;",
-		"varying vec3 vNormalW;",
-
-		"void main() {",
-
-		"	vPositionW = vec3( vec4( position, 1.0 ) * modelMatrix);",
-		" vNormalW = normalize( vec3( vec4( normal, 0.0 ) * modelMatrix ) );",
-
-		"	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1 );",
-
-		"}"
-
-	].join("\n"),
-
-				fragmentShader: [
-		"varying vec3 vPositionW;",
-		"varying vec3 vNormalW;",
-		"void main() {",
-		"	vec3 color = vec3(.62,.125,.941);",
-		"	vec3 viewDirectionW = normalize(cameraPosition - vNormalW);",
-		"	float fresnelTerm = dot(viewDirectionW, vNormalW);",
-		"	fresnelTerm = clamp(1. - fresnelTerm, 0.08, 1.);",
-		"	gl_FragColor = vec4( color * fresnelTerm, .5);",
-		"}"
-
-	].join("\n")
-
-			};
 
 
 			window.gobo = false
@@ -65,26 +32,14 @@ var Skills = [
 				y: angleYCameraDirection
 			})
 
-
+			var arr = window.enemies.length >= 0 ? window.enemies : window.babyZombies
+			var arrToKill = GAME.findTargetS(arr, hero.mesh.position)
 
 
 			var go = setTimeout(() => {
 
-				var gm = new Three.SphereBufferGeometry(3);
 
-				var sm = new Three.ShaderMaterial({
-					vertexShader: FresnelShader.vertexShader,
-					fragmentShader: FresnelShader.fragmentShader
-				})
-
-				var sphere = new Three.Mesh(gm, sm)
-				var target = new Three.Vector3()
-				character.children[2].getWorldPosition(target)
-				sphere.position.copy(target)
-				sphere.scale.set(0, 0, 0)
-				window.SCENE.add(sphere)
-
-				var plane = new Three.Mesh(new Three.PlaneBufferGeometry(12, 12), new Three.MeshToonMaterial({
+				var plane = new Three.Mesh(new Three.PlaneBufferGeometry(hero.gunRange * 1.2, hero.gunRange * 1.2), new Three.MeshToonMaterial({
 					map: TextureLoader.load("assets/images/textures/laserAura.png"),
 					transparent: true,
 					side: 2,
@@ -103,55 +58,50 @@ var Skills = [
 					z: 1
 
 				})
-				TweenMax.to(plane.rotation, 3.5, {
-					z: 2
+				var pp = []
+				TweenMax.to(plane.rotation, 1.5, {
+					z: 2,
+					onComplete: () => {
+
+
+					}
 				})
 
-				/*	var rotate = function() {
-							if (typeof rotate === "function") {
-								plane.rotation.z += .009
-								requestAnimationFrame(rotate)
+				var ty = setTimeout(() => {
+					// Lightning Strikes
+					for (var o = 0; o < arrToKill.length; o++) {
+						var lightning = new Three.Mesh(new Three.PlaneGeometry(4, 150), new Three.MeshToonMaterial({
+							side: 2,
+							transparent: true,
+							map: TextureLoader.load("assets/images/textures/lightning.png")
+
+						}))
+						lightning.position.copy(arrToKill[o].mesh.position)
+						lightning.scale.y = 0
+						lightning.rotation.y = Math.atan2((CAMERA.position.x - arrToKill[o].mesh.position.x), (CAMERA.position.z - arrToKill[o].mesh.position.z))
+						pp.push(lightning)
+						SCENE.add(lightning)
+						TweenMax.to(lightning.scale, .4, {
+							y: 1,
+							onComplete: () => {
+
 							}
-						}
-						rotate()*/
+						})
+						arrToKill[o].hp = 0
+						arrToKill[o].die()
+					}
 
-				var tst = setTimeout(() => {
-					TweenMax.to(sphere.scale, .4, {
-						x: 0,
-						y: 0,
-						z: 0,
-						onComplete: function() {
-							window.gobo = true
-							if (sphere.parent) {
-								sphere.material.dispose()
-								sphere.geometry.dispose()
-								window.SCENE.remove(sphere)
-							}
-						}
-					})
-
-					TweenMax.to(plane.scale, .4, {
-						x: 0,
-						y: 0,
-						z: 0,
-						onComplete: function() {
-
-							if (plane.parent) {
-								plane.material.dispose()
-								plane.geometry.dispose()
-								window.SCENE.remove(plane)
-							}
-						}
-					})
-
-					clearTimeout(tst)
-				}, 2300)
-
-				TweenMax.to(sphere.scale, 2, {
-					x: 1,
-					y: 1,
-					z: 1
-				})
+				var tyy = setTimeout(()=>{
+					for (var p = 0; p < pp.length; p++) {
+						pp[p].material.dispose()
+						pp[p].geometry.dispose()
+						SCENE.remove(pp[p])
+					}
+					clearTimeout(tyy)
+				}, 2000)
+					
+					clearTimeout(ty)
+				}, 1200)
 
 				var parts = []
 				var skss = 0;
@@ -159,6 +109,17 @@ var Skills = [
 					if (skss >= 2) {
 						skss = 0
 						clearInterval(sks)
+						TweenMax.to(plane.scale, 1, {
+							x: 0,
+							y: 0,
+							z: 0,
+							onComplete: () => {
+								plane.material.dispose()
+								plane.geometry.dispose()
+								plane.parent.remove(plane)
+								window.gobo = true
+							}
+						})
 					} else {
 						skss++
 						for (var i = 0; i < 16; i++) {
@@ -169,14 +130,14 @@ var Skills = [
 							var mesh = new Three.Mesh(geom, mat);
 
 							var pos = {
-								x: sphere.position.x,
-								y: sphere.position.y,
-								z: sphere.position.z
+								x: character.position.x,
+								y: character.position.y,
+								z: character.position.z
 							}
 
-							var targetX = pos.x + (-1 + Math.random() * 2) * 9;
-							var targetY = pos.y + (-1 + Math.random() * 2) * 9;
-							var targetZ = pos.z + (-1 + Math.random() * 2) * 9;
+							var targetX = pos.x + (-1 + Math.random() * 2) * 12;
+							var targetY = pos.y + (-1 + Math.random() * 2) * 12;
+							var targetZ = pos.z + (-1 + Math.random() * 2) * 12;
 
 							mesh.position.x = targetX
 							mesh.position.y = targetY
@@ -196,17 +157,20 @@ var Skills = [
 									mesh.material.dispose()
 									mesh.geometry.dispose()
 									for (var u = 0; u < parts.length; u++) {
+										parts[u].material.dispose()
+										parts[u].geometry.dispose()
 										if (parts[u].parent) parts[u].parent.remove(parts[u])
 									}
+
 									return;
 								}
 							});
 						}
 					}
-				}, 500)
+				}, 700)
 
 				clearTimeout(go)
-			}, 500)
+			}, 700)
 			return;
 		}
 	},

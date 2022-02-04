@@ -6,22 +6,22 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
-	bulletType: "lasertube",
+	bulletType: "ninjablade",
 	bombDamage: 20,
 	energy: 10,
-	mapRadius: 90,
+	mapRadius: 120,
 	atomBombRadius: 20,
 	atomLevel: 100,
 	playGame: false,
 	gunRange: 20,
-	countdownMin: 8,
+	countdownMin: 5,
 	keys: 0,
 	skills: [{
 		name: "rockBomb",
 		damage: 3,
 		img: "assets/images/textures/field.png"
 	}, {
-		name: "laserBeam",
+		name: "lightningStrike",
 		damage: 0.8, // scaling down targets to 80%
 		img: "assets/images/textures/gun.png"
 	}],
@@ -75,7 +75,7 @@ let Profile = {
 	},
 	items: [],
 	bullets: [{
-		name: "lasertube",
+		name: "ninjablade",
 		description: "",
 		stats: {
 			damage: "+10%",

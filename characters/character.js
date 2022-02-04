@@ -233,21 +233,21 @@ class Hero {
 
 
 				} else {
-					window.gunrange.material.opacity = .07
+					window.gunrange.material.opacity = .3
 					window.gunrange.position.y = .2
 					var j = setTimeout(() => {
 						window.gunrange.material.opacity = 0
-						window.gunrange.position.y = -5
+					
 						clearTimeout(j)
 					}, 100)
 				}
 			}
 			else {
-				window.gunrange.material.opacity = .07
+				window.gunrange.material.opacity = .3
 				window.gunrange.position.y = .2
 				var j = setTimeout(() => {
 					window.gunrange.material.opacity = 0
-					window.gunrange.position.y = -5
+					
 					clearTimeout(j)
 				}, 100)
 			}
@@ -1253,8 +1253,8 @@ class BabyZombies {
 		})
 
 		// move model & camera
-		var mX = this.walkDirection.x * this.velocity * delta
-		var mZ = this.walkDirection.z * this.velocity * delta
+		var mX = this.walkDirection.x * this.velocity * delta * 1.3
+		var mZ = this.walkDirection.z * this.velocity * delta * 1.3
 
 		this.z = hero.mesh.position.z - this.mesh.position.z
 		this.x = hero.mesh.position.x - this.mesh.position.x

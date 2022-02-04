@@ -329,7 +329,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 35
 				})
 			} while (cnt <= 50)
 		}
@@ -506,11 +506,14 @@ var Game = (function(w, func) {
 		SCENE.add(cu)
 
 
-		window.gunrange = new Three.Mesh(new Three.CylinderGeometry(hero.gunRange, hero.gunRange, .08, 30), new Three.MeshToonMaterial())
+		window.gunrange = new Three.Mesh(new Three.PlaneGeometry(hero.gunRange*2, hero.gunRange*2), new Three.MeshToonMaterial({
+			map: TextureLoader.load("assets/images/textures/gunrange.png")
+		}))
 		gunrange.material.transparent = true
 		gunrange.material.opacity = 0
+		gunrange.rotation.x = -Math.PI/2
 		gunrange.position.copy(character.position)
-		gunrange.position.y = -2
+		gunrange.position.y = .2
 		SCENE.add(gunrange)
 
 		var fog = new Three.Fog("black", 70, 100)
@@ -766,6 +769,27 @@ var Game = (function(w, func) {
 				}
 
 			}
+		}
+		
+		Obj.findTargetS = function(arr, pos) {
+			var HX = pos.x,
+				HZ = pos.z;
+			var returnArr = []
+
+			for (var d = 0; d < arr.length; d++) {
+				
+				var en = {
+					x: arr[d].mesh.position.x,
+					z: arr[d].mesh.position.z
+				}
+
+				if (en.x > HX - hero.gunRange && HX + hero.gunRange > en.x && HZ + hero.gunRange > en.z && en.z > HZ - hero.gunRange) {
+				returnArr.push(arr[d])
+				}
+
+			}
+		
+			return returnArr;
 		}
 
 		/**************************************************

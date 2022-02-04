@@ -97,8 +97,18 @@ var FARM = {
 
 		// Generate Enemies
 		for (var i = 0; i < Levels.levels[lvl].enemy; i++) {
+		
 			var x = Math.floor(Math.random() * (100 - (-100)) + (-100))
 			var z = Math.floor(Math.random() * (100 - (-100)) + (-100))
+			
+			if (-10 <= z && z <= 10) {
+				z += 10
+			}
+			if (-10 <= x && x <= 10) {
+				x += 10
+			}
+			
+			
 			var size = Math.floor(Math.random() * (8 - 4) + 4)
 
 			var enemy = new Character.Enemy({ x: x, y: size / 2, z: z }, 'green', {
@@ -313,7 +323,7 @@ var FARM = {
 											opacity: 1
 										})
 									}
-								}, 10);
+								}, 350);
 							}
 						}
 					} else {
@@ -342,7 +352,7 @@ var FARM = {
 			seconds--
 			$("#seconds").text(seconds + " s")
 
-			if (seconds < 0) this.farmObj.gameOver();
+			if (seconds < 0) this.gameOver();
 
 		}, 1000)
 
