@@ -275,6 +275,10 @@ var Skills = [
 			window.gobo = false
 			hero.immune = true
 
+			var map = TextureLoader.load("assets/images/textures/bladeHit.png")
+			var mmap = TextureLoader.load("assets/images/textures/instantKill.png")
+
+
 			// Find Targets 
 			var HX = character.position.x,
 				HZ = character.position.z;
@@ -294,44 +298,134 @@ var Skills = [
 
 			}
 
-			var hh = 0
-			var hu = setInterval(() => {
-				if (hh >= returnArr.length) {
-					clearInterval(hu)
-					window.gobo = true
-					hero.immune = false
-					TweenMax.to(character.position, .2, {
-						x: HX,
-						z: HZ,
-						onComplete: ()=>{
-							for (var i=0; i<returnArr.length; i++){
-								returnArr[i].hp = 0
+			var plane = new Three.Mesh(new Three.PlaneGeometry(12, 12), new Three.MeshToonMaterial({
+				transparent: true,
+				side: 2,
+				map: mmap,
+				opacity: .6
+			}))
+
+			plane.rotation.x = -Math.PI / 2
+			plane.position.copy(character.position)
+			plane.scale.set(0, 0, 0)
+			SCENE.add(plane)
+
+			TweenMax.to(plane.scale, 1.2, {
+				x: 1.5,
+				y: 1.5,
+				z: 1.5
+			})
+
+			var plane2 = new Three.Mesh(new Three.PlaneGeometry(12, 12), new Three.MeshToonMaterial({
+				transparent: true,
+				side: 2,
+				map: mmap,
+				opacity: .6
+			}))
+
+			plane2.rotation.x = -Math.PI / 2
+			plane2.position.copy(character.position)
+			plane2.scale.set(0, 0, 0)
+			SCENE.add(plane2)
+
+			TweenMax.to(plane2.scale, 1, {
+				x: 1,
+				y: 1,
+				z: 1
+			})
+			TweenMax.to(plane2.position, 1, {
+				y: 10,
+				onComplete: () => {
+					var hh = 0
+					var hu = setInterval(() => {
+						if (hh >= returnArr.length) {
+							clearInterval(hu)
+							window.gobo = true
+							hero.immune = false
+							TweenMax.to(character.position, .2, {
+								x: HX,
+								z: HZ,
+								onComplete: () => {
+									for (var i = 0; i < returnArr.length; i++) {
+										returnArr[i].hp = 0
+									}
+								}
+							})
+							TweenMax.to(plane.scale, 1, {
+								x: 0,
+								y: 0,
+								z: 0,
+								onComplete: () => {
+									plane.material.dispose()
+									plane.geometry.dispose()
+									SCENE.remove(plane)
+								}
+							})
+							TweenMax.to(plane2.scale, 1, {
+								x: 0,
+								y: 0,
+								z: 0,
+								onComplete: () => {
+									plane2.material.dispose()
+									plane2.geometry.dispose()
+									SCENE.remove(plane2)
+								}
+							})
+						} else {
+							Utils.playSound(Sounds.instantKill)
+							hh++
+							var pos = returnArr[returnArr.length - hh].mesh.position
+							var op = hh + 1 > returnArr.length ? returnArr.length : hh + 1
+							var pos2 = returnArr[returnArr.length - op].mesh.position
+
+							var mPoint = {
+								x: (pos.x + pos2.x) / 2,
+								z: (pos.z + pos2.z) / 2
 							}
+
+							var aY = Math.atan2((pos.x - character.position.x), (pos.z - character.position.z))
+							TweenMax.to(character.rotation, .3, {
+								y: aY
+							})
+
+							TweenMax.to(character.position, .2, {
+								x: pos.x,
+								z: pos.z,
+								onComplete: () => {
+
+									// Hit
+									var h = new Three.Mesh(new Three.PlaneGeometry(9, 9), new Three.MeshToonMaterial({
+										transparent: true,
+										map: map
+									}))
+									h.position.copy(pos)
+									h.rotation.x = -Math.PI / 2
+									h.scale.set(0,0,0)
+									
+									SCENE.add(h)
+									TweenMax.to(h.scale, .7, {
+										x: 1.3,
+										y: 1.3,
+										z: 1.3
+									})
+
+									var ttt = setTimeout(() => {
+										h.material.dispose()
+										h.geometry.dispose()
+										SCENE.remove(h)
+										clearTimeout(ttt)
+									}, 700)
+
+								}
+							})
+
 						}
-					})
-				} else {
-					hh++
-					var pos = returnArr[returnArr.length-hh].mesh.position
-					TweenMax.to(character.position, .2, {
-						x: pos.x,
-						z: pos.z,
-						onComplete: ()=>{
-						
-							// Hit
-							var h = new Three.Mesh(new Three.SphereGeometry(4), new Three.MeshToonMaterial({
-								transparent: true,
-								opacity: .4
-							}))
-							h.position.copy(pos)
-							SCENE.add(h)
-							
-							// Trail Effect
-							
-						}
-					})
-					
-					}
-			}, 200)
+					}, 210)
+				}
+			})
+
+
+
 
 			return;
 		}
