@@ -90,7 +90,7 @@ var Skills = [
 							y: 1
 						})
 						arrToKill[o].hp = 0
-						
+
 
 						var strike = new Three.Mesh(new Three.SphereGeometry(5), new Three.MeshToonMaterial({
 							transparent: true,
@@ -132,6 +132,7 @@ var Skills = [
 							y: 1
 						})
 						window.boss.hp -= 10
+						boss.hurt()
 
 					}
 
@@ -142,7 +143,7 @@ var Skills = [
 							SCENE.remove(pp[p])
 						}
 						clearTimeout(tyy)
-					}, 1800)
+					}, 800)
 
 					clearTimeout(ty)
 
@@ -267,28 +268,70 @@ var Skills = [
 		}
 	},
 	{
-		name: "rockBomb",
+		name: "instantKill",
 		duration: 20000,
 		func: function(pos) {
 
 			window.gobo = false
-			TweenMax.to(hero.mesh.position, .7, {
-				y: hero.mesh.position.y + 6,
-				onComplete: function() {
-					TweenMax.to(hero.mesh.position, .4, {
-						x: pos.x * .01,
-						y: hero.mesh.position.y - 6,
-						z: pos.z * .01,
-						onComplete: function() {
-							window.gobo = true
-							var tarPos = new Three.Vector3(25, 70, 25)
-							window.CAMERA.position.copy(tarPos)
-							CAMERA.lookAt(hero.mesh.position)
-							CONTROLS.target = hero.mesh.position
+			hero.immune = true
+
+			// Find Targets 
+			var HX = character.position.x,
+				HZ = character.position.z;
+			var returnArr = []
+			var arr = window.enemies.length > 0 ? enemies : babyZombies
+
+			for (var d = 0; d < arr.length; d++) {
+
+				var en = {
+					x: arr[d].mesh.position.x,
+					z: arr[d].mesh.position.z
+				}
+
+				if (en.x > HX - hero.gunRange - 10 && HX + hero.gunRange + 10 > en.x && HZ + hero.gunRange + 10 > en.z && en.z > HZ - hero.gunRange - 10) {
+					returnArr.push(arr[d])
+				}
+
+			}
+
+			var hh = 0
+			var hu = setInterval(() => {
+				if (hh >= returnArr.length) {
+					clearInterval(hu)
+					window.gobo = true
+					hero.immune = false
+					TweenMax.to(character.position, .2, {
+						x: HX,
+						z: HZ,
+						onComplete: ()=>{
+							for (var i=0; i<returnArr.length; i++){
+								returnArr[i].hp = 0
+							}
 						}
 					})
-				}
-			})
+				} else {
+					hh++
+					var pos = returnArr[returnArr.length-hh].mesh.position
+					TweenMax.to(character.position, .2, {
+						x: pos.x,
+						z: pos.z,
+						onComplete: ()=>{
+						
+							// Hit
+							var h = new Three.Mesh(new Three.SphereGeometry(4), new Three.MeshToonMaterial({
+								transparent: true,
+								opacity: .4
+							}))
+							h.position.copy(pos)
+							SCENE.add(h)
+							
+							// Trail Effect
+							
+						}
+					})
+					
+					}
+			}, 200)
 
 			return;
 		}

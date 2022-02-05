@@ -33,52 +33,54 @@ class Hero {
 		this.bulletSpeed = Profile.bullets.filter(e => { return e.name === Profile.bulletType })[0].stats.bulletSpeed
 		this.rotateAngle = new Three.Vector3(0, 1, 0)
 		this.rotateQuarternion = new Three.Quaternion()
-
+		this.immune = false
 
 	}
 
 	// public function
 	hurt(attack) {
+		if (!this.immune) {
+			this.hpLeft = this.hpLeft - attack
+			this.hp.style.width = this.hpLeft + "%"
 
-		this.hpLeft = this.hpLeft - attack
-		this.hp.style.width = this.hpLeft + "%"
+			this.velocity = this.velocity - 0.01
 
-		this.velocity = this.velocity - 0.01
+			//update life count and speed count
+			$("#lifecount").text("life " + Math.floor(this.hpLeft) + "/100")
+			$("#speed").text("speed " + Math.floor(this.velocity * 100 / Profile.velocity) + "%")
 
-		//update life count and speed count
-		$("#lifecount").text("life " + Math.floor(this.hpLeft) + "/100")
-		$("#speed").text("speed " + Math.floor(this.velocity * 100 / Profile.velocity) + "%")
+			this.heroHurt()
 
-		this.heroHurt()
+			if (this.hpLeft < 30) {
+				this.hp.style.backgroundColor = 'red'
+				$("#critical").css("display", "block")
+			} else {
+				this.hp.style.backgroundColor = '#11CCFF'
+				$("#critical").css("display", "none")
+			}
 
-		if (this.hpLeft < 30) {
-			this.hp.style.backgroundColor = 'red'
-			$("#critical").css("display", "block")
-		} else {
-			this.hp.style.backgroundColor = '#11CCFF'
-			$("#critical").css("display", "none")
+			this.hpLeft < 0 ? FARM.gameOver() : false
+
+			// Blood drops Effect
+
+			var ranW = Math.random() * (1.5 - .5) + .5
+			var ranH = Math.random() * (0.3 - .1) + 0.1
+
+			var ranX = Math.random() * (3 - 0.5) + 0.5
+
+			var pos = {
+				x: this.mesh.position.x + ranX,
+				y: 1,
+				z: this.mesh.position.z + ranX
+			}
+
+			let blood = new Three.Mesh(new Three.BoxBufferGeometry(ranW, ranH, ranW), new Three.MeshToonMaterial({ color: "red", transparent: true, opacity: .6 }))
+			blood.position.copy(pos)
+			window.SCENE.add(blood)
+			window.bloods.push(blood)
+
+
 		}
-
-		this.hpLeft < 0 ? FARM.gameOver() : false
-
-		// Blood drops Effect
-
-		var ranW = Math.random() * (1.5 - .5) + .5
-		var ranH = Math.random() * (0.3 - .1) + 0.1
-
-		var ranX = Math.random() * (3 - 0.5) + 0.5
-
-		var pos = {
-			x: this.mesh.position.x + ranX,
-			y: 1,
-			z: this.mesh.position.z + ranX
-		}
-
-		let blood = new Three.Mesh(new Three.BoxBufferGeometry(ranW, ranH, ranW), new Three.MeshToonMaterial({ color: "red", transparent: true, opacity: .6 }))
-		blood.position.copy(pos)
-		window.SCENE.add(blood)
-		window.bloods.push(blood)
-
 		return false;
 	}
 
@@ -314,7 +316,7 @@ class Hero {
 				Profile.coins = Profile.coins + droppedCoins[b].val
 
 				// dlete coins from array and scene
-				
+
 
 				/*if (droppedCoins[b].field) {
 
@@ -822,7 +824,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 		var index = window.enemyList.findIndex(e => e.name === n);
 		window.enemyList.splice(index, 1)
 		window.enemies.splice(index, 1)
-		
+
 
 		// If Enemy lnegth < 0, summon Boss
 		if (window.inGame) {
@@ -928,25 +930,25 @@ var EnemyBoss = function() {
 		//*******************************************
 
 		if (zzFront > zFront && zBack > zzBack && xxFront > xFront && xBack > xxBack) {
-			//	hero.hurt(self.attack)
+			hero.hurt(self.attack)
 		}
 		//Phase 1 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xFront > xxBack && xxBack > xBack) {
-			//hero.hurt(self.attack)
+			hero.hurt(self.attack)
 
 		}
 		// Phase 3 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xxFront > xBack && xFront > xxFront) {
-			//hero.hurt(self.attack)
+			hero.hurt(self.attack)
 		}
 		// Phase 2 hurt
 		else if (xBack >= xxBack && xxFront >= xFront && zFront > zzBack && zzBack > zBack) {
-			//hero.hurt(self.attack)
+			hero.hurt(self.attack)
 
 		}
 		// Phase 4 hurt
 		else if (xBack >= xxBack && xxFront >= xFront & zzFront > zBack && zFront > zzFront) {
-			//hero.hurt(self.attack)
+			hero.hurt(self.attack)
 		}
 
 		// Bullet Hurt
@@ -975,13 +977,8 @@ var EnemyBoss = function() {
 				window.droppedBomb[b].removed = true
 				window.droppedBomb.splice(b, 1)
 
-				// Hurt animation for enemy
-				self.mesh.children[1].material.color.set("red")
-				var u = setTimeout(() => {
-					self.mesh.children[1].material.color.set("green")
-					clearTimeout(u)
-				}, 100)
 
+				self.hurt()
 
 				var parts = []
 				var pos = {
@@ -1030,9 +1027,7 @@ var EnemyBoss = function() {
 
 				}
 
-				// decrrased hp
-				var dmg = hero.bombDamage / 40
-				self.hp = self.hp - dmg
+
 			}
 
 		}
@@ -1049,11 +1044,24 @@ var EnemyBoss = function() {
 				return;
 			})
 			SCENE.remove(self.mesh)
-
 			FARM.gameWin()
 		}
 
 		return;
+	}
+
+
+	self.hurt = function() {
+		// decrrased hp
+		var dmg = hero.bombDamage / 40
+		self.hp = self.hp - dmg
+
+		// Hurt animation for enemy
+		self.mesh.children[1].material.color.set("red")
+		var u = setTimeout(() => {
+			self.mesh.children[1].material.color.set("green")
+			clearTimeout(u)
+		}, 100)
 	}
 
 	self.summonZombies = function() {

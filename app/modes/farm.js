@@ -603,7 +603,7 @@ var FARM = {
 
 		$(".ccns, #ccnscoin, #critical").remove()
 		Utils.playSound(Sound.gameWin)
-		Utils.stopMusic(Sound.FarmMode)
+		Utils.stopSound(Sound.FarmMode)
 
 		window.inGame = false
 
@@ -644,6 +644,10 @@ var FARM = {
 
 		for (var c = 0; c < droppedCoins.length; c++) {
 			SCENE.remove(droppedCoins[c])
+		}
+		
+		for (var cc = 0; cc < babyZombies.length; cc++) {
+			SCENE.remove(babyZombies[cc])
 		}
 
 		droppedCoins.length = 0
@@ -793,17 +797,44 @@ var FARM = {
 		return;
 	},
 	EnemyBoss: function() {
-		var hu = setTimeout(() => {
-			window.boss = new Character.EnemyBoss()
+		var tu = setTimeout(() => {
+			window.gobo = false
+			TweenMax.to(CAMERA.position, 2.3, {
+				x: 20,
+				y: 50,
+				z: 20,
+				onUpdate: () => {
+					CAMERA.lookAt(0, 0, 0)
+					CONTROLS.target = new Three.Vector3(0, 0, 0)
+				},
+				onComplete: () => {
+					CAMERA.lookAt(0, 0, 0)
+					CONTROLS.target = new Three.Vector3(0, 0, 0)
+					window.boss = new Character.EnemyBoss()
 
-			var m = boss.render()
-			m.name = "boss"
-			SCENE.add(m)
 
-			window.bossGame = true
-			GAME.tips("Boss Enemy has been summoned!")
-			clearTimeout(hu)
-		}, 1900)
+					var m = boss.render()
+					m.scale.y = 0
+
+					m.name = "boss"
+					SCENE.add(m)
+					TweenMax.to(m.scale, .4, {
+						y: 1,
+						onComplete: () => {
+							CAMERA.position.set(character.position.x+25, 75, character.position.z+25)
+							CAMERA.lookAt(character.position)
+							CONTROLS.target = character.position
+							window.gobo = true
+						}
+					})
+					window.bossGame = true
+					GAME.tips("Boss Enemy has been summoned!")
+
+
+				}
+			})
+			clearTimeout(tu)
+		}, 900)
 	}
 }
 

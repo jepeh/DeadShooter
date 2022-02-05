@@ -17,7 +17,7 @@ let Profile = {
 	countdownMin: 5,
 	keys: 0,
 	skills: [{
-		name: "rockBomb",
+		name: "instantKill",
 		damage: 3,
 		img: "assets/images/textures/field.png"
 	}, {
