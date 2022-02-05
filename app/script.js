@@ -1,3 +1,5 @@
+"use strict";
+
 import * as Three from '../src/three.js'
 import { RoundedBoxGeometry } from '../src/RoundedBoxGeometry.js'
 import { OrbitControls } from '../src/OrbitControls.js'
@@ -24,12 +26,12 @@ import { OBJLoader } from '../src/Loader/OBJLoader.js'
 // Shader
 //import {UnrealBloomPass} from '../src/Composer/shaders/UnrealBloomPass.js'
 
-
 var GAME;
 
 var Game = (function(w, func) {
 
 	// Check if browser support WebGL
+
 	if (w) {
 		var loc = new URL(window.location.href)
 
@@ -83,52 +85,49 @@ var Game = (function(w, func) {
 		// Fetch or Save FB Player Data
 
 		loc.searchParams.get("isPlaying") ? playResume(true) : playResume(true)
+	}
+
+	function play(FB) {
+		$("body").append(`<img id="splash" src="assets/images/blockgameswhite.png"/>`)
+		$("body").css({ background: 'white', transition: 'all 2s' })
+		var bb = setTimeout(() => {
+			$("#splash").attr("src", "assets/images/blockgamesblack.png")
+			$('body').css("background", "black")
 
 
-		function play(FB) {
-			$("body").append(`<img id="splash" src="assets/images/blockgameswhite.png"/>`)
-			$("body").css({ background: 'white', transition: 'all 2s' })
-			var bb = setTimeout(() => {
-				$("#splash").attr("src", "assets/images/blockgamesblack.png")
-				$('body').css("background", "black")
+			var bbb = setTimeout(() => {
+				$("#splash").remove()
+				$("body").append(`<img id="logo" src="assets/images/logo.png" />`)
+
+				var ho = setTimeout(() => {
+					clearTimeout(ho)
+					$("#logo").remove()
+					$("body").css('background', "#191C25")
+					func(FB)
+				}, 1300)
 
 
-				var bbb = setTimeout(() => {
-					$("#splash").remove()
-					$("body").append(`<img id="logo" src="assets/images/logo.png" />`)
-
-					var ho = setTimeout(() => {
-						clearTimeout(ho)
-						$("#logo").remove()
-						$("body").css('background', "#191C25")
-						func(FB)
-					}, 1300)
+				clearTimeout(bbb)
+			}, 1900)
 
 
-					clearTimeout(bbb)
-				}, 1900)
+			clearTimeout(bb)
+		}, 1800)
 
+	}
 
-				clearTimeout(bb)
-			}, 1800)
+	function playResume(FB) {
+		//	$("#loader").css("display", "block");
 
-		}
-
-		function playResume(FB) {
-			//	$("#loader").css("display", "block");
-
-			var hu = setTimeout(() => {
-				$("#loader").css("display", "none")
-				func(FB)
-				clearTimeout(hu)
-			}, 100)
-
-		}
+		var hu = setTimeout(() => {
+			$("#loader").css("display", "none")
+			func(FB)
+			clearTimeout(hu)
+		}, 100)
 
 	}
 
 })(window || this, function(Facebook) {
-
 
 
 	// Fetch FB User Data
@@ -480,6 +479,7 @@ var Game = (function(w, func) {
 			return hero;
 		}
 
+
 		function ch() {
 
 			window.character = hero.renderHero()
@@ -491,13 +491,11 @@ var Game = (function(w, func) {
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)
 			SCENE.add(window.character)
-			
-			
+
 		}
 
-		ch()
 
-
+ch()
 		window.mm = [
 			new Three.MeshToonMaterial({ transparent: true }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),

@@ -7,7 +7,7 @@ import * as Utils from '../app/utils.js'
 import rewards from '../app/rewards.js'
 import { FARM } from '../app/modes/farm.js'
 import { Bullets, bulletSprite } from '../app/bullets/bullet.js'
-import {OBJLoader} from '../src/Loader/OBJLoader.js'
+import { OBJLoader } from '../src/Loader/OBJLoader.js'
 
 window.TxtLoader = new Three.TextureLoader();
 
@@ -1407,6 +1407,7 @@ class defaultHero extends Hero {
 			map: TextureLoader.load("assets/images/textures/rod.png")
 		}))
 		trail.scale.z = 0
+		trail.position.y = -3
 		trail.rotation.x = -Math.PI / 2
 		trail.position.set(0, .5, -7)
 		trail.material.opacity = 0
@@ -1417,7 +1418,6 @@ class defaultHero extends Hero {
 		$("#coinstxt").text("coins x" + this.coins)
 		return group;
 	}
-
 	anim(e) {
 		!window.inGame ? this.mesh.rotation.y = Math.cos(e) * .2 : false
 

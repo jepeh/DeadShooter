@@ -1,6 +1,7 @@
 let Profile = {
 	level: 1,
 	heroName: "cube",
+	heroType: "default",
 	coins: 100,
 	bombReload: 3,
 	velocity: 15,
@@ -21,7 +22,7 @@ let Profile = {
 		damage: 3,
 		img: "assets/images/textures/field.png"
 	}, {
-		name: "run",
+		name: "lightningStrike",
 		damage: 0.8, // scaling down targets to 80%
 		img: "assets/images/textures/gun.png"
 	}],

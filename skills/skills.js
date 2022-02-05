@@ -415,7 +415,7 @@ var Skills = [
 							t.scale.y = 0
 							SCENE.add(t)
 
-							TweenMax.to(t.scale, .45, {
+							TweenMax.to(t.scale, .9, {
 								y: 1,
 								onComplete: () => {
 									t.material.dispose()
@@ -446,7 +446,7 @@ var Skills = [
 									h.scale.set(0, 0, 0)
 
 									SCENE.add(h)
-									TweenMax.to(h.scale, .7, {
+									TweenMax.to(h.scale, .9, {
 										x: 1.3,
 										y: 1.3,
 										z: 1.3
@@ -459,7 +459,7 @@ var Skills = [
 										h.geometry.dispose()
 										SCENE.remove(h)
 										clearTimeout(ttt)
-									}, 700)
+									}, 900)
 
 								}
 							})
@@ -483,6 +483,7 @@ var Skills = [
 
 			var trail = character.children[character.children.length - 1]
 			trail.material.opacity = 1
+			tral.position.y = 1
 			TweenMax.to(trail.scale, .5, {
 				z: 1
 			})
@@ -529,6 +530,7 @@ var Skills = [
 				hero.velocity = currentVel
 				hero.running = false
 				trail.material.opacity = 0
+				trail.position.y = -3
 			}, 10000)
 			return;
 		}
