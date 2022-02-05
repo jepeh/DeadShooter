@@ -73,6 +73,7 @@ var Skills = [
 					// Lightning Strikes
 
 					Utils.playSound(Sounds.lightningStrike)
+					
 
 					for (var o = 0; o < arrToKill.length; o++) {
 						var lightning = new Three.Mesh(new Three.PlaneGeometry(4, 150), new Three.MeshToonMaterial({
@@ -383,6 +384,9 @@ var Skills = [
 								}
 							})
 						} else {
+							
+							
+							
 							Utils.playSound(Sounds.instantKill)
 							hh++
 
