@@ -7,6 +7,7 @@ import * as Utils from '../app/utils.js'
 import rewards from '../app/rewards.js'
 import { FARM } from '../app/modes/farm.js'
 import { Bullets, bulletSprite } from '../app/bullets/bullet.js'
+import {OBJLoader} from '../src/Loader/OBJLoader.js'
 
 window.TxtLoader = new Three.TextureLoader();
 
@@ -117,8 +118,8 @@ class Hero {
 
 				if (this.running) {
 					var tut = this.mesh.children[this.mesh.children.length - 1]
-					tut.scale.set(0,0,0)
-			
+					tut.scale.set(0, 0, 0)
+
 				}
 
 				$("#bomb").css("transform", "scale(1.05)")

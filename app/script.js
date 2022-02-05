@@ -15,6 +15,7 @@ import { FARM } from '../app/modes/farm.js'
 import { Bullets } from "../app/bullets/bullet.js"
 import { FontLoader } from "../src/Loader/FontLoader.js"
 import { TextGeometry } from '../src/TextGeometry.js'
+import { OBJLoader } from '../src/Loader/OBJLoader.js'
 
 // Composer & RenderPass
 //import * as Composer from '../src/Composer/EffectComposer.js'
@@ -431,7 +432,7 @@ var Game = (function(w, func) {
 
 		var jj = false
 		$("body").on("touchstart", e => {
-	
+
 			if (!jj) {
 				Utils.playMusic(Sound.mainMusic)
 				jj = true
@@ -490,6 +491,8 @@ var Game = (function(w, func) {
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)
 			SCENE.add(window.character)
+			
+			
 		}
 
 		ch()
@@ -518,7 +521,7 @@ var Game = (function(w, func) {
 		gunrange.material.transparent = true
 		gunrange.material.opacity = 0
 		gunrange.rotation.x = -Math.PI / 2
-		gunrange.position.copy(character.position)
+		gunrange.position.copy(window.character.position)
 		gunrange.position.y = .2
 		SCENE.add(gunrange)
 
