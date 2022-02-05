@@ -329,7 +329,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
 				})
 			} while (cnt <= 50)
 		}
@@ -504,7 +504,8 @@ var Game = (function(w, func) {
 
 
 		window.gunrange = new Three.Mesh(new Three.PlaneGeometry(hero.gunRange*2, hero.gunRange*2), new Three.MeshToonMaterial({
-			map: TextureLoader.load("assets/images/textures/gunrange.png")
+			map: TextureLoader.load("assets/images/textures/gunrange.png"),
+			side: 2
 		}))
 		gunrange.material.transparent = true
 		gunrange.material.opacity = 0
@@ -513,7 +514,8 @@ var Game = (function(w, func) {
 		gunrange.position.y = .2
 		SCENE.add(gunrange)
 
-		var fog = new Three.Fog("black", 70, 100)
+		var fog = new Three.Fog("#000000", 70, 100)
+		fog.opacity = .1
 		SCENE.fog = fog
 
 		TweenMax.to(character.scale, .9, {

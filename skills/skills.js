@@ -132,7 +132,7 @@ var Skills = [
 							y: 1
 						})
 						window.boss.hp -= 10
-						boss.hurt()
+						window.boss.hurt()
 
 					}
 
@@ -277,6 +277,8 @@ var Skills = [
 
 			var map = TextureLoader.load("assets/images/textures/bladeHit.png")
 			var mmap = TextureLoader.load("assets/images/textures/instantKill.png")
+			var rod = TextureLoader.load("assets/images/textures/IKrod.png")
+
 
 
 			// Find Targets 
@@ -296,6 +298,10 @@ var Skills = [
 					returnArr.push(arr[d])
 				}
 
+			}
+
+			if (window.bossGame) {
+				returnArr.push(window.boss)
 			}
 
 			var plane = new Three.Mesh(new Three.PlaneGeometry(12, 12), new Three.MeshToonMaterial({
@@ -347,7 +353,12 @@ var Skills = [
 								z: HZ,
 								onComplete: () => {
 									for (var i = 0; i < returnArr.length; i++) {
+									if (returnArr[i].mesh.name === "boss") {
+										returnArr[i].hurt()
+										returnArr[i].hp -= 10
+									} else {
 										returnArr[i].hp = 0
+									}
 									}
 								}
 							})
@@ -374,19 +385,42 @@ var Skills = [
 						} else {
 							Utils.playSound(Sounds.instantKill)
 							hh++
+
 							var pos = returnArr[returnArr.length - hh].mesh.position
-							var op = hh + 1 > returnArr.length ? returnArr.length : hh + 1
-							var pos2 = returnArr[returnArr.length - op].mesh.position
+
+							var dx = (character.position.x - pos.x) * (character.position.x - pos.x)
+							var dz = (character.position.z - pos.z) * (character.position.z - pos.z)
+							var dis = Math.abs(Math.sqrt(dx + dz))
 
 							var mPoint = {
-								x: (pos.x + pos2.x) / 2,
-								z: (pos.z + pos2.z) / 2
+								x: (pos.x + character.position.x) / 2,
+								z: (pos.z + character.position.z) / 2
 							}
 
-							var aY = Math.atan2((pos.x - character.position.x), (pos.z - character.position.z))
-							TweenMax.to(character.rotation, .3, {
-								y: aY
+							var ddx = character.position.x - pos.x
+							var ddz = character.position.z - pos.z
+							var aY = Math.atan2(ddx, ddz)
+
+
+							var t = new Three.Mesh(new Three.PlaneGeometry(2, dis), new Three.MeshToonMaterial({ side: 2, opacity: .6, transparent: true, map: rod }))
+							t.position.x = mPoint.x
+							t.position.z = mPoint.z
+							t.position.y = 3
+							t.rotation.x = -Math.PI / 2
+							t.rotation.z = aY
+							t.scale.y = 0
+							SCENE.add(t)
+
+							TweenMax.to(t.scale, .45, {
+								y: 1,
+								onComplete: () => {
+									t.material.dispose()
+									t.geometry.dispose()
+									SCENE.remove(t)
+								}
 							})
+
+							character.rotation.y = aY
 
 							TweenMax.to(character.position, .2, {
 								x: pos.x,
@@ -394,20 +428,27 @@ var Skills = [
 								onComplete: () => {
 
 									// Hit
-									var h = new Three.Mesh(new Three.PlaneGeometry(9, 9), new Three.MeshToonMaterial({
+									
+									var size = 9
+									if (returnArr[returnArr.length - hh].mesh.name === "boss") size = 28
+									else size = 9
+									
+									var h = new Three.Mesh(new Three.PlaneGeometry(size, size), new Three.MeshToonMaterial({
 										transparent: true,
 										map: map
 									}))
 									h.position.copy(pos)
 									h.rotation.x = -Math.PI / 2
-									h.scale.set(0,0,0)
-									
+									h.scale.set(0, 0, 0)
+
 									SCENE.add(h)
 									TweenMax.to(h.scale, .7, {
 										x: 1.3,
 										y: 1.3,
 										z: 1.3
 									})
+
+
 
 									var ttt = setTimeout(() => {
 										h.material.dispose()
