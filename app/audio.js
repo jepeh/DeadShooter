@@ -30,9 +30,7 @@ var bladeGun = new Audio("assets/audio/bladeGun.wav")
 var pixelBulletGun = new Audio("assets/audio/pixelBullet.mp3")
 var lightningStrike = new Audio("assets/audio/lightningStrike.mp3")
 var instantKill = new Audio("assets/audio/instantKill.wav")
+var farmModeReward = new Audio("assets/audio/farmModeReward.wav")
 
 
-
-
-
-export {instantKill, pixelBulletGun, selectINV, laserLightGun, bladeGun, laserGun, mainMusic, FarmMode, gift, die, gameMode, gameWin, gameOver, normalGun, eat, setting, color, toggle, lightningStrike, energy, coin}
+export {farmModeReward, instantKill, pixelBulletGun, selectINV, laserLightGun, bladeGun, laserGun, mainMusic, FarmMode, gift, die, gameMode, gameWin, gameOver, normalGun, eat, setting, color, toggle, lightningStrike, energy, coin}

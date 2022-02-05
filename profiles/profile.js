@@ -21,7 +21,7 @@ let Profile = {
 		damage: 3,
 		img: "assets/images/textures/field.png"
 	}, {
-		name: "lightningStrike",
+		name: "run",
 		damage: 0.8, // scaling down targets to 80%
 		img: "assets/images/textures/gun.png"
 	}],

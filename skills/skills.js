@@ -73,7 +73,7 @@ var Skills = [
 					// Lightning Strikes
 
 					Utils.playSound(Sounds.lightningStrike)
-					
+
 
 					for (var o = 0; o < arrToKill.length; o++) {
 						var lightning = new Three.Mesh(new Three.PlaneGeometry(4, 150), new Three.MeshToonMaterial({
@@ -354,12 +354,12 @@ var Skills = [
 								z: HZ,
 								onComplete: () => {
 									for (var i = 0; i < returnArr.length; i++) {
-									if (returnArr[i].mesh.name === "boss") {
-										returnArr[i].hurt()
-										returnArr[i].hp -= 10
-									} else {
-										returnArr[i].hp = 0
-									}
+										if (returnArr[i].mesh.name === "boss") {
+											returnArr[i].hurt()
+											returnArr[i].hp -= 10
+										} else {
+											returnArr[i].hp = 0
+										}
 									}
 								}
 							})
@@ -384,9 +384,9 @@ var Skills = [
 								}
 							})
 						} else {
-							
-							
-							
+
+
+
 							Utils.playSound(Sounds.instantKill)
 							hh++
 
@@ -432,11 +432,11 @@ var Skills = [
 								onComplete: () => {
 
 									// Hit
-									
+
 									var size = 9
 									if (returnArr[returnArr.length - hh].mesh.name === "boss") size = 28
 									else size = 9
-									
+
 									var h = new Three.Mesh(new Three.PlaneGeometry(size, size), new Three.MeshToonMaterial({
 										transparent: true,
 										map: map
@@ -472,6 +472,64 @@ var Skills = [
 
 
 
+			return;
+		}
+	}, {
+		name: "run",
+		func: function(pos) {
+
+			var currentVel = hero.velocity
+			var rod = TextureLoader.load("assets/images/textures/ninjabladeBullet.png")
+
+			var trail = character.children[character.children.length - 1]
+			trail.material.opacity = 1
+			TweenMax.to(trail.scale, .5, {
+				z: 1
+			})
+			hero.running = true
+			hero.velocity = 40
+
+
+			var tut = setInterval(() => {
+				for (var i = 0; i < 5; i++) {
+					var si = Math.random() * (5 - 10) + 5
+					var tuts = new Three.Mesh(new Three.PlaneBufferGeometry(2, 2), new Three.MeshToonMaterial({
+						transparent: true,
+						map: rod,
+						side: 2
+					}))
+
+					var position = {
+						x: character.position.x + Math.random() * (2 - (-2)) + (-2),
+						y: character.position.y + Math.random() * (2 - (-2)) + (-2),
+						z: character.position.z + Math.random() * (2 - (-2)) + (-2)
+					}
+
+					tuts.scale.set(0, 0, 0)
+					tuts.position.copy(position)
+					tuts.rotation.x = -Math.PI / 2
+					tuts.rotation.z = character.rotation.y
+					SCENE.add(tuts)
+
+					TweenMax.to(tuts.scale, .8, {
+						x: 1,
+						y: 1,
+						z: 1,
+						onComplete: () => {
+
+						}
+					})
+				}
+			}, 1000)
+			
+			
+			var stop = setTimeout(()=>{
+				clearTimeout(stop)
+				clearInterval(tut)
+				hero.velocity = currentVel
+				hero.running = false
+				trail.material.opacity = 0
+			}, 10000)
 			return;
 		}
 	}

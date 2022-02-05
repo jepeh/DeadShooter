@@ -34,6 +34,7 @@ class Hero {
 		this.rotateAngle = new Three.Vector3(0, 1, 0)
 		this.rotateQuarternion = new Three.Quaternion()
 		this.immune = false
+		this.running = false
 
 	}
 
@@ -114,6 +115,12 @@ class Hero {
 				window.gobo = false
 				Profile.bombReload = Profile.bombReload - 1
 
+				if (this.running) {
+					var tut = this.mesh.children[this.mesh.children.length - 1]
+					tut.scale.set(0,0,0)
+			
+				}
+
 				$("#bomb").css("transform", "scale(1.05)")
 				$("#bombbar div").css("width", Profile.bombReload * 100 / 3 + "%")
 
@@ -143,6 +150,14 @@ class Hero {
 					if (sts > 2) {
 						clearInterval(shoot);
 						window.gobo = true
+						if (this.running) {
+							var tut2 = this.mesh.children[this.mesh.children.length - 1]
+							TweenMax.to(tut2.scale, .7, {
+								z: 1,
+								x: 1,
+								y: 1
+							})
+						}
 
 					} else {
 						sts++
@@ -1385,6 +1400,16 @@ class defaultHero extends Hero {
 		group.add(muzzle)
 		this.mesh = group
 
+		var trail = new Three.Mesh(new Three.PlaneBufferGeometry(4, 17), new Three.MeshToonMaterial({
+			transparent: true,
+			side: 2,
+			map: TextureLoader.load("assets/images/textures/rod.png")
+		}))
+		trail.scale.z = 0
+		trail.rotation.x = -Math.PI / 2
+		trail.position.set(0, .5, -7)
+		trail.material.opacity = 0
+		group.add(trail)
 
 		// update coins
 		$("#bulletCount").text("Bullets x" + this.bullets)

@@ -109,7 +109,7 @@ var FARM = {
 			}
 
 
-			var size = Math.floor(Math.random() * (8 - 4) + 4)
+			var size = Math.floor(Math.random() * (10 - 6) + 6)
 
 			var enemy = new Character.Enemy({ x: x, y: size / 2, z: z }, 'green', {
 				w: size,
@@ -720,6 +720,7 @@ var FARM = {
 			pLight.position.set(0, pLight.position.y, 0)
 
 			window.killed = 0
+			Utils.playSound(Sound.farmModeReward)
 
 			// Update Game data
 

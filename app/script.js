@@ -114,7 +114,7 @@ var Game = (function(w, func) {
 		}
 
 		function playResume(FB) {
-		//	$("#loader").css("display", "block");
+			//	$("#loader").css("display", "block");
 
 			var hu = setTimeout(() => {
 				$("#loader").css("display", "none")
@@ -336,7 +336,7 @@ var Game = (function(w, func) {
 		generateLevels()
 
 		// FACEBOOK DATA UPDATE
-		Utils.playMusic(Sound.mainMusic)
+
 
 		function resize() {
 
@@ -429,8 +429,16 @@ var Game = (function(w, func) {
 			}
 		})
 
-
-
+		var jj = false
+		$("body").on("touchstart", e => {
+	
+			if (!jj) {
+				Utils.playMusic(Sound.mainMusic)
+				jj = true
+				$("body").off()
+			}
+			return;
+		})
 
 		//*******************************************	
 		//Update  Personal Game Data
@@ -486,7 +494,7 @@ var Game = (function(w, func) {
 
 		ch()
 
-		
+
 		window.mm = [
 			new Three.MeshToonMaterial({ transparent: true }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
@@ -503,13 +511,13 @@ var Game = (function(w, func) {
 		SCENE.add(cu)
 
 
-		window.gunrange = new Three.Mesh(new Three.PlaneGeometry(hero.gunRange*2, hero.gunRange*2), new Three.MeshToonMaterial({
+		window.gunrange = new Three.Mesh(new Three.PlaneGeometry(hero.gunRange * 2, hero.gunRange * 2), new Three.MeshToonMaterial({
 			map: TextureLoader.load("assets/images/textures/gunrange.png"),
 			side: 2
 		}))
 		gunrange.material.transparent = true
 		gunrange.material.opacity = 0
-		gunrange.rotation.x = -Math.PI/2
+		gunrange.rotation.x = -Math.PI / 2
 		gunrange.position.copy(character.position)
 		gunrange.position.y = .2
 		SCENE.add(gunrange)
@@ -547,7 +555,6 @@ var Game = (function(w, func) {
 		MAIN GAME
 		***********************************************
 		*/
-
 
 
 
@@ -769,25 +776,25 @@ var Game = (function(w, func) {
 
 			}
 		}
-		
+
 		Obj.findTargetS = function(arr, pos) {
 			var HX = pos.x,
 				HZ = pos.z;
 			var returnArr = []
 
 			for (var d = 0; d < arr.length; d++) {
-				
+
 				var en = {
 					x: arr[d].mesh.position.x,
 					z: arr[d].mesh.position.z
 				}
 
 				if (en.x > HX - hero.gunRange && HX + hero.gunRange > en.x && HZ + hero.gunRange > en.z && en.z > HZ - hero.gunRange) {
-				returnArr.push(arr[d])
+					returnArr.push(arr[d])
 				}
 
 			}
-		
+
 			return returnArr;
 		}
 
