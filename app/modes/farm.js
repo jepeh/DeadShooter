@@ -232,109 +232,152 @@ var FARM = {
 			sReloaded = 100;
 
 		function firstSkill() {
+
+			// is First Skill Unlocked? 
 			if (firstS) {
+				// is First Skill Loaded? 
 				if (fReloaded >= 100) {
-					var arrs = window.enemies.length > 0 ? window.enemies : window.babyZombies
-					var stat = GAME.findTarget(arrs, hero.mesh.position)
-					if (stat || window.bossGame === true) {
 
-						var skillname = $("#Skill1").attr("name")
+					var skillname = $("#Skill1").attr("name")
+					var skillStat = Profile.skills[0]
+					var SkillObj = Skills.filter(e => {
+						return e.name === skillname
+					})[0]
 
-						for (var s = 0; s < Skills.length; s++) {
-							if (skillname === Skills[s].name) {
-								var pps = stat ? stat.pos : window.boss.mesh.position
-								Skills[s].func(pps, phys)
-								fReloaded = 0
-								$("#Skill1 img").css({
-									opacity: .3
-								})
 
-								var r = 1;
-								var rel = setInterval(() => {
-									if (r > 100) {
-										fReloaded = 100
-										$("#Skill1 div").css({
-											top: "100%",
-											height: "0%",
-											opacity: 0
+					// if special skill
+					if (skillStat.type === "special") {
 
-										})
-										$("#Skill1 img").css({
-											opacity: 1
-										})
-										clearInterval(rel)
-									} else {
-										r++
-										$("#Skill1 div").css({
-											height: r + "%",
-											top: 100 - r + "%",
-											opacity: 1
-										})
-									}
-								}, 30);
-							}
-						}
-
-					} else {
-						GAME.notif("No Target!")
+						// Skill Function
+						// parameter required, physics.
+						SkillObj.func(phys)
 					}
 
-				}
+					// if static Skill
+					else if (skillStat.type === "static") {
 
+						// arrays of enemies to eliminate
+						var arrs = window.enemies.length > 0 ? window.enemies : window.babyZombies
+
+						// Skill Function
+						// required parameter, array of enemies
+						SkillObj.func(arrs)
+
+					}
+
+					// if dynamic Skill
+					else if (skillStat.type === "dynamic") {
+
+
+
+					}
+
+					// Reload second Skill
+					fReloaded = 0
+					$("#Skill1 img").css({
+						opacity: .3
+					})
+
+					var r = 1;
+					var rel = setInterval(() => {
+						if (r > 100) {
+							fReloaded = 100
+							$("#Skill1 div").css({
+								top: "100%",
+								height: "0%",
+								opacity: 0
+							})
+							$("#Skill1 img").css({
+								opacity: 1
+							})
+							clearInterval(rel)
+						} else {
+							r++
+							$("#Skill1 div").css({
+								height: r + "%",
+								top: 100 - r + "%",
+								opacity: 1
+							})
+						}
+					}, skillStat.cooldown);
+
+				}
 			}
 
 			return;
 		}
 
 		function secondSkill() {
+
+			// is Second Skill Unlocked? 
 			if (secondS) {
+				// is First Skill Loaded? 
 				if (sReloaded >= 100) {
-					var arrs = window.enemies.length > 0 ? enemies : babyZombies
-					var stat = GAME.findTarget(arrs, hero.mesh.position)
 
-					if (stat || window.bossGame === true) {
+					var skillname = $("#Skill2").attr("name")
+					var skillStat = Profile.skills[1]
+					var SkillObj = Skills.filter(e => {
+						return e.name === skillname
+					})[0]
 
-						var skillname = $("#Skill2").attr("name")
 
-						for (var s = 0; s < Skills.length; s++) {
-							if (skillname === Skills[s].name) {
-								var pps = stat ? stat.pos : window.boss.mesh.position
-								Skills[s].func(pps, phys)
-								sReloaded = 0
-								$("#Skill2 img").css({
-									opacity: .3
-								})
+					// if special skill
+					if (skillStat.type === "special") {
 
-								var r = 1;
-								var rel = setInterval(() => {
-									if (r > 100) {
-										sReloaded = 100
-										$("#Skill2 div").css({
-											top: "100%",
-											height: "0%",
-											opacity: 0
-
-										})
-										$("#Skill2 img").css({
-											opacity: 1
-										})
-										clearInterval(rel)
-									} else {
-										r++
-										$("#Skill2 div").css({
-											height: r + "%",
-											top: 100 - r + "%",
-											opacity: 1
-										})
-									}
-								}, 30);
-							}
-						}
-					} else {
-						GAME.notif("No Target!")
+						// Skill Function
+						// parameter required, physics.
+						SkillObj.func(phys)
 					}
-				}
 
+					// if static Skill
+					else if (skillStat.type === "static") {
+
+						// arrays of enemies to eliminate
+						var arrs = window.enemies.length > 0 ? window.enemies : window.babyZombies
+
+						// Skill Function
+						// required parameter, array of enemies
+						SkillObj.func(arrs)
+
+					}
+
+					// if dynamic Skill
+					else if (skillStat.type === "dynamic") {
+
+
+
+					}
+
+					// Reload second Skill
+					sReloaded = 0
+					$("#Skill2 img").css({
+						opacity: .3
+					})
+
+					var r = 1;
+					var rel = setInterval(() => {
+						if (r > 100) {
+							sReloaded = 100
+							$("#Skill2 div").css({
+								top: "100%",
+								height: "0%",
+								opacity: 0
+							})
+							$("#Skill2 img").css({
+								opacity: 1
+							})
+							clearInterval(rel)
+						} else {
+							r++
+							$("#Skill2 div").css({
+								height: r + "%",
+								top: 100 - r + "%",
+								opacity: 1
+							})
+						}
+					}, skillStat.cooldown);
+
+				}
 			}
 
 			return;
@@ -645,7 +688,7 @@ var FARM = {
 		for (var c = 0; c < droppedCoins.length; c++) {
 			SCENE.remove(droppedCoins[c])
 		}
-		
+
 		for (var cc = 0; cc < babyZombies.length; cc++) {
 			SCENE.remove(babyZombies[cc])
 		}
@@ -822,7 +865,7 @@ var FARM = {
 					TweenMax.to(m.scale, .4, {
 						y: 1,
 						onComplete: () => {
-							CAMERA.position.set(character.position.x+25, 75, character.position.z+25)
+							CAMERA.position.set(character.position.x + 25, 75, character.position.z + 25)
 							CAMERA.lookAt(character.position)
 							CONTROLS.target = character.position
 							window.gobo = true

@@ -225,7 +225,7 @@ var Skills = [
 	{
 		name: "forceField",
 		duration: 19000,
-		func: function(pos, p) {
+		func: function(p) {
 			const field = new Three.Mesh(new Three.SphereGeometry(6), new Three.MeshToonMaterial())
 			p.addMesh(field, 1)
 			field.material.transparent = true
@@ -271,7 +271,7 @@ var Skills = [
 	{
 		name: "instantKill",
 		duration: 20000,
-		func: function(pos) {
+		func: function(arr) {
 
 			window.gobo = false
 			hero.immune = true
@@ -286,8 +286,7 @@ var Skills = [
 			var HX = character.position.x,
 				HZ = character.position.z;
 			var returnArr = []
-			var arr = window.enemies.length > 0 ? enemies : babyZombies
-
+			
 			for (var d = 0; d < arr.length; d++) {
 
 				var en = {
@@ -476,14 +475,15 @@ var Skills = [
 		}
 	}, {
 		name: "run",
-		func: function(pos) {
+		duration: 10000,
+		func: function(phys) {
 
 			var currentVel = hero.velocity
 			var rod = TextureLoader.load("assets/images/textures/ninjabladeBullet.png")
 
 			var trail = character.children[character.children.length - 1]
 			trail.material.opacity = 1
-			tral.position.y = 1
+			trail.position.y = 1
 			TweenMax.to(trail.scale, .5, {
 				z: 1
 			})
@@ -531,7 +531,7 @@ var Skills = [
 				hero.running = false
 				trail.material.opacity = 0
 				trail.position.y = -3
-			}, 10000)
+			}, this.duration)
 			return;
 		}
 	}

@@ -18,13 +18,17 @@ let Profile = {
 	countdownMin: 5,
 	keys: 0,
 	skills: [{
-		name: "instantKill",
-		damage: 3,
-		img: "assets/images/textures/field.png"
-	}, {
 		name: "lightningStrike",
+		damage: 3,
+		img: "assets/images/textures/field.png",
+		type: "static",
+		cooldown: 490
+	}, {
+		name: "forceField",
 		damage: 0.8, // scaling down targets to 80%
-		img: "assets/images/textures/gun.png"
+		img: "assets/images/textures/gun.png",
+		type: "special",
+		cooldown: 500
 	}],
 	Heroes: [
 		{

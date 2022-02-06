@@ -1256,9 +1256,24 @@ class BabyZombies {
 		this.x = hero.mesh.position.x - this.mesh.position.x
 
 
-		this.mesh.position.x += mX
-		this.mesh.position.z += mZ
+		if (window.shieldOn) {
 
+			var dx = window.character.position.x - this.mesh.position.x
+			var dz = window.character.position.z - this.mesh.position.z
+			var dis = Math.abs(Math.sqrt((dx * dx) + (dz * dz)))
+
+			if (dis <= 12) {
+				this.mesh.position.x += -mX//this.mesh.position.x
+				this.mesh.position.z += -mZ//this.mesh.position.z
+			} else {
+				this.mesh.position.x += mX
+				this.mesh.position.z += mZ
+			}
+
+		} else {
+			this.mesh.position.x += mX
+			this.mesh.position.z += mZ
+		}
 
 		var PosXBackB = this.mesh.position.x - this.width / 2,
 			PosXFrontB = this.mesh.position.x + this.width / 2, //self.mesh.geometry.parameters.width / 2,
