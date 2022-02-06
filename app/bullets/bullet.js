@@ -85,11 +85,13 @@ var Bullets = {
 			y: 1,
 			z: 1
 		})
-
-		var tot = 0
+		g.done = false
+		
+		
 		var tut = setInterval(() => {
-			if (tot > 3) {
+			if (g.done) {
 				clearInterval(tut)
+		
 			} else {
 				//	for (var i = 0; i < 2; i++) {
 				var size = Math.random() * (2.8 - 1) + 1
@@ -121,9 +123,10 @@ var Bullets = {
 						tuts.material.dispose()
 						tuts.geometry.dispose()
 						SCENE.remove(tuts)
+						tuts = null
 					}
 				})
-				tot++
+			
 			}
 		}, 50)
 
@@ -252,7 +255,7 @@ var Bullets = {
 
 		var head = new Three.Mesh(new Three.BoxGeometry(2, 2, 2), new Three.MeshNormalMaterial())
 		head.position.set(0, 0, -5)
-		head.rotation.y = Math.random() * 1 + 2
+	
 
 		g.add(tail, head)
 		g.position.copy(hero.mesh.position)
@@ -260,13 +263,13 @@ var Bullets = {
 		Utils.playSound(Sounds.pixelBulletGun)
 
 
-		var tot = 0
+		
 		var tut = setInterval(() => {
-			if (tot > 3) {
+			if (g.done) {
 				clearInterval(tut)
 			} else {
 				//	for (var i = 0; i < 2; i++) {
-				var size = Math.random() * (.8 - .1) + .1
+				var size = Math.random() * (1 - .1) + .1
 				var tuts = new Three.Mesh(new Three.BoxBufferGeometry(size, size, size), new Three.MeshNormalMaterial())
 
 				var position = {
@@ -282,7 +285,7 @@ var Bullets = {
 				//	tutsi.push(tuts)
 				//	}
 
-				TweenMax.to(tuts.scale, .4, {
+				TweenMax.to(tuts.scale, 1, {
 					x: .1,
 					y: .1,
 					z: .1,
@@ -290,9 +293,10 @@ var Bullets = {
 						tuts.material.dispose()
 						tuts.geometry.dispose()
 						SCENE.remove(tuts)
+						tuts = null
 					}
 				})
-				tot++
+			
 			}
 		}, 50)
 
@@ -491,7 +495,7 @@ function pixelbullet(pos) {
 
 	for (var i = 0; i < 10; i++) {
 
-		var geom = new Three.BoxGeometry(2, 2, 2);
+		var geom = new Three.BoxGeometry(1.5, 1.5, 1.5);
 		var mat = new Three.MeshNormalMaterial({
 
 		});

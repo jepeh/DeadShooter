@@ -295,6 +295,8 @@ class Hero {
 				}
 
 				this.scene.remove(droppedBomb[b])
+				droppedBomb[b].done = true
+				droppedBomb[b] = null
 				droppedBomb.splice(b, 1)
 			}
 		}
@@ -672,7 +674,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 				bombZ = droppedBomb[b].position.z;
 
 			if (PosZFrontB > bombZ && bombZ > PosZBackB && PosXFrontB > bombX && bombX > PosXBackB) {
-
+				droppedBomb[b].done = true
 				// Hurt animation for enemy
 				self.mesh.material.color.set("red")
 				var u = setTimeout(() => {
@@ -694,6 +696,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 				self.scene.remove(droppedBomb[b])
 				self.scene.remove(droppedBomb[b].child)
 				window.droppedBomb[b].removed = true
+				window.droppedBomb[b] = null
 				window.droppedBomb.splice(b, 1)
 
 
@@ -979,6 +982,8 @@ var EnemyBoss = function() {
 
 				SCENE.remove(droppedBomb[b])
 				window.droppedBomb[b].removed = true
+				window.droppedBomb[b].done = true
+				window.droppedBomb[b] = null
 				window.droppedBomb.splice(b, 1)
 
 
@@ -1336,6 +1341,9 @@ class BabyZombies {
 				window.SCENE.remove(droppedBomb[b])
 				SCENE.remove(droppedBomb[b].child)
 				window.droppedBomb[b].removed = true
+				window.droppedBomb[b].done = true
+				window.droppedBomb[b] = null
+				
 				window.droppedBomb.splice(b, 1)
 
 			}
