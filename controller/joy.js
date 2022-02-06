@@ -2,6 +2,7 @@ import * as Sounds from '../app/audio.js'
 
 var JoyStick = (function(container, parameters)
 {
+
 	parameters = parameters || {};
 	var title = parameters.title,
 		width = (typeof parameters.width === "undefined" ? 0 : parameters.width),
@@ -47,7 +48,7 @@ var JoyStick = (function(container, parameters)
 
 
 	var pressed = 0; // Bool - 1=Yes - 0=No
-	var offSet = $("#joystick").offset()
+	var offSet = $(`#${title}`).offset()
 
 
 	var boxAreaX = canvas.width / 3
@@ -104,44 +105,86 @@ var JoyStick = (function(container, parameters)
 	function onTouchMove(event)
 	{
 
-		// Prevent the browser from doing its default thing (scroll, zoom)
-		event.preventDefault();
-		if (event.targetTouches[0].target === canvas && window.gobo)
-		{
-
-
-			joy.GetDir()
-
-
-			movedX = event.targetTouches[0].pageX;
-			movedY = event.targetTouches[0].pageY;
-			// Manage offset
-			if (canvas.offsetParent.tagName.toUpperCase() === "BODY")
+		if (container === "joystick") {
+			// Prevent the browser from doing its default thing (scroll, zoom)
+			event.preventDefault();
+			if (event.targetTouches[0].target === canvas && window.gobo)
 			{
-				movedX -= canvas.offsetLeft;
-				movedY -= canvas.offsetTop;
+
+
+				joy.GetDir()
+
+
+				movedX = event.targetTouches[0].pageX;
+				movedY = event.targetTouches[0].pageY;
+				// Manage offset
+				if (canvas.offsetParent.tagName.toUpperCase() === "BODY")
+				{
+					movedX -= canvas.offsetLeft;
+					movedY -= canvas.offsetTop;
+				}
+				else
+				{
+					movedX -= canvas.offsetParent.offsetLeft;
+					movedY -= canvas.offsetParent.offsetTop;
+				}
+				// Delete canvas
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				// Redraw object
+
+				drawInternal();
+
+
+			} else {
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				// Redraw object
+
+				movedX = centerX;
+				movedY = centerY;
+
+				drawInternal();
 			}
-			else
+		} else if (container === "skillpad") {
+			// Prevent the browser from doing its default thing (scroll, zoom)
+			event.preventDefault();
+			if (event.targetTouches[0].target === canvas && window.gobo)
 			{
-				movedX -= canvas.offsetParent.offsetLeft;
-				movedY -= canvas.offsetParent.offsetTop;
+
+
+				skillPad.GetDirSkill()
+
+
+				movedX = event.targetTouches[0].pageX;
+				movedY = event.targetTouches[0].pageY;
+				// Manage offset
+				if (canvas.offsetParent.tagName.toUpperCase() === "BODY")
+				{
+					movedX -= canvas.offsetLeft;
+					movedY -= canvas.offsetTop;
+				}
+				else
+				{
+					movedX -= canvas.offsetParent.offsetLeft;
+					movedY -= canvas.offsetParent.offsetTop;
+				}
+				// Delete canvas
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				// Redraw object
+
+				drawInternal();
+
+
+			} else {
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				// Redraw object
+
+				movedX = centerX;
+				movedY = centerY;
+
+				drawInternal();
 			}
-			// Delete canvas
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			// Redraw object
-
-			drawInternal();
-
-
-		} else {
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			// Redraw object
-
-			movedX = centerX;
-			movedY = centerY;
-
-			drawInternal();
 		}
+
 	}
 
 	function onTouchEnd(event)

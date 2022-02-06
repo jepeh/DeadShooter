@@ -7,7 +7,7 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
-	bulletType: "phoenixfireBullet",
+	bulletType: "laserlightBullet",
 	bombDamage: 20,
 	energy: 10,
 	mapRadius: 120,
@@ -22,13 +22,13 @@ let Profile = {
 		damage: 3,
 		img: "assets/images/textures/field.png",
 		type: "static",
-		cooldown: 490
+		cooldown: 10
 	}, {
-		name: "forceField",
+		name: "run",
 		damage: 0.8, // scaling down targets to 80%
 		img: "assets/images/textures/gun.png",
 		type: "special",
-		cooldown: 500
+		cooldown: 10
 	}],
 	Heroes: [
 		{
@@ -80,7 +80,7 @@ let Profile = {
 	},
 	items: [],
 	bullets: [{
-		name: "phoenixfireBullet",
+		name: "laserlightBullet",
 		description: "",
 		stats: {
 			damage: "+10%",

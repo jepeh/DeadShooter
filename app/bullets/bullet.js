@@ -2,7 +2,7 @@ import * as Three from '/src/three.js'
 import * as Sounds from '../audio.js'
 import * as Utils from '../utils.js'
 import { Profile } from '/profiles/profile.js'
-import {GAME} from '../script.js'
+import { GAME } from '../script.js'
 
 
 var Bullets = {
@@ -66,6 +66,8 @@ var Bullets = {
 	laserLight: function() {
 		var g = new Three.Group()
 
+		var blade = TextureLoader.load("assets/images/textures/ninjabladeBullet.png")
+
 		var b = new Three.Mesh(new Three.PlaneBufferGeometry(7, 9), new Three.MeshToonMaterial({
 			transparent: true,
 			map: hero.mapBullet
@@ -83,6 +85,47 @@ var Bullets = {
 			y: 1,
 			z: 1
 		})
+
+		var tot = 0
+		var tut = setInterval(() => {
+			if (tot > 3) {
+				clearInterval(tut)
+			} else {
+				//	for (var i = 0; i < 2; i++) {
+				var size = Math.random() * (2.8 - 1) + 1
+				var tuts = new Three.Mesh(new Three.PlaneGeometry(size, size), new Three.MeshToonMaterial({
+					transparent: true,
+					side: 2,
+					map: blade
+				}))
+				tuts.rotation.x = -Math.PI / 2
+
+				var position = {
+					x: g.position.x + Math.random() * (2 - 1) + 1,
+					y: g.position.y + Math.random() * (2 - 1) + 1,
+					z: g.position.z + Math.random() * (2 - 1) + 1
+				}
+
+				//	tuts.scale.set(0, 0, 0)
+				tuts.position.copy(position)
+
+				SCENE.add(tuts)
+				//	tutsi.push(tuts)
+				//	}
+
+				TweenMax.to(tuts.scale, .8, {
+					x: .1,
+					y: .1,
+					z: .1,
+					onComplete: () => {
+						tuts.material.dispose()
+						tuts.geometry.dispose()
+						SCENE.remove(tuts)
+					}
+				})
+				tot++
+			}
+		}, 50)
 
 		Utils.playSound(Sounds.laserLightGun)
 
@@ -211,18 +254,48 @@ var Bullets = {
 		head.position.set(0, 0, -5)
 		head.rotation.y = Math.random() * 1 + 2
 
-		for (var i = 0; i < 6; i++) {
-
-			var x = Math.random() * (.8 - (-.8)) + (-.8)
-
-			var h2 = new Three.Mesh(new Three.BoxGeometry(.4, .4, .4), new Three.MeshToonMaterial())
-			h2.position.set(x, x, x)
-			//	g.add(h2)
-		}
 		g.add(tail, head)
-
 		g.position.copy(hero.mesh.position)
+
 		Utils.playSound(Sounds.pixelBulletGun)
+
+
+		var tot = 0
+		var tut = setInterval(() => {
+			if (tot > 3) {
+				clearInterval(tut)
+			} else {
+				//	for (var i = 0; i < 2; i++) {
+				var size = Math.random() * (.8 - .1) + .1
+				var tuts = new Three.Mesh(new Three.BoxBufferGeometry(size, size, size), new Three.MeshNormalMaterial())
+
+				var position = {
+					x: g.position.x + Math.random() * (2 - 1) + 1,
+					y: g.position.y + Math.random() * (2 - 1) + 1,
+					z: g.position.z + Math.random() * (2 - 1) + 1
+				}
+
+				//	tuts.scale.set(0, 0, 0)
+				tuts.position.copy(position)
+
+				SCENE.add(tuts)
+				//	tutsi.push(tuts)
+				//	}
+
+				TweenMax.to(tuts.scale, .4, {
+					x: .1,
+					y: .1,
+					z: .1,
+					onComplete: () => {
+						tuts.material.dispose()
+						tuts.geometry.dispose()
+						SCENE.remove(tuts)
+					}
+				})
+				tot++
+			}
+		}, 50)
+
 
 		return g;
 	},
@@ -250,6 +323,47 @@ var Bullets = {
 			y: 2
 		})
 
+
+		var tot = 0
+		var tut = setInterval(() => {
+			if (tot > 3) {
+				clearInterval(tut)
+			} else {
+				//	for (var i = 0; i < 2; i++) {
+				var size = Math.random() * (2.8 - 1) + 1
+				var tuts = new Three.Mesh(new Three.PlaneGeometry(size, size), new Three.MeshToonMaterial({
+					transparent: true,
+					side: 2,
+					map: hero.mapBullet
+				}))
+				tuts.rotation.x = -Math.PI / 2
+
+				var position = {
+					x: g.position.x + Math.random() * (2 - 1) + 1,
+					y: g.position.y + Math.random() * (2 - 1) + 1,
+					z: g.position.z + Math.random() * (2 - 1) + 1
+				}
+
+				//	tuts.scale.set(0, 0, 0)
+				tuts.position.copy(position)
+
+				SCENE.add(tuts)
+				//	tutsi.push(tuts)
+				//	}
+
+				TweenMax.to(tuts.scale, .8, {
+					x: .1,
+					y: .1,
+					z: .1,
+					onComplete: () => {
+						tuts.material.dispose()
+						tuts.geometry.dispose()
+						SCENE.remove(tuts)
+					}
+				})
+				tot++
+			}
+		}, 50)
 		Utils.playSound(Sounds.laserLightGun)
 
 		return g;
@@ -377,7 +491,7 @@ function pixelbullet(pos) {
 
 	for (var i = 0; i < 10; i++) {
 
-		var geom = new Three.BoxGeometry(3.3, 3.3, 3.3);
+		var geom = new Three.BoxGeometry(2, 2, 2);
 		var mat = new Three.MeshNormalMaterial({
 
 		});
@@ -666,7 +780,7 @@ function lasertube(pos) {
 	d.position.z = -2
 	g.add(d)
 
-	g.rotation.x = Math.PI/2
+	g.rotation.x = Math.PI / 2
 
 	g.position.copy(pos)
 	g.scale.set(0, 0, 0)
@@ -678,7 +792,7 @@ function lasertube(pos) {
 		z: 1,
 		onComplete: function() {
 			if (g.parent) {
-				g.children.forEach(e =>{
+				g.children.forEach(e => {
 					e.material.dispose()
 					e.geometry.dispose()
 				})

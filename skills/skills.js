@@ -286,7 +286,7 @@ var Skills = [
 			var HX = character.position.x,
 				HZ = character.position.z;
 			var returnArr = []
-			
+
 			for (var d = 0; d < arr.length; d++) {
 
 				var en = {
@@ -481,20 +481,15 @@ var Skills = [
 			var currentVel = hero.velocity
 			var rod = TextureLoader.load("assets/images/textures/ninjabladeBullet.png")
 
-			var trail = character.children[character.children.length - 1]
-			trail.material.opacity = 1
-			trail.position.y = 1
-			TweenMax.to(trail.scale, .5, {
-				z: 1
-			})
+			
 			hero.running = true
-			hero.velocity = 40
+			hero.velocity = hero.velocity * 2.5
 
-
+			var tutsi = []
 			var tut = setInterval(() => {
-				for (var i = 0; i < 5; i++) {
-					var si = Math.random() * (5 - 10) + 5
-					var tuts = new Three.Mesh(new Three.PlaneBufferGeometry(2, 2), new Three.MeshToonMaterial({
+			//	for (var i = 0; i < 2; i++) {
+					var size = Math.random() * (2 - 1) + 1
+					var tuts = new Three.Mesh(new Three.PlaneBufferGeometry(size, size), new Three.MeshToonMaterial({
 						transparent: true,
 						map: rod,
 						side: 2
@@ -506,31 +501,37 @@ var Skills = [
 						z: character.position.z + Math.random() * (2 - (-2)) + (-2)
 					}
 
-					tuts.scale.set(0, 0, 0)
+				//	tuts.scale.set(0, 0, 0)
 					tuts.position.copy(position)
 					tuts.rotation.x = -Math.PI / 2
 					tuts.rotation.z = character.rotation.y
 					SCENE.add(tuts)
-
-					TweenMax.to(tuts.scale, .8, {
-						x: 1,
-						y: 1,
-						z: 1,
-						onComplete: () => {
-
-						}
+					tutsi.push(tuts)
+					
+			//	}
+				for (var ii = 0; ii < tutsi.length; ii++) {
+				
+					TweenMax.to(tutsi[ii].scale, 2, {
+						x: 0,
+						y: 0,
+						z: 0
 					})
 				}
-			}, 1000)
 			
-			
-			var stop = setTimeout(()=>{
+			}, 70)
+
+
+			var stop = setTimeout(() => {
 				clearTimeout(stop)
 				clearInterval(tut)
 				hero.velocity = currentVel
 				hero.running = false
-				trail.material.opacity = 0
-				trail.position.y = -3
+				for(var u=0; u<tutsi.length; u++){
+					tutsi[u].material.dispose()
+					tutsi[u].geometry.dispose()
+					SCENE.remove(tutsi[u])
+				}
+				tutsi.length = 0
 			}, this.duration)
 			return;
 		}

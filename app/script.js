@@ -329,7 +329,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 35
 				})
 			} while (cnt <= 50)
 		}
@@ -558,7 +558,6 @@ ch()
 		*/
 
 
-
 		var grp = new Three.Group()
 		var mk = TextureLoader.load("assets/images/textures/rod.png")
 
@@ -585,6 +584,13 @@ ch()
 			height: 130
 		})
 
+		window.skillPad = new JoyStick("skillpad", {
+			width: 150,
+			height: 150
+		})
+
+		// align skillpad
+		
 
 		// animation game
 		function startAnim(lvl) {

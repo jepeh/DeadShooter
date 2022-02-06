@@ -154,12 +154,12 @@ var FARM = {
 
 			})
 
-			$("#Skill1").on("touchstart", () => {
-				firstSkill()
+			$("#Skill1").on("touchstart", e => {
+				firstSkill(e)
 
 			})
-			$("#Skill2").on("touchstart", () => {
-				secondSkill()
+			$("#Skill2").on("touchstart", e => {
+				secondSkill(e)
 			})
 		} else {
 			document.getElementById("atombomb").addEventListener('click', () => {
@@ -180,12 +180,12 @@ var FARM = {
 				hero.bomb()
 			})
 
-			$("#Skill1").on("click", () => {
-				firstSkill()
+			$("#Skill1").on("click", e => {
 
+				firstSkill(e)
 			})
-			$("#Skill2").on("click", () => {
-				secondSkill()
+			$("#Skill2").on("click", e => {
+				secondSkill(e)
 			})
 		}
 
@@ -231,7 +231,7 @@ var FARM = {
 		var fReloaded = 100,
 			sReloaded = 100;
 
-		function firstSkill() {
+		function firstSkill(event) {
 
 			// is First Skill Unlocked? 
 			if (firstS) {
@@ -267,9 +267,7 @@ var FARM = {
 
 					// if dynamic Skill
 					else if (skillStat.type === "dynamic") {
-
-
-
+						//var pos = document.getElementById("utils")
 					}
 
 					// Reload second Skill
