@@ -364,16 +364,38 @@ var FARM = {
 						return e.name === skillStat.name
 					})[0]
 
-
-
 					// if dynamic Skill
 					if (skillStat.type === "dynamic") {
+					window.skillFunc = SkillObj.func
+			
+
+						// show skillPad
+						$("#skillpad").css({
+							display: "block",
+							top: $("#utils")[0].offsetTop,
+							left: $("#utils")[0].offsetLeft
+						})
+						// hide Utils Pad
+						$("#utils").css("display", "none")
+						
+						var arrow = new Three.Mesh(new Three.PlaneGeometry(20,20), new Three.MeshToonMaterial({
+							transparent: true,
+							side: 2,
+							map: TextureLoader.load("assets/images/skillArrow.png")
+						}))
+						
+						arrow.rotation.x = -Math.PI/2
+						
+						character.add(arrow)
+						
+						window.skillArrow = arrow
+									
 
 						// Dynamic Function
 						// parameter required, target vector
 
 						// Reload third Skill
-						tReloaded = 0
+						/*tReloaded = 0
 						$("#Skill3 img").css({
 							opacity: .3
 						})
@@ -399,7 +421,7 @@ var FARM = {
 									opacity: 1
 								})
 							}
-						}, skillStat.cooldown);
+						}, skillStat.cooldown);*/
 					}
 
 				}

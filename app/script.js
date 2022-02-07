@@ -441,6 +441,32 @@ var Game = (function(w, func) {
 			return;
 		})
 
+		var left = innerWidth * 1
+		var top = innerHeight * .62
+		
+		$("#utils").css({
+			top: top+"px",
+			left: left+"px",
+			marginLeft: "-200px"
+		})
+		
+		$("#utils")[0].offsetLeft
+		
+		
+		$("#skillpad").css({
+			top: $("#utils")[0].offsetTop,
+			left: $("#utils")[0].offsetLeft
+		})
+		
+		var leftS = innerWidth * .5
+		var topS = innerHeight * .5
+		
+		
+		$("#skillCancel").css({
+			top: topS+"px",
+			left: leftS+"px"
+		})
+		
 		//*******************************************	
 		//Update  Personal Game Data
 		//*******************************************

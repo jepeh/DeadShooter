@@ -55,16 +55,18 @@ html {
 	opacity: 1;
 	background-color: blue;
 	z-index: 4;
-	
+}
+#skillCancel {
+	position: absolute;
+	width: 70px;
+	height: 70px;
+	background-color: red;
 }
 
 #utils {
 	position: absolute;
 	width: 180px;
 	height: 180px;
-	top: 62%;
-	left: 100%;
-	margin-left: -200px;
 	display: none;
 	z-index: 5;
 	grid-template-rows: 50% 50%;

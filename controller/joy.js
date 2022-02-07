@@ -147,11 +147,11 @@ var JoyStick = (function(container, parameters)
 		} else if (container === "skillpad") {
 			// Prevent the browser from doing its default thing (scroll, zoom)
 			event.preventDefault();
-			if (event.targetTouches[0].target === canvas && window.gobo)
-			{
+		//	if (event.targetTouches[0].target === canvas && window.gobo)
+		//	{
 
 
-				skillPad.GetDirSkill()
+				skillPad.GetDirSkill(event)
 
 
 				movedX = event.targetTouches[0].pageX;
@@ -174,7 +174,7 @@ var JoyStick = (function(container, parameters)
 				drawInternal();
 
 
-			} else {
+			/*} else {
 				context.clearRect(0, 0, canvas.width, canvas.height);
 				// Redraw object
 
@@ -182,13 +182,18 @@ var JoyStick = (function(container, parameters)
 				movedY = centerY;
 
 				drawInternal();
-			}
+			}*/
 		}
 
 	}
 
 	function onTouchEnd(event)
 	{
+		
+		if (container === "skillpad"){
+			window.skillFunc(window.enemies)
+		}
+		
 		//	pressed = 0;
 		keyPressed = ""
 
@@ -329,6 +334,94 @@ var JoyStick = (function(container, parameters)
 		}
 		return;
 	}
+
+
+	this.GetDirSkill = function(event)
+	{
+
+		/*	var eX = e.clientX - offSet.left
+			var eY = e.clientY - offSet.top
+			
+			if (eX >= centerX) {
+				eX = eX - centerX
+				
+			} else {
+				eX = -(centerX - eX)
+			}
+			
+			if (eY >= centerY) {
+				eY = centerY - eY
+			} else {
+				eY = -(eY - centerY)
+			}
+			
+			eX = eX / centerX
+			eY = eY / centerY
+			
+			eX >= 1 ? eX = 1 : eX = eX
+			eY >= 1 ? eY = 1 : eY = eY
+			
+			eX <= -1 ? eX = -1 : eX = eX
+			eY <= -1 ? eY = -1 : eY = eY
+			
+			keyPressed = {
+				x: eX,
+				z: eY
+			}*/
+
+		var RY;
+		
+		
+		var horizontal = movedX;
+		var vertical = movedY;
+
+		if (vertical >= 0 && vertical <= boxAreaY) {
+			// N
+			RY = 0
+			if (horizontal >= 0 && horizontal <= boxAreaX) {
+				// NW
+				RY = Math.PI / 4
+			} else if (horizontal >= boxAreaX * 2 && horizontal <= boxAreaX * 3) {
+				// NE
+				RY = -Math.PI / 4
+			}
+
+		} else if (vertical >= boxAreaY * 2 && vertical <= boxAreaY * 3) {
+			// s
+			RY = Math.PI
+			if (horizontal >= 0 && horizontal <= boxAreaX) {
+				// SW
+				RY = Math.PI / 4 + Math.PI / 2
+			} else if (horizontal >= boxAreaX * 2 && horizontal <= boxAreaX * 3) {
+				// SE
+				RY = -Math.PI / 4 - Math.PI / 2
+			}
+
+		} else if (horizontal >= 0 && horizontal <= boxAreaX) {
+			// W
+			RY = Math.PI / 2
+		} else if (horizontal >= boxAreaX * 2 && horizontal <= boxAreaX * 3) {
+			// E
+			RY = -Math.PI / 2
+		}
+
+		
+		// update quaternions
+		var angleYCameraDirection = Math.atan2(
+			(hero.mesh.position.x - window.CAMERA.position.x),
+			(hero.mesh.position.z - window.CAMERA.position.z))
+
+		var angle = angleYCameraDirection + RY
+
+		TweenMax.to(window.skillArrow.rotation, .5, {
+			z: RY
+		})
+
+		
+		//	window.skillArrow.rotation.z = 
+
+		return;
+	};
 
 });
 
