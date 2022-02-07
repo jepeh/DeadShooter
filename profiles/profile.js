@@ -34,7 +34,7 @@ let Profile = {
 	},
 		{
 			// Dynamic Skill, Skill 3
-			name: "laserBeam",
+			name: "instantKill",
 			damage: 0.8, // scaling down targets to 80%
 			img: "assets/images/coin.png",
 			type: "dynamic",

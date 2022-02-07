@@ -366,8 +366,8 @@ var FARM = {
 
 					// if dynamic Skill
 					if (skillStat.type === "dynamic") {
-					window.skillFunc = SkillObj.func
-			
+						window.skillFunc = SkillObj.func
+
 
 						// show skillPad
 						$("#skillpad").css({
@@ -377,51 +377,55 @@ var FARM = {
 						})
 						// hide Utils Pad
 						$("#utils").css("display", "none")
-						
-						var arrow = new Three.Mesh(new Three.PlaneGeometry(20,20), new Three.MeshToonMaterial({
+
+						var arrow = new Three.Mesh(new Three.PlaneGeometry(40, 40), new Three.MeshToonMaterial({
 							transparent: true,
 							side: 2,
+							opacity: .25,
 							map: TextureLoader.load("assets/images/skillArrow.png")
 						}))
-						
-						arrow.rotation.x = -Math.PI/2
-						
+						arrow.position.y = .5
+						arrow.rotation.x = -Math.PI / 2
+
 						character.add(arrow)
-						
+
 						window.skillArrow = arrow
-									
 
 						// Dynamic Function
 						// parameter required, target vector
 
 						// Reload third Skill
-						/*tReloaded = 0
-						$("#Skill3 img").css({
-							opacity: .3
-						})
 
-						var r = 1;
-						var rel = setInterval(() => {
-							if (r > 100) {
-								tReloaded = 100
-								$("#Skill3 div").css({
-									top: "100%",
-									height: "0%",
-									opacity: 0
-								})
-								$("#Skill3 img").css({
-									opacity: 1
-								})
-								clearInterval(rel)
-							} else {
-								r++
-								$("#Skill3 div").css({
-									height: r + "%",
-									top: 100 - r + "%",
-									opacity: 1
-								})
-							}
-						}, skillStat.cooldown);*/
+						window.thirdSkillDone = function() {
+							tReloaded = 0
+							$("#Skill3 img").css({
+								opacity: .3
+							})
+
+							var r = 1;
+							var rel = setInterval(() => {
+								if (r > 100) {
+									tReloaded = 100
+									$("#Skill3 div").css({
+										top: "100%",
+										height: "0%",
+										opacity: 0
+									})
+									$("#Skill3 img").css({
+										opacity: 1
+									})
+									clearInterval(rel)
+								} else {
+									r++
+									$("#Skill3 div").css({
+										height: r + "%",
+										top: 100 - r + "%",
+										opacity: 1
+									})
+								}
+							}, skillStat.cooldown);
+						window.thirdSkillDone = null
+						}
 					}
 
 				}
@@ -593,7 +597,7 @@ var FARM = {
 		for (var o = 0; o < droppedBomb.length; o++) {
 			droppedBomb[o].done = true
 			droppedBomb[o].removed = true
-			droppedBomb[o].children.forEach( e =>{
+			droppedBomb[o].children.forEach(e => {
 				e.material.dispose()
 				e.geometry.dispose()
 			})
@@ -758,7 +762,7 @@ var FARM = {
 		for (var ccc = 0; ccc < droppedBomb.length; ccc++) {
 			droppedBomb[ccc].done = true
 			droppedBomb[ccc].removed = true
-			droppedBomb[ccc].children.forEach(e =>{
+			droppedBomb[ccc].children.forEach(e => {
 				e.material.dispose()
 				e.geometry.dispose()
 			})

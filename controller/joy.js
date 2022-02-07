@@ -191,7 +191,20 @@ var JoyStick = (function(container, parameters)
 	{
 		
 		if (container === "skillpad"){
-			window.skillFunc(window.enemies)
+		
+			// parameter required, target vector
+			window.skillFunc(enemies)
+			window.skillArrow.material.dispose()
+			window.skillArrow.geometry.dispose()
+			SCENE.remove(window.skillArrow)
+			
+			character.remove(skillArrow)
+			window.skillArrow = null
+			$("#skillpad").css("display", "none")
+			$("#utils").css("display", "grid")
+			
+			// reload third skill
+			window.thirdSkillDone()
 		}
 		
 		//	pressed = 0;
@@ -412,13 +425,11 @@ var JoyStick = (function(container, parameters)
 			(hero.mesh.position.z - window.CAMERA.position.z))
 
 		var angle = angleYCameraDirection + RY
-
-		TweenMax.to(window.skillArrow.rotation, .5, {
-			z: RY
-		})
-
 		
-		//	window.skillArrow.rotation.z = 
+
+	TweenMax.to(window.skillArrow.rotation, .5, {
+			z: angle - character.rotation.y
+		})
 
 		return;
 	};
