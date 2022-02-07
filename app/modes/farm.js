@@ -378,13 +378,13 @@ var FARM = {
 						// hide Utils Pad
 						$("#utils").css("display", "none")
 
-						var arrow = new Three.Mesh(new Three.PlaneGeometry(40, 40), new Three.MeshToonMaterial({
+						var arrow = new Three.Mesh(new Three.PlaneGeometry(35, 35), new Three.MeshToonMaterial({
 							transparent: true,
 							side: 2,
-							opacity: .25,
+							opacity: .4,
 							map: TextureLoader.load("assets/images/skillArrow.png")
 						}))
-						arrow.position.y = .5
+						arrow.position.y = .2
 						arrow.rotation.x = -Math.PI / 2
 
 						character.add(arrow)
@@ -424,7 +424,21 @@ var FARM = {
 									})
 								}
 							}, skillStat.cooldown);
-						window.thirdSkillDone = null
+							window.thirdSkillDone = null
+						}
+
+						window.skillCancelFunc = function() {
+							window.skillArrow.material.dispose()
+							window.skillArrow.geometry.dispose()
+							SCENE.remove(window.skillArrow)
+
+							character.remove(skillArrow)
+							window.skillArrow = null
+							$("#skillpad").css("display", "none")
+							$("#utils").css("display", "grid")
+
+
+							window.skillCancelFunc = null
 						}
 					}
 

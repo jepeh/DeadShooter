@@ -458,14 +458,6 @@ var Game = (function(w, func) {
 			left: $("#utils")[0].offsetLeft
 		})
 		
-		var leftS = innerWidth * .5
-		var topS = innerHeight * .5
-		
-		
-		$("#skillCancel").css({
-			top: topS+"px",
-			left: leftS+"px"
-		})
 		
 		//*******************************************	
 		//Update  Personal Game Data

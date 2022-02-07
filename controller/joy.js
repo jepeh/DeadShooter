@@ -48,7 +48,6 @@ var JoyStick = (function(container, parameters)
 
 
 	var pressed = 0; // Bool - 1=Yes - 0=No
-	var offSet = $(`#${title}`).offset()
 
 
 	var boxAreaX = canvas.width / 3
@@ -147,31 +146,31 @@ var JoyStick = (function(container, parameters)
 		} else if (container === "skillpad") {
 			// Prevent the browser from doing its default thing (scroll, zoom)
 			event.preventDefault();
-		//	if (event.targetTouches[0].target === canvas && window.gobo)
-		//	{
+			//	if (event.targetTouches[0].target === canvas && window.gobo)
+			//	{
 
 
-				skillPad.GetDirSkill(event)
+			skillPad.GetDirSkill(event)
 
 
-				movedX = event.targetTouches[0].pageX;
-				movedY = event.targetTouches[0].pageY;
-				// Manage offset
-				if (canvas.offsetParent.tagName.toUpperCase() === "BODY")
-				{
-					movedX -= canvas.offsetLeft;
-					movedY -= canvas.offsetTop;
-				}
-				else
-				{
-					movedX -= canvas.offsetParent.offsetLeft;
-					movedY -= canvas.offsetParent.offsetTop;
-				}
-				// Delete canvas
-				context.clearRect(0, 0, canvas.width, canvas.height);
-				// Redraw object
+			movedX = event.targetTouches[0].pageX;
+			movedY = event.targetTouches[0].pageY;
+			// Manage offset
+			if (canvas.offsetParent.tagName.toUpperCase() === "BODY")
+			{
+				movedX -= canvas.offsetLeft;
+				movedY -= canvas.offsetTop;
+			}
+			else
+			{
+				movedX -= canvas.offsetParent.offsetLeft;
+				movedY -= canvas.offsetParent.offsetTop;
+			}
+			// Delete canvas
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			// Redraw object
 
-				drawInternal();
+			drawInternal();
 
 
 			/*} else {
@@ -189,24 +188,27 @@ var JoyStick = (function(container, parameters)
 
 	function onTouchEnd(event)
 	{
-		
-		if (container === "skillpad"){
-		
+
+		if (container === "skillpad" && !window.skillCancel) {
+
 			// parameter required, target vector
 			window.skillFunc(enemies)
 			window.skillArrow.material.dispose()
 			window.skillArrow.geometry.dispose()
 			SCENE.remove(window.skillArrow)
-			
+
 			character.remove(skillArrow)
 			window.skillArrow = null
 			$("#skillpad").css("display", "none")
 			$("#utils").css("display", "grid")
-			
+
 			// reload third skill
 			window.thirdSkillDone()
+		} else if(container === "skillpad") {
+			window.skillCancelFunc()
+			$(`#${container}`).css("box-shadow", "0px 0px 30px 5px #40F0FFB0 inset")
 		}
-		
+
 		//	pressed = 0;
 		keyPressed = ""
 
@@ -383,8 +385,8 @@ var JoyStick = (function(container, parameters)
 			}*/
 
 		var RY;
-		
-		
+
+
 		var horizontal = movedX;
 		var vertical = movedY;
 
@@ -418,18 +420,36 @@ var JoyStick = (function(container, parameters)
 			RY = -Math.PI / 2
 		}
 
-		
+
 		// update quaternions
 		var angleYCameraDirection = Math.atan2(
 			(hero.mesh.position.x - window.CAMERA.position.x),
 			(hero.mesh.position.z - window.CAMERA.position.z))
 
 		var angle = angleYCameraDirection + RY
-		
 
-	TweenMax.to(window.skillArrow.rotation, .5, {
+
+		TweenMax.to(window.skillArrow.rotation, .5, {
 			z: angle - character.rotation.y
 		})
+
+		var xx = event.targetTouches[0].clientX;
+		var yy = event.targetTouches[0].clientY;
+	
+
+		//	var leftX = offset.x - canvas.width/2
+		var leftNX = $(`#${container}`)[0].offsetLeft// - canvas.width / 2
+		var leftPX = $(`#${container}`)[0].offsetLeft + canvas.width
+		var topNY = $(`#${container}`)[0].offsetTop //- canvas.height / 2
+		var topPY = $(`#${container}`)[0].offsetTop + canvas.height
+//console.log(movedX, leftNX, xx)
+		if (xx <= leftNX || xx >= leftPX || yy >= topPY || yy <= topNY) {
+			$(`#${container}`).css("box-shadow", "0px 0px 30px 5px #ff0000 inset")
+			window.skillCancel = true
+		} else {
+			window.skillCancel = false
+			$(`#${container}`).css("box-shadow", "0px 0px 30px 5px #40F0FFB0 inset")
+		}
 
 		return;
 	};
