@@ -66,7 +66,6 @@ var FARM = {
 			for (var i = 0; i < Profile.skills.length; i++) {
 				$(`#Skill${i+1}`).append(`<img class="skillImg" src="${Profile.skills[i].img}"/>`)
 				$(`#Skill${i+1}`).attr("name", Profile.skills[i].name)
-
 			}
 			return;
 		}
@@ -161,6 +160,10 @@ var FARM = {
 			$("#Skill2").on("touchstart", e => {
 				secondSkill(e)
 			})
+			$("#Skill3").on("touchstart", e => {
+				thirdSkill(e)
+			})
+
 		} else {
 			document.getElementById("atombomb").addEventListener('click', () => {
 
@@ -186,6 +189,9 @@ var FARM = {
 			})
 			$("#Skill2").on("click", e => {
 				secondSkill(e)
+			})
+			$("#Skill3").on("click", e => {
+				thirdSkill(e)
 			})
 		}
 
@@ -229,7 +235,8 @@ var FARM = {
 
 
 		var fReloaded = 100,
-			sReloaded = 100;
+			sReloaded = 100,
+			tReloaded = 100;
 
 		function firstSkill(event) {
 
@@ -238,66 +245,47 @@ var FARM = {
 				// is First Skill Loaded? 
 				if (fReloaded >= 100) {
 
-					var skillname = $("#Skill1").attr("name")
 					var skillStat = Profile.skills[0]
 					var SkillObj = Skills.filter(e => {
-						return e.name === skillname
+						return e.name === skillStat.name
 					})[0]
-
 
 					// if special skill
 					if (skillStat.type === "special") {
-
 						// Skill Function
 						// parameter required, physics.
 						SkillObj.func(phys)
+
+
+						// Reload first Skill
+						fReloaded = 0
+						$("#Skill1 img").css({
+							opacity: .3
+						})
+
+						var r = 1;
+						var rel = setInterval(() => {
+							if (r > 100) {
+								fReloaded = 100
+								$("#Skill1 div").css({
+									top: "100%",
+									height: "0%",
+									opacity: 0
+								})
+								$("#Skill1 img").css({
+									opacity: 1
+								})
+								clearInterval(rel)
+							} else {
+								r++
+								$("#Skill1 div").css({
+									height: r + "%",
+									top: 100 - r + "%",
+									opacity: 1
+								})
+							}
+						}, skillStat.cooldown);
 					}
-
-					// if static Skill
-					else if (skillStat.type === "static") {
-
-						// arrays of enemies to eliminate
-						var arrs = window.enemies.length > 0 ? window.enemies : window.babyZombies
-
-						// Skill Function
-						// required parameter, array of enemies
-						SkillObj.func(arrs)
-
-					}
-
-					// if dynamic Skill
-					else if (skillStat.type === "dynamic") {
-						//var pos = document.getElementById("utils")
-					}
-
-					// Reload second Skill
-					fReloaded = 0
-					$("#Skill1 img").css({
-						opacity: .3
-					})
-
-					var r = 1;
-					var rel = setInterval(() => {
-						if (r > 100) {
-							fReloaded = 100
-							$("#Skill1 div").css({
-								top: "100%",
-								height: "0%",
-								opacity: 0
-							})
-							$("#Skill1 img").css({
-								opacity: 1
-							})
-							clearInterval(rel)
-						} else {
-							r++
-							$("#Skill1 div").css({
-								height: r + "%",
-								top: 100 - r + "%",
-								opacity: 1
-							})
-						}
-					}, skillStat.cooldown);
 
 				}
 			}
@@ -309,26 +297,16 @@ var FARM = {
 
 			// is Second Skill Unlocked? 
 			if (secondS) {
-				// is First Skill Loaded? 
+				// is Second Skill Loaded? 
 				if (sReloaded >= 100) {
 
-					var skillname = $("#Skill2").attr("name")
 					var skillStat = Profile.skills[1]
 					var SkillObj = Skills.filter(e => {
-						return e.name === skillname
+						return e.name === skillStat.name
 					})[0]
 
-
-					// if special skill
-					if (skillStat.type === "special") {
-
-						// Skill Function
-						// parameter required, physics.
-						SkillObj.func(phys)
-					}
-
 					// if static Skill
-					else if (skillStat.type === "static") {
+					if (skillStat.type === "static") {
 
 						// arrays of enemies to eliminate
 						var arrs = window.enemies.length > 0 ? window.enemies : window.babyZombies
@@ -337,49 +315,99 @@ var FARM = {
 						// required parameter, array of enemies
 						SkillObj.func(arrs)
 
+
+						// Reload second Skill
+						sReloaded = 0
+						$("#Skill2 img").css({
+							opacity: .3
+						})
+
+						var r = 1;
+						var rel = setInterval(() => {
+							if (r > 100) {
+								sReloaded = 100
+								$("#Skill2 div").css({
+									top: "100%",
+									height: "0%",
+									opacity: 0
+								})
+								$("#Skill2 img").css({
+									opacity: 1
+								})
+								clearInterval(rel)
+							} else {
+								r++
+								$("#Skill2 div").css({
+									height: r + "%",
+									top: 100 - r + "%",
+									opacity: 1
+								})
+							}
+						}, skillStat.cooldown);
 					}
-
-					// if dynamic Skill
-					else if (skillStat.type === "dynamic") {
-
-
-
-					}
-
-					// Reload second Skill
-					sReloaded = 0
-					$("#Skill2 img").css({
-						opacity: .3
-					})
-
-					var r = 1;
-					var rel = setInterval(() => {
-						if (r > 100) {
-							sReloaded = 100
-							$("#Skill2 div").css({
-								top: "100%",
-								height: "0%",
-								opacity: 0
-							})
-							$("#Skill2 img").css({
-								opacity: 1
-							})
-							clearInterval(rel)
-						} else {
-							r++
-							$("#Skill2 div").css({
-								height: r + "%",
-								top: 100 - r + "%",
-								opacity: 1
-							})
-						}
-					}, skillStat.cooldown);
 
 				}
 			}
 
 			return;
 		}
+
+		function thirdSkill(event) {
+
+			// is ThirdSkill Unlocked? 
+			if (thirdS) {
+				// is Third Skill Loaded? 
+				if (tReloaded >= 100) {
+
+					var skillStat = Profile.skills[2]
+					var SkillObj = Skills.filter(e => {
+						return e.name === skillStat.name
+					})[0]
+
+
+
+					// if dynamic Skill
+					if (skillStat.type === "dynamic") {
+
+						// Dynamic Function
+						// parameter required, target vector
+
+						// Reload third Skill
+						tReloaded = 0
+						$("#Skill3 img").css({
+							opacity: .3
+						})
+
+						var r = 1;
+						var rel = setInterval(() => {
+							if (r > 100) {
+								tReloaded = 100
+								$("#Skill3 div").css({
+									top: "100%",
+									height: "0%",
+									opacity: 0
+								})
+								$("#Skill3 img").css({
+									opacity: 1
+								})
+								clearInterval(rel)
+							} else {
+								r++
+								$("#Skill3 div").css({
+									height: r + "%",
+									top: 100 - r + "%",
+									opacity: 1
+								})
+							}
+						}, skillStat.cooldown);
+					}
+
+				}
+			}
+
+			return;
+		}
+
 
 		//*******************************************
 		// COUNTER
@@ -543,6 +571,10 @@ var FARM = {
 		for (var o = 0; o < droppedBomb.length; o++) {
 			droppedBomb[o].done = true
 			droppedBomb[o].removed = true
+			droppedBomb[o].children.forEach( e =>{
+				e.material.dispose()
+				e.geometry.dispose()
+			})
 			SCENE.remove(droppedBomb[o])
 		}
 
@@ -704,6 +736,10 @@ var FARM = {
 		for (var ccc = 0; ccc < droppedBomb.length; ccc++) {
 			droppedBomb[ccc].done = true
 			droppedBomb[ccc].removed = true
+			droppedBomb[ccc].children.forEach(e =>{
+				e.material.dispose()
+				e.geometry.dispose()
+			})
 			SCENE.remove(droppedBomb[ccc])
 		}
 		droppedBomb.length = 0

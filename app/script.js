@@ -293,6 +293,7 @@ var Game = (function(w, func) {
 		window.inGame = false
 		window.firstS = true
 		window.secondS = true
+		window.thirdS = true
 		window.addRewards = []
 		window.babyZombies = []
 		window.mysteryboxes = []

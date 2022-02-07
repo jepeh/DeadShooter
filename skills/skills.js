@@ -481,9 +481,8 @@ var Skills = [
 			var currentVel = hero.velocity
 			var rod = TextureLoader.load("assets/images/textures/ninjabladeBullet.png")
 
-			
 			hero.running = true
-			hero.velocity = 45
+			hero.velocity = 35
 
 			var tutsi = []
 			var tut = setInterval(() => {

@@ -175,7 +175,7 @@ var rewards = {
 			y: 1,
 			z: 1,
 			onComplete: function() {
-				
+
 
 				field.geometry.dispose()
 				window.SCENE.remove(field)
@@ -224,16 +224,24 @@ var rewards = {
 		}
 	},
 	g: function() {
+		var vToAdd = hero.velocity * .15
 		// plus 15% Velocity
-		if (hero.hpLeft >= 15) {} else {
-			// 10% of its current hp
-			var vToAdd = hero.velocity * .20
-			hero.velocity = hero.velocity + vToAdd
-			if (hero.velocity > 20) {
-				hero.velocity = 20
-			}
-			//hero.hp.style.width = hero.hpLeft + "%"
+
+		// if velocity is critical, add 60%
+		if (hero.velocity < 3) {
+			vToAdd = hero.velocity * 5
 		}
+		else if (hero.velocity <= 5 && hero.velocity >= 3 ) {
+		vToAdd = hero.velocity * 1.4
+		} else if (hero.velocity >= 6 && hero.velocity < 12) {
+			vToAdd = hero.velocity * .4
+		}
+
+		hero.velocity = hero.velocity + vToAdd
+		if (hero.velocity > 15) {
+			hero.velocity = 15
+		}
+
 		rew("assets/images/rewards/speed.png");
 		return {
 			reward: "+15% Speed!"

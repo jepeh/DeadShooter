@@ -18,17 +18,27 @@ let Profile = {
 	countdownMin: 5,
 	keys: 0,
 	skills: [{
-		name: "lightningStrike",
-		damage: 3,
-		img: "assets/images/textures/field.png",
-		type: "static",
-		cooldown: 10
+		// Special Skill, Skill 1
+			name: "run",
+			damage: 3,
+			img: "assets/images/textures/field.png",
+			type: "special",
+			cooldown: 10
 	}, {
-		name: "run",
-		damage: 0.8, // scaling down targets to 80%
-		img: "assets/images/textures/gun.png",
-		type: "special",
-		cooldown: 10
+		// Static Skill, Skill 2
+			name: "instantKill",
+			damage: 0.8, // scaling down targets to 80%
+			img: "assets/images/textures/gun.png",
+			type: "static",
+			cooldown: 10
+	},
+		{
+			// Dynamic Skill, Skill 3
+			name: "instantKill",
+			damage: 0.8, // scaling down targets to 80%
+			img: "assets/images/coin.png",
+			type: "static",
+			cooldown: 10
 	}],
 	Heroes: [
 		{
@@ -60,10 +70,10 @@ let Profile = {
 			case "laserlightBullet":
 				g = .4
 				break;
-			case "phoenixfireBullet": 
+			case "phoenixfireBullet":
 				g = .45
 				break;
-			case "jellyfishBullet": 
+			case "jellyfishBullet":
 				g = .55
 				break;
 			case "lasertubeBullet":

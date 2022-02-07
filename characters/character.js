@@ -40,12 +40,12 @@ class Hero {
 	}
 
 	// public function
-	hurt(attack) {
+	hurt(attack, vel) {
 		if (!this.immune) {
 			this.hpLeft = this.hpLeft - attack
 			this.hp.style.width = this.hpLeft + "%"
 
-			this.velocity = this.velocity - 0.01
+			this.velocity = this.velocity - vel
 
 			//update life count and speed count
 			$("#lifecount").text("life " + Math.floor(this.hpLeft) + "/100")
@@ -146,7 +146,7 @@ class Hero {
 					if (sts > 2) {
 						clearInterval(shoot);
 						window.gobo = true
-						
+
 
 					} else {
 						sts++
@@ -375,8 +375,18 @@ class Hero {
 				// Random Rewards
 				var fcns = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
 				var idx = Math.floor(Math.random() * (fcns.length - 1) + 1)
+			
+				if (hero.running) {
+					if (idx === 6) {
+						idx = 1
+					}
+				}
+				if (hero.velocity < 9) {
+					idx = 6
+				}
 
 				var boxReward = rewards[fcns[idx]]();
+
 				Utils.playSound(Sounds.gift)
 
 				// check if it's additional awards
@@ -524,25 +534,25 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 		//*******************************************
 
 		if (zzFront > zFront && zBack > zzBack && xxFront > xFront && xBack > xxBack) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 		}
 		//Phase 1 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xFront > xxBack && xxBack > xBack) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 
 		}
 		// Phase 3 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xxFront > xBack && xFront > xxFront) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 		}
 		// Phase 2 hurt
 		else if (xBack >= xxBack && xxFront >= xFront && zFront > zzBack && zzBack > zBack) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 
 		}
 		// Phase 4 hurt
 		else if (xBack >= xxBack && xxFront >= xFront & zzFront > zBack && zFront > zzFront) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 		}
 
 
@@ -936,25 +946,25 @@ var EnemyBoss = function() {
 		//*******************************************
 
 		if (zzFront > zFront && zBack > zzBack && xxFront > xFront && xBack > xxBack) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 		}
 		//Phase 1 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xFront > xxBack && xxBack > xBack) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 
 		}
 		// Phase 3 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xxFront > xBack && xFront > xxFront) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 		}
 		// Phase 2 hurt
 		else if (xBack >= xxBack && xxFront >= xFront && zFront > zzBack && zzBack > zBack) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 
 		}
 		// Phase 4 hurt
 		else if (xBack >= xxBack && xxFront >= xFront & zzFront > zBack && zFront > zzFront) {
-			hero.hurt(self.attack)
+			hero.hurt(self.attack, 0.01)
 		}
 
 		// Bullet Hurt
@@ -1098,7 +1108,7 @@ var EnemyBoss = function() {
 	}
 
 	var sum = setInterval(() => {
-		if (self.hp <= 0) {
+		if (self.hp <= 0 || !window.inGame) {
 			clearInterval(sum)
 		} else {
 			self.run = false
@@ -1255,8 +1265,8 @@ class BabyZombies {
 			var dis = Math.abs(Math.sqrt((dx * dx) + (dz * dz)))
 
 			if (dis <= 12) {
-				this.mesh.position.x += -mX//this.mesh.position.x
-				this.mesh.position.z += -mZ//this.mesh.position.z
+				this.mesh.position.x += -mX //this.mesh.position.x
+				this.mesh.position.z += -mZ //this.mesh.position.z
 			} else {
 				this.mesh.position.x += mX
 				this.mesh.position.z += mZ
@@ -1290,33 +1300,33 @@ class BabyZombies {
 
 		if (zzFront > zFront && zBack > zzBack && xxFront > xFront && xBack > xxBack) {
 			//hero.hurt(self.attack)
-			hero.velocity -= .03
-			hero.hurt(.001)
+	
+			hero.hurt(.001, .03)
 		}
 		//Phase 1 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xFront > xxBack && xxBack > xBack) {
 			//	hero.hurt(self.attack)
-			hero.velocity -= .03
-			hero.hurt(.001)
+			
+			hero.hurt(.001, .03)
 		}
 		// Phase 3 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xxFront > xBack && xFront > xxFront) {
 			//	hero.hurt(self.attack)
-			hero.velocity -= .03
-			hero.hurt(.001)
+			
+			hero.hurt(.001, .03)
 		}
 		// Phase 2 hurt
 		else if (xBack >= xxBack && xxFront >= xFront && zFront > zzBack && zzBack > zBack) {
 			//hero.hurt(self.attack)
-			hero.velocity -= .03
-			hero.hurt(.001)
+			
+			hero.hurt(.001, .03)
 
 		}
 		// Phase 4 hurt
 		else if (xBack >= xxBack && xxFront >= xFront & zzFront > zBack && zFront > zzFront) {
 			//hero.hurt(self.attack)
-			hero.velocity -= .03
-			hero.hurt(.01)
+			
+			hero.hurt(.001, .03)
 		}
 
 
@@ -1342,7 +1352,7 @@ class BabyZombies {
 				window.droppedBomb[b].removed = true
 				window.droppedBomb[b].done = true
 				window.droppedBomb[b] = null
-				
+
 				window.droppedBomb.splice(b, 1)
 
 			}
