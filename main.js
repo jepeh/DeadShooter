@@ -1,6 +1,7 @@
 import { GAME } from './app/script.js'
 import * as Utils from './app/utils.js'
 import * as Sounds from './app/audio.js'
+//import * as T from './src/three.js'
 
 $("#playbtn").on(' click ', () => {
 	$("#cover, #GameMode").css("display", "grid")

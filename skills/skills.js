@@ -483,7 +483,7 @@ var Skills = [
 
 			
 			hero.running = true
-			hero.velocity = hero.velocity * 2.5
+			hero.velocity = 45
 
 			var tutsi = []
 			var tut = setInterval(() => {

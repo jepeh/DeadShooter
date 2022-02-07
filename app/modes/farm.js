@@ -541,6 +541,8 @@ var FARM = {
 
 
 		for (var o = 0; o < droppedBomb.length; o++) {
+			droppedBomb[o].done = true
+			droppedBomb[o].removed = true
 			SCENE.remove(droppedBomb[o])
 		}
 
@@ -548,6 +550,17 @@ var FARM = {
 
 		for (var c = 0; c < droppedCoins.length; c++) {
 			SCENE.remove(droppedCoins[c])
+			droppedCoins[c] = null
+		}
+
+		for (var z = 0; z < babyZombies.length; z++) {
+			babyZombies[z].mesh.children.forEach(e => {
+				e.material.dispose()
+				e.geometry.dispose()
+			})
+			SCENE.remove(babyZombies[z].mesh)
+			babyZombies[z].mesh = null
+			babyZombies[z] = null
 		}
 
 		droppedCoins.length = 0
@@ -685,13 +698,27 @@ var FARM = {
 
 		for (var c = 0; c < droppedCoins.length; c++) {
 			SCENE.remove(droppedCoins[c])
+			droppedCoins[c] = null
 		}
 
-		for (var cc = 0; cc < babyZombies.length; cc++) {
-			SCENE.remove(babyZombies[cc])
+		for (var ccc = 0; ccc < droppedBomb.length; ccc++) {
+			droppedBomb[ccc].done = true
+			droppedBomb[ccc].removed = true
+			SCENE.remove(droppedBomb[ccc])
 		}
+		droppedBomb.length = 0
 
 		droppedCoins.length = 0
+
+		for (var z = 0; z < babyZombies.length; z++) {
+			babyZombies[z].mesh.children.forEach(e => {
+				e.material.dispose()
+				e.geometry.dispose()
+			})
+			SCENE.remove(babyZombies[z].mesh)
+			babyZombies[z].mesh = null
+			babyZombies[z] = null
+		}
 
 		// hide stats and joystick
 		$("#statcount, #counter, #life, #bombbar, #atombomb, #utils, #mapicon")

@@ -213,9 +213,8 @@ class Hero {
 						y: angleYCameraDirection,
 						onComplete: function() {
 							var shoot = setInterval(() => {
-								if (sts > 2) {
+								if (sts > 2 || window.boss.hp <= 0) {
 									window.gobo = true
-
 									clearInterval(shoot);
 								} else {
 									sts++
