@@ -486,37 +486,37 @@ var Skills = [
 
 			var tutsi = []
 			var tut = setInterval(() => {
-			//	for (var i = 0; i < 2; i++) {
-					var size = Math.random() * (2 - 1) + 1
-					var tuts = new Three.Mesh(new Three.PlaneBufferGeometry(size, size), new Three.MeshToonMaterial({
-						transparent: true,
-						map: rod,
-						side: 2
-					}))
+				//	for (var i = 0; i < 2; i++) {
+				var size = Math.random() * (2 - 1) + 1
+				var tuts = new Three.Mesh(new Three.PlaneBufferGeometry(size, size), new Three.MeshToonMaterial({
+					transparent: true,
+					map: rod,
+					side: 2
+				}))
 
-					var position = {
-						x: character.position.x + Math.random() * (2 - (-2)) + (-2),
-						y: character.position.y + Math.random() * (2 - (-2)) + (-2),
-						z: character.position.z + Math.random() * (2 - (-2)) + (-2)
-					}
+				var position = {
+					x: character.position.x + Math.random() * (2 - (-2)) + (-2),
+					y: character.position.y + Math.random() * (2 - (-2)) + (-2),
+					z: character.position.z + Math.random() * (2 - (-2)) + (-2)
+				}
 
 				//	tuts.scale.set(0, 0, 0)
-					tuts.position.copy(position)
-					tuts.rotation.x = -Math.PI / 2
-					tuts.rotation.z = character.rotation.y
-					SCENE.add(tuts)
-					tutsi.push(tuts)
-					
-			//	}
+				tuts.position.copy(position)
+				tuts.rotation.x = -Math.PI / 2
+				tuts.rotation.z = character.rotation.y
+				SCENE.add(tuts)
+				tutsi.push(tuts)
+
+				//	}
 				for (var ii = 0; ii < tutsi.length; ii++) {
-				
+
 					TweenMax.to(tutsi[ii].scale, 2, {
 						x: 0,
 						y: 0,
 						z: 0
 					})
 				}
-			
+
 			}, 70)
 
 
@@ -525,13 +525,73 @@ var Skills = [
 				clearInterval(tut)
 				hero.velocity = currentVel
 				hero.running = false
-				for(var u=0; u<tutsi.length; u++){
+				for (var u = 0; u < tutsi.length; u++) {
 					tutsi[u].material.dispose()
 					tutsi[u].geometry.dispose()
 					SCENE.remove(tutsi[u])
 				}
 				tutsi.length = 0
 			}, this.duration)
+			return;
+		}
+	},
+	{
+		name: "laserBeam",
+		duration: 3000,
+		func: function(tVector) {
+			var walkDir = new Three.Vector3()
+			var rotateAngle = new Three.Vector3(0, 1, 0)
+			// calculate direction
+			window.character.getWorldDirection(walkDir)
+			walkDir.y = 0
+			walkDir.normalize()
+
+			walkDir.applyAxisAngle(rotateAngle, tVector)
+
+			// target Vector
+			var moveX = walkDir.x * 5
+			var moveZ = walkDir.z * 5
+
+		//	rotate Angle
+			var angleYCameraDirection = Math.atan2(
+				(hero.mesh.position.x - CAMERA.position.x),
+				(hero.mesh.position.z - CAMERA.position.z))
+
+			TweenMax.to(character.rotation, .5, {
+				y: angleYCameraDirection + window.RY
+			})
+			
+			var dx = (moveX+15) - moveX
+			var dz = (moveZ+15) - moveZ
+			var dis = Math.abs(Math.sqrt((dx*dx)+(dz*dz)))
+			
+			var mPoint = new Three.Vector3(0,2,0)
+			mPoint.x = (character.position.x + moveX) + (character.position.x + walkDir.x*20) /2
+			mPoint.z = (character.position.z + moveZ) + (character.position.z + walkDir.z*20) /2
+			
+			var laser = new Three.Mesh(new Three.CylinderGeometry(2,2,3), new Three.MeshToonMaterial())
+			laser.position.x = character.position.x + moveX
+			laser.position.z = character.position.z + moveZ
+			laser.rotation.x = -Math.PI/2
+			laser.rotation.z = angleYCameraDirection + window.RY
+			
+			var ll = new Three.Mesh(new Three.CylinderGeometry(2,2,3), new Three.MeshToonMaterial())
+			ll.position.x = character.position.x + walkDir.x * 20
+			ll.position.z = character.position.z + walkDir.z * 20
+			ll.rotation.x = -Math.PI/2
+			ll.rotation.z = angleYCameraDirection + window.RY
+	
+			var lll = new Three.Mesh(new Three.CylinderGeometry(2,2,3), new Three.MeshToonMaterial())
+			lll.position.x = (character.position.x + moveX) + (character.position.x + walkDir.x * 20) //(character.position.x + moveX) + ( walkDir.x * 90) / 2
+			lll.position.z = (character.position.z + moveZ) + (character.position.z + walkDir.z * 20) //(character.position.z + moveZ) + ( walkDir.z * 90) / 2
+			
+			lll.rotation.x = -Math.PI/2
+			lll.rotation.z = angleYCameraDirection + window.RY
+	
+			
+			
+			SCENE.add(laser, ll, lll)
+
 			return;
 		}
 	}

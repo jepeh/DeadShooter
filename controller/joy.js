@@ -192,7 +192,7 @@ var JoyStick = (function(container, parameters)
 		if (container === "skillpad" && !window.skillCancel) {
 
 			// parameter required, target vector
-			window.skillFunc(enemies)
+			window.skillFunc(window.skillTargetVector)
 			window.skillArrow.material.dispose()
 			window.skillArrow.geometry.dispose()
 			SCENE.remove(window.skillArrow)
@@ -384,7 +384,7 @@ var JoyStick = (function(container, parameters)
 				z: eY
 			}*/
 
-		var RY;
+		window.RY = null;
 
 
 		var horizontal = movedX;
@@ -427,10 +427,10 @@ var JoyStick = (function(container, parameters)
 			(hero.mesh.position.z - window.CAMERA.position.z))
 
 		var angle = angleYCameraDirection + RY
-
+		window.skillTargetVector = angle - character.rotation.y
 
 		TweenMax.to(window.skillArrow.rotation, .5, {
-			z: angle - character.rotation.y
+			z: skillTargetVector
 		})
 
 		var xx = event.targetTouches[0].clientX;
