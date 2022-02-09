@@ -575,22 +575,11 @@ var Skills = [
 			laser.rotation.x = -Math.PI/2
 			laser.rotation.z = angleYCameraDirection + window.RY
 			
-			var ll = new Three.Mesh(new Three.CylinderGeometry(2,2,3), new Three.MeshToonMaterial())
-			ll.position.x = character.position.x + walkDir.x * 20
-			ll.position.z = character.position.z + walkDir.z * 20
-			ll.rotation.x = -Math.PI/2
-			ll.rotation.z = angleYCameraDirection + window.RY
-	
-			var lll = new Three.Mesh(new Three.CylinderGeometry(2,2,3), new Three.MeshToonMaterial())
-			lll.position.x = (character.position.x + moveX) + (character.position.x + walkDir.x * 20) //(character.position.x + moveX) + ( walkDir.x * 90) / 2
-			lll.position.z = (character.position.z + moveZ) + (character.position.z + walkDir.z * 20) //(character.position.z + moveZ) + ( walkDir.z * 90) / 2
-			
-			lll.rotation.x = -Math.PI/2
-			lll.rotation.z = angleYCameraDirection + window.RY
-	
-			
-			
-			SCENE.add(laser, ll, lll)
+			SCENE.add(laser)
+		
+			TweenMax.to(laser.scale, 2, {
+				y: 10
+			})
 
 			return;
 		}

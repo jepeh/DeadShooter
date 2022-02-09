@@ -18,6 +18,7 @@ import { Bullets } from "../app/bullets/bullet.js"
 import { FontLoader } from "../src/Loader/FontLoader.js"
 import { TextGeometry } from '../src/TextGeometry.js'
 import { OBJLoader } from '../src/Loader/OBJLoader.js'
+import Particles from '../app/systems/particle.js'
 
 // Composer & RenderPass
 //import * as Composer from '../src/Composer/EffectComposer.js'
@@ -443,22 +444,22 @@ var Game = (function(w, func) {
 
 		var left = innerWidth * 1
 		var top = innerHeight * .62
-		
+
 		$("#utils").css({
-			top: top+"px",
-			left: left+"px",
+			top: top + "px",
+			left: left + "px",
 			marginLeft: "-200px"
 		})
-		
+
 		$("#utils")[0].offsetLeft
-		
-		
+
+
 		$("#skillpad").css({
 			top: $("#utils")[0].offsetTop,
 			left: $("#utils")[0].offsetLeft
 		})
-		
-		
+
+
 		//*******************************************	
 		//Update  Personal Game Data
 		//*******************************************
@@ -509,12 +510,12 @@ var Game = (function(w, func) {
 			character.rotation.y = -10
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)
-			SCENE.add(window.character)
+			//	SCENE.add(window.character)
 
 		}
 
 
-ch()
+		ch()
 		window.mm = [
 			new Three.MeshToonMaterial({ transparent: true }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
@@ -577,6 +578,63 @@ ch()
 		*/
 
 
+	/*var mapp = TextureLoader.load("assets/images/textures/heal.png")
+		mapp.offset = {x: 0, y: 0}
+		mapp.wrapS = Three.RepeatWrapping
+		mapp.repeat.set(1,1)
+		var m = new Three.MeshToonMaterial({
+			transparent: true,
+			side: 2,
+			map: mapp//TextureLoader.load("assets/images/textures/bladeBullet.png")
+		})
+		
+		var hop = setInterval(()=>{
+			mapp.offset.x += .08
+			if (mapp.offset.x >=1) {
+				mapp.offset.x = 0
+			}
+		}, 30)
+	
+		var g = new Three.PlaneGeometry(20, 5)
+		var mesh = new Three.Mesh(g, m)
+		
+		mesh.position.set(0, 2, 0)
+		SCENE.add(mesh)*/
+
+
+	/*var sys = new Particles({
+			pCount: 10,
+			center: new Three.Vector3(0, 2, 0),
+			texture: TextureLoader.load("assets/images/textures/ninjabladeBullet.png"),
+			size: {
+				minSize: 1,
+				maxSize: 4
+			},
+			loop: true,
+			targetTiming: 2,
+			inTiming: .5,
+			outTiming: 2,
+			positions: {
+				x: {
+					minX: -3,
+					maxX: 3
+				},
+				y: {
+					minY: 2,
+					maxY: 7
+				},
+				z: {
+					minZ: -3,
+					maxZ: 3
+				}
+			},
+			targetScale: new Three.Vector3(1, 1, 1),
+			interval: 200
+		})
+
+		
+		sys.start()*/
+
 		var grp = new Three.Group()
 		var mk = TextureLoader.load("assets/images/textures/rod.png")
 
@@ -609,7 +667,7 @@ ch()
 		})
 
 		// align skillpad
-		
+
 
 		// animation game
 		function startAnim(lvl) {
