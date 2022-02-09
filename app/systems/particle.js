@@ -53,6 +53,8 @@ var Particles = function(obj) {
 							side: 2,
 							map: self._map
 						}))
+						
+						self._p.upward ? particle.rotation.x = -Math.PI/2 : false
 
 						// random position
 						var pos = {
@@ -131,9 +133,15 @@ var Particles = function(obj) {
 
 						// random position
 						var pos = {
-							x: self._origin.x + Math.random() * (self._p.positions.x.maxX - self._p.positions.x.minX) + self._p.positions.x.minX,
-							y: self._origin.y + Math.random() * (self._p.positions.y.maxY - self._p.positions.y.minY) + self._p.positions.y.minY,
-							z: self._origin.z + Math.random() * (self._p.positions.z.maxZ - self._p.positions.z.minZ) + self._p.positions.z.minZ
+							x: self._origin.x ,//+ Math.random() * (self._p.positions.x.maxX - self._p.positions.x.minX) + self._p.positions.x.minX,
+							y: self._origin.y,// + Math.random() * (self._p.positions.y.maxY - self._p.positions.y.minY) + self._p.positions.y.minY,
+							z: self._origin.z //+ Math.random() * (self._p.positions.z.maxZ - self._p.positions.z.minZ) + self._p.positions.z.minZ
+						}
+						
+						var targetPos = {
+							x: pos.x + Math.random() * (self._p.positions.x.maxX - self._p.positions.x.minX) + self._p.positions.x.minX,
+							y: pos.y + Math.random() * (self._p.positions.y.maxY - self._p.positions.y.minY) + self._p.positions.y.minY,
+							z: pos.z + Math.random() * (self._p.positions.z.maxZ - self._p.positions.z.minZ) + self._p.positions.z.minZ
 						}
 
 						// align particles
@@ -156,7 +164,9 @@ var Particles = function(obj) {
 						})
 
 						TweenMax.to(particle.position, self._p.targetTiming, {
-							y: self._p.positions.y.maxY,
+							x: targetPos.x,
+							y: targetPos.y,
+							z: targetPos.z,
 							onUpdate: () => {
 								particle.rotation.y = Math.atan2((particle.position.x - CAMERA.position.x), (particle.position.z - CAMERA.position.z))
 							},

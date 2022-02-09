@@ -26,7 +26,7 @@ let Profile = {
 			cooldown: 10
 	}, {
 		// Static Skill, Skill 2
-			name: "instantKill",
+			name: "lightningStrike",
 			damage: 0.8, // scaling down targets to 80%
 			img: "assets/images/textures/gun.png",
 			type: "static",

@@ -8,9 +8,44 @@ import rewards from '../app/rewards.js'
 import { FARM } from '../app/modes/farm.js'
 import { Bullets, bulletSprite } from '../app/bullets/bullet.js'
 import { OBJLoader } from '../src/Loader/OBJLoader.js'
+import Particles from '../app/systems/particle.js'
+import { GLTFLoader } from '../src/Loader/GLTFLoader.js'
 
+window.ModelLoader = new GLTFLoader()
+var COIN;
 window.TxtLoader = new Three.TextureLoader();
 
+async function getCoin() {
+	ModelLoader.load('../assets/gltf/coin.gltf', e => {
+
+		var mesh = e.scene.children[0]
+		mesh.children.shift()
+		mesh.scale.set(.8, .8, .8)
+		mesh.rotation.x = Math.PI / 2
+
+		//mesh.position.set(self.mesh.position.x, 2, self.mesh.position.z)
+
+		for (var i = 0; i < mesh.children.length; i++) {
+
+			if (mesh.children[i].type === "Mesh") {
+				mesh.children[i].material = new Three.MeshToonMaterial()
+
+				var c = mesh.children[i].name
+
+				if (c.length > 7) {
+					c = c.split("_")[0]
+				}
+				mesh.children[i].material.color.set(c)
+
+			}
+			//COIN.push(mesh.children[i])
+		}
+		COIN = mesh
+		console.log(mesh)
+	})
+
+}
+getCoin()
 
 class Hero {
 
@@ -140,13 +175,27 @@ class Hero {
 				TweenMax.to(this.mesh.rotation, .25, {
 					y: angleYCameraDirection
 				})
-
+				var trail;
+				if (this.running) {
+					trail = this.mesh.children[this.mesh.children.length - 1]
+					TweenMax.to(trail.scale, .3, {
+						x: 0,
+						y: 0,
+						z: 0
+					})
+				}
 
 				var shoot = setInterval(() => {
 					if (sts > 2) {
 						clearInterval(shoot);
 						window.gobo = true
-
+						if (this.running) {
+							TweenMax.to(trail.scale, .3, {
+								x: 1,
+								y: 1,
+								z: 1
+							})
+						}
 
 					} else {
 						sts++
@@ -195,6 +244,15 @@ class Hero {
 					}, 10)
 
 					window.gunrange.material.opacity = 0
+					var trail;
+					if (this.running) {
+						trail = this.mesh.children[this.mesh.children.length - 1]
+						TweenMax.to(trail.scale, .3, {
+							x: 0,
+							y: 0,
+							z: 0
+						})
+					}
 
 					var sts = 0;
 					var x = window.boss.x
@@ -216,6 +274,13 @@ class Hero {
 								if (sts > 2 || window.boss.hp <= 0) {
 									window.gobo = true
 									clearInterval(shoot);
+									if (this.running) {
+										TweenMax.to(trail.scale, .3, {
+											x: 1,
+											y: 1,
+											z: 1
+										})
+									}
 								} else {
 									sts++
 									var b = hero.renderBullet()
@@ -375,7 +440,7 @@ class Hero {
 				// Random Rewards
 				var fcns = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
 				var idx = Math.floor(Math.random() * (fcns.length - 1) + 1)
-			
+
 				if (hero.running) {
 					if (idx === 6) {
 						idx = 1
@@ -744,33 +809,73 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 		// update Atom Level
 		Profile.atomLevel >= 90 ? Enemy.prototype.lvl() : Profile.atomLevel = Profile.atomLevel + 10, $('.chart').data('easyPieChart').update(Profile.atomLevel);
 
-		window.loader.load('../assets/gltf/coin.gltf', e => {
+		/*	window.loader.load('../assets/gltf/coin.gltf', e => {
 
-			var mesh = e.scene.children[0]
-			mesh.children.shift()
+				var mesh = e.scene.children[0]
+				mesh.children.shift()
 
-			mesh.scale.set(.08, .08, .08)
+				mesh.scale.set(.08, .08, .08)
 
-			mesh.rotation.x = Math.PI / 2
+				mesh.rotation.x = Math.PI / 2
 
-			mesh.position.set(self.mesh.position.x, 2, self.mesh.position.z)
+				mesh.position.set(self.mesh.position.x, 2, self.mesh.position.z)
 
-			for (var i = 0; i < mesh.children.length; i++) {
-				if (mesh.children[i].type === "Mesh") {
-					mesh.children[i].material = new Three.MeshToonMaterial()
+				for (var i = 0; i < mesh.children.length; i++) {
+					if (mesh.children[i].type === "Mesh") {
+						mesh.children[i].material = new Three.MeshToonMaterial()
 
-					var c = mesh.children[i].name
+						var c = mesh.children[i].name
 
-					if (c.length > 7) {
-						c = c.split("_")[0]
+						if (c.length > 7) {
+							c = c.split("_")[0]
+						}
+						mesh.children[i].material.color.set(c)
 					}
-					mesh.children[i].material.color.set(c)
 				}
-			}
-			mesh.val = 1
-			window.droppedCoins.push(mesh)
-			self.scene.add(mesh)
-		})
+				mesh.val = 1
+				window.droppedCoins.push(mesh)
+				self.scene.add(mesh)
+			})*/
+
+		var coin = new Three.Group()
+
+	//	for (var c = 0; c < COIN.children.length; c++) {
+
+	var mesh0 = new Three.Mesh(COIN.children[0].geometry, COIN.children[0].material)
+	mesh0.position.set(0,-2,1)
+	mesh0.scale.z = 2
+	//mesh0.rotation.z = Math.PI/4+Math.PI/3
+	coin.add(mesh0)
+
+	var mesh1 = new Three.Mesh(COIN.children[1].geometry, COIN.children[1].material)
+	mesh1.position.set(-1.8,.9,1)
+	mesh1.scale.z = 2
+	mesh1.rotation.z = Math.PI/2.8
+	coin.add(mesh1)
+
+	var mesh2 = new Three.Mesh(COIN.children[2].geometry, COIN.children[2].material)
+	mesh2.position.set(1.8,.9,1)
+	mesh2.rotation.z = -Math.PI/2.8
+	mesh2.scale.z = 2
+	coin.add(mesh2)
+
+
+	var mesh3 = new Three.Mesh(COIN.children[3].geometry, COIN.children[3].material)
+	mesh3.position.set(0, 0, -.2)
+	coin.add(mesh3)
+
+	var mesh4 = new Three.Mesh(COIN.children[4].geometry, COIN.children[4].material)
+	mesh4.position.set(0, 0, 0)
+
+	coin.add(mesh4)
+
+	//	}
+
+	coin.scale.set(.1, .1, .1)
+	coin.position.copy(this.mesh.position)
+	coin.val = 1
+	window.droppedCoins.push(coin)
+	SCENE.add(coin)
 
 		var parts = []
 		var pos = {
@@ -799,21 +904,19 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 			SCENE.add(mesh)
 			parts.push(mesh)
 
-			TweenMax.to(mesh.rotation, .5, { x: Math.random() * 12, z: Math.random() * 12 });
-			TweenMax.to(mesh.scale, .5, { x: .1, y: .1, z: .1 });
+			TweenMax.to(mesh.rotation, 1, { x: Math.random() * 12, z: Math.random() * 12 });
+			TweenMax.to(mesh.scale, 1, { x: .1, y: .1, z: .1 });
 			TweenMax.to(mesh.position, .6, {
 				x: targetX,
 				y: .2,
 				z: targetZ,
-				delay: Math.random() * .1,
+				delay: Math.random() * .5,
 				ease: Power2.easeOut,
 				onComplete: function() {
 
 					mesh.material.dispose()
 					mesh.geometry.dispose()
-					for (var u = 0; u < parts.length; u++) {
-						//	if (parts[u].parent) parts[u].parent.remove(parts[u])
-					}
+
 				}
 			});
 
@@ -832,7 +935,7 @@ var Enemy = function(position, color, size, x, z, scene, c, r, name, physics) {
 			}
 		}
 
-		self.scene.add(c)
+		//self.scene.add(c)
 		var n = self.mesh.name
 		self.mesh.geometry.dispose()
 		self.mesh.material.dispose()
@@ -1300,32 +1403,32 @@ class BabyZombies {
 
 		if (zzFront > zFront && zBack > zzBack && xxFront > xFront && xBack > xxBack) {
 			//hero.hurt(self.attack)
-	
+
 			hero.hurt(.001, .03)
 		}
 		//Phase 1 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xFront > xxBack && xxBack > xBack) {
 			//	hero.hurt(self.attack)
-			
+
 			hero.hurt(.001, .03)
 		}
 		// Phase 3 hurt
 		else if (zzFront >= zFront && zBack >= zzBack && xxFront > xBack && xFront > xxFront) {
 			//	hero.hurt(self.attack)
-			
+
 			hero.hurt(.001, .03)
 		}
 		// Phase 2 hurt
 		else if (xBack >= xxBack && xxFront >= xFront && zFront > zzBack && zzBack > zBack) {
 			//hero.hurt(self.attack)
-			
+
 			hero.hurt(.001, .03)
 
 		}
 		// Phase 4 hurt
 		else if (xBack >= xxBack && xxFront >= xFront & zzFront > zBack && zFront > zzFront) {
 			//hero.hurt(self.attack)
-			
+
 			hero.hurt(.001, .03)
 		}
 
@@ -1434,17 +1537,39 @@ class defaultHero extends Hero {
 	}
 
 	initAnim() {
-		var hh = 0
-		var hhh = setInterval(() => {
 
-			if (hh > 3) {
-				clearInterval(hhh)
-			} else {
-				var holo = new Utils.Holo()
-				holo.commence()
-				hh++
-			}
-		}, 500)
+		var sys = new Particles({
+			pCount: 20,
+			center: this.mesh.position,
+			texture: window.TextureLoader.load("assets/images/textures/bladeHit.png"),
+			size: {
+				minSize: 1,
+				maxSize: 3
+			},
+			loop: false,
+			targetTiming: 2,
+			inTiming: 1,
+			outTiming: 2,
+			upward: true,
+			positions: {
+				x: {
+					minX: -4,
+					maxX: 4
+				},
+				y: {
+					minY: 3,
+					maxY: 20
+				},
+				z: {
+					minZ: -4,
+					maxZ: 4
+				}
+			},
+			targetScale: new Three.Vector3(1, 1, 1),
+			interval: 60
+		})
+
+		sys.start()
 
 		return;
 	}

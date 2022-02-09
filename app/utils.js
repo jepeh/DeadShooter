@@ -430,69 +430,6 @@ var Atom = function(scene, p, Arr) {
 	})()
 }
 
-var Holo = function(s) {
-
-	var m = [
-			new Three.MeshToonMaterial({ transparent: true }),
-			new Three.MeshToonMaterial({ transparent: true, opacity: 0, side: 2 }),
-			new Three.MeshToonMaterial({ transparent: true, opacity: 0, side: 2 })
-			]
-
-	var mp = window.TextureLoader.load("assets/images/textures/halo.png")
-
-	m[0].map = mp
-	m[0].side = 2
-	var holo = new Three.Mesh(new Three.CylinderGeometry(3.7, 3.7, 16, 35), m)
-	holo.scale.set(0, 1, 0)
-
-	window.SCENE.add(holo)
-
-	var cubes = []
-
-	for (var cu = 0; cu < 5; cu++) {
-
-		var x = Math.floor(Math.random() * (3 - (-3)) + (-3));
-		var y = Math.floor(Math.random() * (1 - (-5)) + (-5));
-		var z = Math.floor(Math.random() * (3 - (-3)) + (-3));
-
-		var cube = new Three.Mesh(new Three.CylinderGeometry(.05, .05, 20), m)
-		cube.position.set(x, y, z)
-		window.SCENE.add(cube)
-		cubes.push(cube)
-	}
-
-	this.commence = function() {
-
-		TweenMax.to(holo.scale, .8, {
-			x: 1,
-			y: 1,
-			z: 1
-		})
-
-		for (var i = 0; i < cubes.length; i++) {
-			var ii = i
-			TweenMax.to(cubes[i].position, 1.4, {
-				x: cubes[i].position.x,
-				y: 22,
-				z: cubes[i].position.z,
-				easing: Power2.easingIn,
-				onComplete: function() {
-					for (var ii = 0; ii < cubes.length; ii++) {
-						cubes[ii].geometry.dispose()
-						window.SCENE.remove(cubes[ii])
-					}
-				}
-			})
-			TweenMax.to(cubes[i].scale, 1, {
-				x: 1,
-				y: .3,
-				z: 1
-			})
-		}
-
-		return;
-	}
-}
 
 function spawnBox(p) {
 	var pos = {
@@ -506,7 +443,7 @@ function spawnBox(p) {
 	pos.x = pos.x + ranX
 	pos.z = pos.z + ranZ
 
-	window.loader.load("assets/gltf/box.gltf", e => {
+	window.ModelLoader.load("assets/gltf/box.gltf", e => {
 
 		var box = e.scene.children[0]
 		box.children.shift()
@@ -542,4 +479,4 @@ function spawnBox(p) {
 
 
 
-export { playMusic, stopSound, isEnergy, notEnergy, playSound, Atom, Holo, spawnBox }
+export { playMusic, stopSound, isEnergy, notEnergy, playSound, Atom, spawnBox }

@@ -331,7 +331,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
 				})
 			} while (cnt <= 50)
 		}
@@ -389,7 +389,7 @@ var Game = (function(w, func) {
 		dirLight.shadow.mapSize.width = 1024 * 2
 		dirLight.shadow.mapSize.height = 1024 * 2
 
-		window.loader = new GLTFLoader()
+	
 		window.TextureLoader = new Three.TextureLoader()
 
 		var d = 200
@@ -510,7 +510,7 @@ var Game = (function(w, func) {
 			character.rotation.y = -10
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)
-			//	SCENE.add(window.character)
+			//SCENE.add(window.character)
 
 		}
 
@@ -576,30 +576,6 @@ var Game = (function(w, func) {
 		MAIN GAME
 		***********************************************
 		*/
-
-
-	/*var mapp = TextureLoader.load("assets/images/textures/heal.png")
-		mapp.offset = {x: 0, y: 0}
-		mapp.wrapS = Three.RepeatWrapping
-		mapp.repeat.set(1,1)
-		var m = new Three.MeshToonMaterial({
-			transparent: true,
-			side: 2,
-			map: mapp//TextureLoader.load("assets/images/textures/bladeBullet.png")
-		})
-		
-		var hop = setInterval(()=>{
-			mapp.offset.x += .08
-			if (mapp.offset.x >=1) {
-				mapp.offset.x = 0
-			}
-		}, 30)
-	
-		var g = new Three.PlaneGeometry(20, 5)
-		var mesh = new Three.Mesh(g, m)
-		
-		mesh.position.set(0, 2, 0)
-		SCENE.add(mesh)*/
 
 
 	/*var sys = new Particles({

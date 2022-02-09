@@ -2,6 +2,7 @@ import * as Three from '../src/three.js'
 import { GAME } from '../app/script.js'
 import * as Utils from "../app/utils.js"
 import * as Sounds from "../app/audio.js"
+import Particles from '../app/systems/particle.js'
 
 var Skills = [
 	{
@@ -21,6 +22,7 @@ var Skills = [
 
 
 			window.gobo = false
+			hero.immune = true
 
 			var angleYCameraDirection = Math.atan2(
 				(pos.x - hero.mesh.position.x),
@@ -37,6 +39,8 @@ var Skills = [
 			var arr = window.enemies.length > 0 ? window.enemies : window.babyZombies
 			var arrToKill = GAME.findTargetS(arr, hero.mesh.position)
 			var lightningMap = TextureLoader.load("assets/images/textures/lightning.png")
+			lightningMap.wrapT = Three.RepeatWrapping
+			lightningMap.repeat.set(2,2)
 
 			var go = setTimeout(() => {
 
@@ -47,6 +51,9 @@ var Skills = [
 					side: 2,
 					opacity: .7
 				}))
+				
+				
+				
 				plane.position.copy(character.position)
 				plane.position.y = 1
 				plane.rotation.x = -Math.PI / 2
@@ -80,8 +87,8 @@ var Skills = [
 							side: 2,
 							transparent: true,
 							map: lightningMap
-
 						}))
+						
 						lightning.position.copy(arrToKill[o].mesh.position)
 						lightning.scale.y = 0
 						lightning.rotation.y = Math.atan2((CAMERA.position.x - arrToKill[o].mesh.position.x), (CAMERA.position.z - arrToKill[o].mesh.position.z))
@@ -150,6 +157,14 @@ var Skills = [
 
 
 				}, 1200)
+				
+				var uu = setInterval(()=>{
+					lightningMap.offset.y -= .1 
+						
+					if (lightningMap.offset.y <= 0) {
+						lightningMap.offset.y = 1
+					}
+				}, 70)
 
 				var parts = []
 				var skss = 0;
@@ -166,6 +181,8 @@ var Skills = [
 								plane.geometry.dispose()
 								plane.parent.remove(plane)
 								window.gobo = true
+								clearInterval(uu)
+								hero.immune = false
 							}
 						})
 					} else {
@@ -479,13 +496,71 @@ var Skills = [
 		func: function(phys) {
 
 			var currentVel = hero.velocity
-			var rod = TextureLoader.load("assets/images/textures/ninjabladeBullet.png")
+			var map = TextureLoader.load("assets/images/textures/ninjabladeBullet.png")
 
 			hero.running = true
 			hero.velocity = 35
 
-			var tutsi = []
-			var tut = setInterval(() => {
+			var sys = new Particles({
+				center: character.position,
+				texture: map,
+				size: {
+					minSize: .5,
+					maxSize: 2
+				},
+				loop: true,
+				targetTiming: .3,
+				inTiming: .5,
+				outTiming: 2,
+				upward: true,
+				positions: {
+					x: {
+						minX: -2.5,
+						maxX: 2.5
+					},
+					y: {
+						minY: -2,
+						maxY: 2
+					},
+					z: {
+						minZ: -2.5,
+						maxZ: 2.5
+					}
+				},
+				targetScale: new Three.Vector3(1, 1, 1),
+				interval: 60
+			})
+
+			sys.start()
+
+
+			var mapp = TextureLoader.load("assets/images/textures/lightning.png")
+			mapp.offset = { x: 0, y: 0 }
+			mapp.wrapT = Three.RepeatWrapping
+			mapp.repeat.set(1, 1)
+			var m = new Three.MeshToonMaterial({
+				transparent: true,
+				side: 2,
+				map: mapp //TextureLoader.load("assets/images/textures/bladeBullet.png")
+			})
+
+			var hop = setInterval(() => {
+				mapp.offset.x -= .08
+				if (mapp.offset.x <= 0) {
+					mapp.offset.x = 1
+				}
+			}, 30)
+
+			var g = new Three.PlaneGeometry(20, 4)
+			var mesh = new Three.Mesh(g, m)
+			mesh.rotation.x = -Math.PI/2
+			mesh.rotation.z = Math.PI/2
+			mesh.position.z = -10
+			character.add(mesh)
+
+
+			//	var tutsi = []
+			/*var tut = setInterval(() => {
 				//	for (var i = 0; i < 2; i++) {
 				var size = Math.random() * (2 - 1) + 1
 				var tuts = new Three.Mesh(new Three.PlaneBufferGeometry(size, size), new Three.MeshToonMaterial({
@@ -517,20 +592,22 @@ var Skills = [
 					})
 				}
 
-			}, 70)
+			}, 70)*/
 
 
 			var stop = setTimeout(() => {
 				clearTimeout(stop)
-				clearInterval(tut)
+				sys.end()
+				//	clearInterval(tut)
 				hero.velocity = currentVel
 				hero.running = false
-				for (var u = 0; u < tutsi.length; u++) {
-					tutsi[u].material.dispose()
-					tutsi[u].geometry.dispose()
-					SCENE.remove(tutsi[u])
-				}
-				tutsi.length = 0
+				character.remove(mesh)
+				/*	for (var u = 0; u < tutsi.length; u++) {
+						tutsi[u].material.dispose()
+						tutsi[u].geometry.dispose()
+						SCENE.remove(tutsi[u])
+					}*/
+				//	tutsi.length = 0
 			}, this.duration)
 			return;
 		}
@@ -552,7 +629,7 @@ var Skills = [
 			var moveX = walkDir.x * 5
 			var moveZ = walkDir.z * 5
 
-		//	rotate Angle
+			//	rotate Angle
 			var angleYCameraDirection = Math.atan2(
 				(hero.mesh.position.x - CAMERA.position.x),
 				(hero.mesh.position.z - CAMERA.position.z))
@@ -560,23 +637,23 @@ var Skills = [
 			TweenMax.to(character.rotation, .5, {
 				y: angleYCameraDirection + window.RY
 			})
-			
-			var dx = (moveX+15) - moveX
-			var dz = (moveZ+15) - moveZ
-			var dis = Math.abs(Math.sqrt((dx*dx)+(dz*dz)))
-			
-			var mPoint = new Three.Vector3(0,2,0)
-			mPoint.x = (character.position.x + moveX) + (character.position.x + walkDir.x*20) /2
-			mPoint.z = (character.position.z + moveZ) + (character.position.z + walkDir.z*20) /2
-			
-			var laser = new Three.Mesh(new Three.CylinderGeometry(2,2,3), new Three.MeshToonMaterial())
+
+			var dx = (moveX + 15) - moveX
+			var dz = (moveZ + 15) - moveZ
+			var dis = Math.abs(Math.sqrt((dx * dx) + (dz * dz)))
+
+			var mPoint = new Three.Vector3(0, 2, 0)
+			mPoint.x = (character.position.x + moveX) + (character.position.x + walkDir.x * 20) / 2
+			mPoint.z = (character.position.z + moveZ) + (character.position.z + walkDir.z * 20) / 2
+
+			var laser = new Three.Mesh(new Three.CylinderGeometry(2, 2, 3), new Three.MeshToonMaterial())
 			laser.position.x = character.position.x + moveX
 			laser.position.z = character.position.z + moveZ
-			laser.rotation.x = -Math.PI/2
+			laser.rotation.x = -Math.PI / 2
 			laser.rotation.z = angleYCameraDirection + window.RY
-			
+
 			SCENE.add(laser)
-		
+
 			TweenMax.to(laser.scale, 2, {
 				y: 10
 			})
