@@ -196,7 +196,7 @@ var FARM = {
 		}
 
 		var mmm = [
-			new Three.MeshToonMaterial({ transparent: true }),
+			new Three.MeshToonMaterial({ transparent: true, depthTest: false }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 })
 			]

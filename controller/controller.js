@@ -31,19 +31,19 @@ function CharacterControls(scene, model, orbitControl, camera) {
 
 		if (isTrue && window.gobo) {
 			// diagonal movement angle offset
-			var directionOffset = self.directionOffset(key)
-
+		//	var directionOffset = self.directionOffset(key)
+			var directionOffset = Math.atan2(key.x, key.z)
 			// update quaternions
 			var angleYCameraDirection = Math.atan2(
 				(self.model.position.x - self.camera.position.x),
 				(self.model.position.z - self.camera.position.z))
 
-				var angle = angleYCameraDirection + directionOffset
+				var angle = angleYCameraDirection - directionOffset// directionOffset
 			//	angle >= 1 ? angle = angle - 1 : angle = angle
 			
-				TweenMax.to(self.model.rotation, .6, {
-					y: angle
-				})
+				
+				self.model.rotation.setFromVector3({x: 0, y: angle, z:0})
+				//self.model.rotation.y = angle
 
 		//self.rotateQuarternion.setFromAxisAngle(self.rotateAngle, angle)
 		//self.model.quaternion.rotateTowards(self.rotateQuarternion, .11)
@@ -53,7 +53,7 @@ function CharacterControls(scene, model, orbitControl, camera) {
 			self.walkDirection.y = 0
 			self.walkDirection.normalize()
 
-			self.walkDirection.applyAxisAngle(self.rotateAngle, directionOffset)
+			self.walkDirection.applyAxisAngle(self.rotateAngle, -directionOffset)
 
 			var velocity = hero.velocity < 0 ? .01 : hero.velocity
 

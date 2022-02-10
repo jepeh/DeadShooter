@@ -46,6 +46,9 @@ var JoyStick = (function(container, parameters)
 	movedX = centerX;
 	movedY = centerY;
 
+	var offSet = $(`#${container}`)
+
+
 
 	var pressed = 0; // Bool - 1=Yes - 0=No
 
@@ -111,7 +114,7 @@ var JoyStick = (function(container, parameters)
 			{
 
 
-				joy.GetDir()
+				joy.GetDir(event)
 
 
 				movedX = event.targetTouches[0].pageX;
@@ -204,7 +207,7 @@ var JoyStick = (function(container, parameters)
 
 			// reload third skill
 			window.thirdSkillDone()
-		} else if(container === "skillpad") {
+		} else if (container === "skillpad") {
 			window.skillCancelFunc()
 			$(`#${container}`).css("box-shadow", "0px 0px 30px 5px #40F0FFB0 inset")
 		}
@@ -241,40 +244,40 @@ var JoyStick = (function(container, parameters)
 		keyPressed = ""
 	}
 
-	this.GetDir = function()
+	this.GetDir = function(e)
 	{
 
-		/*	var eX = e.clientX - offSet.left
-			var eY = e.clientY - offSet.top
-			
-			if (eX >= centerX) {
-				eX = eX - centerX
-				
-			} else {
-				eX = -(centerX - eX)
-			}
-			
-			if (eY >= centerY) {
-				eY = centerY - eY
-			} else {
-				eY = -(eY - centerY)
-			}
-			
-			eX = eX / centerX
-			eY = eY / centerY
-			
-			eX >= 1 ? eX = 1 : eX = eX
-			eY >= 1 ? eY = 1 : eY = eY
-			
-			eX <= -1 ? eX = -1 : eX = eX
-			eY <= -1 ? eY = -1 : eY = eY
-			
-			keyPressed = {
-				x: eX,
-				z: eY
-			}*/
+		var eX = e.touches[0].clientX - offSet[0].offsetLeft
+		var eY = e.touches[0].clientY - offSet[0].offsetTop
 
-		var horizontal = movedX;
+		if (eX >= centerX) {
+			eX = eX - centerX
+
+		} else {
+			eX = -(centerX - eX)
+		}
+
+		if (eY >= centerY) {
+			eY = centerY - eY
+		} else {
+			eY = -(eY - centerY)
+		}
+
+		eX = eX / centerX
+		eY = eY / centerY
+
+		eX >= 1 ? eX = 1 : eX = eX
+		eY >= 1 ? eY = 1 : eY = eY
+
+		eX <= -1 ? eX = -1 : eX = eX
+		eY <= -1 ? eY = -1 : eY = eY
+
+		keyPressed = {
+			x: eX,
+			z: eY
+		}
+
+		/*var horizontal = movedX;
 		var vertical = movedY;
 
 		if (vertical >= 0 && vertical <= boxAreaY) {
@@ -297,7 +300,7 @@ var JoyStick = (function(container, parameters)
 			keyPressed = "W"
 		} else if (horizontal >= boxAreaX * 2 && horizontal <= boxAreaX * 3) {
 			keyPressed = "E"
-		}
+		}*/
 
 
 		return;
@@ -351,7 +354,7 @@ var JoyStick = (function(container, parameters)
 	}
 
 
-	this.GetDirSkill = function(event)
+	this.GetDirSkill = function(e)
 	{
 
 		/*	var eX = e.clientX - offSet.left
@@ -387,62 +390,57 @@ var JoyStick = (function(container, parameters)
 		window.RY = null;
 
 
-		var horizontal = movedX;
-		var vertical = movedY;
+		var eX = e.touches[0].clientX - offSet[0].offsetLeft
+		var eY = e.touches[0].clientY - offSet[0].offsetTop
+		
+		if (eX >= centerX) {
+			eX = eX - centerX
 
-		if (vertical >= 0 && vertical <= boxAreaY) {
-			// N
-			RY = 0
-			if (horizontal >= 0 && horizontal <= boxAreaX) {
-				// NW
-				RY = Math.PI / 4
-			} else if (horizontal >= boxAreaX * 2 && horizontal <= boxAreaX * 3) {
-				// NE
-				RY = -Math.PI / 4
-			}
-
-		} else if (vertical >= boxAreaY * 2 && vertical <= boxAreaY * 3) {
-			// s
-			RY = Math.PI
-			if (horizontal >= 0 && horizontal <= boxAreaX) {
-				// SW
-				RY = Math.PI / 4 + Math.PI / 2
-			} else if (horizontal >= boxAreaX * 2 && horizontal <= boxAreaX * 3) {
-				// SE
-				RY = -Math.PI / 4 - Math.PI / 2
-			}
-
-		} else if (horizontal >= 0 && horizontal <= boxAreaX) {
-			// W
-			RY = Math.PI / 2
-		} else if (horizontal >= boxAreaX * 2 && horizontal <= boxAreaX * 3) {
-			// E
-			RY = -Math.PI / 2
+		} else {
+			eX = -(centerX - eX)
 		}
 
+		if (eY >= centerY) {
+			eY = centerY - eY
+		} else {
+			eY = -(eY - centerY)
+		}
+
+		eX = eX / centerX
+		eY = eY / centerY
+
+		eX >= 1 ? eX = 1 : eX = eX
+		eY >= 1 ? eY = 1 : eY = eY
+
+		eX <= -1 ? eX = -1 : eX = eX
+		eY <= -1 ? eY = -1 : eY = eY
+
+		RY = {
+			x: eX,
+			z: eY
+		}
 
 		// update quaternions
 		var angleYCameraDirection = Math.atan2(
 			(hero.mesh.position.x - window.CAMERA.position.x),
 			(hero.mesh.position.z - window.CAMERA.position.z))
 
-		var angle = angleYCameraDirection + RY
+		var angle = Math.atan2(RY.x, RY.z)
 		window.skillTargetVector = angle - character.rotation.y
 
-		TweenMax.to(window.skillArrow.rotation, .5, {
-			z: skillTargetVector
-		})
+		window.skillArrow.rotation.z = angle
 
-		var xx = event.targetTouches[0].clientX;
-		var yy = event.targetTouches[0].clientY;
-	
+
+		var xx = e.targetTouches[0].clientX;
+		var yy = e.targetTouches[0].clientY;
+
 
 		//	var leftX = offset.x - canvas.width/2
-		var leftNX = $(`#${container}`)[0].offsetLeft// - canvas.width / 2
+		var leftNX = $(`#${container}`)[0].offsetLeft // - canvas.width / 2
 		var leftPX = $(`#${container}`)[0].offsetLeft + canvas.width
 		var topNY = $(`#${container}`)[0].offsetTop //- canvas.height / 2
 		var topPY = $(`#${container}`)[0].offsetTop + canvas.height
-//console.log(movedX, leftNX, xx)
+		//console.log(movedX, leftNX, xx)
 		if (xx <= leftNX || xx >= leftPX || yy >= topPY || yy <= topNY) {
 			$(`#${container}`).css("box-shadow", "0px 0px 30px 5px #ff0000 inset")
 			window.skillCancel = true

@@ -41,7 +41,7 @@ async function getCoin() {
 			//COIN.push(mesh.children[i])
 		}
 		COIN = mesh
-		console.log(mesh)
+	
 	})
 
 }
@@ -1519,11 +1519,10 @@ class defaultHero extends Hero {
 		mesh.receiveShadow = true
 		group.add(mesh)
 
-		const muzzle = new Three.Mesh(new Three.BoxGeometry(1, 1, 1), new Three.MeshToonMaterial({ transparent: true, opacity: 0 }))
+		const muzzle = new Three.Mesh(new Three.BoxGeometry(1, 1, 1), new Three.MeshToonMaterial({ transparent: true, opacity: 1 }))
 		muzzle.position.set(0, 1, 6)
 		group.add(muzzle)
 		this.mesh = group
-
 
 		// update coins
 		$("#bulletCount").text("Bullets x" + this.bullets)
@@ -1539,33 +1538,37 @@ class defaultHero extends Hero {
 	initAnim() {
 
 		var sys = new Particles({
-			pCount: 20,
-			center: this.mesh.position,
+			pCount: 15,
+			center: new Three.Vector3(0,0,0),
+			isCenterSpawn: false,
 			texture: window.TextureLoader.load("assets/images/textures/bladeHit.png"),
 			size: {
-				minSize: 1,
-				maxSize: 3
+				isRandom: false,
+				x: .1,
+				y: 3
 			},
+			randomSpawn: {
+				minX: -2,
+				maxX: 2,
+				minY: 1,
+				maxY: 10,
+				minZ: -2,
+				maxZ: 2
+			},
+			linearTarget: true,
 			loop: false,
-			targetTiming: 2,
-			inTiming: 1,
-			outTiming: 2,
+			targetTiming: 2.5,
+			inTiming: .3,
+			outTiming: 1,
 			upward: true,
-			positions: {
-				x: {
-					minX: -4,
-					maxX: 4
-				},
-				y: {
+			targetPosition: {
+					minX: -6,
+					maxX: 6,
 					minY: 3,
-					maxY: 20
-				},
-				z: {
-					minZ: -4,
-					maxZ: 4
-				}
+					maxY: 20,
+					minZ: -6,
+					maxZ: 6
 			},
-			targetScale: new Three.Vector3(1, 1, 1),
 			interval: 60
 		})
 

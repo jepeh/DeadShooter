@@ -40,7 +40,7 @@ var Skills = [
 			var arrToKill = GAME.findTargetS(arr, hero.mesh.position)
 			var lightningMap = TextureLoader.load("assets/images/textures/lightning.png")
 			lightningMap.wrapT = Three.RepeatWrapping
-			lightningMap.repeat.set(2,2)
+			lightningMap.repeat.set(2, 2)
 
 			var go = setTimeout(() => {
 
@@ -51,9 +51,9 @@ var Skills = [
 					side: 2,
 					opacity: .7
 				}))
-				
-				
-				
+
+
+
 				plane.position.copy(character.position)
 				plane.position.y = 1
 				plane.rotation.x = -Math.PI / 2
@@ -88,7 +88,7 @@ var Skills = [
 							transparent: true,
 							map: lightningMap
 						}))
-						
+
 						lightning.position.copy(arrToKill[o].mesh.position)
 						lightning.scale.y = 0
 						lightning.rotation.y = Math.atan2((CAMERA.position.x - arrToKill[o].mesh.position.x), (CAMERA.position.z - arrToKill[o].mesh.position.z))
@@ -157,10 +157,10 @@ var Skills = [
 
 
 				}, 1200)
-				
-				var uu = setInterval(()=>{
-					lightningMap.offset.y -= .1 
-						
+
+				var uu = setInterval(() => {
+					lightningMap.offset.y -= .1
+
 					if (lightningMap.offset.y <= 0) {
 						lightningMap.offset.y = 1
 					}
@@ -509,23 +509,24 @@ var Skills = [
 					maxSize: 2
 				},
 				loop: true,
+				isCenterSpawn: true,
 				targetTiming: .3,
 				inTiming: .5,
 				outTiming: 2,
 				upward: true,
-				positions: {
-					x: {
-						minX: -2.5,
-						maxX: 2.5
-					},
-					y: {
-						minY: -2,
-						maxY: 2
-					},
-					z: {
-						minZ: -2.5,
-						maxZ: 2.5
-					}
+				targetPosition: {
+
+					minX: -2.5,
+					maxX: 2.5,
+
+
+					minY: -2,
+					maxY: 2,
+
+
+					minZ: -2.5,
+					maxZ: 2.5
+
 				},
 				targetScale: new Three.Vector3(1, 1, 1),
 				interval: 60
@@ -553,8 +554,8 @@ var Skills = [
 
 			var g = new Three.PlaneGeometry(20, 4)
 			var mesh = new Three.Mesh(g, m)
-			mesh.rotation.x = -Math.PI/2
-			mesh.rotation.z = Math.PI/2
+			mesh.rotation.x = -Math.PI / 2
+			mesh.rotation.z = Math.PI / 2
 			mesh.position.z = -10
 			character.add(mesh)
 

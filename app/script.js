@@ -277,8 +277,8 @@ var Game = (function(w, func) {
 
 		window.CONTROLS = new OrbitControls(CAMERA, RENDERER.domElement)
 		CONTROLS.enabled = true
-		CONTROLS.enablePan = false
-		CONTROLS.enableZoom = false
+		//CONTROLS.enablePan = false
+		//	CONTROLS.enableZoom = false
 		CONTROLS.minPolarAngle = -Math.PI / 4;
 		CONTROLS.maxPolarAngle = Math.PI / 3;
 
@@ -389,7 +389,7 @@ var Game = (function(w, func) {
 		dirLight.shadow.mapSize.width = 1024 * 2
 		dirLight.shadow.mapSize.height = 1024 * 2
 
-	
+
 		window.TextureLoader = new Three.TextureLoader()
 
 		var d = 200
@@ -510,12 +510,13 @@ var Game = (function(w, func) {
 			character.rotation.y = -10
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)
-			//SCENE.add(window.character)
+			SCENE.add(window.character)
 
 		}
 
 
 		ch()
+
 		window.mm = [
 			new Three.MeshToonMaterial({ transparent: true }),
 			new Three.MeshToonMaterial({ transparent: true, opacity: 0 }),
@@ -534,7 +535,8 @@ var Game = (function(w, func) {
 
 		window.gunrange = new Three.Mesh(new Three.PlaneGeometry(hero.gunRange * 2, hero.gunRange * 2), new Three.MeshToonMaterial({
 			map: TextureLoader.load("assets/images/textures/gunrange.png"),
-			side: 2
+			side: 2,
+			depthTest: false
 		}))
 		gunrange.material.transparent = true
 		gunrange.material.opacity = 0
@@ -545,7 +547,7 @@ var Game = (function(w, func) {
 
 		var fog = new Three.Fog("#000000", 70, 100)
 		fog.opacity = .1
-		SCENE.fog = fog
+		//	SCENE.fog = fog
 
 		TweenMax.to(character.scale, .9, {
 			x: 1,
@@ -578,38 +580,6 @@ var Game = (function(w, func) {
 		*/
 
 
-	/*var sys = new Particles({
-			pCount: 10,
-			center: new Three.Vector3(0, 2, 0),
-			texture: TextureLoader.load("assets/images/textures/ninjabladeBullet.png"),
-			size: {
-				minSize: 1,
-				maxSize: 4
-			},
-			loop: true,
-			targetTiming: 2,
-			inTiming: .5,
-			outTiming: 2,
-			positions: {
-				x: {
-					minX: -3,
-					maxX: 3
-				},
-				y: {
-					minY: 2,
-					maxY: 7
-				},
-				z: {
-					minZ: -3,
-					maxZ: 3
-				}
-			},
-			targetScale: new Three.Vector3(1, 1, 1),
-			interval: 200
-		})
-
-		
-		sys.start()*/
 
 		var grp = new Three.Group()
 		var mk = TextureLoader.load("assets/images/textures/rod.png")
