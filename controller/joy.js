@@ -426,9 +426,10 @@ var JoyStick = (function(container, parameters)
 			(hero.mesh.position.z - window.CAMERA.position.z))
 
 		var angle = Math.atan2(RY.x, RY.z)
+		
 		window.skillTargetVector = angle - character.rotation.y
 
-		window.skillArrow.rotation.z = angle
+		window.skillArrow.rotation.z = -(angle - angleYCameraDirection)
 
 
 		var xx = e.targetTouches[0].clientX;

@@ -266,6 +266,7 @@ var Game = (function(w, func) {
 
 		//ThreeJS window Variables
 		window.SCENE = new Three.Scene()
+
 		window.CAMERA = new Three.PerspectiveCamera(45, sizes.width / sizes.height, 1, 4000)
 		window.CLOCK = new Three.Clock()
 		window.RENDERER = new Three.WebGLRenderer({
@@ -465,6 +466,70 @@ var Game = (function(w, func) {
 		//*******************************************
 		// energy
 
+		/*	var h = TextureLoader.load("assets/images/textures/lasers.png")
+			h.wrapS = Three.RepeatMapping
+			
+			var mesh = new Three.Mesh(new Three.PlaneGeometry(9, 9), new Three.ShaderMaterial({
+				uniforms: {
+					text: {
+						type: "t",
+						value: h
+					},
+					text2: {
+						type: "t",
+						value: TextureLoader.load("assets/ll.png")
+					}
+				},
+				vertexShader: `
+				varying vec2 vUv;
+			
+				void main(){
+				vUv = uv;
+				gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+					}
+				`,
+				fragmentShader: `
+				
+				precision mediump float;
+				
+				uniform sampler2D text;
+				uniform sampler2D text2;
+				varying vec2 vUv;
+				vec4 cl;
+				
+				void main() {
+				
+					float time = sin(vUv.x*.2);
+				
+					vec2 tile = vec2(1., 1.);
+					vec2 offset = vec2(time,0.0);
+					
+					
+					vec2 UVU = vUv * tile + offset;
+				
+					vec4 CA = texture2D(text2, vUv);
+					vec4 CB = texture2D(text, UVU);
+					
+					vec4 c = CA * CB;
+					
+					
+					
+				//	cl = vec4(0.0,0.0,1.0,1.0);
+					vec4 color = c;
+				
+					
+					gl_FragColor = color;
+				}
+				`,
+				transparent: true,
+				side: 2
+			}))
+			mesh.position.y = 5
+			
+			SCENE.add(mesh)*/
+
+
+
 		// floor
 		window.floor = new Three.Mesh(new Three.BoxGeometry(305, 1, 305), new Three.MeshToonMaterial({ color: "#191C25" }))
 		floor.position.y = -1
@@ -510,7 +575,7 @@ var Game = (function(w, func) {
 			character.rotation.y = -10
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)
-			SCENE.add(window.character)
+		//	SCENE.add(window.character)
 
 		}
 
@@ -578,16 +643,96 @@ var Game = (function(w, func) {
 		MAIN GAME
 		***********************************************
 		*/
-
-
-
-		var grp = new Three.Group()
-		var mk = TextureLoader.load("assets/images/textures/rod.png")
+		var tru = new Three.Group()
+		var mesh = new Three.Mesh(new Three.PlaneGeometry(3,10), new Three.MeshToonMaterial({side: 2, 
+			map: TextureLoader.load("assets/images/textures/laserBeam.png"),
+			transparent: true
+		}))
+		mesh.rotation.z = Math.PI/4
+		
+		var mesh2 = new Three.Mesh(new Three.PlaneGeometry(6,6), new Three.MeshToonMaterial({side: 2,
+			transparent: true,
+			map: TextureLoader.load("assets/ll.png")
+		}))
+		mesh2.rotation.z = -Math.PI/4
+		mesh2.position.set(2.5, -2.5, 0)
+		tru.add(mesh, mesh2)
+		
+		var sys = new Particles({
+			loop: true,
+			size: {
+				isRandom: true,
+				minSize: .2,
+				maxSize: 1
+			},
+			center: character.position,
+			particleRotation: new Three.Euler(0,0,0),
+			particlePosition: new Three.Vector3(0,90,0),
+			//	particlePosition: character.position,
+			isCenterSpawn: false,
+			randomSpawn: {
+				minX: -40,
+				maxX: 40,
+				minY: -0,
+				maxY: 0,
+				minZ: -40,
+				maxZ: 40
+			},
+			particleSource: true,
+			linearTarget: false,
+			depthTest: true,
+			center: character.position,
+			mesh: tru,
+			//	texture: TextureLoader.load("assets/images/textures/bladeHit.png"),
+			isUpward: false,
+			inTiming: .2,
+			outTiming: .2,
+			targetTiming: 1,
+			targetPosition: {
+				minX: 30,
+				maxX: 30,
+				minY: -91,
+				maxY: -91,
+				minZ: -0,
+				maxZ: 0
+			},
+			interval: 200,
+			initialScale: new Three.Vector3(1, 1, 1),
+			endFunction: (pos) =>{
+				var hit = new Three.Mesh(new Three.PlaneGeometry(20,20), new Three.MeshToonMaterial({
+					transparent: true,
+					map: TextureLoader.load("assets/ll.png"),
+				depthTest: false
+				}))
+				hit.position.copy(pos)
+				hit.scale.set(0,0,0)
+				hit.rotation.x = -Math.PI/2
+				sys._group.add(hit)
+				TweenMax.to(hit.scale, .7, {
+					x: 1,
+					y: 1,
+					z: 1,
+					onComplete: ()=>{
+						TweenMax.to(hit.scale, .5, {
+							x: 0,
+							y: 0,
+							z: 0,
+							onComplete: ()=>{
+								hit.material.dispose()
+								hit.geometry.dispose()
+								sys._group.remove(hit)
+							}
+						})
+					}
+				})
+			}
+		})
+		sys.start()
 
 		window.enemyList = []
 		window.enemies = []
 		window.bloods = []
-
+		SCENE.add(new Three.AxesHelper(30))
 		function notif(txt) {
 			$("#status").css("display", "block")
 			$("#status").text(txt)
@@ -727,6 +872,9 @@ var Game = (function(w, func) {
 			window.initAnim = function() {
 				var now = Date.now() / 400
 
+				if (typeof Obj.initAnim === "function") {
+					requestAnimationFrame(Obj.initAnim)
+				}
 
 				var elapsedTime = CLOCK.getElapsedTime()
 				//character.rotation.y = Math.cos(elapsedTime) * .2
@@ -750,11 +898,12 @@ var Game = (function(w, func) {
 				//render layer1 normal
 				//	RENDERER.clearDepth()
 				//	CAMERA.layers.set(0)
+
+
+				//	composer.render()
 				RENDERER.render(SCENE, CAMERA)
 
-				if (typeof Obj.initAnim === "function") {
-					requestAnimationFrame(Obj.initAnim)
-				}
+
 
 				return;
 			}

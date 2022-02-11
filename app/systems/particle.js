@@ -78,7 +78,19 @@ var Particles = function(obj) {
 								depthTest: self._p.depthTest
 							}))
 						} else {
-							particle = new three.Mesh(self._p.mesh.geometry, self._p.mesh.material)
+							if (self._p.mesh.type === "Mesh") {
+								particle = new three.Mesh(self._p.mesh.geometry, self._p.mesh.material)
+							} else if (self._p.mesh.type === "Group") {
+								particle = new three.Group()
+								for (var p = 0; p < self._p.mesh.children.length; p++) {
+									var mm = new three.Mesh(self._p.mesh.children[p].geometry, self._p.mesh.children[p].material)
+									mm.rotation.copy(self._p.mesh.children[p].rotation)
+									mm.position.copy(self._p.mesh.children[p].position)
+									mm.scale.copy(self._p.mesh.children[p].scale)
+									particle.add(mm)
+								}
+
+							}
 						}
 
 
@@ -134,6 +146,9 @@ var Particles = function(obj) {
 								// only increase y position
 								y: targetPos.y,
 								onUpdate: () => {
+									if (self._p.targetFunction === "function") {
+										self._p.targetFunction(particle)
+									}
 									self._p.updateY ? particle.rotation.y = Math.atan2((particle.position.x - CAMERA.position.x), (particle.position.z - CAMERA.position.z)) : false
 								},
 								onComplete: () => {
@@ -146,14 +161,22 @@ var Particles = function(obj) {
 										},
 										onComplete: () => {
 
-											particle.material.dispose()
-											particle.geometry.dispose()
+											if (particle.type === "Mesh") {
+												particle.material.dispose()
+												particle.geometry.dispose()
+											} else if (particle.type === "Group") {
+												particle.traverse(e => {
+													e.material.dispose()
+													e.geometry.dispose()
+												})
+											}
 											self._group.remove(particle)
 
 											// callback function
 											if (self._p.endFunction) {
 												//console.log(self._p.endFunction)
-												self._p.endFunction(particle.position)
+
+												self._p.endFunction(particle)
 
 											}
 										}
@@ -166,6 +189,9 @@ var Particles = function(obj) {
 								y: targetPos.y,
 								z: targetPos.z,
 								onUpdate: () => {
+									if (self._p.targetFunction === "function") {
+										self._p.targetFunction(particle)
+									}
 									self._p.updateY ? particle.rotation.y = Math.atan2((particle.position.x - CAMERA.position.x), (particle.position.z - CAMERA.position.z)) : false
 								},
 								onComplete: () => {
@@ -178,14 +204,21 @@ var Particles = function(obj) {
 										},
 										onComplete: () => {
 
-											particle.material.dispose()
-											particle.geometry.dispose()
+											if (particle.type === "Mesh") {
+												particle.material.dispose()
+												particle.geometry.dispose()
+											} else if (particle.type === "Group") {
+												particle.children.forEach(e => {
+													e.material.dispose()
+													e.geometry.dispose()
+												})
+											}
 											self._group.remove(particle)
 
 											// callback function
 											if (self._p.endFunction) {
 												//console.log(self._p.endFunction)
-												self._p.endFunction(particle.position)
+												self._p.endFunction(particle)
 
 											}
 										}
@@ -228,7 +261,19 @@ var Particles = function(obj) {
 									depthTest: self._p.depthTest
 								}))
 							} else {
-								particle = new three.Mesh(self._p.mesh.geometry, self._p.mesh.material)
+								if (self._p.mesh.type === "Mesh") {
+									particle = new three.Mesh(self._p.mesh.geometry, self._p.mesh.material)
+								} else if (self._p.mesh.type === "Group") {
+									particle = new three.Group()
+									for (var p = 0; p < self._p.mesh.children.length; p++) {
+										var mm = new three.Mesh(self._p.mesh.children[p].geometry, self._p.mesh.children[p].material)
+										mm.rotation.copy(self._p.mesh.children[p].rotation)
+										mm.position.copy(self._p.mesh.children[p].position)
+										mm.scale.copy(self._p.mesh.children[p].scale)
+										particle.add(mm)
+									}
+
+								}
 							}
 
 							var pos;
@@ -282,6 +327,9 @@ var Particles = function(obj) {
 									// only increase y position
 									y: targetPos.y,
 									onUpdate: () => {
+										if (self._p.targetFunction === "function") {
+											self._p.targetFunction(particle)
+										}
 										self._p.updateY ? particle.rotation.y = Math.atan2((particle.position.x - CAMERA.position.x), (particle.position.z - CAMERA.position.z)) : false
 									},
 									onComplete: () => {
@@ -295,8 +343,15 @@ var Particles = function(obj) {
 											onComplete: () => {
 
 
-												particle.material.dispose()
-												particle.geometry.dispose()
+												if (particle.type === "Mesh") {
+													particle.material.dispose()
+													particle.geometry.dispose()
+												} else if (particle.type === "Group") {
+													particle.children.forEach(e => {
+														e.material.dispose()
+														e.geometry.dispose()
+													})
+												}
 												self._group.remove(particle)
 
 											}
@@ -309,6 +364,9 @@ var Particles = function(obj) {
 									y: targetPos.y,
 									z: targetPos.z,
 									onUpdate: () => {
+										if (self._p.targetFunction === "function") {
+											self._p.targetFunction(particle)
+										}
 										self._p.updateY ? particle.rotation.y = Math.atan2((particle.position.x - CAMERA.position.x), (particle.position.z - CAMERA.position.z)) : false
 									},
 									onComplete: () => {
@@ -322,8 +380,15 @@ var Particles = function(obj) {
 											onComplete: () => {
 
 
-												particle.material.dispose()
-												particle.geometry.dispose()
+												if (particle.type === "Mesh") {
+													particle.material.dispose()
+													particle.geometry.dispose()
+												} else if (particle.type === "Group") {
+													particle.children.forEach(e => {
+														e.material.dispose()
+														e.geometry.dispose()
+													})
+												}
 												self._group.remove(particle)
 
 											}
@@ -454,8 +519,15 @@ var Particles = function(obj) {
 										onComplete: () => {
 
 											for (var o = 0; o < particlesArray.length; o++) {
-												particlesArray[o].material.dispose()
-												particlesArray[o].material.dispose()
+												if (particlesArray[o].type === "Mesh") {
+													particlesArray[o].material.dispose()
+													particlesArray[o].geometry.dispose()
+												} else if (particlesArray[o].type === "Group") {
+													particlesArray[o].children.forEach(e => {
+														e.material.dispose()
+														e.geometry.dispose()
+													})
+												}
 												self._group.remove(particlesArray[o])
 											}
 											/*particle.material.dispose()
@@ -476,26 +548,30 @@ var Particles = function(obj) {
 								},
 								onComplete: () => {
 
-										TweenMax.to(particle.scale, self._p.outTiming, {
-											x: self._p.targetEndScale.x,
-											y: self._p.targetEndScale.y,
-											z: self._p.targetEndScale.z,
-											onUpdate: () => {
-												self._p.updateY ? particle.rotation.y = Math.atan2((particle.position.x - CAMERA.position.x), (particle.position.z - CAMERA.position.z)) : false
-											},
-											onComplete: () => {
+									TweenMax.to(particle.scale, self._p.outTiming, {
+										x: self._p.targetEndScale.x,
+										y: self._p.targetEndScale.y,
+										z: self._p.targetEndScale.z,
+										onUpdate: () => {
+											self._p.updateY ? particle.rotation.y = Math.atan2((particle.position.x - CAMERA.position.x), (particle.position.z - CAMERA.position.z)) : false
+										},
+										onComplete: () => {
 
-												for (var o = 0; o < particlesArray.length; o++) {
+											for (var o = 0; o < particlesArray.length; o++) {
+												if (particlesArray[o].type === "Mesh") {
 													particlesArray[o].material.dispose()
-													particlesArray[o].material.dispose()
-													self._group.remove(particlesArray[o])
+													particlesArray[o].geometry.dispose()
+												} else if (particlesArray[o].type === "Group") {
+													particlesArray[o].children.forEach(e => {
+														e.material.dispose()
+														e.geometry.dispose()
+													})
 												}
-												particle.material.dispose()
-													particle.geometry.dispose()
-													self._group.remove(particle)
-
+												self._group.remove(particlesArray[o])
 											}
-										})
+
+										}
+									})
 								}
 							})
 						}

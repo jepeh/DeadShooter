@@ -615,8 +615,9 @@ var Skills = [
 	},
 	{
 		name: "laserBeam",
-		duration: 3000,
+		duration: 10000,
 		func: function(tVector) {
+
 			var walkDir = new Three.Vector3()
 			var rotateAngle = new Three.Vector3(0, 1, 0)
 			// calculate direction
@@ -629,6 +630,9 @@ var Skills = [
 			// target Vector
 			var moveX = walkDir.x * 5
 			var moveZ = walkDir.z * 5
+			var done = false
+
+			var angle = Math.atan2(RY.x, RY.z)
 
 			//	rotate Angle
 			var angleYCameraDirection = Math.atan2(
@@ -636,29 +640,110 @@ var Skills = [
 				(hero.mesh.position.z - CAMERA.position.z))
 
 			TweenMax.to(character.rotation, .5, {
-				y: angleYCameraDirection + window.RY
+				y: angleYCameraDirection - angle
 			})
 
-			var dx = (moveX + 15) - moveX
-			var dz = (moveZ + 15) - moveZ
-			var dis = Math.abs(Math.sqrt((dx * dx) + (dz * dz)))
+			var sys = new Particles({
+				loop: true,
+				size: {
+					isRandom: true,
+					minSize: .2,
+					maxSize: 1
+				},
+				center: character.position,
+				particleRotation: new Three.Euler(0, 0, 0),
+			//	particlePosition: character.position,
+				isCenterSpawn: false,
+				randomSpawn: {
+					minX: -1.6,
+					maxX: 1.6,
+					minY: -2,
+					maxY: 0,
+					minZ: -1.6,
+					maxZ: 1.6
+				},
 
-			var mPoint = new Three.Vector3(0, 2, 0)
-			mPoint.x = (character.position.x + moveX) + (character.position.x + walkDir.x * 20) / 2
-			mPoint.z = (character.position.z + moveZ) + (character.position.z + walkDir.z * 20) / 2
+				linearTarget: true,
+				depthTest: true,
+				center: character.position,
+				mesh: new Three.Mesh(new Three.SphereGeometry(.3), new Three.MeshToonMaterial({ color: "purple", transparent: true, opacity: .9 })),
+				//	texture: TextureLoader.load("assets/images/textures/bladeHit.png"),
+				isUpward: true,
+				inTiming: .2,
+				outTiming: .2,
+				targetTiming: .4,
+				targetPosition: {
+					minX: -1,
+					maxX: 1,
+					minY: 10,
+					maxY: 40,
+					minZ: -1,
+					maxZ: 1
+				},
+				interval: 80,
+				initialScale: new Three.Vector3(1, 1, 1)
+			})
+			sys.start()
 
-			var laser = new Three.Mesh(new Three.CylinderGeometry(2, 2, 3), new Three.MeshToonMaterial())
-			laser.position.x = character.position.x + moveX
-			laser.position.z = character.position.z + moveZ
+			var laser = new Three.Mesh(new Three.PlaneGeometry(5, 45), new Three.MeshToonMaterial({
+				transparent: true,
+				side: 2,
+				depthTest: true,
+				map: TextureLoader.load("assets/images/textures/laserBeam.png")
+			}))
+
+			laser.material.map.wrapT = Three.RepeatMapping
+
+			laser.position.copy(character.position)
 			laser.rotation.x = -Math.PI / 2
-			laser.rotation.z = angleYCameraDirection + window.RY
+			laser.rotation.y = -Math.PI / 2
+			laser.position.y = 3
 
+			laser.position.z = -23
 			SCENE.add(laser)
 
-			TweenMax.to(laser.scale, 2, {
-				y: 10
-			})
+			var laserLight = new Three.PointLight("purple", 5, 10)
+			laserLight.position.copy(character.position)
+			SCENE.add(laserLight)
 
+			var laserSource = new Three.Mesh(new Three.SphereGeometry(2), new Three.MeshToonMaterial({
+				transparent: true,
+				side: 2,
+				depthTest: true,
+				color: "skyblue",
+				map: TextureLoader.load("assets/orb.png")
+			}))
+			laserSource.rotation.y = -Math.PI
+			laserSource.position.copy(character.position)
+			laserSource.position.y = 3
+
+			SCENE.add(laserSource)
+
+			function anim() {
+
+				if (done === true) {
+
+				} else {
+					if (anim === "function") {
+						requestAnimationFrame(anim)
+						laser.material.map.offset.y -= .1
+						if (laser.material.map.offset.y < 0) {
+							laser.material.map.offset.y = 1
+						}
+					}
+
+				}
+			}
+			anim()
+
+			var time = setTimeout(() => {
+				done = true
+				clearTimeout(time)
+				sys.end()
+				sys = null
+				anim = null
+				SCENE.remove(laser, laserLight, laserSource)
+			}, 10000)
 			return;
 		}
 	}
