@@ -356,8 +356,7 @@ var Game = (function(w, func) {
 		}
 		generateLevels()
 
-		// FACEBOOK DATA UPDATE
-
+		// FACEBOOK DATA UPDATE.
 
 		function resize() {
 
