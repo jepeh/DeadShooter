@@ -350,7 +350,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 25
 				})
 			} while (cnt <= 50)
 		}
@@ -652,6 +652,12 @@ var Game = (function(w, func) {
 			onComplete: function() {
 				$("#playbtn").css("display", "grid")
 			}
+		})
+
+		document.addEventListener("dblclick", e =>{
+			document.documentElement.requestFullscreen().catch(e =>{
+				alert(e)
+			})
 		})
 
 		//*******************************************
