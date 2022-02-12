@@ -9,6 +9,7 @@
 	<!-- HTML -->
 	<!-- Custom Styles -->
 	<link rel="stylesheet" href="style.css">
+	<link rel="manifest" href="manifest.json">
 	<link rel="stylesheet" href="assets/fonts/lineicons.css" />
 </head>
 
@@ -50,42 +51,26 @@
 		<i id="menu-close" class="lni lni-close"></i>
 		<div id="menu-container">
 			<div id="settings-wrapper">
-				<div class="sett">
-					<p>Profile</p>
-					<div id="sett-profile">
-						<div id="Profile-pic"><img src="" alt="Profile" id="Profile-src" /></div>
-						<div id="Profile-info">
-							<p class="PInfos" id="ProfileInfo-Name" style="font-size: 19px; font-family: 'QS-B'">Your Name</p>
-							<p class="PInfos" id="gameid">Game ID: ID</p>
-							<p class="PInfos">Game Hours: 0</p>
-							<p class="PInfos" id="ProfileInfo-Rank">Rank: Rank</p>
+				<div id="profile-div" class="menu-divs">
+					<p id="profile-title">Profile</p>
+					<div id="profile-info-div">
+						<div id="profile-info-img">
+						<img src="assets/images/profile.jpg" />
 						</div>
+						<div id="profile-info-infos">
+							<p class="profile-txt">John Paul</p>
+							<p class="profile-txt">Noob</p>
+							<p class="profile-txt">12 Hrs</p>
+							<p class="profile-txt">1019402028</p>
+						</div>
+					</div>
+					<div id="profile-stat-div">
+						
 					</div>
 				</div>
-				<div class="sett">
-					<p>Settings</p>
-					<div class="tech">
-						<p>Music</p>
-						<div id="music">
-							<div></div>
-						</div>
-					</div>
-					<div class="tech">
-						<p>Sound</p>
-						<div id="sound">
-							<div></div>
-						</div>
-					</div>
-					<div class="tech">
-						<p>Help</p>
-						<div></div>
-					</div>
-				</div>
-				<div class="sett">
-					<p>Inventory</p>
-					<div id="inv">
-						<p id="goto">Go to Inventory </p>
-						<p id="go">></p>
+				<div id="settings-div" class="menu-divs">
+					<p id="settings-title">Settings</p>
+					<div id="settings-info-div">
 					</div>
 				</div>
 			</div>
@@ -154,7 +139,6 @@
 	</canvas>
 	<div id="joystick"></div>
 	<div id="skillpad"></div>
-	
 	<!--------- BOMBS---------->
 	<div id="playbtn">
 		<p id="playbtntxt">PLAY</p>
@@ -211,10 +195,10 @@
 		</div>
 	</div>
 	<p id="invuse">use</p>
-		<div id="atombomb">
-			<img src="assets/images/atomoff.png" class="atomimgoff" />
-			<div class="chart" id="Chart" data-percent="0"></div>
-		</div>
+	<div id="atombomb">
+		<img src="assets/images/atomoff.png" class="atomimgoff" />
+		<div class="chart" id="Chart" data-percent="0"></div>
+	</div>
 	<!-- Project 
 	
 	<script src="https://connect.facebook.net/en_US/fbinstant.6.3.js"></script>

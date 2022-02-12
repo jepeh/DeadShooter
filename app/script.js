@@ -267,7 +267,7 @@ var Game = (function(w, func) {
 		//ThreeJS window Variables
 		window.SCENE = new Three.Scene()
 
-		window.CAMERA = new Three.PerspectiveCamera(45, sizes.width / sizes.height, 1, 4000)
+		window.CAMERA = new Three.PerspectiveCamera(30, sizes.width / sizes.height, 1, 4000)
 		window.CLOCK = new Three.Clock()
 		window.RENDERER = new Three.WebGLRenderer({
 			canvas: CANVAS,
@@ -275,11 +275,29 @@ var Game = (function(w, func) {
 			alpha: true
 		})
 
+		document.fullscreenEnabled = true
 
+		/*	function launchFullScreen(element) {
+			alert()
+			if (element.requestFullScreen) {
+				element.requestFullScreen();
+			} else if (element.mozRequestFullScreen) {
+				element.mozRequestFullScreen();
+			} else if (element.webkitRequestFullScreen) {
+				element.webkitRequestFullScreen();
+			}
+		}
+
+		// Launch fullscreen for browsers that support it!
+		launchFullScreen(document.documentElement); // the whole page
+
+*/
+		
+		
 		window.CONTROLS = new OrbitControls(CAMERA, RENDERER.domElement)
 		CONTROLS.enabled = true
-		//CONTROLS.enablePan = false
-		//	CONTROLS.enableZoom = false
+		CONTROLS.enablePan = false
+		CONTROLS.enableZoom = false
 		CONTROLS.minPolarAngle = -Math.PI / 4;
 		CONTROLS.maxPolarAngle = Math.PI / 3;
 
@@ -356,12 +374,12 @@ var Game = (function(w, func) {
 			RENDERER.render(SCENE, CAMERA)
 
 			// Landscape detector
-			if (innerWidth > innerHeight) {
-				$("#LANDSCAPEDetector").css("display", "block")
-			} else {
-				$("#LANDSCAPEDetector").css("display", "none")
+			/*	if (innerWidth > innerHeight) {
+					$("#LANDSCAPEDetector").css("display", "block")
+				} else {
+					$("#LANDSCAPEDetector").css("display", "none")
 
-			}
+				}*/
 
 			return false
 		}
@@ -378,7 +396,7 @@ var Game = (function(w, func) {
 		RENDERER.setSize(sizes.width, sizes.height);
 		RENDERER.setPixelRatio(window.devicePixelRatio)
 		RENDERER.shadowMap.enabled = true
-		CAMERA.position.set(0, 25, 20)
+		CAMERA.position.set(0, 30, 20)
 
 		// Lights and Shadow
 
@@ -401,6 +419,7 @@ var Game = (function(w, func) {
 		dirLight.shadow.camera.bottom = -d
 		dirLight.shadow.camera.far = 1000
 		dirLight.shadow.camera.near = 1
+		window.uTime = 0;
 
 
 		SCENE.add(dirLight, ambLight)
@@ -443,14 +462,7 @@ var Game = (function(w, func) {
 			return;
 		})
 
-		var left = innerWidth * 1
-		var top = innerHeight * .62
-
-		$("#utils").css({
-			top: top + "px",
-			left: left + "px",
-			marginLeft: "-200px"
-		})
+		
 
 		$("#utils")[0].offsetLeft
 
@@ -477,7 +489,11 @@ var Game = (function(w, func) {
 					},
 					text2: {
 						type: "t",
-						value: TextureLoader.load("assets/ll.png")
+						value: TextureLoader.load("assets/noise.jpeg")
+					},
+					uTime: {
+						type: "f",
+						value: window.uTime
 					}
 				},
 				vertexShader: `
@@ -494,12 +510,13 @@ var Game = (function(w, func) {
 				
 				uniform sampler2D text;
 				uniform sampler2D text2;
+				uniform float uTime;
 				varying vec2 vUv;
 				vec4 cl;
 				
 				void main() {
 				
-					float time = sin(vUv.x*.2);
+					float time = uTime * 2.;
 				
 					vec2 tile = vec2(1., 1.);
 					vec2 offset = vec2(time,0.0);
@@ -575,12 +592,16 @@ var Game = (function(w, func) {
 			character.rotation.y = -10
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)
-		//	SCENE.add(window.character)
+				SCENE.add(window.character)
 
 		}
 
 
 		ch()
+
+
+
+
 
 		window.mm = [
 			new Three.MeshToonMaterial({ transparent: true }),
@@ -643,96 +664,148 @@ var Game = (function(w, func) {
 		MAIN GAME
 		***********************************************
 		*/
-		var tru = new Three.Group()
-		var mesh = new Three.Mesh(new Three.PlaneGeometry(3,10), new Three.MeshToonMaterial({side: 2, 
-			map: TextureLoader.load("assets/images/textures/laserBeam.png"),
-			transparent: true
-		}))
-		mesh.rotation.z = Math.PI/4
-		
-		var mesh2 = new Three.Mesh(new Three.PlaneGeometry(6,6), new Three.MeshToonMaterial({side: 2,
-			transparent: true,
-			map: TextureLoader.load("assets/ll.png")
-		}))
-		mesh2.rotation.z = -Math.PI/4
-		mesh2.position.set(2.5, -2.5, 0)
-		tru.add(mesh, mesh2)
-		
-		var sys = new Particles({
-			loop: true,
-			size: {
-				isRandom: true,
-				minSize: .2,
-				maxSize: 1
-			},
-			center: character.position,
-			particleRotation: new Three.Euler(0,0,0),
-			particlePosition: new Three.Vector3(0,90,0),
-			//	particlePosition: character.position,
-			isCenterSpawn: false,
-			randomSpawn: {
-				minX: -40,
-				maxX: 40,
-				minY: -0,
-				maxY: 0,
-				minZ: -40,
-				maxZ: 40
-			},
-			particleSource: true,
-			linearTarget: false,
-			depthTest: true,
-			center: character.position,
-			mesh: tru,
-			//	texture: TextureLoader.load("assets/images/textures/bladeHit.png"),
-			isUpward: false,
-			inTiming: .2,
-			outTiming: .2,
-			targetTiming: 1,
-			targetPosition: {
-				minX: 30,
-				maxX: 30,
-				minY: -91,
-				maxY: -91,
-				minZ: -0,
-				maxZ: 0
-			},
-			interval: 200,
-			initialScale: new Three.Vector3(1, 1, 1),
-			endFunction: (pos) =>{
-				var hit = new Three.Mesh(new Three.PlaneGeometry(20,20), new Three.MeshToonMaterial({
-					transparent: true,
-					map: TextureLoader.load("assets/ll.png"),
-				depthTest: false
-				}))
-				hit.position.copy(pos)
-				hit.scale.set(0,0,0)
-				hit.rotation.x = -Math.PI/2
-				sys._group.add(hit)
-				TweenMax.to(hit.scale, .7, {
-					x: 1,
-					y: 1,
-					z: 1,
-					onComplete: ()=>{
-						TweenMax.to(hit.scale, .5, {
-							x: 0,
-							y: 0,
-							z: 0,
+		/*	var tru = new Three.Group()
+			var mesh = new Three.Mesh(new Three.PlaneGeometry(3, 10), new Three.MeshToonMaterial({
+				side: 2,
+				map: TextureLoader.load("assets/images/textures/laserBeam.png"),
+				transparent: true
+			}))
+			mesh.rotation.z = Math.PI / 4
+
+			var mesh2 = new Three.Mesh(new Three.PlaneGeometry(6, 6), new Three.MeshToonMaterial({
+				side: 2,
+				transparent: true,
+				map: TextureLoader.load("assets/ll.png")
+			}))
+			mesh2.rotation.z = -Math.PI / 4
+			mesh2.position.set(2.5, -2.5, 0)
+			tru.add(mesh, mesh2)
+
+				var sys = new Particles({
+					loop: true,
+					size: {
+						isRandom: true,
+						minSize: .2,
+						maxSize: 1
+					},
+					center: character.position,
+					particleRotation: new Three.Euler(0,0,0),
+					particlePosition: new Three.Vector3(0,90,0),
+					//	particlePosition: character.position,
+					isCenterSpawn: false,
+					randomSpawn: {
+						minX: -40,
+						maxX: 40,
+						minY: -0,
+						maxY: 0,
+						minZ: -40,
+						maxZ: 40
+					},
+					particleSource: true,
+					linearTarget: false,
+					depthTest: true,
+					center: character.position,
+					mesh: tru,
+					//	texture: TextureLoader.load("assets/images/textures/bladeHit.png"),
+					isUpward: false,
+					inTiming: .2,
+					outTiming: .2,
+					targetTiming: 1,
+					targetPosition: {
+						minX: 30,
+						maxX: 30,
+						minY: -91,
+						maxY: -91,
+						minZ: -0,
+						maxZ: 0
+					},
+					interval: 200,
+					initialScale: new Three.Vector3(1, 1, 1),
+					endFunction: (pos) =>{
+						var hit = new Three.Mesh(new Three.PlaneGeometry(20,20), new Three.MeshToonMaterial({
+							transparent: true,
+							map: TextureLoader.load("assets/ll.png"),
+						depthTest: false
+						}))
+						hit.position.copy(pos)
+						hit.scale.set(0,0,0)
+						hit.rotation.x = -Math.PI/2
+						sys._group.add(hit)
+						TweenMax.to(hit.scale, .7, {
+							x: 1,
+							y: 1,
+							z: 1,
 							onComplete: ()=>{
-								hit.material.dispose()
-								hit.geometry.dispose()
-								sys._group.remove(hit)
+								TweenMax.to(hit.scale, .5, {
+									x: 0,
+									y: 0,
+									z: 0,
+									onComplete: ()=>{
+										hit.material.dispose()
+										hit.geometry.dispose()
+										sys._group.remove(hit)
+									}
+								})
 							}
 						})
 					}
 				})
+				sys.start()*/
+
+
+
+		/*var mesh = new Three.Mesh(new Three.SphereGeometry(.3), new Three.MeshToonMaterial())
+		SCENE.add(mesh)
+
+		var to = setInterval(() => {
+			if (mesh.position.y > 20) {
+				clearInterval(to)
+				var sys = new Particles({
+					loop: false,
+					size: {
+						isRandom: true,
+						minSize: .2,
+						maxSize: 1
+					},
+					center: new Three.Vector3(0, 0, 0),
+					particlePosition: mesh.position,
+					//	mesh: new Three.Mesh(new Three.SphereGeometry(.3), new Three.MeshToonMaterial()),
+					//	particlePosition: character.position,
+					isCenterSpawn: true,
+					particleSource: true,
+					linearTarget: false,
+					depthTest: true,
+					texture: TextureLoader.load("assets/fire.png"),
+					inTiming: .1,
+					outTiming: .1,
+					targetTiming: .9,
+					targetPosition: {
+						minX: -5,
+						maxX: 5,
+						minY: -5,
+						maxY: 5,
+						minZ: -5,
+						maxZ: 5
+					},
+					pCount: 100,
+					instantSpawn: true,
+					systemShape: "sphere",
+					radius: 10,
+					initialScale: new Three.Vector3(0, 0, 0),
+					endScale: new Three.Vector3(0, 0, 0),
+					targetScale: new Three.Vector3(1, 1, 1)
+				})
+				sys.start()
+			} else {
+				mesh.position.y += 1
 			}
-		})
-		sys.start()
+		}, 10)*/
 
 		window.enemyList = []
 		window.enemies = []
 		window.bloods = []
 		SCENE.add(new Three.AxesHelper(30))
+
 		function notif(txt) {
 			$("#status").css("display", "block")
 			$("#status").text(txt)
@@ -748,8 +821,8 @@ var Game = (function(w, func) {
 
 		// joystick
 		window.joy = new JoyStick("joystick", {
-			width: 130,
-			height: 130
+			width: 110,
+			height: 110
 		})
 
 		window.skillPad = new JoyStick("skillpad", {
@@ -768,7 +841,7 @@ var Game = (function(w, func) {
 				.css("display", "none")
 			character.position.set(0, 2.5, 0)
 
-			var tarPos = new Three.Vector3(25, 70, 25)
+			var tarPos = new Three.Vector3(20, 60, 20)
 
 			hero.initAnim()
 
@@ -837,8 +910,8 @@ var Game = (function(w, func) {
 			"	vec3 color = vec3(1.,1.,1.);",
 			"	vec3 viewDirectionW = normalize(cameraPosition - vNormalW);",
 			"	float fresnelTerm = dot(viewDirectionW, vNormalW);",
-			"	fresnelTerm = clamp(1. - fresnelTerm, 0.08, 10.);",
-			"	gl_FragColor = vec4( color * fresnelTerm, 1.);",
+			"	fresnelTerm = clamp(1.2- fresnelTerm, 0.8, 10.);",
+			"	gl_FragColor = vec4(color * fresnelTerm, 1.);",
 			"}"
 
 		].join("\n")
@@ -880,6 +953,7 @@ var Game = (function(w, func) {
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
 				cu.rotation.y = elapsedTime
+				//	mesh.material.uniforms.uTime.value += .01
 
 				/*cu2.rotation.y = Math.cos(elapsedTime)
 				cu2.rotation.z = elapsedTime
@@ -922,8 +996,9 @@ var Game = (function(w, func) {
 
 			$("#tips").css({
 				display: "grid",
-				width: "100%",
-				left: "0%"
+				width: "70%",
+				left: "50%",
+				marginLeft: "-35%"
 			})
 
 			$("#tips").text(txt)

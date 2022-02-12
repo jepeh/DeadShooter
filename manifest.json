@@ -1,0 +1,15 @@
+{
+  "name": "Zombie Shooter",
+  "short_name": "ZombShoot",
+  "start_url": "index.html",
+  "display": "fullscreen",
+  "background_color": "#fdfdfd",
+  "theme_color": "#db4938",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "/assets/images/blockgamesblack.png",
+      "type": "image/png", "sizes": "72x72"
+    }
+  ]
+}

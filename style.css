@@ -44,7 +44,8 @@ html {
 
 #joystick {
 	position: absolute;
-	top: 68%;
+	top: 100vh;
+	margin-top: -40vh;
 	left: 5%;
 	opacity: 0;
 }
@@ -62,6 +63,10 @@ html {
 	position: absolute;
 	width: 180px;
 	height: 180px;
+	top: 100vh;
+	margin-top: -60vh;
+	left: 100vw;
+	margin-left: -25vw;
 	display: none;
 	z-index: 5;
 	grid-template-rows: 50% 50%;
@@ -103,16 +108,16 @@ html {
 }
 #GameMode {
 	position: absolute;
-	width: 85%;
-	height: 20%;
-	top: 50%;
+	width: 50vw;
+	height: 40vh;
+	top: 50vh;
+	left: 50vw;
+	margin-left: -25vw;
+	margin-top: -20vh;
 	background: linear-gradient(130deg, #3F40489E, #30324A7D);
-	left: 50%;
-	margin-left: -42.5%;
-	margin-top: -42%;
 	display: none;
 	z-index: 7;
-	border-radius: 15px;
+	border-radius: 6px;
 	grid-template-rows: 10% 90%;
 	animation: pop .4s cubic-bezier(0.19, 1, 0.22, 1)
 }
@@ -123,7 +128,7 @@ html {
 	text-align: center;
 	color: white;
 	font-family: "QS-B";
-	font-size: 4vw
+	font-size: 2.8vh
 }
 #GMTitle{
 	position: relative;
@@ -131,7 +136,7 @@ html {
 	margin: auto;
 	color: white;
 	font-family: 'QS-M';
-	font-size: 5vw
+	font-size: 4vh
 }
 #GMDiv {
 	position: relative;
@@ -176,7 +181,7 @@ html {
 	margin: auto;
 	width: 100%;
 	font-family: "QS-B";
-	font-size: 4vw;
+	font-size: 3.5vh;
 	color: white;
 	top: 35%;
 	text-align: left;
@@ -308,12 +313,12 @@ html {
 	font-size: 20px;
 	color: white;
 	font-family: 'QS-B';
-	width: 20%;
+	width: 10%;
 	height: 5px;
 	background: linear-gradient(to left, #06092754, #0FBAD599);;
 	top: var(--height);
 	left: var(--width);
-	margin-left: -10%;
+	margin-left: -5%;
 	margin-top: -50px;
 	display: none;
 	transform: skew(-20deg)
@@ -325,12 +330,12 @@ html {
 	font-size: 20px;
 	color: white;
 	font-family: 'QS-B';
-	width: 18%;
+	width: 10%;
 	height: 3px;
 	background: linear-gradient(to left, #06092754, #0FBAD599);
 	top: var(--height);
 	left: var(--width);
-	margin-left: -9%;
+	margin-left: -5%;
 	margin-top: -43px;
 	transform: skewX(20deg);
 	display: none
@@ -363,13 +368,13 @@ html {
 
 #statcount {
 	position: absolute;
-	width: 100%;
-	height: 13%;
+	width: 100vw;
+	height: 27vh;
 	background-color: none;
 	display: none;
 	grid-template-columns: 50% 50%;
 	grid-template-rows: 33.3% 33.3% 33.3% 33.3%;
-	top: 7%;
+	top: 15vh;
 	font-size: 13px;
 	text-align: center;
 	padding: auto
@@ -377,7 +382,7 @@ html {
 
 #bulletCount {
 	position: relative;
-	width: 70%;
+	width: 40%;
 	height: 80%;
 	background: linear-gradient(to left, #06092754, #0FBAD599);
 	font-family: 'QS-M';
@@ -388,14 +393,14 @@ html {
 	margin-right: -5px;
 	text-align: center;
 	color: white;
-	font-size: 1vh;
+	font-size: 2vh;
 	transform: skew(20deg);
 	transition: all .3s cubic-bezier(0.19, 1, 0.22, 1)
 }
 
 #keysCount {
 	position: relative;
-	width: 50%;
+	width: 25%;
 	height: 80%;
 	background: linear-gradient(to left, #06092754, #0FBAD599);
 	font-family: 'QS-M';
@@ -406,15 +411,14 @@ html {
 
 	display: grid;
 	grid-template-columns: 50% 50%;
-	font-size: 1vh;
+	font-size: 2vh;
 	transform: skew(20deg);
 	transition: all .3s cubic-bezier(0.19, 1, 0.22, 1)
 }
 
 #keysCount>img {
 	position: relative;
-	width: 50%;
-	height: 90%;
+	width: 6vh;
 	transform: skew(-20deg);
 	margin: auto
 }
@@ -422,20 +426,19 @@ html {
 #keystxt {
 	position: relative;
 	text-align: left;
-	font-size: 1vh;
+	font-size: 2vh;
 	margin: auto;
-
 	margin-left: -5px;
 	color: white;
 }
 
 #zombiecount {
 	position: relative;
-	width: 70%;
+	width: 40%;
 	height: 80%;
 	margin: auto;
 	margin-left: -5px;
-	font-size: 1vh;
+	font-size: 2vh;
 	text-align: center;
 	background: linear-gradient(to right, #06092754, #0FBAD599);
 	border-top: .5px solid #0EDEFFFC;
@@ -449,8 +452,7 @@ html {
 
 #zombiecount>img {
 	position: relative;
-	width: 33%;
-	height: 80%;
+	width: 6vh;
 	margin: auto;
 	margin-right: 10px;
 	text-align: right;
@@ -461,14 +463,14 @@ html {
 	position: relative;
 	margin: auto;
 	width: 100%;
-	font-size: 1vh;
+	font-size: 2vh;
 	text-align: center;
 	margin-left: 20px
 }
 
 #coins {
 	position: relative;
-	width: 50%;
+	width: 25%;
 	height: 80%;
 	background: linear-gradient(to right, #06092754, #0FBAD599);
 	border-top: .5px solid #0EDEFFFC;
@@ -484,8 +486,7 @@ html {
 
 #coins img {
 	position: relative;
-	width: 50%;
-	height: 90%;
+	width: 6vh;
 	transform: skew(20deg);
 	margin: auto;
 	text-align: left
@@ -495,7 +496,7 @@ html {
 	position: relative;
 	margin: auto;
 	text-align: center;
-	font-size: 1vh;
+	font-size: 2vh;
 	margin-left: 70%
 }
 
@@ -519,8 +520,10 @@ html {
 
 #tips {
 	position: absolute;
-	width: 100%;
-	height: 15%;
+	width: 70%;
+	height: 25vh;
+	left: 50%;
+	margin-left: -35%;
 	top: 25%;
 	background: linear-gradient(to right, #06092754, #0FBAD599, #06092754);
 	display: none;
@@ -559,7 +562,7 @@ html {
 	text-align: center;
 	font-family: 'QS-L';
 	font-weight: 100;
-	font-size: 2vh;
+	font-size: 3.5vh;
 }
 
 #coinscount {
@@ -571,8 +574,8 @@ html {
 
 #playbtn {
 	position: absolute;
-	width: 90px;
-	height: 40px;
+	width: 80px;
+	height: 30px;
 	background-color: #42445A00;
 	left: 50%;
 	margin-left: -45px;
@@ -605,10 +608,10 @@ span {
 	font-family: 'QS-L';
 	margin: auto;
 	background: linear-gradient(to left, #27E1FF00, #27E1FF00, #27E1FF52, #27E1FF00, #27E1FF00);
-	width: 100%;
+	width: 100vw;
 	left: 50%;
-	margin-left: -50%;
-	height: 20px;
+	margin-left: -50vw;
+	height: 8vh;
 	padding: auto;
 	top: 2%;
 	text-align: center;
@@ -621,7 +624,7 @@ span {
 }
 
 span>p {
-	font-size: 4vw;
+	font-size: 3vh;
 	color: #FFFFFFBA
 }
 
@@ -758,7 +761,7 @@ span>p {
 
 #settings {
 	position: absolute;
-	font-size: 1.8em;
+	font-size: 8vh;
 	color: #C9CBE3C2;
 	margin: auto;
 	margin-left: 10px;
@@ -774,29 +777,29 @@ span>p {
 	background: linear-gradient(to top, #10131D, #23273B);
 	z-index: 3;
 	display: none;
-	grid-template-rows: 5% 95%;
+	grid-template-rows: 10% 90%;
 	animation: menu .5s cubic-bezier(0.19, 1, 0.22, 1)
 }
 
 #menu-close {
 	position: relative;
 	color: white;
-	font-size: 18px;
+	font-size: 4.5vh;
 	margin: auto;
-	margin-left: 10px
+	margin-left: 30px
 }
 
 #menu-container {
 	position: relative;
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	height: 100vh;
 	overflow: hidden
 }
 
 #energy-container {
 	position: fixed;
-	width: 60px;
-	height: 60px;
+	width: 40px;
+	height: 50px;
 	background-color: none;
 	margin: auto;
 	right: 0;
@@ -810,8 +813,8 @@ span>p {
 
 #coin-container {
 	position: fixed;
-	width: 60px;
-	height: 60px;
+	width: 40px;
+	height: 50px;
 	background-color: none;
 	margin: auto;
 	right: 0;
@@ -841,7 +844,7 @@ span>p {
 #energy-txt {
 	position: relative;
 	font-family: 'QS-M';
-	font-size: 2vw;
+	font-size: 3vh;
 	color: white;
 	margin: auto;
 	text-align: right;
@@ -858,7 +861,7 @@ span>p {
 #coin-txt {
 	position: relative;
 	font-family: 'QS-M';
-	font-size: 2vw;
+	font-size: 3vh;
 	text-align: right;
 	color: white;
 	margin: auto;
@@ -866,13 +869,13 @@ span>p {
 
 #alert {
 	position: absolute;
-	width: 70%;
-	height: 20%;
+	width: 30vw;
+	height: 50vh;
 	margin: auto;
-	left: 50%;
-	margin-left: -35%;
-	top: 50%;
-	margin-top: -85px;
+	left: 50vw;
+	margin-left: -15vw;
+	top: 50vh;
+	margin-top: -25vh;
 	z-index: 3;
 	border-radius: 10px;
 	background-color: #000000AB;
@@ -888,20 +891,20 @@ span>p {
 #alert-txt {
 	position: relative;
 	text-align: center;
-	font-size: 19px;
+	font-size: 2.6vh;
 	top: 10%;
 }
 
 #alert-txt2 {
 	position: relative;
 	text-align: center;
-	font-size: 12px;
+	font-size: 2vh;
 	margin-top: 5%
 }
 
 #alert>img {
 	position: relative;
-	width: 15%;
+	width: 15vh;
 	text-align: center;
 	margin: auto;
 	display: block
@@ -995,22 +998,22 @@ span>p {
 	margin: auto;
 	width: 100%;
 	top: 100%;
-	margin-top: -5%;
-	margin-left: 15px;
+	margin-top: -2%;
+	margin-left: 10px;
 	font-family: 'QS-L';
-	font-size: 10px;
+	font-size: 3vh;
 	color: white;
 }
 
 #trademark {
 	position: absolute;
-	width: 10%;
+	width: 20vh;
 	opacity: .6;
 	right: 2px;
-	top: 100%;
-	margin-top: -9%;
-	left: 100%;
-	margin-left: -15%
+	left: 100vw;
+	top: 100vh;
+	margin-top: -16vh;
+	margin-left: -10vw;
 }
 
 .ccns {
@@ -1149,162 +1152,88 @@ span>p {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	background-color: none;
-	overflow-y: scroll;
-	white-space: nowrap;
-	overflow-x: hidden;
-	padding-bottom: 20px;
 	display: grid;
-	animation: pop .5s cubic-bezier(0.19, 1, 0.22, 1)
+	grid-template-columns: 60% 40%;
+	padding-bottom: 30px;
+	align-items: center;
+	justify-content: center;
 }
 
-#settings-wrapper::-webkit-scrollbar {
+.menu-divs {
+	position: relative;
+	margin: auto;
+}
+.menu-divs::-webkit-scrollbar {
 	display: none
 }
-
-.sett {
-	position: relative;
-	width: 95%;
-	background-color: none;
+#settings-div {
+	width: 90%;
+	height: 95%;
 	margin: auto;
-	margin-top: 20px;
-	left: 50%;
-	margin-left: -47.5%;
-	font-family: 'QS-M';
-	font-size: 20px;
-	color: #FFFFFFED
+	
 }
-
-.sett>p {
-	margin-left: 10px;
-
-}
-
-#sett-profile {
-	position: relative;
-	width: 95%;
-	height: 170px;
-	background: linear-gradient(130deg, #2A314D, #181D2D, #2A314D);
-	box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, .2), 0px 0px 20px 5px #8F94CC1C inset;
-	border-radius: 10px;
-	margin-top: 10px;
-	opacity: .7;
-	left: 50%;
-	margin-left: -47.5%;
-	overflow-x: hidden;
+#profile-div {
+	width: 100%;
+	height: 95%;
 	display: grid;
-	grid-template-columns: 50% 50%
+	
+	margin: auto;
+	grid-template-rows: 10% 35% 55%
 }
-
-#Profile-pic {
+#profile-title, #settings-title {
 	position: relative;
-	width: 130px;
-	height: 130px;
-	background-color: blue;
+	font-family: "QS-M";
+	font-size: 4vh;
+	text-align: left;
+	margin-left: 4.5vw;
+	color: white;
+}
+#profile-info-div {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	display: grid;
+	grid-template-columns: 30% 70%
+}
+#profile-stat-div {
+	position: relative;
+	width: 90%;
+	height: 80%;
+	margin: auto;
+	background-color: #232432A8;
+	box-shadow: 0px 0px 10px 2px rgba(0,0,0,.09);
+	border-radius: 10px;
+}
+#profile-info-img {
+	position: relative;
+	width: 90%;
+	height: 100%;
+	margin-left: 25px;
+	border-radius: 10px;
 	overflow: hidden;
-	margin: auto;
-	border-radius: 20px
+	align-items: center;
+	justify-content: center
+}
+#profile-info-img img {
+	position: relative;
+	width: 100%;
 }
 
-#Profile-src {
+#profile-info-infos {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	text-align: center;
-	margin: auto
-}
-
-#Profile-info {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	margin: auto;
 	display: grid;
-	grid-template-columns: 100%;
-	grid-template-rows: 10% 10% 10% 10%;
-	grid-gap: 5px;
-	padding-top: 30px;
+	grid-template-rows: 25% 25% 25% 25%
 }
-
-.PInfos {
+.profile-txt {
 	position: relative;
-	font-size: 13px;
-	text-align: left;
 	font-family: 'QS-L';
-	margin-top: 10px
-}
-
-
-.tech {
-	position: relative;
-	width: 95%;
-	height: 45px;
-	background: linear-gradient(130deg, #2A314D, #181D2D);
-	box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, .09), 0px 0px 10px 2px #3152C71C inset;
-	border-radius: 10px;
-	margin-top: 20px;
-	opacity: .5;
-	left: 50%;
-	margin-left: -47.5%;
-	display: grid;
-	grid-template-columns: 80% 20%;
-}
-
-.tech p {
-	position: relative;
-	margin: auto;
-	margin-left: 10px;
-	font-family: 'QS-M';
-	font-size: .8em;
-}
-
-.tech div {
-	position: relative;
-	margin: auto;
-	width: 50px;
-	height: 23px;
-	background-color: rgba(255, 255, 255, .8);
-	border-radius: 50px;
-
-}
-
-.tech div div {
-	position: relative;
-	width: 20px;
-	height: 20px;
-	background-color: rgba(0, 0, 0, .6);
-	top: 50%;
-	margin-top: -10px;
-	transform: translateX(63%);
-	transition: all .6s cubic-bezier(0.19, 1, 0.22, 1)
-}
-
-#inv {
-	position: relative;
-	width: 95%;
-	height: 50px;
-	background: linear-gradient(130deg, #2A314D, #181D2D);
-	box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, .09), 0px 0px 10px 2px #3152C71C inset;
-	margin-top: 10px;
-	border-radius: 10px;
-	font-size: 15px;
+	font-size: 3vh;
 	text-align: left;
-	display: grid;
-	grid-template-columns: 50% 50%;
-	left: 50%;
-	margin-left: -47.5%;
-	opacity: .6
-}
-
-#go {
-	margin: auto;
-	margin-right: 15px;
-	font-size: 25px
-}
-
-#goto {
-	margin: auto;
-	margin-left: 15px
+	margin-left: 60px;
+	color: white;
 }
 
 
@@ -1649,13 +1578,11 @@ ANIMATIONS
 	from {
 		width: 0%;
 		left: 50%;
-		margin-left: -0%;
 	}
-
 	to {
-		width: 100%;
+		width: 70%;
 		left: 50%;
-		margin-left: -50%
+		margin-left: -35%;
 	}
 }
 

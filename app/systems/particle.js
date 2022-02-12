@@ -452,32 +452,29 @@ var Particles = function(obj) {
 						}
 
 
-						var targetPos = {
-							x: pos.x + Math.random() * (self._p.targetPosition.maxX - self._p.targetPosition.minX) + self._p.targetPosition.minX,
-							y: pos.y + Math.random() * (self._p.targetPosition.maxY - self._p.targetPosition.minY) + self._p.targetPosition.minY,
-							z: pos.z + Math.random() * (self._p.targetPosition.maxZ - self._p.targetPosition.minZ) + self._p.targetPosition.minZ
-						}
-
-
+						var targetPos = {};
 
 						if (self._p.systemShape === "sphere") {
 
-							// Calculate Distance
-							var dx = targetPos.x - pos.x
-							var dy = targetPos.y - pos.y
-							var dz = targetPos.z - pos.z
-
-							var dis = (dx * dx) + (dy * dy) + (dz * dz)
-							var distance = Math.sqrt(dis)
-
-							if (distance > self._p.targetRadius) {
-								var mi = distance - self._p.targetRadius
-
-								targetPos.x = targetPos.x - mi
-								targetPos.y = targetPos.y - mi
-								targetPos.z = targetPos.z - mi
-							}
-
+					
+								var u = Math.random();
+								var v = Math.random();
+								var theta = 2 * Math.PI * u;
+								var phi = Math.acos(2 * v - 1);
+								var x = pos.x + (self._p.radius * Math.sin(phi) * Math.cos(theta));
+								var y = pos.y + (self._p.radius * Math.sin(phi) * Math.sin(theta));
+								var z = pos.z + (self._p.radius * Math.cos(phi));
+							
+								targetPos.x = pos.x + x
+								targetPos.y = pos.y + y
+								targetPos.z = pos.z + z
+							
+						} else {
+							
+							targetPos.x = pos.x + Math.random() * (self._p.targetPosition.maxX - self._p.targetPosition.minX) + self._p.targetPosition.minX,
+							targetPos.y = pos.y + Math.random() * (self._p.targetPosition.maxY - self._p.targetPosition.minY) + self._p.targetPosition.minY,
+							targetPos.z = pos.z + Math.random() * (self._p.targetPosition.maxZ - self._p.targetPosition.minZ) + self._p.targetPosition.minZ
+						
 						}
 
 						// align particles
