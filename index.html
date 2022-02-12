@@ -1,213 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
-	<title>HTML</title>
-	<!-- HTML -->
-	<!-- Custom Styles -->
-	<link rel="stylesheet" href="style.css">
-	<link rel="manifest" href="manifest.json">
-	<link rel="stylesheet" href="assets/fonts/lineicons.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="mainpage.css" type="text/css" />
+<link rel="manifest" href="manifest.json">
+	<title>Dead Shooter</title>
 </head>
 
 <body>
-	<!----- Static----->
-	<div id="LANDSCAPEDetector">
-		<p>Please back to portrait</p>
-	</div>
-	<div id="console">
-		<p></p>
-	</div>
-	<div id="GameMode">
-		<p id="GMTitle">Select Mode</p>
-		<div id="GMDiv">
-			<div class="GMDivs" stage="farming" status="unlocked">
-				<p class="GMTxt">Farming</p>
-			</div>
-			<p id="GMCancel">Cancel</p>
-		</div>
-	</div>
-	<div id="rewards">
-	</div>
-	<div id="critical"></div>
-	<div id="life">
-		<div id="hp"></div>
-	</div>
-	<div id="bombbar">
-		<div></div>
-	</div>
-	<!----Stats--->
-	<div id="counter"><span>
-			<p id="seconds">0</p>
-		</span></div>
-	<div id="tips">
-		<p id="tiptxt">Tips! <br />Eat smaller zombies to gain more bombs. <br /> Avoid bigger zombies and run!</p>
-	</div>
-	<!----- MENU BAR----->
-	<div id="menu">
-		<i id="menu-close" class="lni lni-close"></i>
-		<div id="menu-container">
-			<div id="settings-wrapper">
-				<div id="profile-div" class="menu-divs">
-					<p id="profile-title">Profile</p>
-					<div id="profile-info-div">
-						<div id="profile-info-img">
-						<img src="assets/images/profile.jpg" />
-						</div>
-						<div id="profile-info-infos">
-							<p class="profile-txt">John Paul</p>
-							<p class="profile-txt">Noob</p>
-							<p class="profile-txt">12 Hrs</p>
-							<p class="profile-txt">1019402028</p>
-						</div>
-					</div>
-					<div id="profile-stat-div">
-						
-					</div>
-				</div>
-				<div id="settings-div" class="menu-divs">
-					<p id="settings-title">Settings</p>
-					<div id="settings-info-div">
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!---LOGO TITLE---->
-	<div id="loader">
-		<div id="cube">
-			<div id="top"></div>
-			<div>
-				<span style="--i:0"></span>
-				<span style="--i:1"></span>
-				<span style="--i:2"></span>
-				<span style="--i:3"></span>
-			</div>
-		</div>
-	</div>
-	<div id="energy-container">
-		<p class="e-TXT" id="energy-txt"></p>
-		<img id="energy-img" src="assets/images/energy.png" />
-	</div>
-	<div id="coin-container">
-		<p class="c-TXT" id="coin-txt"></p>
-		<img id="coin-img" src="assets/images/coin.png" />
-	</div>
-	<p id="gameover">Game Over</p>
-	<div id="gameoverstat">
-		<p id="zkilled">killed</p>
-		<p id="cgained">coins</p>
-		<p id="rank">noob</p>
-	</div>
-	<div id="home">
-		<p>HOME</p>
-	</div>
-	<p id="gamewin">You Won!</p>
-	<p id="gamewin2">You passed level 1 <br /> +100 coins</p>
-	<p id="time"></p>
-	<div id="statcount">
-		<div id="zombiecount">
-			<p>zombies x</p>
-			<img src="assets/images/zombie.png" />
-		</div>
-		<p id="bulletCount">Bullets x</p>
-		<div id="coins">
-			<p>100</p>
-			<img src="assets/images/coin.png" />
-		</div>
-		<div id="keysCount">
-			<img src="assets/images/key.png" />
-			<p id="keystxt">0</p>
-		</div>
-	</div>
-	<div id="mapicon">
-		<img src="assets/images/map.png" id="mapsrc" />
-	</div>
-	<div id="alert">
-		x
-		<p id="alert-txt">NO ENOUGH ENERGY! </p>
-		<p id="alert-txt2">buy some to play</p>
-		<img src="assets/images/energy.png" />
-	</div>
-	<!------ Circular----->
-	<canvas id="map">
-	</canvas>
-	<canvas id="webgl">
-	</canvas>
-	<div id="joystick"></div>
-	<div id="skillpad"></div>
-	<!--------- BOMBS---------->
-	<div id="playbtn">
-		<p id="playbtntxt">PLAY</p>
-	</div>
-	<i id="settings" class="lni lni-menu"></i>
-	<p id="status">preparing the field...</p>
-	<div id="statusbar">
-		<div id="bar"></div>
-	</div>
-	<p id="version">V_0.0.1</p>
-	<img src="assets/images/logo2.png" id="trademark" />
-	<div id="cover"></div>
-	<div id="ccnscvr">
-		<img src="assets/images/coin_reward.png" class="ccns" />
-		<div id="confirm">
-			<p id="ad">Watch Ad x2</p>
-			<p id="thanks">No Thanks</p>
-		</div>
-		<div id="addRewards">
-			<p>Additional Reward(s)</p>
-			<div id="rewardsDiv">
-				<div class="addRewardsDiv">
-					<img src="assets/images/coin.png" />
-					<p id="reward0">0</p>
-				</div>
-				<div class="addRewardsDiv">
-					<img src="assets/images/key.png" />
-					<p id="reward1">0</p>
-				</div>
-				<div class="addRewardsDiv">
-					<img src="assets/images/energy.png" />
-					<p id="reward2">0</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="utils">
-		<div id="Skill2">
-			<img src="" class="skillImg" />
-			<div class="skillLoader">
-			</div>
-		</div>
-		<div id="Skill3">
-			<img src="" class="skillImg" />
-			<div class="skillLoader">
-			</div>
-		</div>
-		<div id="Skill1">
-			<img class="skillImg" src="" />
-			<div class="skillLoader"></div>
-		</div>
-		<div id="bomb">
-			<p>Bomb</p>
-		</div>
-	</div>
-	<p id="invuse">use</p>
-	<div id="atombomb">
-		<img src="assets/images/atomoff.png" class="atomimgoff" />
-		<div class="chart" id="Chart" data-percent="0"></div>
-	</div>
-	<!-- Project 
-	
-	<script src="https://connect.facebook.net/en_US/fbinstant.6.3.js"></script>
----->
-	<script type="module" src='main.js'>
-	</script>
-	<script src="src/jquery-3.6.0.js"></script>
-	<script src="src/jquery.easypiechart.min.js"></script>
-	<script src="src/TweenMax.min.js"></script>
 </body>
+<img src="assets/images/farming.png" id="wallpaper" />
+<img src="assets/images/logo.png" id="logo" />
+<div id="download">Install</div>
+<script>
+	
+</script>
+<script src="App.js"></script>
 
 </html>
