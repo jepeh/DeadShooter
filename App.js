@@ -20,8 +20,6 @@ window.addEventListener("beforeinstallprompt", (e) => {
   install.innerText = "Install"
 });
 
-
-
 install.addEventListener("click", async () => {
 
   if (deferredPrompt === null) {

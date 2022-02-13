@@ -4,7 +4,7 @@
   "start_url": "Game.html",
   "display": "fullscreen",
   "background_color": "#fdfdfd",
-  "scope": "/",
+  "scope": "https://dead-shooter.glitch.me/",
   "theme_color": "#db4938",
   "orientation": "landscape",
   "prefer_related_applications": false,
