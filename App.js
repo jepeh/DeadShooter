@@ -13,12 +13,14 @@ if ("serviceWorker" in navigator) {
 }
 
 let deferredPrompt;
+var install = document.getElementById("install")
 
 window.addEventListener("beforeinstallprompt", (e) => {
   deferredPrompt = e;
+  install.innerText = "Install"
 });
 
-var install = document.getElementById("install")
+
 
 install.addEventListener("click", async () => {
 

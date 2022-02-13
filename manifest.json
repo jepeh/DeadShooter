@@ -4,16 +4,17 @@
   "start_url": "Game.html",
   "display": "fullscreen",
   "background_color": "#fdfdfd",
+  "scope": "/",
   "theme_color": "#db4938",
   "orientation": "landscape",
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "assets/images/blockgameswhite.png",
+      "src": "assets/images/logo2.png",
       "type": "image/png", "sizes": "192x192"
     },
       {
-      "src": "assets/images/blockgameswhite.png",
+      "src": "assets/images/logo2.png",
       "type": "image/png", "sizes": "512x512"
     }
   ]

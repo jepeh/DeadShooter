@@ -18,25 +18,25 @@ background-color: black
 
 #wallpaper {
 	position: absolute;
-	width: 90%;
+	width: 90vw;
 	margin: auto;
 	border-radius: 6px;
 	text-align: center;
-	left: 50%;
-	margin-left: -45%;
-	top: 2%;
+	left: 50vw;
+	margin-left: -45vw;
+	top: 2vh;
 	opacity: .7
 }
 
 #logo {
 	position: absolute;
-	width: 80%;
+	width: 80vw;
 	margin: auto;
 	border-radius: 6px;
 	text-align: center;
-	left: 50%;
-	margin-left: -40%;
-	top: 30%
+	left: 50vw;
+	margin-left: -40vw;
+	top: 30vh
 }
 #install {
 	position: absolute;
@@ -48,13 +48,13 @@ background-color: black
 	margin-left: -25vw;
 	top: 80vh;
 	border-radius: 10px;
-	font-size: 2.5vh;
+	font-size: 1.9vh;
 	color: white;
 	padding-top: 10px;
 	font-family: 'QS-B';
 	text-align: center
 }
 #vid {
-	width: 100%;
-	opacity: .2
+	width: 100vw;
+	opacity: .3
 }
