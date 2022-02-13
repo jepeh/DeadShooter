@@ -543,7 +543,7 @@ html {
 	height: 25vh;
 	left: 50%;
 	margin-left: -35%;
-	top: 25%;
+	top: 40vh;
 	background: linear-gradient(to right, #06092754, #0FBAD599, #06092754);
 	display: none;
 	grid-template-columns: 100%;
@@ -555,7 +555,7 @@ html {
 	justify-content: center;
 	align-items: center;
 	transition: all 1s cubic-bezier(0.86, 0, 0.07, 1);
-	animation: cc .6s cubic-bezier(0.19, 1, 0.22, 1)
+	animation: cc .9s cubic-bezier(0.19, 1, 0.22, 1)
 }
 
 .eLife {

@@ -7,7 +7,7 @@ let Profile = {
 	velocity: 15,
 	rank: "noob",
 	maxHP: 100,
-	bulletType: "pixelBullet",
+	bulletType: "laserlightBullet",
 	bombDamage: 20,
 	energy: 10,
 	mapRadius: 120,
@@ -19,14 +19,14 @@ let Profile = {
 	keys: 0,
 	skills: [{
 		// Special Skill, Skill 1
-			name: "run",
+			name: "forceField",
 			damage: 3,
 			img: "assets/images/textures/field.png",
 			type: "special",
 			cooldown: 10
 	}, {
 		// Static Skill, Skill 2
-			name: "lightningStrike",
+			name: "instantKill",
 			damage: 0.8, // scaling down targets to 80%
 			img: "assets/images/textures/gun.png",
 			type: "static",
@@ -90,7 +90,7 @@ let Profile = {
 	},
 	items: [],
 	bullets: [{
-		name: "pixelBullet",
+		name: "laserlightBullet",
 		description: "",
 		stats: {
 			damage: "+10%",

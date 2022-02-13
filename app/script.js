@@ -352,7 +352,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 30
 				})
 			} while (cnt <= 50)
 		}
@@ -479,8 +479,9 @@ var Game = (function(w, func) {
 		//*******************************************
 		// energy
 
-		/*	var h = TextureLoader.load("assets/images/textures/lasers.png")
+		/*	var h = TextureLoader.load("assets/noise.png")
 			h.wrapS = Three.RepeatMapping
+		
 			
 			var mesh = new Three.Mesh(new Three.PlaneGeometry(9, 9), new Three.ShaderMaterial({
 				uniforms: {
@@ -490,13 +491,14 @@ var Game = (function(w, func) {
 					},
 					text2: {
 						type: "t",
-						value: TextureLoader.load("assets/noise.jpeg")
+						value: TextureLoader.load("assets/images/textures/halo.png")
 					},
 					uTime: {
 						type: "f",
-						value: window.uTime
+						value: 0
 					}
 				},
+				
 				vertexShader: `
 				varying vec2 vUv;
 			
@@ -593,7 +595,7 @@ var Game = (function(w, func) {
 			character.rotation.y = -10
 			CAMERA.position.set(0, 20, 20)
 			CAMERA.lookAt(character.position)
-				SCENE.add(window.character)
+			SCENE.add(window.character)
 
 		}
 
@@ -960,8 +962,7 @@ var Game = (function(w, func) {
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
 				cu.rotation.y = elapsedTime
-				//	mesh.material.uniforms.uTime.value += .01
-
+				
 				/*cu2.rotation.y = Math.cos(elapsedTime)
 				cu2.rotation.z = elapsedTime
 				cu2.rotation.x = Math.sin(-elapsedTime)
@@ -1014,7 +1015,7 @@ var Game = (function(w, func) {
 			var tp = setTimeout(() => {
 				$("#tips").css({ width: "0%", left: "50%", marginLeft: "-0%" })
 				clearTimeout(tp)
-			}, 4000)
+			}, 5500)
 		}
 		Obj.tips = tips
 
