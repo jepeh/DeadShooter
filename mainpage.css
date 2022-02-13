@@ -55,9 +55,9 @@ background-color: black
 	border-radius: 10px;
 	font-size: 1.9vh;
 	color: white;
-	padding-top: 10px;
 	font-family: 'QS-B';
-	text-align: center
+	text-align: center;
+	padding-top: 5px;
 }
 #vid {
 	width: 100vw;

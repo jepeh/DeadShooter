@@ -26,28 +26,7 @@
 <p id="CR">© BlockGames Studio</p>
 <script>
 
-var vid = document.getElementById("vid")
-
-	if (innerWidth > innerHeight) {
-	
-		vid.src = "assets/vid2.mp4"
-	} else {
-		vid.src = "assets/vid.mp4"
-	}
-
-	window.onresize = function() {
-		
-		if (innerWidth > innerHeight) {
-	
-			vid.src = "assets/vid2.mp4"
-			document.getElementById("cover").style.display = "none"
-		} else {
-			vid.src = "assets/vid.mp4"
-			document.getElementById("cover").style.display = "block"
-
-		}
-	}
 </script>
 <script type="module" src="App.js"></script>
-
+<script src="src/jquery-3.6.0.js" ></script>
 </html>
