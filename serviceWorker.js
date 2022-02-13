@@ -123,8 +123,7 @@ const ASSETS = [
 	"assets/images/textures/rod.png",
 	"assets/images/textures/summonZombie.png",
 	"assets/images/textures/particleTexture.png",
-	]
-
+	];
 
 self.addEventListener("install", (installEvent) => {
 	alert("installing")
@@ -139,25 +138,9 @@ self.addEventListener("install", (installEvent) => {
 	);
 });
 
-/*self.addEventListener("fetch", (e) => {
-	alert(`ferching for ${e.request.url}`);
-
-	e.respondWith(
-		caches.match(e.request)
-		.then(function(response) {
-			// Cache hit - return response
-			if (response) {
-				return response;
-			}
-			return fetch(e.request);
-		}));
-});
-*/
-
-//window.location.reload(true)
 
 self.addEventListener("fetch", event => {
-	alert("fetching..")
+	alert("fetching.. for ", event.request.url)
 	event.respondWith(
 			caches.match(event.request).then(res =>{
 				return res || fetch(event.request)
