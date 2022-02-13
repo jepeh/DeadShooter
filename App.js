@@ -5,7 +5,7 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker
       .register("/serviceWorker.js")
       .then((res) => {
-        alert("installed");
+        //alert("installed");
         
       })
       .catch((err) => alert(err));

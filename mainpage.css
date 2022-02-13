@@ -10,6 +10,10 @@
 	font-family: 'QS-B';
 	src: url('assets/fonts/Quicksand-Bold.ttf')
 }
+@font-face {
+	font-family: 'QS-L';
+	src: url('assets/fonts/Quicksand-Light.ttf')
+}
 
 body {
 
@@ -24,7 +28,7 @@ background-color: black
 	text-align: center;
 	left: 50vw;
 	margin-left: -45vw;
-	top: 2vh;
+	top: 195%;
 	opacity: .7
 }
 
@@ -36,7 +40,8 @@ background-color: black
 	text-align: center;
 	left: 50vw;
 	margin-left: -40vw;
-	top: 30vh
+	top: 100%;
+	z-index: 2
 }
 #install {
 	position: absolute;
@@ -57,4 +62,69 @@ background-color: black
 #vid {
 	width: 100vw;
 	opacity: .3
+}
+#title {
+	position: absolute;
+	font-size: 6vw;
+	font-family: "QS-B";
+	width: 100vw;
+	color: white;
+	top: 140%;
+	text-align: center
+}
+#description {
+	position: absolute;
+	font-size: 4vw;
+	font-family: "QS-L";
+	width: 90vw;
+	left: 50vw;
+	margin-left: -45vw;
+	color: white;
+	top: 150%;
+	text-align: center
+}
+
+#fade {
+	position: relative;
+	width: 100vw;
+	height: 130px;
+	background: linear-gradient(transparent, black);
+	margin-top: -120px
+}
+#cover {
+	position: absolute;
+	width: 100vw;
+	height: 90px;
+	background: black;
+	opacity: .8
+}
+#mode {
+	position: absolute;
+	font-size: 6vw;
+	font-family: "QS-B";
+	width: 100vw;
+	color: white;
+	top: 170%;
+	text-align: center
+}
+#modedes {
+	position: absolute;
+	font-size: 4vw;
+	font-family: "QS-L";
+	width: 90vw;
+	left: 50vw;
+	margin-left: -45vw;
+	color: white;
+	top: 180%;
+	text-align: center
+}
+
+#CR {
+	position: absolute;
+	font-size: 2vw;
+	font-family: "QS-L";
+	top: 220%;
+	text-align: center;
+	width: 100vw;
+	color: white;
 }

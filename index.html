@@ -12,12 +12,41 @@
 <body>
 </body>
 <video autoplay muted loop id="vid">
-	<source src="assets/vid.mp4" type="video/mp4">
+	<source id="vids" src="assets/vid.mp4" type="video/mp4">
 </video>
+<div id="cover"></div>
 <img src="assets/images/farming.png" id="wallpaper" />
 <img src="assets/images/logo.png" id="logo" />
 <div id="install">Please wait...</div>
+<div id="fade"></div>
+<p id="title">What Is Dead/Zombie Shooter?</p>
+<p id="description">Zombie or Dead Shooter is a web based 3D Game Web App that brings MOBA Game like experience to players. It is an Action type game where players must eliminate all zombies and kill the Enemy Boss.</p>
+<p id="mode">Farm Mode</p>
+<p id="modedes">Farming Mode can work offline and you can increase level by playing in this Mode. Acquiring many skills and bullets can be achieved in Farming Mode in order for players to fight in other Modes.</p>
+<p id="CR">© BlockGames Studio</p>
 <script>
+
+var vid = document.getElementById("vid")
+
+	if (innerWidth > innerHeight) {
+	
+		vid.src = "assets/vid2.mp4"
+	} else {
+		vid.src = "assets/vid.mp4"
+	}
+
+	window.onresize = function() {
+		
+		if (innerWidth > innerHeight) {
+	
+			vid.src = "assets/vid2.mp4"
+			document.getElementById("cover").style.display = "none"
+		} else {
+			vid.src = "assets/vid.mp4"
+			document.getElementById("cover").style.display = "block"
+
+		}
+	}
 </script>
 <script type="module" src="App.js"></script>
 
