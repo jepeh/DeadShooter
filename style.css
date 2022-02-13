@@ -59,12 +59,13 @@ html {
 	box-shadow: 0px 0px 30px 5px #40F0FFB0 inset;
 	z-index: 4;
 }
+
 #utils {
 	position: absolute;
-	width: 180px;
-	height: 180px;
+	width: 150px;
+	height: 150px;
 	top: 100vh;
-	margin-top: -60vh;
+	margin-top: -45vh;
 	left: 100vw;
 	margin-left: -25vw;
 	display: none;
@@ -73,6 +74,7 @@ html {
 	grid-template-columns: 50% 50%;
 	animation: pop .3s cubic-bezier(0.19, 1, 0.22, 1)
 }
+
 #LANDSCAPEDetector {
 	position: absolute;
 	width: 100%;
@@ -82,17 +84,18 @@ html {
 	justify-content: center;
 	z-index: 5;
 	display: none
-	
 }
+
 #LANDSCAPEDetector p {
 	position: relative;
 	margin: auto;
 	font-family: "QS-B";
 	font-size: 6vw;
-	
+
 	top: 50%;
 	left: 20%
 }
+
 #Skill1,
 #Skill2,
 #bomb,
@@ -106,6 +109,7 @@ html {
 	text-align: center;
 	overflow: hidden;
 }
+
 #GameMode {
 	position: absolute;
 	width: 50vw;
@@ -121,6 +125,7 @@ html {
 	grid-template-rows: 10% 90%;
 	animation: pop .4s cubic-bezier(0.19, 1, 0.22, 1)
 }
+
 #GMCancel {
 	position: relative;
 	margin: auto;
@@ -130,7 +135,8 @@ html {
 	font-family: "QS-B";
 	font-size: 2.8vh
 }
-#GMTitle{
+
+#GMTitle {
 	position: relative;
 	text-align: center;
 	margin: auto;
@@ -138,6 +144,7 @@ html {
 	font-family: 'QS-M';
 	font-size: 4vh
 }
+
 #GMDiv {
 	position: relative;
 	width: 100%;
@@ -146,6 +153,7 @@ html {
 	display: grid;
 	grid-template-rows: 80% 10%
 }
+
 #console {
 	position: absolute;
 	width: 90%;
@@ -157,12 +165,14 @@ html {
 	display: none;
 	text-align: center
 }
+
 #console p {
 	position: relative;
 	font-family: "QS-L";
 	font-size: 10px;
 	text-align: center
 }
+
 .GMDivs {
 	position: relative;
 	width: 90%;
@@ -187,6 +197,7 @@ html {
 	text-align: left;
 	margin-left: 10px;
 }
+
 #bomb p {
 	position: relative;
 	height: 100%;
@@ -199,6 +210,7 @@ html {
 	color: white;
 	opacity: .7
 }
+
 #Skill2 {
 	border: 1px solid #40F0FFD4;
 	box-shadow: 0px 0px 20px 5px #40F0FFB0 inset;
@@ -212,6 +224,7 @@ html {
 	box-shadow: 0px 0px 20px 5px #40F0FFB0 inset;
 	animation: sk 2s cubic-bezier(0.19, 1, 0.22, 1) forwards
 }
+
 #Skill3 {
 	border: 1px solid #40F0FFD4;
 	box-shadow: 0px 0px 20px 5px #40F0FFB0 inset;
@@ -225,6 +238,7 @@ html {
 	top: 100%;
 	background-color: #8B740080
 }
+
 .skillImg {
 	position: relative;
 	width: 70%;
@@ -233,6 +247,7 @@ html {
 	margin-top: -35%;
 	opacity: .3;
 }
+
 #bomb {
 	z-index: 4;
 	border: 1px solid #40F0FFD4;
@@ -256,16 +271,19 @@ html {
 	from {
 		left: 100%;
 	}
+
 	to {
 		left: 0%;
 		top: 0%;
 	}
 }
+
 @keyframes tk {
 	from {
 		top: 100%;
-	
+
 	}
+
 	to {
 		left: 5%;
 		top: 0%;
@@ -276,6 +294,7 @@ html {
 	from {
 		top: 100%;
 	}
+
 	to {
 		top: 0%;
 	}
@@ -299,12 +318,11 @@ html {
 
 #logo {
 	position: absolute;
-	width: 90%;
+	width: 25vw;
 	text-align: center;
-	left: 50%;
-	margin-left: -45%;
-	top: 35%;
-
+	left: 50vw;
+	margin-left: -12.5vw;
+	top: 30vh;
 }
 
 #life {
@@ -315,7 +333,8 @@ html {
 	font-family: 'QS-B';
 	width: 10%;
 	height: 5px;
-	background: linear-gradient(to left, #06092754, #0FBAD599);;
+	background: linear-gradient(to left, #06092754, #0FBAD599);
+	;
 	top: var(--height);
 	left: var(--width);
 	margin-left: -5%;
@@ -530,6 +549,7 @@ html {
 	grid-template-columns: 100%;
 	overflow: hidden;
 	color: white;
+	font-family: "QS-M";
 	border-top: 1px solid skyblue;
 	text-align: center;
 	justify-content: center;
@@ -644,11 +664,11 @@ span>p {
 #statusbar {
 	position: absolute;
 	z-index: 2;
-	width: 80%;
-	height: 10px;
-	left: 50%;
-	margin-left: -40%;
-	top: 90%;
+	width: 70vw;
+	height: 7px;
+	left: 50vw;
+	margin-left: -35vw;
+	top: 94vh;
 	background-color: #42445A;
 	border-radius: 50px;
 	display: none
@@ -761,11 +781,11 @@ span>p {
 
 #settings {
 	position: absolute;
-	font-size: 8vh;
+	font-size: 7vh;
 	color: #C9CBE3C2;
 	margin: auto;
-	margin-left: 10px;
-	margin-top: 15px;
+	margin-left: 14px;
+	margin-top: 10px;
 	display: none;
 	animation: pop .7s cubic-bezier(0.19, 1, 0.22, 1)
 }
@@ -798,13 +818,12 @@ span>p {
 
 #energy-container {
 	position: fixed;
-	width: 40px;
-	height: 50px;
+	width: 5vw;
 	background-color: none;
 	margin: auto;
 	right: 0;
-	margin-right: 5px;
-	margin-top: 1px;
+	margin-right: 10px;
+	margin-top: 10px;
 	display: none;
 	opacity: 1;
 	grid-template-columns: 20% 80%;
@@ -813,13 +832,12 @@ span>p {
 
 #coin-container {
 	position: fixed;
-	width: 40px;
-	height: 50px;
+	width: 5vw;
 	background-color: none;
 	margin: auto;
 	right: 0;
-	margin-right: 80px;
-	margin-top: 1px;
+	margin-right: 70px;
+	margin-top: 10px;
 	display: none;
 	opacity: 1;
 	grid-template-columns: 20% 80%;
@@ -828,10 +846,10 @@ span>p {
 
 #splash {
 	position: absolute;
-	width: 50%;
-	left: 50%;
-	margin-left: -25%;
-	top: 40%
+	width: 15vw;
+	left: 50vw;
+	margin-left: -7.5vw;
+	top: 30vh
 }
 
 #energy-img {
@@ -844,7 +862,7 @@ span>p {
 #energy-txt {
 	position: relative;
 	font-family: 'QS-M';
-	font-size: 3vh;
+	font-size: 2.3vh;
 	color: white;
 	margin: auto;
 	text-align: right;
@@ -861,7 +879,7 @@ span>p {
 #coin-txt {
 	position: relative;
 	font-family: 'QS-M';
-	font-size: 3vh;
+	font-size: 2.3vh;
 	text-align: right;
 	color: white;
 	margin: auto;
@@ -907,17 +925,18 @@ span>p {
 	width: 15vh;
 	text-align: center;
 	margin: auto;
-	display: block
+	display: block;
+	top: 40vh;
 }
-
 #map {
+	left: 5vw;
 	position: absolute;
 	width: 300px;
 	height: 300px;
 	background: radial-gradient(#42FFF51A, #010317);
 	left: 50%;
 	margin-left: -150px;
-	top: 30%;
+	top: 10vh;
 	display: none;
 	border-radius: 2px;
 	z-index: 3;
@@ -927,13 +946,13 @@ span>p {
 
 #mapicon {
 	position: absolute;
-	width: 20%;
-	top: 45%;
-	left: 50%;
+	width: 9vw;
+	top: 100vh;
+	margin-top: -22vh;
+	opacity: .6;
+	left: 20vw;
 	display: none;
-	margin-left: 30%;
 	background-color: none;
-	margin-top: -30px;
 	animation: pop .6s cubic-bezier(0.175, 0.885, 0.32, 1.275)
 }
 
@@ -950,11 +969,13 @@ span>p {
 
 #atombomb {
 	position: absolute;
-	width: 20%;
+	width: 7.5vw;
+	height: 7.5vw;
 	margin: auto;
 	padding: 10px;
-	top: 50%;
-	left: 80%;
+	top: 100vh;
+	margin-top: -22vh;
+	left: 65vw;
 	display: none;
 	animation: pop 2s cubic-bezier(0.175, 0.885, 0.32, 1.275)
 }
@@ -970,26 +991,22 @@ span>p {
 
 .atomimgoff {
 	position: absolute;
-	width: 50%;
-	text-align: center;
-	margin: auto;
+	width: 60%;
+	opacity: .5;
 	left: 50%;
-	margin-left: -25%;
 	top: 50%;
-	margin-top: -27%;
-	opacity: .5
+	margin-left: -20%;
+	margin-top: -20%
 }
 
 .atomimgon {
 	position: absolute;
-	width: 50%;
-	text-align: center;
-	margin: auto;
-	left: 50%;
-	margin-left: -25%;
-	top: 50%;
-	margin-top: -27%;
+	width: 60%;
 	opacity: .5;
+	left: 50%;
+	top: 50%;
+	margin-left: -20%;
+	margin-top: -20%;
 	animation: atom 4s cubic-bezier(0.19, 1, 0.22, 1) infinite
 }
 
@@ -1001,19 +1018,19 @@ span>p {
 	margin-top: -2%;
 	margin-left: 10px;
 	font-family: 'QS-L';
-	font-size: 3vh;
+	font-size: 2.8vh;
 	color: white;
 }
 
 #trademark {
 	position: absolute;
-	width: 20vh;
+	width: 16vh;
 	opacity: .6;
 	right: 2px;
 	left: 100vw;
 	top: 100vh;
-	margin-top: -16vh;
-	margin-left: -10vw;
+	margin-top: -13vh;
+	margin-left: -8vw;
 }
 
 .ccns {
@@ -1025,7 +1042,6 @@ span>p {
 	left: 50%;
 	margin-left: -45%;
 	z-index: 6
-
 }
 
 #cover {
@@ -1063,6 +1079,7 @@ span>p {
 	font-family: 'QS-L';
 	color: white
 }
+
 #rewards {
 	position: absolute;
 	top: 20%;
@@ -1075,13 +1092,14 @@ span>p {
 	text-align: center;
 	animation: cc2 .2s cubic-bezier(0.19, 1, 0.22, 1)
 }
+
 #rewards img {
 	position: relative;
-	width: 60%;
+	width: 25%;
 	margin: auto;
 	text-align: center;
 	top: 50%;
-	margin-top: -30%;
+	margin-top: -12.5%;
 	animation: pop .3s cubic-bezier(0.19, 1, 0.22, 1)
 }
 
@@ -1107,6 +1125,7 @@ span>p {
 	border-radius: 50px;
 
 }
+
 #addRewards {
 	position: relative;
 	width: 100%;
@@ -1115,6 +1134,7 @@ span>p {
 	grid-template-rows: 10% 90%;
 	top: 170%;
 }
+
 #addRewards p {
 	position: relative;
 	text-align: center;
@@ -1131,6 +1151,7 @@ span>p {
 	display: grid;
 	grid-template-columns: 33% 33% 33%;
 }
+
 #addRewards div div {
 	position: relative;
 	width: 70%;
@@ -1138,16 +1159,19 @@ span>p {
 	display: grid;
 	grid-template-rows: 95% 5%;
 }
+
 #addRewards div div img {
 	position: relative;
 	width: 130%;
 	left: 85%;
 	text-align: center
 }
+
 #addRewards div div p {
 	position: relative;
 	top: 50%
 }
+
 #settings-wrapper {
 	position: relative;
 	width: 100%;
@@ -1163,24 +1187,29 @@ span>p {
 	position: relative;
 	margin: auto;
 }
+
 .menu-divs::-webkit-scrollbar {
 	display: none
 }
+
 #settings-div {
 	width: 90%;
 	height: 95%;
 	margin: auto;
-	
+
 }
+
 #profile-div {
 	width: 100%;
 	height: 95%;
 	display: grid;
-	
+
 	margin: auto;
 	grid-template-rows: 10% 35% 55%
 }
-#profile-title, #settings-title {
+
+#profile-title,
+#settings-title {
 	position: relative;
 	font-family: "QS-M";
 	font-size: 4vh;
@@ -1188,6 +1217,7 @@ span>p {
 	margin-left: 4.5vw;
 	color: white;
 }
+
 #profile-info-div {
 	position: relative;
 	width: 100%;
@@ -1196,15 +1226,17 @@ span>p {
 	display: grid;
 	grid-template-columns: 30% 70%
 }
+
 #profile-stat-div {
 	position: relative;
 	width: 90%;
 	height: 80%;
 	margin: auto;
 	background-color: #232432A8;
-	box-shadow: 0px 0px 10px 2px rgba(0,0,0,.09);
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, .09);
 	border-radius: 10px;
 }
+
 #profile-info-img {
 	position: relative;
 	width: 90%;
@@ -1215,6 +1247,7 @@ span>p {
 	align-items: center;
 	justify-content: center
 }
+
 #profile-info-img img {
 	position: relative;
 	width: 100%;
@@ -1222,18 +1255,35 @@ span>p {
 
 #profile-info-infos {
 	position: relative;
-	width: 100%;
+	width: 80%;
 	height: 100%;
+	color: white;
 	display: grid;
-	grid-template-rows: 25% 25% 25% 25%
+	background-color: #24263D4D;
+	box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, .09);
+	border-radius: 10px;
+	margin: auto;
+	grid-template-rows: 25% 25% 25% 25%;
+	grid-template-columns: 50% 50%
 }
+
+#changeName {
+	position: relative;
+	font-size: 3vh;
+	text-align: left;
+	margin-top: 5px;
+	margin-left: 20px;
+	color: white;
+}
+
 .profile-txt {
 	position: relative;
 	font-family: 'QS-L';
 	font-size: 3vh;
 	text-align: left;
-	margin-left: 60px;
 	color: white;
+	margin-left: 20px;
+	margin-top: 5px;
 }
 
 
@@ -1255,18 +1305,17 @@ span>p {
 	background: linear-gradient(transparent, #FF3A3AD1)
 }
 
-#inventory-wrapper 
-{
-	position: relative; 
+#inventory-wrapper {
+	position: relative;
 	height: 100%;
 	width: 100%;
 	display: grid;
 	grid-template-rows: 10% 10% 80%;
-	
+
 	animation: pop .6s cubic-bezier(0.19, 1, 0.22, 1)
 }
 
-.inventory{
+.inventory {
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -1274,10 +1323,12 @@ span>p {
 	justify-content: center;
 	align-items: center
 }
+
 #inv-header {
 	display: grid;
 	grid-template-columns: 50% 50%;
 }
+
 #inv-header p {
 	position: relative;
 	font-family: 'QS-M';
@@ -1295,6 +1346,7 @@ span>p {
 	display: grid;
 	grid-template-columns: 50% 50%
 }
+
 #inv-header div div {
 	display: grid;
 	grid-template-columns: 40% 60%;
@@ -1303,6 +1355,7 @@ span>p {
 	width: 90%;
 	border-radius: 6px
 }
+
 #inv-header div div p {
 	position: relative;
 	margin: auto;
@@ -1310,6 +1363,7 @@ span>p {
 	margin-right: 10px;
 	font-size: 3.5vw
 }
+
 #inv-header div div img {
 	position: relative;
 	margin: auto;
@@ -1325,6 +1379,7 @@ span>p {
 	justify-content: center;
 	align-items: center
 }
+
 .inv-lists {
 	position: relative;
 	width: 80%;
@@ -1333,23 +1388,27 @@ span>p {
 	transform: skew(-30deg);
 	color: white;
 }
+
 .inv-lists:active {
 	background: linear-gradient(to left, #06092754, #0FBAD599);
 	border-radius: 5px
 }
+
 #items {
 	background: linear-gradient(to left, #06092754, #0FBAD599);
 	border-radius: 5px
 }
+
 .inv-lists p {
 	font-size: 4vw;
 	text-align: center;
 	padding: 2px;
 	transform: skew(30deg)
 }
+
 #inv-body {
 	position: relative;
-	
+
 	width: 100%;
 	height: 100%;
 	display: grid;
@@ -1366,7 +1425,7 @@ span>p {
 	height: 95%;
 	background: linear-gradient(30deg, #13EEF31C, #01213F29);
 	margin: auto;
-	
+
 	border-radius: 5px;
 	border: .5px solid #000000;
 	box-shadow: 0 0 10px 2px rgba(0, 0, 0, .08);
@@ -1374,18 +1433,19 @@ span>p {
 	display: grid;
 	grid-template-rows: 80% 20%
 }
+
 .Items img {
 	position: relative;
 	width: 80%;
 	margin: auto
 }
+
 .Items p {
 	position: relative;
 	text-align: center;
 	font-family: "QS-B";
 	font-size: 2vw;
 	color: white
-	
 }
 
 #itempreview {
@@ -1416,13 +1476,14 @@ span>p {
 	height: auto;
 	margin: auto;
 }
+
 #itempreview p {
 	position: relative;
 	text-align: center;
 	font-family: "QS-M";
 	font-size: 3.5vh;
 	color: white;
-	
+
 }
 
 #itempreview div {
@@ -1435,6 +1496,7 @@ span>p {
 	font-size: 2vh;
 	font-family: "QS-L"
 }
+
 #invuse {
 	position: absolute;
 	background: linear-gradient(to right, #06092754, #0FBAD599);
@@ -1454,6 +1516,7 @@ span>p {
 	z-index: 6;
 	animation: pop .2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
 }
+
 /*
 LOADER
 */
@@ -1464,7 +1527,7 @@ LOADER
 	align-items: center;
 	background-color: #00021A;
 	display: none;
-	
+
 }
 
 #cube {
@@ -1579,6 +1642,7 @@ ANIMATIONS
 		width: 0%;
 		left: 50%;
 	}
+
 	to {
 		width: 70%;
 		left: 50%;

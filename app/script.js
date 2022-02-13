@@ -89,6 +89,7 @@ var Game = (function(w, func) {
 	}
 
 	function play(FB) {
+		
 		$("body").append(`<img id="splash" src="assets/images/blockgameswhite.png"/>`)
 		$("body").css({ background: 'white', transition: 'all 2s' })
 		var bb = setTimeout(() => {
@@ -118,7 +119,8 @@ var Game = (function(w, func) {
 	}
 
 	function playResume(FB) {
-		//	$("#loader").css("display", "block");
+	//	alert("resuming")
+	//	$("#loader").css("display", "block");
 
 		var hu = setTimeout(() => {
 			$("#loader").css("display", "none")
@@ -350,7 +352,7 @@ var Game = (function(w, func) {
 				cnt++;
 				Levels.levels.push({
 					level: cnt,
-					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 25
+					enemy: cnt > 10 ? cnt > 30 ? 80 : 50 : 1
 				})
 			} while (cnt <= 50)
 		}
@@ -653,11 +655,11 @@ var Game = (function(w, func) {
 			}
 		})
 
-		document.addEventListener("dblclick", e =>{
+	/*	document.addEventListener("dblclick", e =>{
 			document.documentElement.requestFullscreen().catch(e =>{
 				alert(e)
 			})
-		})
+		})*/
 
 		//*******************************************
 		// Change Color 
@@ -809,7 +811,7 @@ var Game = (function(w, func) {
 		window.enemyList = []
 		window.enemies = []
 		window.bloods = []
-		SCENE.add(new Three.AxesHelper(30))
+	//	SCENE.add(new Three.AxesHelper(30))
 
 		function notif(txt) {
 			$("#status").css("display", "block")
@@ -1003,10 +1005,11 @@ var Game = (function(w, func) {
 				display: "grid",
 				width: "70%",
 				left: "50%",
-				marginLeft: "-35%"
+				marginLeft: "-35%",
+				fontFamily: "QS-M"
 			})
 
-			$("#tips").text(txt)
+			$("#tiptxt").text(txt)
 
 			var tp = setTimeout(() => {
 				$("#tips").css({ width: "0%", left: "50%", marginLeft: "-0%" })

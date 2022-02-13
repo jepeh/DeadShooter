@@ -127,6 +127,7 @@ const ASSETS = [
 
 
 self.addEventListener("install", (installEvent) => {
+alert("installing")
 	installEvent.waitUntil(
 		caches.open("static").then((cache) => {
 			alert("caching...")
@@ -153,8 +154,10 @@ self.addEventListener("install", (installEvent) => {
 });
 */
 
+//window.location.reload(true)
 
 self.addEventListener("fetch", event => {
+	alert()
 	if (event.request.url === "https://dead-shooter.glitch.me/") {
 		// or whatever your app's URL is
 		event.respondWith(

@@ -721,7 +721,7 @@ var FARM = {
 			var newUrl = new URL(window.location.href)
 			newUrl.searchParams.set("isPlaying", true)
 			window.location.href = newUrl
-
+		
 		})
 
 	},
