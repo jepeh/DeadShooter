@@ -12,7 +12,8 @@
 }
 
 body {
-	background: #101119
+
+background-color: black
 }
 
 #wallpaper {
@@ -23,7 +24,8 @@ body {
 	text-align: center;
 	left: 50%;
 	margin-left: -45%;
-	top: 10%
+	top: 2%;
+	opacity: .7
 }
 
 #logo {
@@ -36,12 +38,12 @@ body {
 	margin-left: -40%;
 	top: 30%
 }
-#download {
+#install {
 	position: absolute;
 	width: 50vw;
 	height: 6vh;
 	opacity: .7;
-	background: linear-gradient(to right, #202344, #012901);
+	background: linear-gradient(to right, #8B06AD, #0FDEFF);
 	left: 50vw;
 	margin-left: -25vw;
 	top: 80vh;
@@ -51,4 +53,8 @@ body {
 	padding-top: 10px;
 	font-family: 'QS-B';
 	text-align: center
+}
+#vid {
+	width: 100%;
+	opacity: .2
 }
