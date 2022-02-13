@@ -10,6 +10,11 @@
 	user-zoom: none;
 }
 
+img {
+	user-select: none;
+	pointer-events: none
+}
+
 :root {
 	--width: 0;
 	--height: 0;
