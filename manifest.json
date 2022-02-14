@@ -10,11 +10,11 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "assets/images/logo2.png",
+      "src": "assets/images/icon.png",
       "type": "image/png", "sizes": "192x192"
     },
       {
-      "src": "assets/images/logo2.png",
+      "src": "assets/images/icon2.png",
       "type": "image/png", "sizes": "512x512"
     }
   ]

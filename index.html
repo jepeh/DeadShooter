@@ -24,9 +24,115 @@
 <p id="mode">Farm Mode</p>
 <p id="modedes">Farming Mode can work offline and you can increase level by playing in this Mode. Acquiring many skills and bullets can be achieved in Farming Mode in order for players to fight in other Modes.</p>
 <p id="CR">© BlockGames Studio</p>
-<script>
 
+
+<script src="src/jquery-3.6.0.js"></script>
+<script>
+	var vid = document.getElementById("vid")
+
+	if (innerWidth > innerHeight) {
+		vid.src = "assets/vid2.mp4"
+		$("#logo").css({
+			width: "30vw",
+			marginLeft: "-15vw"
+		})
+		$("#logo").css({
+			width: "20vw",
+			marginLeft: "-10vw"
+		})
+		$("#install").css({
+			width: "30vw",
+			marginLeft: "-15vw"
+		})
+		$("#title, #description, #mode,#modedes").css({
+			fontSize: "15px"
+		})
+		$("#wallpaper").css({
+			width: "50vw",
+			marginLeft: "-25vw",
+			top: "205%"
+		})
+		$("#CR").css("top", "270%")
+		document.getElementById("cover").style.display = "none"
+
+	} else {
+		vid.src = "assets/vid.mp4"
+		$("#logo").css({
+			width: "80vw",
+			marginLeft: "-40vw"
+		})
+		$("#install").css({
+			width: "50vw",
+			marginLeft: "-25vw"
+		})
+		$("#title, #mode").css({
+			fontSize: "6vw"
+		})
+		$("#description, #modedes").css({
+			fontSize: "4vw"
+		})
+		$("#wallpaper").css({
+			width: "90vw",
+			marginLeft: "-45vw",
+			top: "195%"
+		})
+		$("#CR").css("top", "220%")
+		document.getElementById("cover").style.display = "block"
+
+	}
+
+
+	window.onresize = function() {
+
+		if (innerWidth > innerHeight) {
+
+			vid.src = "assets/vid2.mp4"
+			$("#logo").css({
+				width: "20vw",
+				marginLeft: "-10vw"
+			})
+			$("#install").css({
+				width: "30vw",
+				marginLeft: "-15vw"
+			})
+			$("#title, #description, #mode,#modedes").css({
+				fontSize: "15px"
+			})
+			$("#wallpaper").css({
+				width: "50vw",
+				marginLeft: "-25vw",
+				top: "205%"
+			})
+			$("#CR").css("top", "270%")
+			document.getElementById("cover").style.display = "none"
+		} else {
+			vid.src = "assets/vid.mp4"
+			document.getElementById("cover").style.display = "block"
+
+			$("#logo").css({
+				width: "80vw",
+				marginLeft: "-40vw"
+			})
+			$("#install").css({
+				width: "50vw",
+				marginLeft: "-25vw"
+			})
+			$("#title, #mode").css({
+				fontSize: "6vw"
+			})
+			$("#description, #modedes").css({
+				fontSize: "4vw"
+			})
+			$("#wallpaper").css({
+				width: "90vw",
+				marginLeft: "-45vw",
+				top: "195%"
+			})
+			$("#CR").css("top", "220%")
+
+		}
+	}
 </script>
-<script type="module" src="App.js"></script>
-<script src="src/jquery-3.6.0.js" ></script>
+<script src="App.js"></script>
+
 </html>

@@ -1,4 +1,4 @@
-import * as sound from '/app/audio.js'
+//import * as sound from '/app/audio.js'
 
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", function() {
@@ -20,6 +20,8 @@ window.addEventListener("beforeinstallprompt", (e) => {
 	install.innerText = "Install"
 });
 
+
+
 install.addEventListener("click", async () => {
 
 	if (deferredPrompt === null) {
@@ -32,7 +34,7 @@ install.addEventListener("click", async () => {
 		}
 	}
 });
-
+/*
 var c = 0;
 
 document.documentElement.addEventListener("click", e => {
@@ -43,111 +45,4 @@ document.documentElement.addEventListener("click", e => {
 		if (ss !== undefined) ss.then(() => {})
 			.catch((e) => { console.warn(e) })
 	}
-});
-
-
-
-var vid = document.getElementById("vid")
-
-if (innerWidth > innerHeight) {
-	vid.src = "assets/vid2.mp4"
-	$("#logo").css({
-		width: "30vw",
-		marginLeft: "-15vw"
-	})
-	$("#logo").css({
-		width: "20vw",
-		marginLeft: "-10vw"
-	})
-	$("#install").css({
-		width: "30vw",
-		marginLeft: "-15vw"
-	})
-	$("#title, #description, #mode,#modedes").css({
-		fontSize: "15px"
-	})
-	$("#wallpaper").css({
-		width: "50vw",
-		marginLeft: "-25vw",
-		top: "205%"
-	})
-	$("#CR").css("top", "270%")
-	document.getElementById("cover").style.display = "none"
-
-} else {
-	vid.src = "assets/vid.mp4"
-	$("#logo").css({
-		width: "80vw",
-		marginLeft: "-40vw"
-	})
-	$("#install").css({
-		width: "50vw",
-		marginLeft: "-25vw"
-	})
-	$("#title, #mode").css({
-		fontSize: "6vw"
-	})
-	$("#description, #modedes").css({
-		fontSize: "4vw"
-	})
-	$("#wallpaper").css({
-		width: "90vw",
-		marginLeft: "-45vw",
-		top: "195%"
-	})
-	$("#CR").css("top", "220%")
-document.getElementById("cover").style.display = "block"
-
-}
-
-
-window.onresize = function() {
-
-	if (innerWidth > innerHeight) {
-
-		vid.src = "assets/vid2.mp4"
-		$("#logo").css({
-			width: "20vw",
-			marginLeft: "-10vw"
-		})
-		$("#install").css({
-			width: "30vw",
-			marginLeft: "-15vw"
-		})
-		$("#title, #description, #mode,#modedes").css({
-			fontSize: "15px"
-		})
-		$("#wallpaper").css({
-			width: "50vw",
-			marginLeft: "-25vw",
-			top: "205%"
-		})
-		$("#CR").css("top", "270%")
-		document.getElementById("cover").style.display = "none"
-	} else {
-		vid.src = "assets/vid.mp4"
-		document.getElementById("cover").style.display = "block"
-
-		$("#logo").css({
-			width: "80vw",
-			marginLeft: "-40vw"
-		})
-		$("#install").css({
-			width: "50vw",
-			marginLeft: "-25vw"
-		})
-		$("#title, #mode").css({
-			fontSize: "6vw"
-		})
-		$("#description, #modedes").css({
-			fontSize: "4vw"
-		})
-		$("#wallpaper").css({
-			width: "90vw",
-			marginLeft: "-45vw",
-			top: "195%"
-		})
-		$("#CR").css("top", "220%")
-
-	}
-}
+});*/
