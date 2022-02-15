@@ -3,7 +3,6 @@ const ASSETS = [
 	"Game.html",
 	"style.css",
 	"main.js",
-	"serviceWorker.js",
 	"app/script.js",
 	"app/audio.js",
 	"app/rewards.js",

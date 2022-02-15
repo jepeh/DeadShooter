@@ -1,11 +1,11 @@
-import * as sound from '/app/audio.js'
+//import * as sound from '/app/audio.js'
 
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", function() {
 		navigator.serviceWorker
 			.register("serviceWorker.js")
 			.then((res) => {
-				alert("installed");
+				alert("service worker installed!")
 				console.log("installed")
 			})
 			.catch((err) => console.warn(err));
@@ -32,7 +32,7 @@ install.addEventListener("click", async () => {
 		}
 	}
 });
-
+/*
 var c = 0;
 
 document.documentElement.addEventListener("click", e => {
@@ -44,3 +44,5 @@ document.documentElement.addEventListener("click", e => {
 			.catch((e) => { console.warn(e) })
 	}
 });
+
+*/
