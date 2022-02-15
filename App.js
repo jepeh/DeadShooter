@@ -1,14 +1,14 @@
-//import * as sound from '/app/audio.js'
+import * as sound from '/app/audio.js'
 
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", function() {
 		navigator.serviceWorker
-			.register("/serviceWorker.js")
+			.register("serviceWorker.js")
 			.then((res) => {
 				//alert("installed");
-
+				console.log("installed")
 			})
-			.catch((err) => alert(err));
+			.catch((err) => console.warn(err));
 	});
 }
 
@@ -23,9 +23,7 @@ window.addEventListener("beforeinstallprompt", (e) => {
 
 
 install.addEventListener("click", async () => {
-
-	if (deferredPrompt === null) {
-
+	if (deferredPrompt === undefined) {
 	} else {
 		deferredPrompt.prompt();
 		const { outcome } = await deferredPrompt.userChoice;
@@ -34,7 +32,7 @@ install.addEventListener("click", async () => {
 		}
 	}
 });
-/*
+
 var c = 0;
 
 document.documentElement.addEventListener("click", e => {
@@ -45,4 +43,4 @@ document.documentElement.addEventListener("click", e => {
 		if (ss !== undefined) ss.then(() => {})
 			.catch((e) => { console.warn(e) })
 	}
-});*/
+});

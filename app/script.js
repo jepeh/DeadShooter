@@ -89,7 +89,7 @@ var Game = (function(w, func) {
 	}
 
 	function play(FB) {
-		
+
 		$("body").append(`<img id="splash" src="assets/images/blockgameswhite.png"/>`)
 		$("body").css({ background: 'white', transition: 'all 2s' })
 		var bb = setTimeout(() => {
@@ -119,8 +119,8 @@ var Game = (function(w, func) {
 	}
 
 	function playResume(FB) {
-	//	alert("resuming")
-	//	$("#loader").css("display", "block");
+		//	alert("resuming")
+		//	$("#loader").css("display", "block");
 
 		var hu = setTimeout(() => {
 			$("#loader").css("display", "none")
@@ -294,8 +294,8 @@ var Game = (function(w, func) {
 		launchFullScreen(document.documentElement); // the whole page
 
 */
-		
-		
+
+
 		window.CONTROLS = new OrbitControls(CAMERA, RENDERER.domElement)
 		CONTROLS.enabled = true
 		CONTROLS.enablePan = false
@@ -463,7 +463,7 @@ var Game = (function(w, func) {
 			return;
 		})
 
-		
+
 
 		$("#utils")[0].offsetLeft
 
@@ -657,11 +657,11 @@ var Game = (function(w, func) {
 			}
 		})
 
-	/*	document.addEventListener("dblclick", e =>{
-			document.documentElement.requestFullscreen().catch(e =>{
-				alert(e)
-			})
-		})*/
+		/*	document.addEventListener("dblclick", e =>{
+				document.documentElement.requestFullscreen().catch(e =>{
+					alert(e)
+				})
+			})*/
 
 		//*******************************************
 		// Change Color 
@@ -813,7 +813,7 @@ var Game = (function(w, func) {
 		window.enemyList = []
 		window.enemies = []
 		window.bloods = []
-	//	SCENE.add(new Three.AxesHelper(30))
+		//	SCENE.add(new Three.AxesHelper(30))
 
 		function notif(txt) {
 			$("#status").css("display", "block")
@@ -893,6 +893,13 @@ var Game = (function(w, func) {
 		}
 
 
+
+
+
+
+
+
+
 		/*	var FresnelShader = {
 
 					uniforms: {},
@@ -962,7 +969,7 @@ var Game = (function(w, func) {
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
 				cu.rotation.y = elapsedTime
-				
+
 				/*cu2.rotation.y = Math.cos(elapsedTime)
 				cu2.rotation.z = elapsedTime
 				cu2.rotation.x = Math.sin(-elapsedTime)
@@ -998,8 +1005,9 @@ var Game = (function(w, func) {
 		}
 		Anim()
 
-		Obj.startAnim = startAnim
 
+		Obj.startAnim = startAnim
+		
 		function tips(txt) {
 
 			$("#tips").css({
@@ -1018,6 +1026,8 @@ var Game = (function(w, func) {
 			}, 5500)
 		}
 		Obj.tips = tips
+
+
 
 		Obj.findTarget = function(arr, pos) {
 			var HX = pos.x,

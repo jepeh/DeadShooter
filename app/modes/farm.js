@@ -12,6 +12,7 @@ import * as Sound from '../audio.js'
 import { GLTFLoader } from '/src/Loader/GLTFLoader.js'
 import Skills from '/skills/skills.js'
 import { GAME } from '../script.js'
+import {Network} from '../network.js'
 
 var FARM = {
 	farmOBJ: {},
@@ -57,6 +58,9 @@ var FARM = {
 			.css("display", "none")
 
 		$("#coinstxt").text("coins x" + hero.coins)
+
+		// check connection
+		Network.check()
 
 		//*******************************************
 		//	update skills
@@ -721,7 +725,7 @@ var FARM = {
 			var newUrl = new URL(window.location.href)
 			newUrl.searchParams.set("isPlaying", true)
 			window.location.href = newUrl
-		
+
 		})
 
 	},

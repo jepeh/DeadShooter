@@ -8,8 +8,8 @@
 	<title>HTML</title>
 	<!-- HTML -->
 	<!-- Custom Styles -->
-	<link rel="stylesheet" href="style.css">
-	<link rel="manifest" href="manifest.json">
+	<link rel="stylesheet" href="style.css" />
+	<link rel="manifest" href="manifest.json" />
 	<link rel="apple-touch-icon" href="assets/images/blockgameswhite.png" />
 	<link rel="stylesheet" href="assets/fonts/lineicons.css" />
 </head>
@@ -41,9 +41,20 @@
 		<div></div>
 	</div>
 	<!----Stats--->
-	<div id="counter"><span>
-			<p id="seconds">0</p>
-		</span></div>
+	<div id="counter">
+		<div class="CInfo" id="graphicsStat"></div>
+		<p id="seconds">0</p>
+		<div class="CInfo" id="networkStat">
+			<div id="networkStat-line"></div>
+			<div id="networkStat-signal">
+				<div id="Signal">
+					<div class="signal" id="signal1"></div>
+					<div class="signal" id="signal2"></div>
+					<div class="signal" id="signal3"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="tips">
 		<p id="tiptxt">Tips! <br />Eat smaller zombies to gain more bombs. <br /> Avoid bigger zombies and run!</p>
 	</div>

@@ -1,10 +1,12 @@
+
 const ASSETS = [
 	"Game.html",
 	"style.css",
 	"main.js",
+	"serviceWorker.js",
 	"app/script.js",
 	"app/audio.js",
-	"app/reward.js",
+	"app/rewards.js",
 	"app/utils.js",
 	"app/bullets/bullet.js",
 	"app/map/map.js",
@@ -126,21 +128,21 @@ const ASSETS = [
 	];
 
 self.addEventListener("install", (installEvent) => {
-	alert("installing")
+	console.log("installing")
 	installEvent.waitUntil(
 		caches.open("static").then((cache) => {
-			alert("caching...")
+			console.log("caching...")
 			return cache.addAll(ASSETS);
 		})
 		.catch(e => {
-			alert(e)
+			console.warn(e)
 		})
 	);
 });
 
 
 self.addEventListener("fetch", event => {
-	alert("fetching.. for ", event.request.url)
+	console.log("fetching.. for ", event.request.url)
 	event.respondWith(
 			caches.match(event.request).then(res =>{
 				return res || fetch(event.request)
