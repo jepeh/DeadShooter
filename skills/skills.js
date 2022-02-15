@@ -333,7 +333,7 @@ var Skills = [
 			plane.scale.set(0, 0, 0)
 			SCENE.add(plane)
 
-			TweenMax.to(plane.scale, 1.2, {
+			TweenMax.to(plane.scale, 1, {
 				x: 1.5,
 				y: 1.5,
 				z: 1.5
@@ -374,7 +374,7 @@ var Skills = [
 											returnArr[i].hurt()
 											returnArr[i].hp -= 10
 										} else {
-											returnArr[i].hp = 0
+										returnArr[i].hp = 0
 										}
 									}
 								}
@@ -407,7 +407,7 @@ var Skills = [
 							hh++
 
 							var pos = returnArr[returnArr.length - hh].mesh.position
-
+							
 							var dx = (character.position.x - pos.x) * (character.position.x - pos.x)
 							var dz = (character.position.z - pos.z) * (character.position.z - pos.z)
 							var dis = Math.abs(Math.sqrt(dx + dz))
@@ -431,7 +431,7 @@ var Skills = [
 							t.scale.y = 0
 							SCENE.add(t)
 
-							TweenMax.to(t.scale, .9, {
+							TweenMax.to(t.scale, .4, {
 								y: 1,
 								onComplete: () => {
 									t.material.dispose()
@@ -446,9 +446,9 @@ var Skills = [
 								x: pos.x,
 								z: pos.z,
 								onComplete: () => {
-
+								
 									// Hit
-
+									
 									var size = 9
 									if (returnArr[returnArr.length - hh].mesh.name === "boss") size = 28
 									else size = 9

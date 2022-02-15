@@ -1,7 +1,7 @@
 {
   "name": "Zombie Shooter",
   "short_name": "ZombShoot",
-  "start_url": "Game.html",
+  "start_url": "/Game.html",
   "display": "fullscreen",
   "background_color": "#fdfdfd",
   "scope": "https://dead-shooter.glitch.me/",
