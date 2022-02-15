@@ -42,7 +42,9 @@
 	</div>
 	<!----Stats--->
 	<div id="counter">
-		<div class="CInfo" id="graphicsStat"></div>
+		<div class="CInfo" id="graphicsStat">
+			<p>FPS 60</p>
+		</div>
 		<p id="seconds">0</p>
 		<div class="CInfo" id="networkStat">
 			<div id="networkStat-line"></div>
@@ -51,6 +53,11 @@
 					<div class="signal" id="signal1"></div>
 					<div class="signal" id="signal2"></div>
 					<div class="signal" id="signal3"></div>
+				</div>
+			</div>
+			<div id="battery">
+				<div id="battery-icon">
+					<div id="battery-percent"></div>
 				</div>
 			</div>
 		</div>
@@ -219,7 +226,6 @@
 ---->
 	<script type="module" src='main.js'>
 	</script>
-	
 	<script src="src/jquery-3.6.0.js"></script>
 	<script src="src/jquery.easypiechart.min.js"></script>
 	<script src="src/TweenMax.min.js"></script>

@@ -342,7 +342,7 @@ var Game = (function(w, func) {
 			}()
 
 		// display logo
-		$("#coin-container, #energy-container, #settings, #coin-container").css('display', 'grid')
+		$("#coin-container, #enegrgy-container, #settings, #coin-container").css('display', 'grid')
 
 		// initiate Level array
 
@@ -1004,7 +1004,6 @@ var Game = (function(w, func) {
 			return;
 		}
 		Anim()
-
 
 		Obj.startAnim = startAnim
 		

@@ -12,7 +12,7 @@ import * as Sound from '../audio.js'
 import { GLTFLoader } from '/src/Loader/GLTFLoader.js'
 import Skills from '/skills/skills.js'
 import { GAME } from '../script.js'
-import {Network} from '../network.js'
+import {Network, Battery} from '../network.js'
 
 var FARM = {
 	farmOBJ: {},
@@ -61,6 +61,7 @@ var FARM = {
 
 		// check connection
 		Network.check()
+		Battery.update()
 
 		//*******************************************
 		//	update skills
