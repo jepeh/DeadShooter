@@ -12,11 +12,16 @@ import * as Sound from '../audio.js'
 import { GLTFLoader } from '/src/Loader/GLTFLoader.js'
 import Skills from '/skills/skills.js'
 import { GAME } from '../script.js'
-import {Network, Battery} from '../network.js'
+import { Network, Battery } from '../network.js'
+import Stats from '/src/Stats.js'
 
 var FARM = {
 	farmOBJ: {},
 	startGame: function(lvl, phys) {
+
+		// Graphics Stat
+		var Stat = new Stats()
+
 		// stop animation
 		GAME.initAnim = undefined
 		GAME.initanim = undefined
@@ -544,6 +549,15 @@ var FARM = {
 
 			// Boss Game
 			window.bossGame ? window.boss.update(delta) : false
+
+			// update stat
+			Stat.begin()
+			
+			$("#fpscount").text(`Frames Per Second ` + window.fps)
+			$("#memorycount").text(`Memory used ` + window.mb+"MB")
+			$("#latencycount").text(`Render latency ` + window.ms.toFixed(2)+"ms")
+
+			Stat.end()
 
 			RENDERER.render(SCENE, CAMERA);
 			if (typeof FARM.farmOBJ.loop === "function") {

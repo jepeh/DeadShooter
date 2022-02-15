@@ -19,6 +19,8 @@ import { FontLoader } from "../src/Loader/FontLoader.js"
 import { TextGeometry } from '../src/TextGeometry.js'
 import { OBJLoader } from '../src/Loader/OBJLoader.js'
 import Particles from '../app/systems/particle.js'
+import Stats from '../src/Stats.js'
+
 
 // Composer & RenderPass
 //import * as Composer from '../src/Composer/EffectComposer.js'
@@ -956,20 +958,24 @@ var Game = (function(w, func) {
 
 		// initial animation
 		//RENDERER.autoClear = false
+		
+		
 		function Anim() {
 
 			window.initAnim = function() {
 				var now = Date.now() / 400
-
+	
 				if (typeof Obj.initAnim === "function") {
-					requestAnimationFrame(Obj.initAnim)
+				requestAnimationFrame(Obj.initAnim)
+
 				}
+				
 
 				var elapsedTime = CLOCK.getElapsedTime()
 				//character.rotation.y = Math.cos(elapsedTime) * .2
 				hero.anim(elapsedTime)
 				cu.rotation.y = elapsedTime
-
+				
 				/*cu2.rotation.y = Math.cos(elapsedTime)
 				cu2.rotation.z = elapsedTime
 				cu2.rotation.x = Math.sin(-elapsedTime)
@@ -1006,7 +1012,7 @@ var Game = (function(w, func) {
 		Anim()
 
 		Obj.startAnim = startAnim
-		
+
 		function tips(txt) {
 
 			$("#tips").css({

@@ -641,7 +641,7 @@ span {
 	top: 2%;
 	text-align: center;
 	display: grid;
-	grid-template-columns: 10% 80% 10%;
+	grid-template-columns: 11% 79% 10%;
 	justify-content: center;
 	align-items: center
 }
@@ -664,24 +664,28 @@ span {
 	display: grid;
 	grid-template-columns: 33% 33% 33%
 }
+#fpscount {
+	position: relative;
+}
 
 #graphicsStat {
 	text-align: center;
-	justify-content: center;
-	align-items: center
+	display: inline-flex
+	
 }
 #graphicsStat p {
 	position: relative;
 	color: white;
 	font-family: 'QS-L';
-	font-size: 2vh;
-	width: 100%;
-	top: 50%;
-	height: 100%;
-	margin-top: -10%
-
+	font-size: 1.9vh;
 }
-
+#graphicsStat span {
+	position: relative;
+	width: 200%;
+	display: inline;
+	text-align: left;
+	margin-left: 10px
+}
 #networkStat-line {
 	position: relative;
 	width: 8px;
