@@ -13,9 +13,7 @@
 
 <body>
 </body>
-<video autoplay muted loop id="vid">
-	<source id="vids" src="assets/vid.mp4" type="video/mp4">
-</video>
+<img src="assets/vid.jpg" id="vid" />
 <div id="cover"></div>
 <img src="assets/images/farming.png" id="wallpaper" />
 <img src="assets/images/logo.png" id="logo" />
@@ -33,7 +31,7 @@
 	var vid = document.getElementById("vid")
 
 	if (innerWidth > innerHeight) {
-		vid.src = "assets/vid2.mp4"
+		vid.src = "assets/vid2.jpg"
 		$("#logo").css({
 			width: "30vw",
 			marginLeft: "-15vw"
@@ -58,7 +56,7 @@
 		document.getElementById("cover").style.display = "none"
 
 	} else {
-		vid.src = "assets/vid.mp4"
+		vid.src = "assets/vid.jpg"
 		$("#logo").css({
 			width: "80vw",
 			marginLeft: "-40vw"
@@ -88,7 +86,7 @@
 
 		if (innerWidth > innerHeight) {
 
-			vid.src = "assets/vid2.mp4"
+			vid.src = "assets/vid2.jpg"
 			$("#logo").css({
 				width: "20vw",
 				marginLeft: "-10vw"
@@ -108,7 +106,7 @@
 			$("#CR").css("top", "270%")
 			document.getElementById("cover").style.display = "none"
 		} else {
-			vid.src = "assets/vid.mp4"
+			vid.src = "assets/vid.jpg"
 			document.getElementById("cover").style.display = "block"
 
 			$("#logo").css({
