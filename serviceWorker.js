@@ -1,4 +1,3 @@
-
 self.addEventListener("install", (installEvent) => {
 	/*installEvent.waitUntil(
 		caches.open("ZMB").then((cache) => {
@@ -16,22 +15,26 @@ self.addEventListener("active", e => {
 	console.log("activated")
 })
 
-self.addEventListener("fetch", async event => {
-	console.log("fetching.. for ", event.request.url)
-	await event.respondWith(
-		caches.open("ZMB").then(c => {
-
-			c.match(event.request).then(ee => {
-				if (ee) {
-					return ee
-				} else {
-					fetch(event.request).then(res => {
-						c.add(res)
-						return res
-					})
-				}
-			})
-
+self.addEventListener('fetch', function(event) {
+	console.log("fetching for "+event.request.url)
+	event.respondWith(
+		caches.open(cacheName)
+		.then(function(cache) {
+			cache.match(event.request)
+				.then(function(cacheResponse) {
+					if (cacheResponse) {
+						console.log("found in cache!")
+					} else {
+						console.log("not found in cache, fetching to network")
+					}
+					
+					fetch(event.request)
+						.then(function(networkResponse) {
+							console.log("putting fetched data to cache")
+							cache.put(event.request, networkResponse)
+						})
+					return cacheResponse || networkResponse
+				})
 		})
 	)
 });
