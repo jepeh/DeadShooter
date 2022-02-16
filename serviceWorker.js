@@ -153,7 +153,7 @@ self.addEventListener('fetch', function(event) {
 					if (cacheResponse) {
 						console.log("found in cache!")
 						return cacheResponse
-					} else {
+					} else { 
 						console.log("not found in cache, fetching to network")
 						fetch(event.request)
 							.then(function(networkResponse) {
