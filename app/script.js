@@ -636,9 +636,8 @@ var Game = (function(w, func) {
 		gunrange.position.y = .2
 		SCENE.add(gunrange)
 
-		var fog = new Three.Fog("#000000", 70, 100)
-		fog.opacity = .1
-		//	SCENE.fog = fog
+		var fog = new Three.Fog("black", 70, 100)
+			SCENE.fog = fog
 
 		TweenMax.to(character.scale, .9, {
 			x: 1,

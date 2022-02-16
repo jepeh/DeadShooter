@@ -641,7 +641,7 @@ span {
 	top: 2%;
 	text-align: center;
 	display: grid;
-	grid-template-columns: 11% 79% 10%;
+	grid-template-columns: 10% 80% 10%;
 	justify-content: center;
 	align-items: center
 }
@@ -670,28 +670,24 @@ span {
 
 #graphicsStat {
 	text-align: center;
-	display: inline-flex
-	
+	display: grid;
+	width: 200%;
+	grid-template-columns: 33% 33% 33%
 }
 #graphicsStat p {
 	position: relative;
 	color: white;
 	font-family: 'QS-L';
 	font-size: 1.9vh;
+	margin: auto
 }
-#graphicsStat span {
-	position: relative;
-	width: 200%;
-	display: inline;
-	text-align: left;
-	margin-left: 10px
-}
+
 #networkStat-line {
 	position: relative;
-	width: 8px;
-	height: 8px;
+	width: 7px;
+	height: 7px;
 	left: 50%;
-	margin-left: -4px;
+	margin-left: -3.5px;
 	background-color: #0AFF1CA8;
 	top: 58%;
 	border-radius: 50%;
@@ -706,11 +702,12 @@ span {
 
 #Signal {
 	position: relative;
-	width: 100%;
-	height: 70%;
+	width: 15px;
+	height: 20px;
 	display: grid;
 	grid-template-columns: 33.3% 33.3% 33.3%;
-	transform: rotate(180deg)
+	transform: rotate(-180deg)
+	
 }
 
 .signal {
@@ -761,8 +758,8 @@ span {
 }
 #battery-icon {
 	position: relative;
-	width: 50%;
-	height: 50%;
+	width: 15px;
+	height: 8px;
 	background-color: transparent;
 	border-radius: 2px;
 	border: 1px solid white;
@@ -1059,7 +1056,7 @@ span {
 	width: 9vw;
 	top: 100vh;
 	margin-top: -22vh;
-	opacity: .6;
+	opacity: .9;
 	left: 20vw;
 	display: none;
 	background-color: none;
@@ -1070,7 +1067,6 @@ span {
 	position: relative;
 	width: 60%;
 	margin: auto;
-	border: 1px solid #27E1FFA8;
 	border-radius: 50%;
 	padding: 2px;
 	margin-top: 20px;
