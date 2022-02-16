@@ -18,7 +18,7 @@ self.addEventListener("active", e => {
 self.addEventListener('fetch', function(event) {
 	console.log("fetching for "+event.request.url)
 	event.respondWith(
-		caches.open(cacheName)
+		caches.open("ZMB")
 		.then(function(cache) {
 			cache.match(event.request)
 				.then(function(cacheResponse) {
